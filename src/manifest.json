@@ -1,0 +1,13 @@
+{
+	"name": "Twic",
+	"version": "0.1",
+	"update_url": "http://clients2.google.com/service/update2/crx",
+	"browser_action": {
+		"popup": "popup.html"
+	},
+	"default_locale": "en",
+	"permissions": [
+		"unlimitedStorage",
+		"notifications"
+	]
+}
