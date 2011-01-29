@@ -1,25 +1,9 @@
 var twic = {
-	name: 'Twic',
-	oauth: {	
-		consumer_key: 'Yda6L1lsEkqwDhcqxWPXtw',
-		consumer_secret: 'IHtRC1kPwQ4MH1lccSaZGdhZPyPiw2iuEfhCDV4'
-	}
+	name: 'Twic'
 };
 
 
 /* f*ckin oauth
-
-    nonce: function {
-        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-        var result = "";
-		
-        for (var i = 0; i < 6; ++i) {
-            var rnum = Math.floor(Math.random() * chars.length);
-            result += chars.substring(rnum, rnum+1);
-        }
-		
-        return result;
-    }
 	
 	        var baseString = OAuth.SignatureMethod.getBaseString(message);
         var signature = this.getSignature(baseString);

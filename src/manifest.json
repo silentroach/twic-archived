@@ -3,13 +3,15 @@
 	"version": "0.1",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
-		"popup": "popup.html",
+		"popup": "popup.html#accounts",
 		"default_icon": "img/icons/toolbar.png"
 	},
 	"background_page": "background.html",
 	"default_locale": "en",
 	"permissions": [
 		"unlimitedStorage",
-		"notifications"
+		"notifications",
+		
+		"https://twitter.com/oauth/*"
 	]
 }

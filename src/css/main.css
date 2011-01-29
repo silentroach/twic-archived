@@ -1,3 +1,7 @@
+body > div {
+	display: none;
+	}
+
 img.avatar {
 	border-radius: 3px;
 	}

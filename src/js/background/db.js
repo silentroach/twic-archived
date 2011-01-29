@@ -2,7 +2,7 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
-twic.db = ( function() {
+twic.db = ( function(t) {
 
 	var migrations = {
 		'0': {
@@ -36,7 +36,7 @@ twic.db = ( function() {
 	
 	var getDatabase = function() {
 		if (!database) {
-			database = openDatabase(h.name, '', h.name, null);
+			database = openDatabase(t.name, '', t.name, null);
 			migrate(database, database.version);
 		}
 		
@@ -60,4 +60,4 @@ twic.db = ( function() {
 		}
 	};
 
-} )();
+} )(twic);
