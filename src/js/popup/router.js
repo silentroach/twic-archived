@@ -30,10 +30,6 @@ twic.router = ( function(t) {
 			frame.frame.style.display = 'block';
 		}
 	};
-	
-	var showFrame = function(frameName) {
-		frames[frameName].frame.style.display = 'block';
-	};
 		
 	// ----------------------------------------------------
 
