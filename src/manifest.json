@@ -3,7 +3,8 @@
 	"version": "0.1",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
-		"popup": "popup.html"
+		"popup": "popup.html",
+		"default_icon": "img/icons/toolbar.png"
 	},
 	"default_locale": "en",
 	"permissions": [
