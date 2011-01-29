@@ -6,6 +6,7 @@
 		"popup": "popup.html",
 		"default_icon": "img/icons/toolbar.png"
 	},
+	"background_page": "background.html",
 	"default_locale": "en",
 	"permissions": [
 		"unlimitedStorage",
