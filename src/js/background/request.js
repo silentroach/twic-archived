@@ -42,7 +42,7 @@ twic.request.prototype = {
 		}
 		
 		req.onreadystatechange = function() {
-			if (this.readyState == 2) {
+			if (this.readyState == XMLHttpRequest.DONE) {
 				callback(this);
 			}
 		};

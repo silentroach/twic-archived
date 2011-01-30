@@ -1,15 +1,4 @@
-/*
-https://twitter.com/oauth/request_token
-
-oauth_consumer_key:consumer_key
-oauth_signature_method:HMAC-SHA1
-oauth_version:1.0
-oauth_timestamp:1296329812
-oauth_nonce:random string
-oauth_signature:sha1-signature
-*/
-
-twic.oauth = ( function() {
+twic.oauth = ( function(t) {
 
 	var 
 		/**
@@ -22,6 +11,16 @@ twic.oauth = ( function() {
 		 * @const
 		 */
 		consumer_secret = 'IHtRC1kPwQ4MH1lccSaZGdhZPyPiw2iuEfhCDV4',
+		/**
+		 * OAuth-token
+		 * @type {string}
+		 */
+		token = '',
+		/**
+		 * OAuth-token secret
+		 * @type {string}
+		 */
+		token_secret = '',
 		/**
 		 * Nonce charset for random string
 		 * @const
@@ -98,9 +97,40 @@ twic.oauth = ( function() {
 		req.setData('oauth_nonce', getNonce());
 		req.setData('oauth_signature', getSignature(req));
 	};
+	
+	/**
+	 * Request the token
+	 * @param {string} url Url
+	 */
+	var requestToken = function(url) {
+		var req = new t.request('POST', url);
+		signRequest(req);
+		req.send( function(result) {
+			var data = result.responseText.split('&');
+			
+			data.forEach( function(element) {
+				var v = element.split('=');
+				
+				if (v.length != 2) {
+					return;
+				}
+				
+				if (v[0] == 'oauth_token') {
+					token = v[1];
+				} else
+				if (v[0] == 'oauth_token_secret') {
+					token_secret = v[1];
+				}
+			} );
+		} );
+	};
 
 	return {
-    sign: signRequest
+    sign: signRequest,
+    requestToken: requestToken,
+    getToken: function() {
+    	return token;
+    }
 	};
 
 } )(twic);

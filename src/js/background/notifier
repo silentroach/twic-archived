@@ -1,0 +1,14 @@
+twic.notifier = ( function(t) {
+
+	var
+		subscriptions = {};
+
+	var subscribe = function(method, callback) {
+	
+	};
+
+	return {
+		subscribe: subscribe
+	};
+
+} )(twic);

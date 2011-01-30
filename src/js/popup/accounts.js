@@ -12,6 +12,10 @@
 			return;
 		}
 	};
+	
+	document.getElementById('account_add').onclick = function() {
+		t.requests.send('addAccount');
+	};
 
 	t.router.handle('accounts', function(data) {
 		clearList();

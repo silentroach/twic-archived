@@ -11,6 +11,14 @@ twic.accounts = ( function(t) {
 			console.dir(error);
 		} );
 	} );
+	
+	t.notifier.subscribe('addAccount', function(request, sendResponse) {
+		sendResponse({});
+
+		chrome.tabs.create( {
+			'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + t.oauth.getToken()	
+		} );
+	} );
 
 	return {
 		length: length

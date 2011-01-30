@@ -7,10 +7,21 @@
 		"default_icon": "img/icons/toolbar.png"
 	},
 	"background_page": "background.html",
+	"content_scripts": [ {
+		"matches" : [
+			"https://api.twitter.com/oauth/authorize"
+		],
+		"js" : [
+			"js/init.js",
+			"js/requests.js",
+			"js/inline/auth.js"
+		]
+	} ],
 	"default_locale": "en",
 	"permissions": [
 		"unlimitedStorage",
 		"notifications",
+		"tabs",
 		
 		"https://twitter.com/oauth/*"
 	]

@@ -14,7 +14,9 @@ twic.requests = ( function(t) {
 			'method': method,
 			'data': data
 		}, function(reply) {
-			callback(reply);
+			if (callback) {
+				callback(reply);
+			}
 		} );
 	};
 
