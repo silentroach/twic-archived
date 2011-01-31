@@ -1,29 +1,19 @@
-twic.accounts = ( function(t) {
+twic.Accounts = function() {
 
-	var
-		accounts = this,
-		length = 0;
-		
-	t.db.readTransaction( function(tr) {
-		tr.executeSql('select * from accounts', function(res) {
-			console.dir(res);
-		}, function(error) {
-			console.dir(error);
-		} );
-	} );
-	
-	t.notifier.subscribe('addAccount', function(request, sendResponse) {
+	this.length = 0;
+
+	twic.notifier.subscribe('addAccount', function(request, sendResponse) {
 		sendResponse({});
 
 		chrome.tabs.create( {
-			'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + t.oauth.getToken()	
+			'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + twic.oauth.getToken()	
 		} );
 	} );
 	
-	t.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
+	twic.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
 		sendResponse({ });
 	
-		t.db.transaction( function(tr) {
+		twic.db.transaction( function(tr) {
 			tr.executeSql('insert into accounts (id, nick, pin) select ?, ?, ?', [
 				request['data']['id'],
 				request['data']['nick'],
@@ -32,8 +22,28 @@ twic.accounts = ( function(t) {
 		} );
 	} );
 
-	return {
-		length: length
-	};
+	this.update();
+};
 
-} )(twic);
+twic.Accounts.prototype.clear = function() {
+	while (this.length > 0) {
+		delete this[this.length--];
+	}
+};
+
+twic.Accounts.prototype.update = function() {
+	var accounts = this;
+
+	accounts.clear();
+	
+	twic.db.readTransaction( function(tr) {
+		tr.executeSql('select id, nick, pin from accounts', [], function(tr, res) {
+			for (var i = 0; i < res.rows.length; ++i) {
+				var account = new twic.Account();
+				account.fromRow(res.rows.item(i));
+				
+				accounts[accounts.length++] = account;
+			}
+		} );
+	} );
+};

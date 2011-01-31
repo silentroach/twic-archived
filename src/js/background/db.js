@@ -8,7 +8,17 @@ twic.db = ( function(t) {
 		'0': {
 			version: '0.01',
 			callback: function(t) {
-				t.executeSql('create table accounts (id int not null primary key, nick text not null, pin int not null);');
+				t.executeSql('create table users (' + 
+					'id int not null primary key, ' +
+					'name text not null, ' +
+					'screen_name text not null, ' +
+					'avatar text not null, ' + 
+					'url text not null, ' + 
+					'verified int not null) ');
+					
+				t.executeSql('create table accounts (' +
+					'id int not null primary key, ' +
+					'pin int not null)');
 			}
 		}
 	};
