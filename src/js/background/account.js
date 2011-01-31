@@ -1,3 +1,3 @@
-twic.Account = function(nick) {
-	this.nick = nick;
+twic.account = function() {
+
 }

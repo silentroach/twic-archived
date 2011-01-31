@@ -19,6 +19,18 @@ twic.accounts = ( function(t) {
 			'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + t.oauth.getToken()	
 		} );
 	} );
+	
+	t.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
+		sendResponse({ });
+	
+		t.db.transaction( function(tr) {
+			tr.executeSql('insert into accounts (id, nick, pin) select ?, ?, ?', [
+				request['data']['id'],
+				request['data']['nick'],
+				request['data']['pin']
+			] );
+		} );
+	} );
 
 	return {
 		length: length
