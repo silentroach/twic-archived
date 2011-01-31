@@ -1,0 +1,2 @@
+#!/bin/bash
+builder/builder src/manifest.json
