@@ -1,0 +1,3 @@
+accounts:
+	id	- user identifier (users table)
+	pin - pin for oauth

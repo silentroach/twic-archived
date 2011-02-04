@@ -14,7 +14,8 @@ twic.db = ( function(t) {
 					'screen_name text not null, ' +
 					'avatar text not null, ' + 
 					'url text not null, ' + 
-					'verified int not null) ');
+					'verified int not null, ' +
+					'dt int not null) ');
 					
 				t.executeSql('create table accounts (' +
 					'id int not null primary key, ' +
