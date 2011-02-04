@@ -14,8 +14,13 @@ twic.Accounts = function() {
 		sendResponse({ });
 	
 		var user = new twic.db.obj.User();
-		user.loadByFieldValue('screen_name', request['data']['nick'], function() {
+		user.loadById(request['data']['id'], function() {
 			console.dir(this);
+		}, function() {
+			twic.api.userinfo(request['data']['id'], function(info) {
+				user.loadFromJSON(info);
+				user.save();
+			} );
 		} );
 	
 /*

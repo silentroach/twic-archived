@@ -7,10 +7,14 @@ twic.api = ( function(t) {
 	 * Get the user info
 	 * @param {number} id User identifier
 	 */
-	var getUserInfo = function(id) {
+	var getUserInfo = function(id, callback) {
 		var req = new t.request('GET', baseUrl + 'users/show/' + id + '.json');
 		req.send( function(data) {
-			console.dir(JSON.parse(data.responseText));
+			var obj = JSON.parse(data.responseText);
+			
+			if (obj) {
+				callback(obj);
+			}
 		} );
 	};
 
