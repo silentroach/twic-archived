@@ -2,10 +2,10 @@
 Table to store user info
 
 Fields:
-	id          - user identifier
-	name        - name
-	screen_name - screen name
-	avatar      - avatar url
-	url         - site url
-	verified    - verified user flag (0 or 1)
-	dt          - last info update timestamp
+  id          - user identifier
+  name        - name
+  screen_name - screen name
+  avatar      - avatar url
+  url         - site url
+  verified    - verified user flag (0 or 1)
+  dt          - last info update timestamp

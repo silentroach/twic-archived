@@ -2,5 +2,5 @@
 Table to store info about client accounts
 
 Fields:
-	id  - user identifier (users table)
-	pin - pin for oauth
+  id  - user identifier (users table)
+  pin - pin for oauth
