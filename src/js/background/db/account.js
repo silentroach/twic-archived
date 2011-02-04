@@ -1,3 +1,11 @@
+twic.db.obj.Account = function() {
+	this.table = 'accounts';
+	this.fields = ['id', 'pin'];
+};
+
+twic.db.obj.Account.prototype = twic.dbobject;
+
+/*
 twic.Account = function() { }
 
 twic.Account.prototype.nick = '';
@@ -9,3 +17,4 @@ twic.Account.prototype.fromRow = function(row) {
 	this.id = row['id'];
 	this.pin = row['pin'];
 };
+*/

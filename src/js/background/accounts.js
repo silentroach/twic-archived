@@ -13,13 +13,23 @@ twic.Accounts = function() {
 	twic.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
 		sendResponse({ });
 	
+		var user = new twic.db.obj.User();
+		user.loadByFieldValue('screen_name', request['data']['nick'], function() {
+			console.dir(this);
+		} );
+	
+/*
 		twic.db.transaction( function(tr) {
-			tr.executeSql('insert into accounts (id, nick, pin) select ?, ?, ?', [
+			tr.executeSql('insert into accounts (id, pin) select ?, ?', [
 				request['data']['id'],
-				request['data']['nick'],
 				request['data']['pin']
 			] );
 		} );
+		
+		twic.twitter.getUserInfo(request['data']['nick'], function(data) {
+		
+		} );
+*/
 	} );
 
 	this.update();

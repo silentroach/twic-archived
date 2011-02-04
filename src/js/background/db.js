@@ -68,7 +68,9 @@ twic.db = ( function(t) {
 		 */
 		readTransaction: function(callback) {
 			getDatabase().readTransaction(callback);
-		}
+		},
+		
+		obj: {}
 	};
 
 } )(twic);
