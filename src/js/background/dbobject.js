@@ -96,11 +96,11 @@ twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 			value
 		], function(tr, res) {
 			if (res.rows.length == 1) {
-				for (var key in fields) {
+				for (var key in this.fields) {
 					obj[key] = res.rows.item(0)[key];
 				}
 				
-				this.exists = true;
+				obj.exists = true;
 				callback.apply(obj);
 			} else {
 				nfcallback.apply(obj);

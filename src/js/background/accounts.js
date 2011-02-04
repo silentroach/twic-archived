@@ -12,29 +12,35 @@ twic.Accounts = function() {
 	
 	twic.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
 		sendResponse({ });
-	
-		var user = new twic.db.obj.User();
-		user.loadById(request['data']['id'], function() {
-			console.dir(this);
-		}, function() {
-			twic.api.userinfo(request['data']['id'], function(info) {
-				user.loadFromJSON(info);
-				user.save();
+		
+		var checkUser = function() {
+			var user = new twic.db.obj.User();
+			user.loadById(request['data']['id'], function() {
+				// found? great
+			}, function() {
+				// not found. lets get it
+				twic.api.userinfo(request['data']['id'], function(info) {
+					user.loadFromJSON(info);
+					user.save();
+				} );
 			} );
-		} );
+		};
+		
+		var updateAccount = function(account, pin) {
+			account.setValue('pin', request['data']['pin']);
+			account.save();
+			
+			checkUser(account.fields['id']);
+		}
 	
-/*
-		twic.db.transaction( function(tr) {
-			tr.executeSql('insert into accounts (id, pin) select ?, ?', [
-				request['data']['id'],
-				request['data']['pin']
-			] );
+		var account = new twic.db.obj.Account();
+		account.loadById(request['data']['id'], function() {
+			// found? great, let's modify the pid
+			updateAccount(account, request['data']['pin']);
+		}, function() {
+			account.setValue('id', request['data']['id']);
+			updateAccount(account, request['data']['pin']);
 		} );
-		
-		twic.twitter.getUserInfo(request['data']['nick'], function(data) {
-		
-		} );
-*/
 	} );
 
 	this.update();
