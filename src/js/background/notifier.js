@@ -8,8 +8,6 @@ twic.notifier = ( function(t) {
 	};
 	
 	chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
-		console.dir(request);
-	
 		if (
 			'method' in request
 			&& request['method'] in subscriptions

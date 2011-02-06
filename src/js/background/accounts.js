@@ -9,6 +9,17 @@ twic.Accounts = function() {
 			'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + twic.oauth.getToken()	
 		} );
 	} );
+
+	twic.notifier.subscribe('getAccountList', function(request, sendResponse) {
+		var accs = [];
+
+		for (var i = 0; i < this.length; ++i) {
+			accs.push(this[i]);
+		}
+
+		console.dir(accs);
+		sendResponse(accs);
+	} );
 	
 	twic.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
 		sendResponse({ });
@@ -58,12 +69,14 @@ twic.Accounts.prototype.update = function() {
 	accounts.clear();
 	
 	twic.db.readTransaction( function(tr) {
-		tr.executeSql('select id, nick, pin from accounts', [], function(tr, res) {
+		tr.executeSql(
+			'select a.id, a.pin, u.screen_name, u.avatar ' +
+			'from accounts a ' +
+			'  inner join users u on ( ' +
+			'    u.id = a.id ' +
+			'  ) ', [], function(tr, res) {
 			for (var i = 0; i < res.rows.length; ++i) {
-				var account = new twic.Account();
-				account.fromRow(res.rows.item(i));
-				
-				accounts[accounts.length++] = account;
+				accounts[accounts.length++] = res.rows.item(i);
 			}
 		} );
 	} );
