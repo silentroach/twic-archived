@@ -1,13 +1,18 @@
 ( function(t) {
 
 	var 
-		pinElement  = document.getElementById('oauth_pin'),
+		pinElement  = document.getElementById('oauth_pin');
+
+	if (!pinElement) {
+		return;
+	}
+
+	var
 		idElement   = document.querySelector('meta[name=session-userid]'),
 		nameElement = document.querySelector('meta[name=session-user-screen_name]');
 
 	if (
-		!pinElement
-		|| !idElement
+		!idElement
 		|| !nameElement
 	) {
 		return;

@@ -1,11 +1,33 @@
 twic.dbobject = function() {
+	/**
+	 * Table
+	 * @var {string}
+	 */
 	this.table = '';
+
+	/**
+	 * Field list
+	 * @var {Object}
+	 */
 	this.fields = { };
+
+	/**
+	 * Json map to override field names
+	 * @var {Object}
+	 */
 	this.jsonMap = { };
-	
+
+	/**
+	 * Record exists
+	 * @var {boolean}
+	 */
 	this.exists = false;
 }
 
+/**
+ * Load object from JSON
+ * @param {Object} obj JSON object
+ */
 twic.dbobject.prototype.loadFromJSON = function(obj) {
 	for (var key in this.fields) {
 		var fld = key;
@@ -25,6 +47,9 @@ twic.dbobject.prototype.loadFromJSON = function(obj) {
 	};
 };
 
+/**
+ * Save object to database
+ */
 twic.dbobject.prototype.save = function() {
 	var 
 		fld = [],
@@ -66,22 +91,24 @@ twic.dbobject.prototype.save = function() {
 	} );
 };
 
+/**
+ * Set new value to object property
+ * @param {string} fieldname Field name
+ * @param {number|string} value New value
+ */
 twic.dbobject.prototype.setValue = function(fieldname, value) {
 	if (fieldname in this.fields) {
 		this.fields[fieldname] = value;
 	}
 };
 
-twic.dbobject.prototype.setValueMapped = function(obj, map) {
-	for (var key in map) {
-		var el = map[key];
-		
-		if (el in obj) {
-			this.setValue(key, obj[el]);
-		}
-	}
-};
-
+/**
+ * Locate and load object by field value
+ * @param {string} fieldname Field name
+ * @param {number|string} value Value
+ * @param {function} callback Object found callback
+ * @param {function} nfcallback Object not found callback
+ */
 twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
 	var 
 		obj = this,
@@ -109,6 +136,12 @@ twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	} );
 };
 
+/**
+ * Locate and load object by id
+ * @param {number} id Identifier
+ * @param {function} callback Object found callback
+ * @param {function} nfcallback Object not found callback
+ */
 twic.dbobject.prototype.loadById = function(id, callback, nfcallback) {
 	return this.loadByFieldValue('id', id, callback, nfcallback);
 };
