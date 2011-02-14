@@ -43,6 +43,8 @@ twic.Accounts = function() {
 			account.save();
 			
 			checkUser(account.fields['id']);
+
+			self.update();
 		}
 	
 		var account = new twic.db.obj.Account();
