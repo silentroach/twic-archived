@@ -1,6 +1,8 @@
 twic.Accounts = function() {
 
-	this.length = 0;
+	var self = this;
+
+	self.length = 0;
 
 	twic.notifier.subscribe('addAccount', function(request, sendResponse) {
 		sendResponse({});
@@ -13,11 +15,10 @@ twic.Accounts = function() {
 	twic.notifier.subscribe('getAccountList', function(request, sendResponse) {
 		var accs = [];
 
-		for (var i = 0; i < this.length; ++i) {
-			accs.push(this[i]);
+		for (var i = 0; i < self.length; ++i) {
+			accs.push(self[i]);
 		}
 
-		console.dir(accs);
 		sendResponse(accs);
 	} );
 	
@@ -53,8 +54,6 @@ twic.Accounts = function() {
 			updateAccount(account, request['data']['pin']);
 		} );
 	} );
-
-	this.update();
 };
 
 twic.Accounts.prototype.clear = function() {

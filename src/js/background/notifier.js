@@ -13,7 +13,6 @@ twic.notifier = ( function(t) {
 			&& request['method'] in subscriptions
 		) {
 			subscriptions[request['method']](request, sendResponse);
-			return;
 		} else {
 			sendResponse({});
 		}

@@ -7,12 +7,29 @@
 		list.innerHTML = '';
 	};
 	
-	var buildList = function(list) {
-		if (list.length == 0) {
+	var buildList = function(elements) {
+		if (elements.length == 0) {
 			return;
 		}
+		
+		var frag = document.createDocumentFragment();
+		
+		for (var i = 0; i < elements.length; ++i) {
+			var element = elements[i];
+			
+			var avatar = document.createElement('img');
+			avatar.src = element['avatar'];
+			avatar.title = element['screen_name'];
+			avatar.className = 'avatar';
+			
+			var li = document.createElement('li');
+			
+			li.appendChild(avatar);
+			
+			frag.appendChild(li);
+		}
 
-		console.dir(list);
+		list.appendChild(frag);
 	};
 	
 	document.getElementById('account_add').onclick = function() {
@@ -22,10 +39,7 @@
 	t.router.handle('accounts', function(data) {
 		clearList();
 		
-		console.info('getaccountlist');
-		t.requests.send('getAccountList', function(list) {
-			console.dir(list);
-
+		t.requests.send('getAccountList', {}, function(list) {
 			if (list) {
 				buildList(list);
 			}
