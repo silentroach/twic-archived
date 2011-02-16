@@ -22,9 +22,14 @@
 			avatar.title = element['screen_name'];
 			avatar.className = 'avatar';
 			
+			var a = document.createElement('a');
+			a.href = '#timeline#' + element['id'];
+			
+			a.appendChild(avatar);			
+			
 			var li = document.createElement('li');
 			
-			li.appendChild(avatar);
+			li.appendChild(a);
 			
 			frag.appendChild(li);
 		}
