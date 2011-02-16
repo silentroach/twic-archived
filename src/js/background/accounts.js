@@ -6,9 +6,11 @@ twic.Accounts = function() {
 
 	twic.notifier.subscribe('addAccount', function(request, sendResponse) {
 		sendResponse({});
-
-		chrome.tabs.create( {
-			'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + twic.oauth.getToken()	
+		
+		twic.oauth.getRequestToken( function(t, ts) {
+			chrome.tabs.create( {
+				'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + t
+			} );
 		} );
 	} );
 

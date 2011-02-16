@@ -22,6 +22,11 @@ twic.oauth = ( function(t) {
 		 */
 		token_secret = '',
 		/**
+		 * OAuth-token requested
+		 * @type {boolean}
+		 */
+		token_requested = false,
+		/**
 		 * Nonce charset for random string
 		 * @const
 		 */
@@ -49,13 +54,13 @@ twic.oauth = ( function(t) {
 	var encode = function(str) {
 		var result = encodeURIComponent(str);
 		
-    result = result.replace(/\!/g, '%21');
-    result = result.replace(/\*/g, '%2A');
-    result = result.replace(/\'/g, '%27');
-    result = result.replace(/\(/g, '%28');
-    result = result.replace(/\)/g, '%29');
-    
-    return result;
+		result = result.replace(/\!/g, '%21');
+		result = result.replace(/\*/g, '%2A');
+		result = result.replace(/\'/g, '%27');
+		result = result.replace(/\(/g, '%28');
+		result = result.replace(/\)/g, '%29');
+		
+		return result;
 	};
 	
 	/**
@@ -80,28 +85,16 @@ twic.oauth = ( function(t) {
 	};
 	
 	/**
-	 * Sign the request
-	 * @param {twic.request} req Request
-	 */
-	var signRequest = function(req) {
-		var dt  = new Date();
-	
-		req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-	
-		req.setData('oauth_consumer_key', consumer_key);
-		req.setData('oauth_signature_method', 'HMAC-SHA1');
-		req.setData('oauth_version', '1.0');
-		req.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
-		req.setData('oauth_nonce', getNonce());
-		req.setData('oauth_signature', getSignature(req));
-	};
-	
-	/**
 	 * Request the token
-	 * @param {string} url Url
+	 * @param {function(string, string)} callback Callback function
 	 */
-	var requestToken = function(url) {
-		var req = new t.request('POST', url);
+	var requestToken = function(callback) {
+		if (token_requested) {
+			callback(token, token_secret);
+			return;
+		}
+	
+		var req = new t.request('POST', 'https://twitter.com/oauth/request_token');
 		signRequest(req);
 		req.send( function(result) {
 			var data = result.responseText.split('&');
@@ -120,15 +113,33 @@ twic.oauth = ( function(t) {
 					token_secret = v[1];
 				}
 			} );
+			
+			token_requested = true;
+			
+			callback(token, token_secret);
 		} );
 	};
+	
+	/**
+	 * Sign the request
+	 * @param {twic.request} req Request
+	 */
+	var signRequest = function(req) {
+		var dt = new Date();
+	
+		req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+	
+		req.setData('oauth_consumer_key', consumer_key);
+		req.setData('oauth_signature_method', 'HMAC-SHA1');
+		req.setData('oauth_version', '1.0');
+		req.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
+		req.setData('oauth_nonce', getNonce());
+		req.setData('oauth_signature', getSignature(req));
+	};	
 
 	return {
-    sign: signRequest,
-    requestToken: requestToken,
-    getToken: function() {
-    	return token;
-    }
+		sign: signRequest,
+		getRequestToken: requestToken
 	};
 
 } )(twic);
