@@ -31,11 +31,14 @@ twic.Accounts = function() {
 			var user = new twic.db.obj.User();
 			user.loadById(request['data']['id'], function() {
 				// found? great
+				self.update();				
 			}, function() {
 				// not found. lets get it
 				twic.api.userinfo(request['data']['id'], function(info) {
 					user.loadFromJSON(info);
 					user.save();
+					
+					self.update();					
 				} );
 			} );
 		};
@@ -45,8 +48,6 @@ twic.Accounts = function() {
 			account.save();
 			
 			checkUser(account.fields['id']);
-
-			self.update();
 		}
 	
 		var account = new twic.db.obj.Account();
@@ -77,7 +78,8 @@ twic.Accounts.prototype.update = function() {
 			'from accounts a ' +
 			'  inner join users u on ( ' +
 			'    u.id = a.id ' +
-			'  ) ', [], function(tr, res) {
+			'  ) ' + 
+			'order by u.screen_name ', [], function(tr, res) {
 			for (var i = 0; i < res.rows.length; ++i) {
 				accounts[accounts.length++] = res.rows.item(i);
 			}
