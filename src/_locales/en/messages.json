@@ -1,3 +1,6 @@
 {
-
+	"wait_auth_confirm": {
+		"message": "wait a moment",
+		"description": "Message indicates that extension tries to authenticate user by its confirmation on twitter.com"
+	}
 }

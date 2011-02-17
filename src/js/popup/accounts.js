@@ -38,6 +38,8 @@
 	};
 	
 	document.getElementById('account_add').onclick = function() {
+		this.innerHTML = chrome.i18n.getMessage('wait_auth_confirm');
+	
 		t.requests.send('addAccount');
 	};
 
