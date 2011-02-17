@@ -85,6 +85,30 @@ twic.oauth = ( function(t) {
 	};
 	
 	/**
+	 * Add signature to method
+	 * @param {twic.request} req Request
+	 */
+	var _addSignature = function(req) {
+		req.setData('oauth_signature', getSignature(req));	
+	};
+	
+	/**
+	 * Sign the request
+	 * @param {twic.request} req Request
+	 */
+	var _signRequest = function(req) {
+		var dt = new Date();
+	
+		req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+	
+		req.setData('oauth_consumer_key', consumer_key);
+		req.setData('oauth_signature_method', 'HMAC-SHA1');
+		req.setData('oauth_version', '1.0');
+		req.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
+		req.setData('oauth_nonce', getNonce());
+	};
+	
+	/**
 	 * Request the token
 	 * @param {function(string, string)} callback Callback function
 	 */
@@ -95,7 +119,10 @@ twic.oauth = ( function(t) {
 		}
 	
 		var req = new t.request('POST', 'https://twitter.com/oauth/request_token');
-		signRequest(req);
+		
+		_signRequest(req);
+		_addSignature(req);
+		
 		req.send( function(result) {
 			var data = result.responseText.split('&');
 			
@@ -123,18 +150,18 @@ twic.oauth = ( function(t) {
 	/**
 	 * Sign the request
 	 * @param {twic.request} req Request
+	 * @param {function(twic.request)} callback Callback function
 	 */
-	var signRequest = function(req) {
-		var dt = new Date();
-	
-		req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-	
-		req.setData('oauth_consumer_key', consumer_key);
-		req.setData('oauth_signature_method', 'HMAC-SHA1');
-		req.setData('oauth_version', '1.0');
-		req.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
-		req.setData('oauth_nonce', getNonce());
-		req.setData('oauth_signature', getSignature(req));
+	var signRequest = function(req, callback) {
+		_signRequest(req);
+		
+		request_token( function(t, ts) {
+			req.setData('oauth_token', t);
+			
+			_addSignature(req);
+			
+			callback(req);
+		} );
 	};	
 
 	return {
