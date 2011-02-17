@@ -81,7 +81,7 @@ twic.oauth = ( function(t) {
 		
 		baseString += params.sort().join('%26');
 	
-		return b64_hmac_sha1(encode(consumer_secret) + '&', baseString);
+		return b64_hmac_sha1(encode(consumer_secret) + '&' + (token_requested ? encode(token_secret) : ''), baseString);
 	};
 	
 	/**
