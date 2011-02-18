@@ -86,3 +86,15 @@ twic.Accounts.prototype.update = function() {
 		} );
 	} );
 };
+
+twic.Accounts.prototype.isItMe = function(id) {
+	var accounts = this;
+	
+	for (var i = 0; i < accounts.length; ++i) {
+		if (accounts[i]['id'] == id) {
+			return true;
+		}
+	}
+	
+	return false;
+}

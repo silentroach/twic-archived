@@ -9,16 +9,13 @@ img.avatar {
 ul.list {
 
 	}
-
 	ul.list li {
 		border-bottom: 1px solid silver;
 		padding: 5px;
 		}
-
 		ul.list li:hover {
 			background-color: #f4f4f4;
 			}
-
 			ul.list li:hover img.avatar {
 				-webkit-box-shadow: white -1px -1px 1px;
 				}
@@ -29,7 +26,6 @@ div.bar {
 	margin: 0px;
 	padding: 0px;
 	}
-
 	div.bar.top {
 
 		}

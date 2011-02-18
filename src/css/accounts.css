@@ -1,17 +1,14 @@
 #accounts {
 	text-align: center;
 	}
-
 	#accounts ul {
 		margin-top: 10px;
 		margin-bottom: 30px;
 		}
-
 		#accounts ul li {
 			display: inline-block;
 			padding: 10px;
 			}
-			
 			#accounts ul li a {
 				display: block;
 				}

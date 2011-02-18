@@ -6,6 +6,7 @@ twic.api = ( function(t) {
 	/**
 	 * Get the user info
 	 * @param {number} id User identifier
+	 * @param {function} callback Callback function
 	 */
 	var getUserInfo = function(id, callback) {
 		var req = new t.request('GET', baseUrl + 'users/show/' + id + '.json');
@@ -17,9 +18,21 @@ twic.api = ( function(t) {
 			}
 		} );
 	};
+	
+	/**
+	 * Get user timeline
+	 * @param {number} id User identifier
+	 * @param {function} callback Callback function
+	 */
+	var homeTimeline = function(id, callback) {
+		var req = new t.request('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
+	
+		console.info('home timeline');
+	};
 
 	return {
-		userinfo: getUserInfo
+		userinfo: getUserInfo,
+		homeTimeline: homeTimeline
 	};
 
 } )(twic);

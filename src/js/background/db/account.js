@@ -2,7 +2,8 @@ twic.db.obj.Account = function() {
 	this.table = 'accounts';
 	this.fields = {
 		'id': 0, 
-		'pin': ''
+		'oauth_token': '',
+		'oauth_token_secret': ''
 	};
 };
 

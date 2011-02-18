@@ -19,7 +19,8 @@ twic.db = ( function(t) {
 					
 				t.executeSql('create table accounts (' +
 					'id int not null primary key, ' +
-					'pin int not null)');
+					'oauth_token text not null, ' +
+					'oauth_token_secret text not null)');
 			}
 		}
 	};
