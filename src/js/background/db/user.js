@@ -1,3 +1,6 @@
+/**
+ * @constructor
+ */
 twic.db.obj.User = function() {
 	this.table = 'users';
 	this.fields = {

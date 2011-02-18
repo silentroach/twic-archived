@@ -58,14 +58,14 @@ twic.db = ( function(t) {
 	return {
 		/**
 		 * Transaction
-		 * @param {function(SQLTransactionCallback)}
+		 * @param {function(SQLTransactionCallback)} callback Callback function
 		 */
 		transaction: function(callback) {
 			getDatabase().transaction(callback);
 		},
 		/**
 		 * Read-only transaction
-		 * @param {function(SQLTransactionCallback)}
+		 * @param {function(SQLTransactionCallback)} callback Callback function
 		 */
 		readTransaction: function(callback) {
 			getDatabase().readTransaction(callback);

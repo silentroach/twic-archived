@@ -1,3 +1,6 @@
+/**
+ * @constructor
+ */
 twic.request = function(method, url) {
 	this.method = method;
 	this.url = url;

@@ -1,25 +1,28 @@
+/**
+ * @constructor
+ */
 twic.dbobject = function() {
 	/**
 	 * Table
-	 * @var {string}
+	 * @type {string}
 	 */
 	this.table = '';
 
 	/**
 	 * Field list
-	 * @var {Object}
+	 * @type {Object}
 	 */
 	this.fields = { };
 
 	/**
 	 * Json map to override field names
-	 * @var {Object}
+	 * @type {Object}
 	 */
 	this.jsonMap = { };
 
 	/**
 	 * Record exists
-	 * @var {boolean}
+	 * @type {boolean}
 	 */
 	this.exists = false;
 }
