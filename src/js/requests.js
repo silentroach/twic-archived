@@ -23,7 +23,7 @@ twic.requests = ( function(t) {
 	/**
 	 * Subscribe to the event
 	 * @param {string} event Event
-	 * @param {function(Object}} callback Callback function
+	 * @param {function(Object)} callback Callback function
 	 */
 	var subscribe = function(event, callback) {
 		subscriptions[event].push(callback);

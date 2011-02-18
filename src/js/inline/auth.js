@@ -28,7 +28,7 @@
 		'nick': nick,
 		'pin': pin
 	}, function(reply) {
-		pinElement.innerText = 'Thank you';
+		pinElement.innerText = chrome.i18n.getMessage('thank_you');
 	} );
 
 } )(twic);
