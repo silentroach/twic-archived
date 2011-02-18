@@ -162,11 +162,19 @@ twic.oauth = ( function(t) {
 			
 			callback(req);
 		} );
-	};	
+	};
+	
+	/**
+	 * Get the access_token for user pin
+	 */
+	var verify = function(pin, callback) {
+	
+	};
 
 	return {
 		sign: signRequest,
-		getRequestToken: requestToken
+		getRequestToken: requestToken,
+		verify: verify
 	};
 
 } )(twic);
