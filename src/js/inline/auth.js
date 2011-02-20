@@ -2,7 +2,7 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
-( function(t) {
+( function() {
 
 	var 
 		pinElement  = document.getElementById('oauth_pin');
@@ -26,13 +26,23 @@
 		pin = parseInt(pinElement.innerText),
 		id  = parseInt(idElement['content']),
 		nick = nameElement['content'];
+
+  /**
+   * Change the pinned text
+   * @param {string} i18nKey Key for localization
+   */
+  var changePinText = function(i18nKey) {
+    pinElement.innerText = chrome.i18n.getMessage(i18nKey);
+  };
+
+  changePinText('auth_in_progress');
 		
-	twic.requests.send('accountAuthenticated', {
-		'id': id,
+	twic.requests.send('accountAuth', {
+		'id':   id,
 		'nick': nick,
-		'pin': pin
+		'pin':  pin
 	}, function(reply) {
-		pinElement.innerText = chrome.i18n.getMessage('thank_you');
+	  changePinText('auth_thanks');
 	} );
 
-} )(twic);
+} )();

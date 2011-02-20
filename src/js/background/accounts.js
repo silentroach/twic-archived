@@ -12,17 +12,17 @@ twic.Accounts = function() {
 
 	self.length = 0;
 
-	twic.notifier.subscribe('addAccount', function(request, sendResponse) {
+	twic.notifier.subscribe('accountAdd', function(request, sendResponse) {
 		sendResponse({});
 		
 		twic.oauth.getRequestToken( function(t, ts) {
 			chrome.tabs.create( {
-				'url': 'http://api.twitter.com/oauth/authorize?oauth_token=' + t
+				'url': 'https://api.twitter.com/oauth/authorize?oauth_token=' + t
 			} );
 		} );
 	} );
 
-	twic.notifier.subscribe('getAccountList', function(request, sendResponse) {
+	twic.notifier.subscribe('accountList', function(request, sendResponse) {
 		var accs = [];
 
 		for (var i = 0; i < self.length; ++i) {
@@ -32,21 +32,27 @@ twic.Accounts = function() {
 		sendResponse(accs);
 	} );
 	
-	twic.notifier.subscribe('accountAuthenticated', function(request, sendResponse) {
+	twic.notifier.subscribe('accountAuth', function(request, sendResponse) {
 		sendResponse({ });
+		
+		var afterAll = function() {
+  		self.update();
+  		
+  		// get the access_token
+		};
 		
 		var checkUser = function() {
 			var user = new twic.db.obj.User();
 			user.loadById(request['data']['id'], function() {
 				// found? great
-				self.update();				
+				afterAll();
 			}, function() {
 				// not found. lets get it
 				twic.api.userinfo(request['data']['id'], function(info) {
 					user.loadFromJSON(info);
 					user.save();
 					
-					self.update();					
+					afterAll();
 				} );
 			} );
 		};
@@ -84,9 +90,9 @@ twic.Accounts.prototype.update = function() {
 		tr.executeSql(
 			'select a.id, a.pin, u.screen_name, u.avatar ' +
 			'from accounts a ' +
-			'  inner join users u on ( ' +
-			'    u.id = a.id ' +
-			'  ) ' + 
+			  'inner join users u on ( ' +
+			    'u.id = a.id ' +
+			  ') ' + 
 			'order by u.screen_name ', [], function(tr, res) {
 			for (var i = 0; i < res.rows.length; ++i) {
 				accounts[accounts.length++] = res.rows.item(i);
