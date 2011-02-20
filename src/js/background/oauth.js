@@ -1,16 +1,11 @@
-twic.oauth = ( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+
+twic.oauth = ( function() {
 
 	var 
-		/**
-		 * Consumer key for Twitter API
-		 * @const
-		 */
-		consumer_key = 'Yda6L1lsEkqwDhcqxWPXtw',
-		/**
-		 * Consumer secret for Twitter API
-		 * @const
-		 */
-		consumer_secret = 'IHtRC1kPwQ4MH1lccSaZGdhZPyPiw2iuEfhCDV4',
 		/**
 		 * OAuth-token
 		 * @type {string}
@@ -81,7 +76,7 @@ twic.oauth = ( function(t) {
 		
 		baseString += params.sort().join('%26');
 	
-		return b64_hmac_sha1(encode(consumer_secret) + '&' + (token_requested ? encode(token_secret) : ''), baseString);
+		return b64_hmac_sha1(encode(twic.consumer_secret) + '&' + (token_requested ? encode(token_secret) : ''), baseString);
 	};
 	
 	/**
@@ -101,7 +96,7 @@ twic.oauth = ( function(t) {
 	
 		req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	
-		req.setData('oauth_consumer_key', consumer_key);
+		req.setData('oauth_consumer_key', twic.consumer_key);
 		req.setData('oauth_signature_method', 'HMAC-SHA1');
 		req.setData('oauth_version', '1.0');
 		req.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
@@ -118,7 +113,7 @@ twic.oauth = ( function(t) {
 			return;
 		}
 	
-		var req = new t.request('POST', 'https://twitter.com/oauth/request_token');
+		var req = new twic.request('POST', 'https://twitter.com/oauth/request_token');
 		
 		prepareRequest(req);
 		sign(req);
@@ -177,4 +172,4 @@ twic.oauth = ( function(t) {
 		verify: verify
 	};
 
-} )(twic);
+} )();

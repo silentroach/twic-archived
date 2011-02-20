@@ -1,4 +1,9 @@
-twic.router = ( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+
+twic.router = ( function() {
 
 	var 
 		/** @type {Object} */ frames = { },
@@ -56,4 +61,4 @@ twic.router = ( function(t) {
 		}
 	};
 
-} )(twic);
+} )();

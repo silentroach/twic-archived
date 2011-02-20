@@ -1,6 +1,7 @@
-( function(t) {
-	
-	t.accounts = new t.Accounts();
-	t.accounts.update();
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
 
-} )(twic);
+twic.accounts = new twic.Accounts();
+twic.accounts.update();

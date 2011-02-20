@@ -1,4 +1,8 @@
-( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+( function() {
 
 	var
 		/** @type {HTMLUListElement} */ list = document.querySelector('#accounts ul');
@@ -53,4 +57,4 @@
 		} );
 	} );
 
-} )(twic);
+} )();

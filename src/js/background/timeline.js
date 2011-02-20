@@ -1,4 +1,9 @@
-( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+
+( function() {
 
 	// todo request[data] -> request
 	t.notifier.subscribe('getTimeline', function(request, sendResponse) {
@@ -20,4 +25,4 @@
 		sendResponse({});
 	} );
 
-} )(twic);
+} )();

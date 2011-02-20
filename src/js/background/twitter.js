@@ -1,5 +1,15 @@
-twic.twitter = ( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
 
+twic.twitter = ( function() {
+
+  /**
+   * Get the user info
+   * @param {string} nick Nickname
+   * @param {function()} callback Callback function
+   */
 	var getUserInfo = function(nick, callback) {
 		t.db.readTransaction( function(tr) {
 			tr.executeSql('select id from users where screen_name = ?', [nick], function(tr, res) {
@@ -11,7 +21,7 @@ twic.twitter = ( function(t) {
 	/**
 	 * Get user timeline
 	 * @param {number} id User identifier
-	 * @param {function} callback Callback function
+	 * @param {function()} callback Callback function
 	 */
 	var timeline = function(id, callback) {
 
@@ -22,4 +32,4 @@ twic.twitter = ( function(t) {
 		timeline: timeline
 	};
 
-} )(twic);
+} )();

@@ -1,4 +1,9 @@
 /**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+
+/**
  * @constructor
  */
 twic.dbobject = function() {
@@ -109,8 +114,8 @@ twic.dbobject.prototype.setValue = function(fieldname, value) {
  * Locate and load object by field value
  * @param {string} fieldname Field name
  * @param {number|string} value Value
- * @param {function} callback Object found callback
- * @param {function} nfcallback Object not found callback
+ * @param {function()} callback Object found callback
+ * @param {function()} nfcallback Object not found callback
  */
 twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
 	var 
@@ -142,8 +147,8 @@ twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 /**
  * Locate and load object by id
  * @param {number} id Identifier
- * @param {function} callback Object found callback
- * @param {function} nfcallback Object not found callback
+ * @param {function()} callback Object found callback
+ * @param {function()} nfcallback Object not found callback
  */
 twic.dbobject.prototype.loadById = function(id, callback, nfcallback) {
 	return this.loadByFieldValue('id', id, callback, nfcallback);
