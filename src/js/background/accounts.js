@@ -33,44 +33,47 @@ twic.Accounts = function() {
 	} );
 	
 	twic.notifier.subscribe('accountAuth', function(request, sendResponse) {
+    // fixme send the result back
 		sendResponse({ });
 		
-		var afterAll = function() {
-  		self.update();
-  		
-  		// get the access_token
-		};
-		
-		var checkUser = function() {
-			var user = new twic.db.obj.User();
-			user.loadById(request['data']['id'], function() {
-				// found? great
-				afterAll();
-			}, function() {
-				// not found. lets get it
-				twic.api.userinfo(request['data']['id'], function(info) {
-					user.loadFromJSON(info);
-					user.save();
-					
-					afterAll();
-				} );
-			} );
-		};
-		
-		var updateAccount = function(account, pin) {
-			account.setValue('pin', request['data']['pin']);
-			account.save();
-			
-			checkUser(account.fields['id']);
+		if (!('pin' in request['data'])) {
+		  return;
 		}
+		
+		twic.api.accessToken(request['data']['pin'], function(data) {		
+
+			var checkUser = function(id) {
+				var user = new twic.db.obj.User();
+				user.loadById(id, function() {
+					// found? great
+					self.update();
+				}, function() {
+					// not found. lets get it
+					twic.api.userinfo(id, function(info) {
+						user.loadFromJSON(info);
+						user.save();
+					
+						self.update();
+					} );
+				} );
+			};
+		
+			var updateAccount = function(account) {
+				account.setValue('oauth_token', data['oauth_token']);
+				account.setValue('oauth_token_secret', data['oauth_token_secret']);
+				account.save();
+			
+				checkUser(account.fields['id']);
+			}
 	
-		var account = new twic.db.obj.Account();
-		account.loadById(request['data']['id'], function() {
-			// found? great, let's modify the pid
-			updateAccount(account, request['data']['pin']);
-		}, function() {
-			account.setValue('id', request['data']['id']);
-			updateAccount(account, request['data']['pin']);
+			var account = new twic.db.obj.Account();
+			account.loadById(data['user_id'], function() {
+				// found? great, let's modify oauth data
+				updateAccount(account);
+			}, function() {
+				account.setValue('id', data['user_id']);
+				updateAccount(account);
+			} );
 		} );
 	} );
 };

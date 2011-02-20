@@ -31,37 +31,55 @@ var encode = function(str) {
   return result;
 };
 
-twic.request.prototype = {
+twic.request.prototype.setHeader = function(key, value) {
+  this.headers[key] = value;
+};
 	
-	setHeader: function(key, value) {
-		this.headers[key] = value;
-	},
+twic.request.prototype.setData = function(key, value) {
+	this.data[key] = value;
+};
 	
-	setData: function(key, value) {
-		this.data[key] = value;
-	},
+twic.request.prototype.send = function(callback) {
+	var req = new XMLHttpRequest();
+	req.open(this.method, this.url);
 	
-	send: function(callback) {
-		var req = new XMLHttpRequest();
-		req.open(this.method, this.url);
-		
-		for (var key in this.headers) {
-			req.setRequestHeader(key, this.headers[key]);
-		}
-		
-		req.onreadystatechange = function() {
-			if (this.readyState == XMLHttpRequest.DONE) {
-				callback(this);
-			}
-		};
-		
-		var data = [];
-		
-		for (var key in this.data) {
-			data.push(encode(key) + '=' + encode(this.data[key]));
-		}
-		
-		req.send(data.join('&'));
+	for (var key in this.headers) {
+		req.setRequestHeader(key, this.headers[key]);
 	}
 	
+	req.onreadystatechange = function() {
+		if (this.readyState == XMLHttpRequest.DONE) {
+			callback(this);
+		}
+	};
+	
+	var data = [];
+	
+	for (var key in this.data) {
+		data.push(encode(key) + '=' + encode(this.data[key]));
+	}
+	
+	req.send(data.join('&'));
+};
+
+/**
+ * @param {string} data Data
+ * @return {Object} Parsed object
+ * FIXME FIXTHISSHIT!
+ */
+convertDataToParams = function(data) {
+	var 
+		result = {},
+		parts  = data.split('&');
+
+	for (var i = 0; i < parts.length; ++i) {
+		var 
+			tmp = parts[i].split('=');
+		
+		if (2 == tmp.length) {
+			result[tmp[0]] = tmp[1];
+		}
+	}
+	
+	return result;
 };

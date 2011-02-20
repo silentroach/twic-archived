@@ -10,22 +10,9 @@
 	if (!pinElement) {
 		return;
 	}
-
-	var
-		idElement   = document.querySelector('meta[name=session-userid]'),
-		nameElement = document.querySelector('meta[name=session-user-screen_name]');
-
-	if (
-		!idElement
-		|| !nameElement
-	) {
-		return;
-	}
 	
 	var 
-		pin = parseInt(pinElement.innerText),
-		id  = parseInt(idElement['content']),
-		nick = nameElement['content'];
+		pin = parseInt(pinElement.innerText);
 
   /**
    * Change the pinned text
@@ -38,8 +25,6 @@
   changePinText('auth_in_progress');
 		
 	twic.requests.send('accountAuth', {
-		'id':   id,
-		'nick': nick,
 		'pin':  pin
 	}, function(reply) {
 	  changePinText('auth_thanks');

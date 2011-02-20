@@ -18,9 +18,12 @@ twic.db.obj.Account = function() {
 twic.db.obj.Account.prototype = new twic.dbobject();
 
 /**
- * Get the access token
- * @param {string} verifier OAuth Verifier 
+ * Get the access token info
+ * @return {Object} Info
  */
-twic.db.obj.Account.prototype.getAccessToken = function(verifier) {
-
+twic.db.obj.Account.prototype.getOAuthInfo = function() {
+  return {
+    token: this.fields['oauth_token'],
+    token_secret: this.fields['oauth_token_secret']
+  }
 };

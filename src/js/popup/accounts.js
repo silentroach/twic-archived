@@ -42,7 +42,7 @@
 	};
 	
 	document.getElementById('account_add').onclick = function() {
-		this.innerHTML = chrome.i18n.getMessage('wait_auth_confirm');
+		this.innerHTML = chrome.i18n.getMessage('auth_confirm_wait');
 	
 		twic.requests.send('accountAdd');
 	};

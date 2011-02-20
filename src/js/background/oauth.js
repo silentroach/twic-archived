@@ -150,7 +150,7 @@ twic.oauth = ( function() {
 	var signRequest = function(req, callback) {
 		prepareRequest(req);
 		
-		request_token( function(t, ts) {
+		requestToken( function(t, ts) {
 			req.setData('oauth_token', t);
 			
 			sign(req);
@@ -158,18 +158,10 @@ twic.oauth = ( function() {
 			callback(req);
 		} );
 	};
-	
-	/**
-	 * Get the access_token for user pin
-	 */
-	var verify = function(pin, callback) {
-	
-	};
 
 	return {
 		sign: signRequest,
-		getRequestToken: requestToken,
-		verify: verify
+		getRequestToken: requestToken
 	};
 
 } )();
