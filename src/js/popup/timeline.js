@@ -12,7 +12,7 @@
 
   };
 	
-  t.router.handle('timeline', function(data) {
+  twic.router.handle('timeline', function(data) {
 	  if (
 		  !data.length
 		  || 1 !== data.length
@@ -22,7 +22,7 @@
 	
 	  var id = data[0];
 
-	  t.requests.send('getTimeline', {
+	  twic.requests.send('getTimeline', {
 		  'id': id
 	  }, function(list) {
 		  if (list) {

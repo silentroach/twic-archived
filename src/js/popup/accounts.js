@@ -44,13 +44,13 @@
 	document.getElementById('account_add').onclick = function() {
 		this.innerHTML = chrome.i18n.getMessage('wait_auth_confirm');
 	
-		t.requests.send('addAccount');
+		twic.requests.send('addAccount');
 	};
 
-	t.router.handle('accounts', function(data) {
+	twic.router.handle('accounts', function(data) {
 		clearList();
 		
-		t.requests.send('getAccountList', {}, function(list) {
+		twic.requests.send('getAccountList', {}, function(list) {
 			if (list) {
 				buildList(list);
 			}

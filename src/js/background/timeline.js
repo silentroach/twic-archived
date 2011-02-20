@@ -6,7 +6,7 @@
 ( function() {
 
 	// todo request[data] -> request
-	t.notifier.subscribe('getTimeline', function(request, sendResponse) {
+	twic.notifier.subscribe('getTimeline', function(request, sendResponse) {
 		if (!('id' in request['data'])) {
 			sendResponse({});
 			return false;
