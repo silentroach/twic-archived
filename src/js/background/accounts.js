@@ -31,13 +31,13 @@ twic.Accounts = function() {
 
 		sendResponse(accs);
 	} );
-	
+
 	twic.notifier.subscribe('accountAuth', function(request, sendResponse) {
-    // fixme send the result back
+		// fixme send the result back
 		sendResponse({ });
 		
 		if (!('pin' in request['data'])) {
-		  return;
+			return;
 		}
 		
 		twic.api.accessToken(request['data']['pin'], function(data) {		
@@ -91,7 +91,7 @@ twic.Accounts.prototype.update = function() {
 	
 	twic.db.readTransaction( function(tr) {
 		tr.executeSql(
-			'select a.id, a.pin, u.screen_name, u.avatar ' +
+			'select a.id, a.oauth_token, a.oauth_token_secret, u.screen_name, u.avatar ' +
 			'from accounts a ' +
 			  'inner join users u on ( ' +
 			    'u.id = a.id ' +
