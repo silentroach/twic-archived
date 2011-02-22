@@ -2,7 +2,8 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
-twic.requests = ( function(t) {
+
+twic.requests = ( function() {
 
 	var
 		subscriptions = { };
@@ -38,4 +39,4 @@ twic.requests = ( function(t) {
 		subscribe: subscribe
 	};
 
-} )(twic);
+} )();
