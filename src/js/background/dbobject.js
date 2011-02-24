@@ -6,7 +6,7 @@
 /**
  * @constructor
  */
-twic.dbobject = function() {
+twic.DBObject = function() {
 	/**
 	 * Table
 	 * @type {string}
@@ -36,7 +36,7 @@ twic.dbobject = function() {
  * Load object from JSON
  * @param {Object} obj JSON object
  */
-twic.dbobject.prototype.loadFromJSON = function(obj) {
+twic.DBObject.prototype.loadFromJSON = function(obj) {
 	for (var key in this.fields) {
 		var fld = key;
 	
@@ -58,7 +58,7 @@ twic.dbobject.prototype.loadFromJSON = function(obj) {
 /**
  * Save object to database
  */
-twic.dbobject.prototype.save = function() {
+twic.DBObject.prototype.save = function() {
 	var 
 		fld = [],
 		params = [],
@@ -104,7 +104,7 @@ twic.dbobject.prototype.save = function() {
  * @param {string} fieldname Field name
  * @param {number|string} value New value
  */
-twic.dbobject.prototype.setValue = function(fieldname, value) {
+twic.DBObject.prototype.setValue = function(fieldname, value) {
 	if (fieldname in this.fields) {
 		this.fields[fieldname] = value;
 	}
@@ -117,7 +117,7 @@ twic.dbobject.prototype.setValue = function(fieldname, value) {
  * @param {function()} callback Object found callback
  * @param {function()} nfcallback Object not found callback
  */
-twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
+twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
 	var 
 		obj = this,
 		fld = [];
@@ -150,6 +150,6 @@ twic.dbobject.prototype.loadByFieldValue = function(fieldname, value, callback, 
  * @param {function()} callback Object found callback
  * @param {function()} nfcallback Object not found callback
  */
-twic.dbobject.prototype.loadById = function(id, callback, nfcallback) {
+twic.DBObject.prototype.loadById = function(id, callback, nfcallback) {
 	return this.loadByFieldValue('id', id, callback, nfcallback);
 };

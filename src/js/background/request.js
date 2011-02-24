@@ -15,20 +15,19 @@ twic.Request = function(method, url) {
 
 /**
  * Encode the string
- * FIXME already in oauth
  * @param {string} str String
  * @return {string}
  */
-var encode = function(str) {
+twic.Request.prototype.encodeString = function(str) {
 	var result = encodeURIComponent(str);
 	
-  result = result.replace(/\!/g, '%21');
-  result = result.replace(/\*/g, '%2A');
-  result = result.replace(/\'/g, '%27');
-  result = result.replace(/\(/g, '%28');
-  result = result.replace(/\)/g, '%29');
+	result = result.replace(/\!/g, '%21');
+	result = result.replace(/\*/g, '%2A');
+	result = result.replace(/\'/g, '%27');
+	result = result.replace(/\(/g, '%28');
+	result = result.replace(/\)/g, '%29');
   
-  return result;
+	return result;
 };
 
 /**
@@ -70,7 +69,7 @@ twic.Request.prototype.send = function(callback) {
 	var data = [];
 	
 	for (var key in this.data) {
-		data.push(encode(key) + '=' + encode(this.data[key]));
+		data.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
 	}
 	
 	req.send(data.join('&'));

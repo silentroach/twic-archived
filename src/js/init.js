@@ -4,10 +4,10 @@
  */
 
 var twic = {
-  /**
-   * @const
-   * @type {string}
-   */
+	/**
+	 * @const
+	 * @type {string}
+	 */
 	name: 'Twic',
 	
 	/**

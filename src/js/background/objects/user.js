@@ -26,4 +26,4 @@ twic.db.obj.User = function() {
 	};
 }
 
-twic.db.obj.User.prototype = new twic.dbobject();
+twic.extend(twic.db.obj.User, twic.DBObject);

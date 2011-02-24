@@ -15,7 +15,7 @@ twic.db.obj.Account = function() {
 	};
 };
 
-twic.db.obj.Account.prototype = new twic.dbobject();
+twic.extend(twic.db.obj.Account, twic.DBObject);
 
 /**
  * Sign the private API request

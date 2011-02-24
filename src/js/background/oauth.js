@@ -2,6 +2,14 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
+ 
+twic.OAuthRequest = function(method, url) {
+	twic.OAuthRequest.superclass.constructor.call(this, method, url);
+}
+
+twic.extend(twic.OAuthRequest, twic.Request);
+
+//
 
 twic.oauth = ( function() {
 
