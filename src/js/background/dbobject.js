@@ -57,8 +57,9 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 
 /**
  * Save object to database
+ * @param {function()} callback Callback function
  */
-twic.DBObject.prototype.save = function() {
+twic.DBObject.prototype.save = function(callback) {
 	var 
 		fld = [],
 		params = [],
@@ -96,6 +97,10 @@ twic.DBObject.prototype.save = function() {
 	
 	twic.db.transaction( function(tr) {
 		tr.executeSql(sql, vals);
+		
+		if (callback) {
+			callback();
+		}
 	} );
 };
 

@@ -50,7 +50,7 @@ twic.Request.prototype.setData = function(key, value) {
 
 /**
  * Send the request
- * @param {function(string)} callback Callback
+ * @param {function(XMLHttpRequest)} callback Callback
  */
 twic.Request.prototype.send = function(callback) {
 	var req = new XMLHttpRequest();

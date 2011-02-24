@@ -15,10 +15,8 @@ twic.Accounts = function() {
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
 		sendResponse({});
 		
-		twic.oauth.getRequestToken( function(t, ts) {
-			chrome.tabs.create( {
-				'url': 'https://api.twitter.com/oauth/authorize?oauth_token=' + t
-			} );
+		twic.api.getRequestToken( function(token, secret) {
+			twic.api.tryGrantAccess(token);
 		} );
 	} );
 
@@ -51,9 +49,9 @@ twic.Accounts = function() {
 					// not found. lets get it
 					twic.api.userinfo(id, function(info) {
 						user.loadFromJSON(info);
-						user.save();
-					
-						self.update();
+						user.save( function() {
+							self.update();
+						} );
 					} );
 				} );
 			};

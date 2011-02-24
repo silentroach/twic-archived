@@ -6,7 +6,48 @@
 twic.api = ( function() {
 
 	var
-		baseUrl = 'https://api.twitter.com/1/';
+		/**
+		 * @const
+		 * @type {string}
+		 */
+		baseUrl = 'https://api.twitter.com/1/',
+		/**
+		 * @const
+		 * @type {string}
+		 */
+		authUrl = 'https://twitter.com/oauth/',
+		/**
+		 * @type {boolean|string}
+		 */
+		oauth_token = false,
+		/**
+		 * @type {boolean|string}
+		 */		
+		oauth_token_secret = false;
+
+	/**
+	 * Get the app request token
+	 * @param {function(string, string)} callback Callback function
+	 */
+	var getRequestToken = function(callback) {
+		if (oauth_token) {
+			callback(oauth_token, oauth_token_secret);
+			return;
+		}
+	
+		var req = new twic.OAuthRequest('POST', authUrl + 'request_token');
+		req.sign();
+
+		req.send( function(r) {
+			var obj = convertDataToParams(r.responseText);
+			
+			// FIXME check
+			oauth_token        = obj['oauth_token'];
+			oauth_token_secret = obj['oauth_token_secret'];
+
+			callback(oauth_token, oauth_token_secret);
+		} );
+	};
 
 	/**
 	 * Get the user access token
@@ -14,16 +55,28 @@ twic.api = ( function() {
 	 * @param {function(Object)} callback Callback function
 	 */
 	var getAccessToken = function(pin, callback) {
-		var req = new twic.Request('POST', 'https://twitter.com/oauth/access_token');
+		var req = new twic.OAuthRequest('POST', authUrl + 'access_token');
 		req.setData('oauth_verifier', pin);
 		
-		twic.oauth.sign(req, function(req) {
+		getRequestToken( function(token, secret) {
+			req.sign(token, secret);
+		
 			req.send( function(data) {		    
 				callback(convertDataToParams(data.responseText));
 			} );
 		} );
 	};
-
+	
+	/**
+	 * Open the new tab with user request to confirm the access
+	 * @param {string} token OAuth token
+	 */
+	var tryGrantAccess = function(token) {
+		chrome.tabs.create( {
+			'url': 'https://api.twitter.com/oauth/authorize?oauth_token=' + token
+		} );
+	};
+	
 	/**
 	 * Get the user info
 	 * @param {number} id User identifier
@@ -52,7 +105,9 @@ twic.api = ( function() {
 	};
 
 	return {
-		accessToken: getAccessToken,
+		getRequestToken: getRequestToken,
+		tryGrantAccess: tryGrantAccess,
+		getAccessToken: getAccessToken,
 		userinfo: getUserInfo,
 		homeTimeline: homeTimeline
 	};
