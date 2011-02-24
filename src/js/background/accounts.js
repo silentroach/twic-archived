@@ -76,12 +76,18 @@ twic.Accounts = function() {
 	} );
 };
 
+/**
+ * Clear the accounts array
+ */
 twic.Accounts.prototype.clear = function() {
 	while (this.length > 0) {
 		delete this[this.length--];
 	}
 };
 
+/**
+ * Update accounts info
+ */
 twic.Accounts.prototype.update = function() {
 	var accounts = this;
 
@@ -102,6 +108,11 @@ twic.Accounts.prototype.update = function() {
 	} );
 };
 
+/**
+ * Get user info
+ * @param {number} id User id
+ * @return {Object|boolean} Account or false
+ */
 twic.Accounts.prototype.getInfo = function(id) {
 	var accounts = this;
 	
@@ -113,15 +124,3 @@ twic.Accounts.prototype.getInfo = function(id) {
 	
 	return false;
 };
-
-twic.Accounts.prototype.isItMe = function(id) {
-	var accounts = this;
-	
-	for (var i = 0; i < accounts.length; ++i) {
-		if (accounts[i]['id'] == id) {
-			return true;
-		}
-	}
-	
-	return false;
-}
