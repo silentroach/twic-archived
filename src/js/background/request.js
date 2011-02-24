@@ -53,8 +53,14 @@ twic.Request.prototype.setData = function(key, value) {
  * @param {function(XMLHttpRequest)} callback Callback
  */
 twic.Request.prototype.send = function(callback) {
+	var data = [];
+	
+	for (var key in this.data) {
+		data.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
+	}
+	
 	var req = new XMLHttpRequest();
-	req.open(this.method, this.url);
+	req.open(this.method, this.url + (this.method == 'GET' ? '?' + data.join('&') : ''));
 	
 	for (var key in this.headers) {
 		req.setRequestHeader(key, this.headers[key]);
@@ -66,13 +72,11 @@ twic.Request.prototype.send = function(callback) {
 		}
 	};
 	
-	var data = [];
-	
-	for (var key in this.data) {
-		data.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
+	if (this.method == 'GET') {
+		req.send();
+	} else {
+		req.send(data.join('&'));
 	}
-	
-	req.send(data.join('&'));
 };
 
 /**

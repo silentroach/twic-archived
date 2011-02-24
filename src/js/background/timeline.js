@@ -11,10 +11,12 @@
 			return false;
 		}
 		
-		var id = data['id'];
+		var 
+			id = data['id'],
+			account = twic.accounts.getInfo(id);
 
-		if (twic.accounts.isItMe(id)) {
-			twic.api.homeTimeline(id, function(data) {
+		if (account) {
+			twic.api.homeTimeline(id, account['oauth_token'], account['oauth_token_secret'], function(data) {
 			
 			} );
 		} else {

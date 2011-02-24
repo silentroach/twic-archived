@@ -43,7 +43,9 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		baseString = this.method + '&' + this.encodeString(this.url) + '&',
 		params = [];
 
-	this.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+	if (this.method != 'GET') {
+		this.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+	}
 
 	this.setData('oauth_consumer_key', twic.consumer_key);
 	this.setData('oauth_signature_method', 'HMAC-SHA1');
