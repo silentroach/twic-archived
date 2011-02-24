@@ -10,7 +10,7 @@ twic.OAuthRequest = function(method, url) {
 	twic.OAuthRequest.superclass.constructor.call(this, method, url);
 }
 
-twic.extend(twic.OAuthRequest, twic.Request);
+twic.utils.extend(twic.OAuthRequest, twic.Request);
 
 /**
  * Get the random OAuth nonce
@@ -39,7 +39,6 @@ twic.OAuthRequest.prototype.getNonce = function() {
  */
 twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	var 
-		dt = new Date(),
 		baseString = this.method + '&' + this.encodeString(this.url) + '&',
 		params = [];
 
@@ -50,7 +49,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	this.setData('oauth_consumer_key', twic.consumer_key);
 	this.setData('oauth_signature_method', 'HMAC-SHA1');
 	this.setData('oauth_version', '1.0');
-	this.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
+	this.setData('oauth_timestamp', twic.utils.getCurrentTimestamp());
 	this.setData('oauth_nonce', this.getNonce());
 	
 	if (token) {

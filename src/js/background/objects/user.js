@@ -15,7 +15,7 @@ twic.db.obj.User = function() {
 		'avatar': '', 
 		'url': '', 
 		'verified': '', 
-		'dt': Math.floor((new Date()).getTime() / 1000)
+		'dt': twic.utils.getCurrentTimestamp()
 	};
 	
 	this.jsonMap = {
@@ -26,4 +26,4 @@ twic.db.obj.User = function() {
 	};
 }
 
-twic.extend(twic.db.obj.User, twic.DBObject);
+twic.utils.extend(twic.db.obj.User, twic.DBObject);

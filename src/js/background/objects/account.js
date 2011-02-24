@@ -15,12 +15,4 @@ twic.db.obj.Account = function() {
 	};
 };
 
-twic.extend(twic.db.obj.Account, twic.DBObject);
-
-/**
- * Sign the private API request
- * @param {twic.Request} req Request
- */
-twic.db.obj.Account.prototype.signRequest = function(req) {
-
-};
+twic.utils.extend(twic.db.obj.Account, twic.DBObject);
