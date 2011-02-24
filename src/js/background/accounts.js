@@ -40,7 +40,7 @@ twic.Accounts = function() {
 			return;
 		}
 		
-		twic.api.accessToken(data['pin'], function(data) {		
+		twic.api.getAccessToken(data['pin'], function(data) {		
 
 			var checkUser = function(id) {
 				var user = new twic.db.obj.User();
