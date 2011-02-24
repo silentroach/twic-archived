@@ -51,8 +51,8 @@ twic.twitter = ( function() {
 				var tweetObj = new twic.db.obj.Tweet();
 				tweetObj.loadById(tweet['id'], function() { }, function() {
 					// not found
-					tweetObj.loadFromJSON(tweet);
-					tweetObj.save();
+					this.loadFromJSON(tweet);
+					this.save();
 				} );
 			}
 			
@@ -66,8 +66,8 @@ twic.twitter = ( function() {
 				var userObj = new twic.db.obj.User();
 				
 				var updateUser = function() {
-					userObj.loadFromJSON(user);
-					userObj.save();
+					this.loadFromJSON(user);
+					this.save();
 				};
 				
 				userObj.loadById(userId, updateUser, updateUser);

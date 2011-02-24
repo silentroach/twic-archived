@@ -37,20 +37,22 @@ twic.DBObject = function() {
  * @param {Object} obj JSON object
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
-	for (var key in this.fields) {
+	var dbobject = this;
+
+	for (var key in dbobject.fields) {
 		var fld = key;
 	
-		if (key in this.jsonMap) {
-			if (typeof this.jsonMap[key] == 'string') {
-				fld = this.jsonMap[key];
+		if (key in dbobject.jsonMap) {
+			if (typeof dbobject.jsonMap[key] == 'string') {
+				fld = dbobject.jsonMap[key];
 			} else {
-				this.setValue(key, this.jsonMap[key](obj));
+				dbobject.setValue(key, dbobject.jsonMap[key](obj));
 				continue;
 			}
 		};
 		
 		if (fld in obj) {
-			this.setValue(key, obj[fld]);
+			dbobject.setValue(key, obj[fld]);
 		};
 	};
 };
@@ -61,27 +63,28 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
  */
 twic.DBObject.prototype.save = function(callback) {
 	var 
+		dbobject = this,
 		fld = [],
 		params = [],
 		vals = [],
 		sql = '';
 	
-	for (var key in this.fields) {	
+	for (var key in dbobject.fields) {	
 		if (key == 'id') {
 			continue;
 		}
 	
 		fld.push(key);
 		params.push('?');
-		vals.push(this.fields[key]);
+		vals.push(dbobject.fields[key]);
 	}
 	
-	vals.push(this.fields['id']);
+	vals.push(dbobject.fields['id']);
 	
-	sql += this.exists ? 'update ' : 'insert into ';
-	sql += this.table + ' ';
+	sql += dbobject.exists ? 'update ' : 'insert into ';
+	sql += dbobject.table + ' ';
 	
-	if (this.exists) {
+	if (dbobject.exists) {
 		var setters = [];
 	
 		for (var i = 0; i < fld.length; ++i) {
@@ -113,8 +116,10 @@ twic.DBObject.prototype.save = function(callback) {
  * @param {number|string} value New value
  */
 twic.DBObject.prototype.setValue = function(fieldname, value) {
-	if (fieldname in this.fields) {
-		this.fields[fieldname] = value;
+	var dbobject = this;
+
+	if (fieldname in dbobject.fields) {
+		dbobject.fields[fieldname] = value;
 	}
 };
 
