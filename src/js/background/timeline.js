@@ -12,16 +12,11 @@
 		}
 		
 		var 
-			id = data['id'],
-			account = twic.accounts.getInfo(id);
+			id = data['id'];
 
-		if (account) {
-			twic.api.homeTimeline(id, account['oauth_token'], account['oauth_token_secret'], function(data) {
+		twic.twitter.homeTimeline(id, function(data) {
 			
-			} );
-		} else {
-		
-		}
+		} );
 
 		sendResponse({});
 	} );

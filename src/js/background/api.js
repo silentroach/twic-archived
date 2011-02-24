@@ -98,17 +98,19 @@ twic.api = ( function() {
 	 * @param {number} id User identifier
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
-	 * @param {function()} callback Callback function
+	 * @param {function(Array.<Object>)} callback Callback function
 	 */
 	var homeTimeline = function(id, token, token_secret, callback) {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
 		req.sign(token, token_secret);
 		
 		req.send( function(obj) {
-			console.dir(JSON.parse(obj.responseText));
+			var data = JSON.parse(obj.responseText);
+			
+			if (data) {
+				callback(data);
+			}
 		} );
-	
-		console.info('home timeline');
 	};
 
 	return {

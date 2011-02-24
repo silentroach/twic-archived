@@ -23,13 +23,63 @@ twic.twitter = ( function() {
 	 * @param {number} id User identifier
 	 * @param {function()} callback Callback function
 	 */
-	var timeline = function(id, callback) {
-
+	var homeTimeline = function(id, callback) {
+		var account = twic.accounts.getInfo(id);
+		
+		if (!account) {
+			return;
+		}
+		
+		twic.api.homeTimeline(id, account['oauth_token'], account['oauth_token_secret'], function(data) {
+			var users = [];
+			
+			for (var i = 0; i < data.length; ++i) {
+				var 
+					/**
+					 * @type {Object}
+					 */
+					tweet = data[i],
+					/**
+					 * @type {number}
+					 */
+					userId = tweet['user']['id'];
+					
+				if (!(userId in users)) {
+					users[userId] = tweet['user'];
+				}
+				
+				var tweetObj = new twic.db.obj.Tweet();
+				tweetObj.loadById(tweet['id'], function() { }, function() {
+					// not found
+					tweetObj.loadFromJSON(tweet);
+					tweetObj.save();
+				} );
+			}
+			
+			for (var userId in users) {
+				var
+					/**
+					 * @type {Object}
+					 */
+					user = users[userId];
+					
+				var userObj = new twic.db.obj.User();
+				
+				var updateUser = function() {
+					userObj.loadFromJSON(user);
+					userObj.save();
+				};
+				
+				userObj.loadById(userId, updateUser, updateUser);
+			}
+		
+			console.dir(data);
+		} );
 	};
 
 	return {
 		getUserInfo: getUserInfo,
-		timeline: timeline
+		homeTimeline: homeTimeline
 	};
 
 } )();

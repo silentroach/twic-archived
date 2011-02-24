@@ -90,13 +90,16 @@ twic.DBObject.prototype.save = function(callback) {
 	
 		sql += 'set ' + setters.join(',') + ' where id = ?';
 	} else {
-		sql += '(' + fld.join(',') + ',id) select ' + params.join(',') + ', ?';
+		sql += '(' + fld.join(',') + ',id) values (' + params.join(',') + ', ?)';
 	}
 	
 	console.info(sql);
 	
 	twic.db.transaction( function(tr) {
-		tr.executeSql(sql, vals);
+		tr.executeSql(sql, vals, null, function(tr, error) {
+			console.error(sql, vals);
+			console.dir(error);
+		} );
 		
 		if (callback) {
 			callback();
@@ -132,7 +135,11 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	}
 
 	twic.db.readTransaction( function(tr) {
-		tr.executeSql('select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1', [
+		var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
+	
+		console.info(sql, value);
+	
+		tr.executeSql(sql, [
 			value
 		], function(tr, res) {
 			if (res.rows.length == 1) {

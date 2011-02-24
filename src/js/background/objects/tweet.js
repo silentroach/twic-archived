@@ -15,6 +15,14 @@ twic.db.obj.Tweet = function() {
 		'dt': twic.utils.getCurrentTimestamp(),
 		'msg': ''
 	};
+	
+	this.jsonMap = {
+		'msg': 'text',
+		'reply_to': 'in_reply_to_status_id',
+		'user_id': function(obj) {
+			return obj['user']['id'];
+		}
+	};
 };
 	
 twic.utils.extend(twic.db.obj.Tweet, twic.DBObject);
