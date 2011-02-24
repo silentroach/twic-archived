@@ -6,7 +6,7 @@
 /**
  * @constructor
  */
-twic.request = function(method, url) {
+twic.Request = function(method, url) {
 	this.method = method;
 	this.url = url;
 	this.headers = {};
@@ -31,15 +31,29 @@ var encode = function(str) {
   return result;
 };
 
-twic.request.prototype.setHeader = function(key, value) {
+/**
+ * Set request custom header
+ * @param {string} key Key
+ * @param {string} value Value
+ */
+twic.Request.prototype.setHeader = function(key, value) {
   this.headers[key] = value;
 };
-	
-twic.request.prototype.setData = function(key, value) {
+
+/**
+ * Set request POST data
+ * @param {string} key Key
+ * @param {string} value Value
+ */
+twic.Request.prototype.setData = function(key, value) {
 	this.data[key] = value;
 };
-	
-twic.request.prototype.send = function(callback) {
+
+/**
+ * Send the request
+ * @param {function(string)} callback Callback
+ */
+twic.Request.prototype.send = function(callback) {
 	var req = new XMLHttpRequest();
 	req.open(this.method, this.url);
 	

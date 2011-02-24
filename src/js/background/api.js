@@ -14,7 +14,7 @@ twic.api = ( function() {
    * @param {function(Object)} callback Callback function
    */
   var getAccessToken = function(pin, callback) {
-		var req = new twic.request('POST', 'https://twitter.com/oauth/access_token');
+		var req = new twic.Request('POST', 'https://twitter.com/oauth/access_token');
 		req.setData('oauth_verifier', pin);
 		
 		twic.oauth.sign(req, function(req) {
@@ -30,7 +30,7 @@ twic.api = ( function() {
 	 * @param {function()} callback Callback function
 	 */
 	var getUserInfo = function(id, callback) {
-		var req = new twic.request('GET', baseUrl + 'users/show/' + id + '.json');
+		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
 		req.send( function(data) {
 			var obj = JSON.parse(data.responseText);
 			
@@ -46,7 +46,7 @@ twic.api = ( function() {
 	 * @param {function()} callback Callback function
 	 */
 	var homeTimeline = function(id, callback) {
-		var req = new twic.request('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
+		var req = new twic.Request('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
 	
 		console.info('home timeline');
 	};

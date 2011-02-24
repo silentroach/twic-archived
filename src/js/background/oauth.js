@@ -60,7 +60,7 @@ twic.oauth = ( function() {
 	
 	/**
 	 * Get the request signature
-	 * @param {twic.request} req Request
+	 * @param {twic.Request} req Request
 	 * @return {string} Signature
 	 */
 	var getSignature = function(req) {
@@ -81,7 +81,7 @@ twic.oauth = ( function() {
 	
 	/**
 	 * Add signature to method
-	 * @param {twic.request} req Request
+	 * @param {twic.Request} req Request
 	 */
 	var sign = function(req) {
 		req.setData('oauth_signature', getSignature(req));	
@@ -89,7 +89,7 @@ twic.oauth = ( function() {
 	
 	/**
 	 * Prepare the request
-	 * @param {twic.request} req Request
+	 * @param {twic.Request} req Request
 	 */
 	var prepareRequest = function(req) {
 		var dt = new Date();
@@ -113,7 +113,7 @@ twic.oauth = ( function() {
 			return;
 		}
 	
-		var req = new twic.request('POST', 'https://twitter.com/oauth/request_token');
+		var req = new twic.Request('POST', 'https://twitter.com/oauth/request_token');
 		
 		prepareRequest(req);
 		sign(req);
@@ -144,8 +144,8 @@ twic.oauth = ( function() {
 	
 	/**
 	 * Sign the request
-	 * @param {twic.request} req Request
-	 * @param {function(twic.request)} callback Callback function
+	 * @param {twic.Request} req Request
+	 * @param {function(twic.Request)} callback Callback function
 	 */
 	var signRequest = function(req, callback) {
 		prepareRequest(req);

@@ -18,12 +18,9 @@ twic.db.obj.Account = function() {
 twic.db.obj.Account.prototype = new twic.dbobject();
 
 /**
- * Get the access token info
- * @return {Object} Info
+ * Sign the private API request
+ * @param {twic.Request} req Request
  */
-twic.db.obj.Account.prototype.getOAuthInfo = function() {
-  return {
-    token: this.fields['oauth_token'],
-    token_secret: this.fields['oauth_token_secret']
-  }
+twic.db.obj.Account.prototype.signRequest = function(req) {
+
 };

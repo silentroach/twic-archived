@@ -5,11 +5,11 @@
 
 twic.twitter = ( function() {
 
-  /**
-   * Get the user info
-   * @param {string} nick Nickname
-   * @param {function()} callback Callback function
-   */
+	/**
+	 * Get the user info
+	 * @param {string} nick Nickname
+	 * @param {function()} callback Callback function
+	 */
 	var getUserInfo = function(nick, callback) {
 		t.db.readTransaction( function(tr) {
 			tr.executeSql('select id from users where screen_name = ?', [nick], function(tr, res) {
