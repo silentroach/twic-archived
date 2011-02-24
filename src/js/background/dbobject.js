@@ -2,6 +2,8 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
+ 
+twic.db.obj = { };
 
 /**
  * @constructor
@@ -30,6 +32,12 @@ twic.DBObject = function() {
 	 * @type {boolean}
 	 */
 	this.exists = false;
+	
+	/**
+	 * Record changed
+	 * @type {boolean}
+	 */
+	this.changed = false;
 }
 
 /**
@@ -58,12 +66,38 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 };
 
 /**
+ * Update object from json
+ * @param {number} id Object identifier
+ * @param {Object} obj Object
+ */ 
+twic.DBObject.prototype.updateFromJSON = function(id, obj) {
+	var dbobject = this;
+	
+	var updateMe = function() {
+		this.loadFromJSON(obj);
+		this.save();
+	};
+	
+	dbobject.loadById(id, updateMe, updateMe);
+}
+
+/**
  * Save object to database
  * @param {function()} callback Callback function
  */
 twic.DBObject.prototype.save = function(callback) {
 	var 
-		dbobject = this,
+		dbobject = this;
+		
+	if (
+		dbobject.exists
+		&& !dbobject.changed
+	) {
+		// nothing was changed
+		return;
+	}
+		
+	var
 		fld = [],
 		params = [],
 		vals = [],

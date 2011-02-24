@@ -68,7 +68,14 @@ twic.Request.prototype.send = function(callback) {
 	
 	req.onreadystatechange = function() {
 		if (this.readyState == XMLHttpRequest.DONE) {
-			callback(this);
+			if (this.status == 401) {
+				// Unauthorized
+				// fixme handler
+			}
+			
+			if (this.status = 200) {
+				callback(this);
+			}
 		}
 	};
 	

@@ -7,6 +7,8 @@
  * @constructor
  */
 twic.db.obj.Tweet = function() {
+	twic.db.obj.Tweet.superclass.constructor.call(this);
+
 	this.table = 'tweets';
 	this.fields = {
 		'id': 0, 

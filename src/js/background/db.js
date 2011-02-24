@@ -9,13 +9,15 @@ twic.db = ( function() {
 		'0': {
 			version: '0.01',
 			callback: function(t) {
+				// TODO check the field sizes
+			
 				// users info
 				t.executeSql('create table users (' + 
 					'id int not null primary key, ' +
-					'name text not null, ' +
-					'screen_name text not null, ' +
+					'name varchar(128) not null, ' +
+					'screen_name varchar(32) not null, ' +
 					'avatar text not null, ' + 
-					'url text not null, ' + 
+					'url text null, ' + 
 					'verified int not null, ' +
 					'dt int not null)');
 					
@@ -31,7 +33,7 @@ twic.db = ( function() {
 					'user_id int not null, ' +
 					'reply_to int null, ' +
 					'dt int not null, ' +
-					'msg text not null)');
+					'msg varchar(140) not null)');
 
 				// timeline table for each account
 				t.executeSql('create table timeline (' +

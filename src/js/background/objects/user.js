@@ -7,6 +7,8 @@
  * @constructor
  */
 twic.db.obj.User = function() {
+	twic.db.obj.User.superclass.constructor.call(this);
+
 	this.table = 'users';
 	this.fields = {
 		'id': 0, 
