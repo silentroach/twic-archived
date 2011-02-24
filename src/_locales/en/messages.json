@@ -7,8 +7,12 @@
 	  "message": "Authenticating...",
 	  "description": "Message on authorisation page, indicates that twic is getting access_token"
 	},
-	"auth_thanks": {
+	"auth_success": {
 		"message": "Thank you",
 		"description": "Message indicates thanks to user"
+	},
+	"auth_failed": {
+		"message": "Authentication failed",
+		"description": "Message indicates authentication error"
 	}
 }

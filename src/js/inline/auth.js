@@ -2,6 +2,7 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
+ 
 ( function() {
 
 	var 
@@ -14,6 +15,11 @@
 	var 
 		pin = parseInt(pinElement.innerText);
 
+	if (!pin) {
+		// parse int from the page failed
+		return;
+	}
+		
 	/**
 	 * Change the pinned text
 	 * @param {string} i18nKey Key for localization
@@ -27,7 +33,14 @@
 	twic.requests.send('accountAuth', {
 		'pin':  pin
 	}, function(reply) {
-		changePinText('auth_thanks');
+		if (
+			!('res' in reply)
+			|| !reply['res']
+		) {
+			changePinText('auth_failed');
+		} else {
+			changePinText('auth_success');
+		}
 	} );
 
 } )();

@@ -31,10 +31,11 @@ twic.Accounts = function() {
 	} );
 
 	twic.requests.subscribe('accountAuth', function(data, sendResponse) {
-		// fixme send the result back
-		sendResponse({ });
-		
 		if (!('pin' in data)) {
+			sendResponse( {
+				'res': false
+			} );
+			
 			return;
 		}
 		
@@ -60,6 +61,10 @@ twic.Accounts = function() {
 				account.setValue('oauth_token', data['oauth_token']);
 				account.setValue('oauth_token_secret', data['oauth_token_secret']);
 				account.save();
+				
+				sendResponse( {
+					'res': true
+				} );
 			
 				checkUser(account.fields['id']);
 			}

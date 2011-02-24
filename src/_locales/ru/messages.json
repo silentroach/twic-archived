@@ -1,14 +1,18 @@
 {
 	"auth_confirm_wait": {
-		"message": "подождите",
+		"message": "подождите немного",
 		"description": "Сообщение, оповещающее пользователя о том, что ему нужно подождать пока плагин пытается авторизовать его"
 	},
 	"auth_in_progress": {
-	  "message": "",
+	  "message": "Авторизация...",
 	  "description": ""
 	},
-	"auth_thanks": {
+	"auth_success": {
 		"message": "Спасибо",
 		"description": "Говорим пользователю спасибо"
-	}	
+	},
+	"auth_failed": {
+		"message": "Ошибка авторизации",
+		"description": "Сообщение при ошибке авторизации"
+	}
 }
