@@ -3,6 +3,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
  
+/**
+ * @constructor
+ */
 twic.OAuthRequest = function(method, url) {
 	twic.OAuthRequest.superclass.constructor.call(this, method, url);
 }
