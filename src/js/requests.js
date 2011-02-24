@@ -28,11 +28,32 @@ twic.requests = ( function() {
 	/**
 	 * Subscribe to the event
 	 * @param {string} event Event
-	 * @param {function(Object)} callback Callback function
+	 * @param {function(Object, function(Object))} callback Callback function
 	 */
 	var subscribe = function(event, callback) {
+		if (!(event in subscriptions)) {
+			subscriptions[event] = [];
+		}
+	
 		subscriptions[event].push(callback);
 	};
+	
+	chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
+		if (
+			'method' in request
+			&& request['method'] in subscriptions
+		) {
+			var 
+				data = request['data'] || {},
+				s = subscriptions[request['method']];
+				
+			for (var i = 0; i < s.length; ++i) {
+				s[i](data, sendResponse);
+			}
+		} else {
+			sendResponse({});
+		}
+	} );	
 
 	return {
 		send: send,

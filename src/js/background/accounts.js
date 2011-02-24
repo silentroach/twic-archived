@@ -12,7 +12,7 @@ twic.Accounts = function() {
 
 	self.length = 0;
 
-	twic.notifier.subscribe('accountAdd', function(request, sendResponse) {
+	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
 		sendResponse({});
 		
 		twic.oauth.getRequestToken( function(t, ts) {
@@ -22,7 +22,7 @@ twic.Accounts = function() {
 		} );
 	} );
 
-	twic.notifier.subscribe('accountList', function(request, sendResponse) {
+	twic.requests.subscribe('accountList', function(data, sendResponse) {
 		var accs = [];
 
 		for (var i = 0; i < self.length; ++i) {
@@ -32,15 +32,15 @@ twic.Accounts = function() {
 		sendResponse(accs);
 	} );
 
-	twic.notifier.subscribe('accountAuth', function(request, sendResponse) {
+	twic.requests.subscribe('accountAuth', function(data, sendResponse) {
 		// fixme send the result back
 		sendResponse({ });
 		
-		if (!('pin' in request['data'])) {
+		if (!('pin' in data)) {
 			return;
 		}
 		
-		twic.api.accessToken(request['data']['pin'], function(data) {		
+		twic.api.accessToken(data['pin'], function(data) {		
 
 			var checkUser = function(id) {
 				var user = new twic.db.obj.User();

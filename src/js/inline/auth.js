@@ -14,20 +14,20 @@
 	var 
 		pin = parseInt(pinElement.innerText);
 
-  /**
-   * Change the pinned text
-   * @param {string} i18nKey Key for localization
-   */
-  var changePinText = function(i18nKey) {
-    pinElement.innerText = chrome.i18n.getMessage(i18nKey);
-  };
+	/**
+	 * Change the pinned text
+	 * @param {string} i18nKey Key for localization
+	 */
+	var changePinText = function(i18nKey) {
+		pinElement.innerText = chrome.i18n.getMessage(i18nKey);
+	};
 
-  changePinText('auth_in_progress');
+	changePinText('auth_in_progress');
 		
 	twic.requests.send('accountAuth', {
 		'pin':  pin
 	}, function(reply) {
-	  changePinText('auth_thanks');
+		changePinText('auth_thanks');
 	} );
 
 } )();

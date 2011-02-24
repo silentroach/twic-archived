@@ -5,17 +5,16 @@
 
 ( function() {
 
-	// todo request[data] -> request
-	twic.notifier.subscribe('getTimeline', function(request, sendResponse) {
-		if (!('id' in request['data'])) {
+	twic.requests.subscribe('getTimeline', function(data, sendResponse) {
+		if (!('id' in data)) {
 			sendResponse({});
 			return false;
 		}
 		
-		var id = request['data']['id'];
+		var id = data['id'];
 
-		if (t.accounts.isItMe(id)) {
-			t.api.homeTimeline(id, function(data) {
+		if (twic.accounts.isItMe(id)) {
+			twic.api.homeTimeline(id, function(data) {
 			
 			} );
 		} else {
