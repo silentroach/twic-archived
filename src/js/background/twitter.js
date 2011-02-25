@@ -38,38 +38,52 @@ twic.twitter = ( function() {
 			return;
 		}
 
-		twic.api.homeTimeline(id, account['oauth_token'], account['oauth_token_secret'], function(data) {
-			var users = [];
+		twic.db.readTransaction( function(tr) {
+			tr.executeSql('select id from tweets ' +
+										'where user_id = ? ' +
+										'order by id desc limit 1', [id],
+				function(tr, res) {
+					var since_id = false;
 
-			for (var i = 0; i < data.length; ++i) {
-				var
-					/**
-					 * @type {Object}
-					 */
-					tweet = data[i],
-					/**
-					 * @type {number}
-					 */
-					userId = tweet['user']['id'];
+					if (res.rows.length > 0) {
+						since_id = res.rows.items(0)['id'];
+					}
 
-				if (!(userId in users)) {
-					users[userId] = tweet['user'];
+					twic.api.homeTimeline(id, since_id, account['oauth_token'], account['oauth_token_secret'], function(data) {
+						var users = [];
+
+						for (var i = 0; i < data.length; ++i) {
+							var
+								/**
+								 * @type {Object}
+								 */
+								tweet = data[i],
+								/**
+								 * @type {number}
+								 */
+								userId = tweet['user']['id'];
+
+							if (!(userId in users)) {
+								users[userId] = tweet['user'];
+							}
+
+							var tweetObj = new twic.db.obj.Tweet();
+							tweetObj.updateFromJSON(tweet['id'], tweet);
+						}
+
+						for (var userId in users) {
+							var
+								/**
+								 * @type {Object}
+								 */
+								user = users[userId];
+
+							var userObj = new twic.db.obj.User();
+							userObj.updateFromJSON(userId, user);
+						}
+					} );
 				}
-
-				var tweetObj = new twic.db.obj.Tweet();
-				tweetObj.updateFromJSON(tweet['id'], tweet);
-			}
-
-			for (var userId in users) {
-				var
-					/**
-					 * @type {Object}
-					 */
-					user = users[userId];
-
-				var userObj = new twic.db.obj.User();
-				userObj.updateFromJSON(userId, user);
-			}
+			);
 		} );
 	};
 

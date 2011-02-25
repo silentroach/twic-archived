@@ -123,12 +123,18 @@ twic.api = ( function() {
 	/**
 	 * Get user timeline
 	 * @param {number} id User identifier
+	 * @param {boolean|number} since_id Since id
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
 	 * @param {function(Array.<Object>)} callback Callback function
 	 */
-	var homeTimeline = function(id, token, token_secret, callback) {
+	var homeTimeline = function(id, since_id, token, token_secret, callback) {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
+
+		if (since_id) {
+			req.setData('since_id', since_id);
+		}
+
 		req.sign(token, token_secret);
 
 		req.send( function(obj) {
