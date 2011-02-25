@@ -3,6 +3,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * @constructor
+ */
 twic.DBObjectList = function(cls) {
 	this.cls = cls;
 	this.length = 0;
@@ -12,7 +15,7 @@ twic.DBObjectList = function(cls) {
  * Load objects from result dataset
  * @param {Object} result Dataset
  */
-twic.DBObjectList.load = function(result) {
+twic.DBObjectList.prototype.load = function(result) {
 	var objList = this;
 
 	for (var i = 0; i < result.rows.length; ++i) {
