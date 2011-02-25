@@ -1,8 +1,10 @@
+/* do not display twitter message about PIN code return to Twic */
 #content .message-content h2,
 #content .message-content p {
 	display: none;
 	}
 
+/* make message window font smaller */
 #oauth_pin.mini {
 	font-size: 32pt;
 	}
