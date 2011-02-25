@@ -114,18 +114,19 @@ twic.Accounts.prototype.update = function() {
 
 	accounts.clear();
 
-	twic.db.readTransaction( function(tr) {
-		tr.executeSql(
-			'select a.id, a.oauth_token, a.oauth_token_secret, u.screen_name, u.avatar ' +
-			'from accounts a ' +
-			  'inner join users u on ( ' +
-			    'u.id = a.id ' +
-			  ') ' +
-			'order by u.screen_name ', [], function(tr, res) {
-			for (var i = 0; i < res.rows.length; ++i) {
-				accounts[accounts.length++] = res.rows.item(i);
+	twic.db.select(
+		'select a.id, a.oauth_token, a.oauth_token_secret, u.screen_name, u.avatar ' +
+		'from accounts a ' +
+			'inner join users u on ( ' +
+				'u.id = a.id ' +
+			') ' +
+		'order by u.screen_name ', [], 
+		function() {
+			var rows = this;
+		
+			for (var i = 0; i < rows.length; ++i) {
+				accounts[accounts.length++] = rows.item(i);
 			}
-		} );
 	} );
 };
 

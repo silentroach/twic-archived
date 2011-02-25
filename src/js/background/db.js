@@ -92,6 +92,39 @@ twic.db = ( function() {
 
 	return {
 		/**
+		 * Execute the select statement
+		 * @param {string} sqlText SQL query text
+		 * @param {Array} sqlParams SQL query params
+		 * @param {function()} successCallback Success callback
+		 * @param {function(string)} failedCallback Failed callback
+		 */
+		select: function(sqlText, sqlParams, successCallback, failedCallback) {
+			getDatabase().readTransaction( function(tr) {
+				tr.executeSql(
+					sqlText, sqlParams, 
+					function(tr, res) {
+						console.info(sqlText, sqlParams);
+						
+						successCallback.apply(res.rows);
+					},
+					function(tr, error) {
+						console.group(sqlText, sqlParams);
+						console.error('sql error: ' + error.message);
+						console.groupEnd();
+						
+						failedCallback(error.message);
+					}
+				);
+			}, function(error) {
+				console.group(sqlText, sqlParams);
+				console.error('sql error: ' + error.message);
+				console.groupEnd();
+				
+				failedCallback(error.message);
+			} );
+		},
+	
+		/**
 		 * Transaction
 		 * @param {function(SQLTransactionCallback)} callback Callback function
 		 */

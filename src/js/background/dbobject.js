@@ -203,24 +203,20 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	for (var key in obj.fields) {
 		fld.push(key);
 	}
+	
+	var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
 
-	twic.db.readTransaction( function(tr) {
-		var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
+	twic.db.select(sql, [value], function() {
+		if (this.length == 1) {
+			obj.loadFromRow(this.item(0));
+			obj.exists = true;
 
-		console.info(sql, value);
-
-		tr.executeSql(sql, [
-			value
-		], function(tr, res) {
-			if (res.rows.length == 1) {
-				obj.loadFromRow(res.rows.item(0));
-				obj.exists = true;
-				
-				callback.apply(obj);
-			} else {
-				nfcallback.apply(obj);
-			}
-		} );
+			callback.apply(obj);
+		} else {
+			nfcallback.apply(obj);
+		}
+	}, function(error) {
+		nfcallback.apply(obj);
 	} );
 };
 
