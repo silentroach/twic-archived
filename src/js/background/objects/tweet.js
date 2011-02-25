@@ -21,6 +21,9 @@ twic.db.obj.Tweet = function() {
 	this.jsonMap = {
 		'msg': 'text',
 		'reply_to': 'in_reply_to_status_id',
+		'dt': function(obj) {
+			return twic.utils.getTimestamp(new Date(obj['created_at']));
+		},
 		'user_id': function(obj) {
 			return obj['user']['id'];
 		}
