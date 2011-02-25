@@ -21,10 +21,38 @@ twic.twitter = ( function() {
 	/**
 	 * Get user timeline
 	 * @param {number} id User identifier
-	 * @param {function()} callback Callback function
+	 * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
 	 */
 	var getHomeTimeline = function(id, callback) {
+		var 
+			tmpTweet = new twic.db.obj.Tweet(),
+			tmpUser  = new twic.db.obj.User();
+	
+		twic.db.readTransaction( function(tr) {
+			tr.executeSql(
+				'select ' + tmpTweet.getFieldString('t') + ', ' + tmpUser.getFieldString('u') + ' ' +
+				'from tweets t ' + 
+					'inner join timeline tl on (t.id = tl.tweet_id) ' +
+					'inner join users u on (t.user_id = u.id) ' + 
+				'where tl.user_id = ? ' +
+				'order by t.id desc limit 20 ',
+				[id],
+				function(tr, res) {
+					var 
+						tweetList = new twic.DBObjectList(twic.db.obj.Tweet),
+						userList  = new twic.DBObjectList(twic.db.obj.User);
 
+					for (var i = 0; i < res.rows.length; ++i) {
+						var row = res.rows.item(i);
+					
+						tweetList.pushUnique(row, 't');
+						userList.pushUnique(row, 'u');
+					}
+					
+					callback(tweetList, userList);
+				}
+			);
+		} );
 	};
 
 	/**

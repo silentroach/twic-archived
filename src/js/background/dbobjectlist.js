@@ -8,7 +8,7 @@
  */
 twic.DBObjectList = function(cls) {
 	this.cls = cls;
-	this.length = 0;
+	this.items = { };
 }
 
 /**
@@ -25,6 +25,26 @@ twic.DBObjectList.prototype.load = function(result) {
 		var obj = new objList.cls();
 		obj.loadFromRow(result.rows.item(i));
 
-		objList[objList.length++] = obj;
+		obj.items[obj.fields['id']] = obj;
 	}
+}
+
+/**
+ * Push the unique object to list
+ * @param {Object} row DB row
+ * @param {string} alias Alias for fields
+ */
+twic.DBObjectList.prototype.pushUnique = function(row, alias) {
+	var 
+		objList = this,
+		id = row[(alias ? alias + '_' : '') + 'id'];
+	
+	if (id in objList.items) {
+		return;
+	}
+	
+	var obj = new objList.cls();
+	obj.loadFromRow(row, alias);
+	
+	objList.items[id] = obj;
 }

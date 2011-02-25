@@ -38,11 +38,11 @@ twic.db = ( function() {
 				// timeline table for each account
 				t.executeSql('create table timeline (' +
 					'user_id int not null, ' +
-					'tweet_id int not null)');
+					'tweet_id int not null, ' +
+					'primary key (user_id asc, tweet_id desc))');
 
 				t.executeSql('create index idx_tweets_user on tweets (user_id)');
 				t.executeSql('create index idx_users_name on users (screen_name)');
-				t.executeSql('create unique index idx_timeline_unique on timeline (user_id asc, tweet_id desc)');
 			}
 		}
 	};

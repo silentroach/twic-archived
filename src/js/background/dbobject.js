@@ -160,13 +160,32 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 /**
  * Load object from the db row
  * @param {Object} row Row
+ * @param {string} alias Alias
  */
-twic.DBObject.prototype.loadFromRow = function(row) {
-	var obj = this;
+twic.DBObject.prototype.loadFromRow = function(row, alias) {
+	var 
+		obj = this,
+		al = (alias ? alias + '_' : '');
 
 	for (var key in obj.fields) {
-		obj.setValue(key, row[key]);
+		obj.setValue(key, row[al + key]);
 	}
+}
+
+/**
+ * Get the field list
+ * @param {string} alias Alias
+ */
+twic.DBObject.prototype.getFieldString = function(alias) {
+	var 
+		obj = this,
+		result = '';
+	
+	for(var key in obj.fields) {
+		result += (alias ? alias + '.' : '') + key + (alias ? ' ' + alias + '_' + key : '') + ', ';
+	}
+	
+	return result.slice(0, result.length - 2);
 }
 
 /**

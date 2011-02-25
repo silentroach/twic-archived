@@ -9,7 +9,7 @@
 	  /** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
 
   var buildList = function(list) {
-
+	console.dir(list);
   };
 
   twic.router.handle('timeline', function(data) {
