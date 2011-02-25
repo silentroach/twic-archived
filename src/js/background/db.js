@@ -39,6 +39,9 @@ twic.db = ( function() {
 				t.executeSql('create table timeline (' +
 					'user_id int not null, ' +
 					'tweet_id int not null)');
+					
+				t.executeSql('create index idx_tweets_user on tweets (user_id)');
+				t.executeSql('create index idx_users_name on users (screen_name)');
 			}
 		}
 	};
