@@ -23,7 +23,15 @@ twic.twitter = ( function() {
 	 * @param {number} id User identifier
 	 * @param {function()} callback Callback function
 	 */
-	var homeTimeline = function(id, callback) {
+	var getHomeTimeline = function(id, callback) {
+
+	};
+
+	/**
+	 * Update user home timeline
+	 * @param {number} id User identifier
+	 */
+	var updateHomeTimeline = function(id) {
 		var account = twic.accounts.getInfo(id);
 
 		if (!account) {
@@ -66,8 +74,12 @@ twic.twitter = ( function() {
 	};
 
 	return {
+		// getters
 		getUserInfo: getUserInfo,
-		homeTimeline: homeTimeline
+		getHomeTimeline: getHomeTimeline,
+
+		// updaters
+		updateHomeTimeline: updateHomeTimeline
 	};
 
 } )();

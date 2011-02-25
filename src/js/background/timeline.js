@@ -8,13 +8,13 @@
 	twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 		if (!('id' in data)) {
 			sendResponse({});
-			return false;
+			return;
 		}
 
 		var
 			id = data['id'];
 
-		twic.twitter.homeTimeline(id, function(data) {
+		twic.twitter.getHomeTimeline(id, function(data) {
 
 		} );
 
