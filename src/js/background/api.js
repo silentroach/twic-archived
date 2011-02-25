@@ -136,6 +136,8 @@ twic.api = ( function() {
 		}
 
 		req.sign(token, token_secret);
+		
+		console.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
 
 		req.send( function(obj) {
 			var data = JSON.parse(obj.responseText);

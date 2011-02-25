@@ -39,14 +39,15 @@ twic.twitter = ( function() {
 		}
 
 		twic.db.readTransaction( function(tr) {
-			tr.executeSql('select id from tweets ' +
-										'where user_id = ? ' +
-										'order by id desc limit 1', [id],
+			tr.executeSql(
+				'select t.id ' + 
+				'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
+				'where tl.user_id = ? order by t.id desc limit 1 ', [id],
 				function(tr, res) {
 					var since_id = false;
 
 					if (res.rows.length > 0) {
-						since_id = res.rows.items(0)['id'];
+						since_id = res.rows.item(0)['id'];
 					}
 
 					twic.api.homeTimeline(id, since_id, account['oauth_token'], account['oauth_token_secret'], function(data) {
@@ -61,6 +62,10 @@ twic.twitter = ( function() {
 								/**
 								 * @type {number}
 								 */
+								tweetId = tweet['id'],
+								/**
+								 * @type {number}
+								 */
 								userId = tweet['user']['id'];
 
 							if (!(userId in users)) {
@@ -68,7 +73,9 @@ twic.twitter = ( function() {
 							}
 
 							var tweetObj = new twic.db.obj.Tweet();
-							tweetObj.updateFromJSON(tweet['id'], tweet);
+							tweetObj.updateFromJSON(tweetId, tweet);
+							
+							twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId);
 						}
 
 						for (var userId in users) {
