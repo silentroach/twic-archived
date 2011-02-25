@@ -3,8 +3,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-twic.db.obj = { };
-
 /**
  * @constructor
  */
@@ -132,16 +130,7 @@ twic.DBObject.prototype.save = function(callback) {
 
 	console.info(sql);
 
-	twic.db.transaction( function(tr) {
-		tr.executeSql(sql, vals, null, function(tr, error) {
-			console.error(sql, vals);
-			console.dir(error);
-		} );
-
-		if (callback) {
-			callback();
-		}
-	} );
+	twic.db.execute(sql, vals, callback);
 };
 
 /**

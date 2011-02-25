@@ -11,7 +11,7 @@ twic.db.obj.Timeline = ( function() {
 	 * @param {number} tweetId Tweet identifier
 	 */
 	var pushUserTimelineTweet = function(userId, tweetId) {
-		twic.select(
+		twic.db.select(
 			'select user_id from timeline ' +
 			'where user_id = ? and tweet_id = ? ' +
 			'limit 1 ',
@@ -23,13 +23,11 @@ twic.db.obj.Timeline = ( function() {
 					return;
 				}
 				
-				twic.db.transaction( function(tr) {
-					tr.executeSql(
-						'insert into timeline (user_id, tweet_id) ' +
-						'values (?, ?) ',
-						[userId, tweetId]
-					);
-				} );
+				twic.db.execute(
+					'insert into timeline (user_id, tweet_id) ' +
+					'values (?, ?) ',
+					[userId, tweetId]
+				);
 			} 
 		);
 	};

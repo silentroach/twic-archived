@@ -93,7 +93,7 @@ twic.db = ( function() {
 	return {
 		/**
 		 * Execute the select statement
-		 * @param {string} sqlText SQL query text
+		 * @param {!string} sqlText SQL query text
 		 * @param {Array} sqlParams SQL query params
 		 * @param {function()} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
@@ -105,14 +105,18 @@ twic.db = ( function() {
 					function(tr, res) {
 						console.info(sqlText, sqlParams);
 						
-						successCallback.apply(res.rows);
+						if (successCallback) {
+							successCallback.apply(res.rows);
+						}
 					},
 					function(tr, error) {
 						console.group(sqlText, sqlParams);
 						console.error('sql error: ' + error.message);
 						console.groupEnd();
 						
-						failedCallback(error.message);
+						if (failedCallback) {
+							failedCallback(error.message);
+						}
 					}
 				);
 			}, function(error) {
@@ -120,25 +124,52 @@ twic.db = ( function() {
 				console.error('sql error: ' + error.message);
 				console.groupEnd();
 				
-				failedCallback(error.message);
+				if (failedCallback) {
+					failedCallback(error.message);
+				}
 			} );
 		},
-	
+		
 		/**
-		 * Transaction
-		 * @param {function(SQLTransactionCallback)} callback Callback function
+		 * Execute the statement
+		 * @param {!string} sqlText SQL query text
+		 * @param {Array} sqlParams SQL query params
+		 * @param {function()} successCallback Success callback
+		 * @param {function(string)} failedCallback Failed callback
 		 */
-		transaction: function(callback) {
-			getDatabase().transaction(callback);
-		},
-		/**
-		 * Read-only transaction
-		 * @param {function(SQLTransactionCallback)} callback Callback function
-		 */
-		readTransaction: function(callback) {
-			getDatabase().readTransaction(callback);
+		execute: function(sqlText, sqlParams, successCallback, failedCallback) {
+			getDatabase().transaction( function(tr) {
+				tr.executeSql(
+					sqlText, sqlParams, 
+					function(tr, res) {
+						console.info(sqlText, sqlParams);
+
+						if (successCallback) {
+							successCallback();
+						}
+					},
+					function(tr, error) {
+						console.group(sqlText, sqlParams);
+						console.error('sql error: ' + error.message);
+						console.groupEnd();
+						
+						if (failedCallback) {
+							failedCallback(error.message);
+						}
+					}
+				);
+			}, function(error) {
+				console.group(sqlText, sqlParams);
+				console.error('sql error: ' + error.message);
+				console.groupEnd();
+				
+				if (failedCallback) {
+					failedCallback(error.message);
+				}
+			} );
 		},
 
+		// DBObject storage
 		obj: {}
 	};
 
