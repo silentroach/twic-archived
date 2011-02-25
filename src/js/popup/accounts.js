@@ -5,7 +5,8 @@
 ( function() {
 
 	var
-		/** @type {HTMLUListElement} */ list = document.querySelector('#accounts ul');
+		/** @type {HTMLUListElement} */ list = document.querySelector('#accounts ul'),
+		/** @type {HTMLElement}      */ firstAccountElement = document.querySelector('#accounts p');
 
 	var clearList = function() {
 		list.innerHTML = '';
@@ -13,7 +14,16 @@
 
 	var buildList = function(elements) {
 		if (elements.length == 0) {
+			if (firstAccountElement) {
+				firstAccountElement.innerText = chrome.i18n.getMessage('add_first_account');
+				firstAccountElement.style.display = 'block';
+			}
+		
 			return;
+		} else {
+			if (firstAccountElement) {
+				firstAccountElement.style.display = '';
+			}
 		}
 
 		var frag = document.createDocumentFragment();

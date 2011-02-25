@@ -12,3 +12,9 @@
 			#accounts ul li a {
 				display: block;
 				}
+				
+#accounts p {
+	font-size: 12pt;
+	padding: 1em;
+	display: none;
+	}
