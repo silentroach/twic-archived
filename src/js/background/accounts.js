@@ -31,13 +31,29 @@ twic.Accounts = function() {
 	} );
 
 	twic.requests.subscribe('accountAuth', function(data, sendResponse) {
-		if (!('pin' in data)) {
+		if (
+			!('pin' in data)
+			|| !('user_id' in data)
+		) {
 			sendResponse( {
-				'res': false
+				// todo make reply identifiers const
+				'res': 0
 			} );
 			
 			return;
 		}
+		
+		var 
+			userid = data['user_id'],
+			account = self.getInfo(userid);
+
+		if (account) {
+			sendResponse( {
+				'res': 2
+			} );
+			
+			return;
+		}		
 		
 		twic.api.getAccessToken(data['pin'], function(data) {		
 
@@ -63,18 +79,18 @@ twic.Accounts = function() {
 				account.save();
 				
 				sendResponse( {
-					'res': true
+					'res': 1
 				} );
 			
 				checkUser(account.fields['id']);
 			}
 	
 			var account = new twic.db.obj.Account();
-			account.loadById(data['user_id'], function() {
+			account.loadById(userid, function() {
 				// found? great, let's modify oauth data
 				updateAccount(account);
 			}, function() {
-				account.setValue('id', data['user_id']);
+				account.setValue('id', userid);
 				updateAccount(account);
 			} );
 		} );

@@ -4,15 +4,19 @@
 		"description": "Message indicates that extension tries to authenticate user by its confirmation on twitter.com"
 	},
 	"auth_in_progress": {
-	  "message": "Authenticating...",
+	  "message": "authenticating...",
 	  "description": "Message on authorisation page, indicates that twic is getting access_token"
 	},
+	"auth_already": {
+		"message": "already authenticated",
+		"description": "Message indicates that user is already authenticated"
+	},	
 	"auth_success": {
-		"message": "Thank you",
+		"message": "thank you",
 		"description": "Message indicates thanks to user"
 	},
 	"auth_failed": {
-		"message": "Authentication failed",
+		"message": "failure",
 		"description": "Message indicates authentication error"
 	}
 }

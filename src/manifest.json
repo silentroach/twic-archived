@@ -12,6 +12,9 @@
 		"matches" : [
 			"https://api.twitter.com/oauth/authorize"
 		],
+		"css": [
+			"css/inline.css"
+		],
 		"js" : [
 			"js/init.js",
 			"js/requests.js",

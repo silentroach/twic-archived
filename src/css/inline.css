@@ -1,0 +1,8 @@
+#content .message-content h2,
+#content .message-content p {
+	display: none;
+	}
+
+#oauth_pin.mini {
+	font-size: 32pt;
+	}
