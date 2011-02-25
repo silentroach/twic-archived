@@ -42,6 +42,7 @@ twic.db = ( function() {
 
 				t.executeSql('create index idx_tweets_user on tweets (user_id)');
 				t.executeSql('create index idx_users_name on users (screen_name)');
+				t.executeSql('create unique index idx_timeline_unique on timeline (user_id asc, tweet_id desc)');
 			}
 		}
 	};
