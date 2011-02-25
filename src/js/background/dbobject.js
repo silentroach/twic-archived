@@ -158,6 +158,18 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 };
 
 /**
+ * Load object from the db row
+ * @param {Object} row Row
+ */
+twic.DBObject.prototype.loadFromRow = function(row) {
+	var obj = this;
+
+	for (var key in obj.fields) {
+		obj.setValue(key, row[key]);
+	}
+}
+
+/**
  * Locate and load object by field value
  * @param {string} fieldname Field name
  * @param {number|string} value Value
@@ -182,11 +194,9 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 			value
 		], function(tr, res) {
 			if (res.rows.length == 1) {
-				for (var key in this.fields) {
-					obj[key] = res.rows.item(0)[key];
-				}
-
+				obj.loadFromRow(res.rows.item(0));
 				obj.exists = true;
+				
 				callback.apply(obj);
 			} else {
 				nfcallback.apply(obj);
