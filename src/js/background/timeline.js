@@ -10,12 +10,12 @@
 			sendResponse({});
 			return false;
 		}
-		
-		var 
+
+		var
 			id = data['id'];
 
 		twic.twitter.homeTimeline(id, function(data) {
-			
+
 		} );
 
 		sendResponse({});

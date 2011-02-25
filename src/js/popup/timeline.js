@@ -7,11 +7,11 @@
 
   var
 	  /** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
-	
+
   var buildList = function(list) {
 
   };
-	
+
   twic.router.handle('timeline', function(data) {
 	  if (
 		  !data.length
@@ -19,7 +19,7 @@
 	  ) {
 		  return;
 	  }
-	
+
 	  var id = data[0];
 
 	  twic.requests.send('getTimeline', {
@@ -30,5 +30,5 @@
 		  }
 	  } );
   } );
- 
+
 } )();

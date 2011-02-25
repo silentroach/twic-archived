@@ -2,9 +2,9 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
- 
+
 twic.utils = { };
- 
+
 /**
  * Extend the object
  * @param {Object} Child Child object

@@ -10,7 +10,7 @@
 	"auth_already": {
 		"message": "already authenticated",
 		"description": "Message indicates that user is already authenticated"
-	},	
+	},
 	"auth_success": {
 		"message": "thank you",
 		"description": "Message indicates thanks to user"

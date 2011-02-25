@@ -9,7 +9,7 @@ var twic = {
 	 * @type {string}
 	 */
 	name: 'Twic',
-	
+
 	/**
 	 * Consumer key for Twitter API
 	 * @const
@@ -22,5 +22,5 @@ var twic = {
 	 * @type {string}
 	 */
 	consumer_secret: 'IHtRC1kPwQ4MH1lccSaZGdhZPyPiw2iuEfhCDV4'
-	
+
 };

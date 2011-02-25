@@ -23,14 +23,14 @@ twic.api = ( function() {
 		/**
 		 * @type {boolean|number}
 		 */
-		ratelimit_reset = false,		
+		ratelimit_reset = false,
 		/**
 		 * @type {boolean|string}
 		 */
 		oauth_token = false,
 		/**
 		 * @type {boolean|string}
-		 */		
+		 */
 		oauth_token_secret = false;
 
 	/**
@@ -38,18 +38,18 @@ twic.api = ( function() {
 	 * @param {XMLHttpRequest} req
 	 */
 	var parseGlobalLimit = function(req) {
-		var 
+		var
 			tmpRemains = req.getResponseHeader('X-RateLimit-Remaining'),
 			tmpReset   = req.getResponseHeader('X-RateLimit-Reset');
-		
+
 		if (tmpRemains && tmpReset) {
 			ratelimit_remains = tmpRemains;
 			ratelimit_reset   = tmpReset;
-			
+
 			console.info('Ratelimit', ratelimit_remains, ratelimit_reset);
 		}
 	};
-		
+
 	/**
 	 * Get the app request token
 	 * @param {function(string, string)} callback Callback function
@@ -59,13 +59,13 @@ twic.api = ( function() {
 			callback(oauth_token, oauth_token_secret);
 			return;
 		}
-	
+
 		var req = new twic.OAuthRequest('POST', authUrl + 'request_token');
 		req.sign();
 
 		req.send( function(r) {
 			var obj = convertDataToParams(r.responseText);
-			
+
 			// FIXME check
 			oauth_token        = obj['oauth_token'];
 			oauth_token_secret = obj['oauth_token_secret'];
@@ -82,16 +82,16 @@ twic.api = ( function() {
 	var getAccessToken = function(pin, callback) {
 		var req = new twic.OAuthRequest('POST', authUrl + 'access_token');
 		req.setData('oauth_verifier', pin);
-		
+
 		getRequestToken( function(token, secret) {
 			req.sign(token, secret);
-		
-			req.send( function(data) {	
+
+			req.send( function(data) {
 				callback(convertDataToParams(data.responseText));
 			} );
 		} );
 	};
-	
+
 	/**
 	 * Open the new tab with user request to confirm the access
 	 * @param {string} token OAuth token
@@ -101,7 +101,7 @@ twic.api = ( function() {
 			'url': 'https://api.twitter.com/oauth/authorize?oauth_token=' + token
 		} );
 	};
-	
+
 	/**
 	 * Get the user info
 	 * @param {number} id User identifier
@@ -111,15 +111,15 @@ twic.api = ( function() {
 		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
 		req.send( function(data) {
 			parseGlobalLimit(data);
-		
+
 			var obj = JSON.parse(data.responseText);
-			
+
 			if (obj) {
 				callback(obj);
 			}
 		} );
 	};
-	
+
 	/**
 	 * Get user timeline
 	 * @param {number} id User identifier
@@ -130,7 +130,7 @@ twic.api = ( function() {
 	var homeTimeline = function(id, token, token_secret, callback) {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
 		req.sign(token, token_secret);
-		
+
 		req.send( function(obj) {
 			var data = JSON.parse(obj.responseText);
 

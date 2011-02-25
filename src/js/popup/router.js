@@ -5,7 +5,7 @@
 
 twic.router = ( function() {
 
-	var 
+	var
 		/** @type {Object} */ frames = { },
 		/** @type {string} */ currentFrame;
 
@@ -17,9 +17,9 @@ twic.router = ( function() {
 			callbacks: []
 		};
 	}
-	
+
 	// ----------------------------------------------------
-	
+
 	var changeFrame = function(targetFrameName, data) {
 		if (currentFrame) {
 			frames[currentFrame].frame.style.display = 'none';
@@ -33,7 +33,7 @@ twic.router = ( function() {
 			}
 
 			frame.frame.style.display = 'block';
-			
+
 			currentFrame = targetFrameName;
 		}
 	};

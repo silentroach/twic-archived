@@ -2,7 +2,7 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
- 
+
 twic.db.obj = { };
 
 /**
@@ -32,7 +32,7 @@ twic.DBObject = function() {
 	 * @type {boolean}
 	 */
 	this.exists = false;
-	
+
 	/**
 	 * Record changed
 	 * @type {boolean}
@@ -49,7 +49,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 
 	for (var key in dbobject.fields) {
 		var fld = key;
-	
+
 		if (key in dbobject.jsonMap) {
 			if (typeof dbobject.jsonMap[key] == 'string') {
 				fld = dbobject.jsonMap[key];
@@ -58,7 +58,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 				continue;
 			}
 		};
-		
+
 		if (fld in obj) {
 			dbobject.setValue(key, obj[fld]);
 		};
@@ -69,15 +69,15 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
  * Update object from json
  * @param {number} id Object identifier
  * @param {Object} obj Object
- */ 
+ */
 twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 	var dbobject = this;
-	
+
 	var updateMe = function() {
 		this.loadFromJSON(obj);
 		this.save();
 	};
-	
+
 	dbobject.loadById(id, updateMe, updateMe);
 }
 
@@ -86,9 +86,9 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
  * @param {function()} callback Callback function
  */
 twic.DBObject.prototype.save = function(callback) {
-	var 
+	var
 		dbobject = this;
-		
+
 	if (
 		dbobject.exists
 		&& !dbobject.changed
@@ -96,48 +96,48 @@ twic.DBObject.prototype.save = function(callback) {
 		// nothing was changed
 		return;
 	}
-		
+
 	var
 		fld = [],
 		params = [],
 		vals = [],
 		sql = '';
-	
-	for (var key in dbobject.fields) {	
+
+	for (var key in dbobject.fields) {
 		if (key == 'id') {
 			continue;
 		}
-	
+
 		fld.push(key);
 		params.push('?');
 		vals.push(dbobject.fields[key]);
 	}
-	
+
 	vals.push(dbobject.fields['id']);
-	
+
 	sql += dbobject.exists ? 'update ' : 'insert into ';
 	sql += dbobject.table + ' ';
-	
+
 	if (dbobject.exists) {
 		var setters = [];
-	
+
 		for (var i = 0; i < fld.length; ++i) {
 			setters.push(fld[i] + ' = ?');
 		}
-	
+
 		sql += 'set ' + setters.join(',') + ' where id = ?';
 	} else {
 		sql += '(' + fld.join(',') + ',id) values (' + params.join(',') + ', ?)';
 	}
-	
+
 	console.info(sql);
-	
+
 	twic.db.transaction( function(tr) {
 		tr.executeSql(sql, vals, null, function(tr, error) {
 			console.error(sql, vals);
 			console.dir(error);
 		} );
-		
+
 		if (callback) {
 			callback();
 		}
@@ -165,19 +165,19 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
  * @param {function()} nfcallback Object not found callback
  */
 twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
-	var 
+	var
 		obj = this,
 		fld = [];
-	
+
 	for (var key in obj.fields) {
 		fld.push(key);
 	}
 
 	twic.db.readTransaction( function(tr) {
 		var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
-	
+
 		console.info(sql, value);
-	
+
 		tr.executeSql(sql, [
 			value
 		], function(tr, res) {
@@ -185,7 +185,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 				for (var key in this.fields) {
 					obj[key] = res.rows.item(0)[key];
 				}
-				
+
 				obj.exists = true;
 				callback.apply(obj);
 			} else {

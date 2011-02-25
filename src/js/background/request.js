@@ -20,13 +20,13 @@ twic.Request = function(method, url) {
  */
 twic.Request.prototype.encodeString = function(str) {
 	var result = encodeURIComponent(str);
-	
+
 	result = result.replace(/\!/g, '%21');
 	result = result.replace(/\*/g, '%2A');
 	result = result.replace(/\'/g, '%27');
 	result = result.replace(/\(/g, '%28');
 	result = result.replace(/\)/g, '%29');
-  
+
 	return result;
 };
 
@@ -54,34 +54,34 @@ twic.Request.prototype.setData = function(key, value) {
  */
 twic.Request.prototype.send = function(callback) {
 	var data = [];
-	
+
 	for (var key in this.data) {
 		data.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
 	}
-	
+
 	var req = new XMLHttpRequest();
 	req.open(this.method, this.url + (this.method == 'GET' ? '?' + data.join('&') : ''));
-	
+
 	for (var key in this.headers) {
 		req.setRequestHeader(key, this.headers[key]);
 	}
-	
+
 	req.onreadystatechange = function() {
 		var req = this;
-	
+
 		if (req.readyState == XMLHttpRequest.DONE) {
 			if (req.status == 401) {
 				// Unauthorized
 				// fixme handler
 				return;
 			}
-			
+
 			if (req.status = 200) {
 				callback(req);
 			}
 		}
 	};
-	
+
 	if (this.method == 'GET') {
 		req.send();
 	} else {
@@ -95,18 +95,18 @@ twic.Request.prototype.send = function(callback) {
  * FIXME FIXTHISSHIT!
  */
 convertDataToParams = function(data) {
-	var 
+	var
 		result = {},
 		parts  = data.split('&');
 
 	for (var i = 0; i < parts.length; ++i) {
-		var 
+		var
 			tmp = parts[i].split('=');
-		
+
 		if (2 == tmp.length) {
 			result[tmp[0]] = tmp[1];
 		}
 	}
-	
+
 	return result;
 };

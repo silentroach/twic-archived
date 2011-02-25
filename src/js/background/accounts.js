@@ -14,7 +14,7 @@ twic.Accounts = function() {
 
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
 		sendResponse({});
-		
+
 		twic.api.getRequestToken( function(token, secret) {
 			twic.api.tryGrantAccess(token);
 		} );
@@ -39,11 +39,11 @@ twic.Accounts = function() {
 				// todo make reply identifiers const
 				'res': 0
 			} );
-			
+
 			return;
 		}
-		
-		var 
+
+		var
 			userid = data['user_id'],
 			account = self.getInfo(userid);
 
@@ -51,11 +51,11 @@ twic.Accounts = function() {
 			sendResponse( {
 				'res': 2
 			} );
-			
+
 			return;
-		}		
-		
-		twic.api.getAccessToken(data['pin'], function(data) {		
+		}
+
+		twic.api.getAccessToken(data['pin'], function(data) {
 
 			var checkUser = function(id) {
 				var user = new twic.db.obj.User();
@@ -72,19 +72,19 @@ twic.Accounts = function() {
 					} );
 				} );
 			};
-		
+
 			var updateAccount = function(account) {
 				account.setValue('oauth_token', data['oauth_token']);
 				account.setValue('oauth_token_secret', data['oauth_token_secret']);
 				account.save();
-				
+
 				sendResponse( {
 					'res': 1
 				} );
-			
+
 				checkUser(account.fields['id']);
 			}
-	
+
 			var account = new twic.db.obj.Account();
 			account.loadById(userid, function() {
 				// found? great, let's modify oauth data
@@ -113,14 +113,14 @@ twic.Accounts.prototype.update = function() {
 	var accounts = this;
 
 	accounts.clear();
-	
+
 	twic.db.readTransaction( function(tr) {
 		tr.executeSql(
 			'select a.id, a.oauth_token, a.oauth_token_secret, u.screen_name, u.avatar ' +
 			'from accounts a ' +
 			  'inner join users u on ( ' +
 			    'u.id = a.id ' +
-			  ') ' + 
+			  ') ' +
 			'order by u.screen_name ', [], function(tr, res) {
 			for (var i = 0; i < res.rows.length; ++i) {
 				accounts[accounts.length++] = res.rows.item(i);
@@ -136,12 +136,12 @@ twic.Accounts.prototype.update = function() {
  */
 twic.Accounts.prototype.getInfo = function(id) {
 	var accounts = this;
-	
+
 	for (var i = 0; i < accounts.length; ++i) {
 		if (accounts[i]['id'] == id) {
 			return accounts[i];
 		}
 	}
-	
+
 	return false;
 };

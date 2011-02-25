@@ -11,15 +11,15 @@ twic.db.obj.User = function() {
 
 	this.table = 'users';
 	this.fields = {
-		'id': 0, 
-		'name': '', 
-		'screen_name': '', 
-		'avatar': '', 
-		'url': '', 
-		'verified': '', 
+		'id': 0,
+		'name': '',
+		'screen_name': '',
+		'avatar': '',
+		'url': '',
+		'verified': '',
 		'dt': twic.utils.getCurrentTimestamp()
 	};
-	
+
 	this.jsonMap = {
 		'avatar': 'profile_image_url',
 		'verified': function(obj) {
