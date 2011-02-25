@@ -17,6 +17,14 @@ twic.api = ( function() {
 		 */
 		authUrl = 'https://twitter.com/oauth/',
 		/**
+		 * @type {boolean|number}
+		 */
+		ratelimit_remains = false,
+		/**
+		 * @type {boolean|number}
+		 */
+		ratelimit_reset = false,		
+		/**
 		 * @type {boolean|string}
 		 */
 		oauth_token = false,
@@ -25,6 +33,23 @@ twic.api = ( function() {
 		 */		
 		oauth_token_secret = false;
 
+	/**
+	 * Get the request limit values from request response headers
+	 * @param {XMLHttpRequest} req
+	 */
+	var parseGlobalLimit = function(req) {
+		var 
+			tmpRemains = req.getResponseHeader('X-RateLimit-Remaining'),
+			tmpReset   = req.getResponseHeader('X-RateLimit-Reset');
+		
+		if (tmpRemains && tmpReset) {
+			ratelimit_remains = tmpRemains;
+			ratelimit_reset   = tmpReset;
+			
+			console.info('Ratelimit', ratelimit_remains, ratelimit_reset);
+		}
+	};
+		
 	/**
 	 * Get the app request token
 	 * @param {function(string, string)} callback Callback function
@@ -61,7 +86,7 @@ twic.api = ( function() {
 		getRequestToken( function(token, secret) {
 			req.sign(token, secret);
 		
-			req.send( function(data) {		    
+			req.send( function(data) {	
 				callback(convertDataToParams(data.responseText));
 			} );
 		} );
@@ -85,6 +110,8 @@ twic.api = ( function() {
 	var getUserInfo = function(id, callback) {
 		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
 		req.send( function(data) {
+			parseGlobalLimit(data);
+		
 			var obj = JSON.parse(data.responseText);
 			
 			if (obj) {
@@ -106,7 +133,7 @@ twic.api = ( function() {
 		
 		req.send( function(obj) {
 			var data = JSON.parse(obj.responseText);
-			
+
 			if (data) {
 				callback(data);
 			}
