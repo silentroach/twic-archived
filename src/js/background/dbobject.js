@@ -39,6 +39,15 @@ twic.DBObject = function() {
 }
 
 /**
+ * Handler for field value changed
+ * @param {string} fieldName Field name
+ * @param {string|number} newValue New field value
+ */
+twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
+
+};
+
+/**
  * Load object from JSON
  * @param {Object} obj JSON object
  */
@@ -81,6 +90,7 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 
 /**
  * Save object to database
+ * TODO update only fields with changed values
  * @param {function()} callback Callback function
  */
 twic.DBObject.prototype.save = function(callback) {
@@ -141,7 +151,14 @@ twic.DBObject.prototype.save = function(callback) {
 twic.DBObject.prototype.setValue = function(fieldname, value) {
 	var dbobject = this;
 
-	if (fieldname in dbobject.fields) {
+	if (
+		fieldname in dbobject.fields
+		&& dbobject.fields[fieldname] != value
+	) {
+		if (dbobject.exists) {
+			dbobject.onFieldChange(fieldname, value);
+		}
+
 		dbobject.fields[fieldname] = value;
 	}
 };

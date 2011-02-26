@@ -76,6 +76,13 @@ twic.twitter = ( function() {
 
 				twic.api.homeTimeline(id, since_id, account['oauth_token'], account['oauth_token_secret'], function(data) {
 					var users = [];
+					
+					if (data.length < 0) {
+						return;
+					}
+					
+					account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + data.length);
+					account.save();
 
 					for (var i = 0; i < data.length; ++i) {
 						var

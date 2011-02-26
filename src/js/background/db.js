@@ -25,7 +25,9 @@ twic.db = ( function() {
 				t.executeSql('create table accounts (' +
 					'id int not null primary key, ' +
 					'oauth_token text not null, ' +
-					'oauth_token_secret text not null)');
+					'oauth_token_secret text not null, ' +
+					'unread_tweets_count int not null default 0, ' + 
+					'unread_messages_count int not null default 0)');
 
 				// tweets storage
 				t.executeSql('create table tweets (' +
