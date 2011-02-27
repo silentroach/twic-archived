@@ -70,6 +70,8 @@ twic.Request.prototype.send = function(callback) {
 		var req = this;
 
 		if (req.readyState == XMLHttpRequest.DONE) {
+			console.dir(req);
+		
 			if (req.status == 401) {
 				// Unauthorized
 				// fixme handler
