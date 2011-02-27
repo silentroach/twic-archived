@@ -9,11 +9,11 @@
 twic.Accounts = function() {
 
 	var self = this;
-
-	self.length = 0;
+	
+	self.items = undefined;
 
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
-		sendResponse({});
+		sendResponse( { } );
 
 		twic.api.getRequestToken( function(token, secret) {
 			twic.api.tryGrantAccess(token);
@@ -22,9 +22,15 @@ twic.Accounts = function() {
 
 	twic.requests.subscribe('accountList', function(data, sendResponse) {
 		var accs = [];
-
-		for (var i = 0; i < self.length; ++i) {
-			accs.push(self[i]);
+		
+		for (var id in self.items) {
+			var item = self.items[id];
+			
+			accs.push( {
+				'id': id,
+				'avatar': item.user.fields['avatar'],
+				'screen_name': item.user.fields['screen_name']
+			} );
 		}
 
 		sendResponse(accs);
@@ -85,7 +91,7 @@ twic.Accounts = function() {
 				checkUser(account.fields['id']);
 			};
 
-			var account = new twic.db.obj.Account();
+			account = new twic.db.obj.Account();
 			account.loadById(userid, function() {
 				// found? great, let's modify oauth data
 				updateAccount(account);
@@ -101,31 +107,40 @@ twic.Accounts = function() {
  * Clear the accounts array
  */
 twic.Accounts.prototype.clear = function() {
-	while (this.length > 0) {
-		delete this[this.length--];
-	}
+	this.items = { };
 };
 
 /**
  * Update accounts info
  */
 twic.Accounts.prototype.update = function() {
-	var accounts = this;
+	var 
+		accounts = this;
+		tmpAccount = new twic.db.obj.Account(),
+		tmpUser    = new twic.db.obj.User();
 
 	accounts.clear();
 
 	twic.db.select(
-		'select a.id, a.oauth_token, a.oauth_token_secret, u.screen_name, u.avatar ' +
+		'select ' + tmpAccount.getFieldString('a') + ', ' + tmpUser.getFieldString('u') + ' ' +
 		'from accounts a ' +
 			'inner join users u on ( ' +
 				'u.id = a.id ' +
 			') ' +
 		'order by u.screen_name ', [], 
 		function() {
-			var rows = this;
+			var 
+				accs = new twic.DBObjectList(twic.db.obj.Account),
+				usrs = new twic.DBObjectList(twic.db.obj.User);
 		
-			for (var i = 0; i < rows.length; ++i) {
-				accounts[accounts.length++] = rows.item(i);
+			accs.load(this, 'a');
+			usrs.load(this, 'u');
+		
+			for (var id in accs.items) {
+				var tmp = accs.items[id];
+				tmp.user = usrs.items[id];
+				
+				accounts.items[id] = tmp;
 			}
 	} );
 };
@@ -136,13 +151,9 @@ twic.Accounts.prototype.update = function() {
  * @return {Object|boolean} Account or false
  */
 twic.Accounts.prototype.getInfo = function(id) {
-	var accounts = this;
-
-	for (var i = 0; i < accounts.length; ++i) {
-		if (accounts[i]['id'] == id) {
-			return accounts[i];
-		}
+	if (id in this.items) {
+		return this.items[id];
 	}
-
+	
 	return false;
 };

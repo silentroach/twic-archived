@@ -21,18 +21,19 @@ twic.DBObjectList.prototype.clear = function() {
 /**
  * Load objects from result dataset
  * @param {!Object} result Dataset
+ * @param {string} alias Alias
  */
-twic.DBObjectList.prototype.load = function(result) {
+twic.DBObjectList.prototype.load = function(result, alias) {
 	var objList = this;
 
-	for (var i = 0; i < result.rows.length; ++i) {
+	for (var i = 0; i < result.length; ++i) {
 		/**
 		 * @type {twic.DBObject} obj
 		 */
 		var obj = new objList.cls();
-		obj.loadFromRow(result.rows.item(i));
+		obj.loadFromRow(result.item(i), alias);
 
-		obj.items[obj.fields['id']] = obj;
+		objList.items[obj.fields['id']] = obj;
 	}
 };
 

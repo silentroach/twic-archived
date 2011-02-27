@@ -43,7 +43,7 @@ twic.DBObject = function() {
  * @param {string} fieldName Field name
  * @param {string|number} newValue New field value
  */
-twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
+twic.DBObject.prototype.onFieldChange = function(fieldName, newValue) {
 
 };
 
@@ -119,7 +119,7 @@ twic.DBObject.prototype.save = function(callback) {
 
 		if (
 			!dbobject.exists
-			|| dbobject.changes.indexOf(key) >= 0
+			|| dbobject.changed.indexOf(key) >= 0
 		) {
 			fld.push(key);
 			params.push('?');
@@ -144,14 +144,14 @@ twic.DBObject.prototype.save = function(callback) {
 		sql += '(' + fld.join(', ') + ', id) values (' + params.join(', ') + ', ?)';
 	}
 
-	console.info(sql);
-
 	twic.db.execute(sql, vals, function() {
 		// reset flags
 		dbobject.exists = true;
 		dbobject.changed = [];
 	
-		callback();
+		if (callback) {
+			callback();
+		}
 	} );
 };
 
@@ -167,13 +167,13 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 		fieldname in dbobject.fields
 		&& dbobject.fields[fieldname] != value
 	) {
-		// changed fields
-		if (dbobject.changed.indexOf(fieldName) < 0) {
-			dbobject.changed.push(fieldName);
-		}
-
 		// change handler
 		if (dbobject.exists) {
+			// changed fields
+			if (dbobject.changed.indexOf(fieldname) < 0) {
+				dbobject.changed.push(fieldname);
+			}
+		
 			dbobject.onFieldChange(fieldname, value);
 		}
 
@@ -192,11 +192,12 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 		obj = this,
 		al = (alias ? alias + '_' : '');
 
-	obj.changed = [];
-
 	for (var key in obj.fields) {
 		obj.setValue(key, row[al + key]);
 	}
+	
+	obj.exists = true;
+	obj.changed = [];
 };
 
 /**
@@ -236,7 +237,6 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	twic.db.select(sql, [value], function() {
 		if (this.length == 1) {
 			obj.loadFromRow(this.item(0));
-			obj.exists = true;
 
 			callback.apply(obj);
 		} else {

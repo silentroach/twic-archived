@@ -74,52 +74,56 @@ twic.twitter = ( function() {
 					since_id = rows.item(0)['id'];
 				}
 
-				twic.api.homeTimeline(id, since_id, account['oauth_token'], account['oauth_token_secret'], function(data) {
-					var users = [];
+				twic.api.homeTimeline(
+					id, since_id, 
+					account.fields['oauth_token'], account.fields['oauth_token_secret'], 
+					function(data) {
+						var users = [];
 					
-					if (data.length < 0) {
-						return;
-					}
+						if (data.length == 0) {
+							return;
+						}
 					
-					account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + data.length);
-					account.save();
+						account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + data.length);
+						account.save();
 
-					for (var i = 0; i < data.length; ++i) {
-						var
-							/**
-							 * @type {Object}
-							 */
-							tweet = data[i],
-							/**
-							 * @type {number}
-							 */
-							tweetId = tweet['id'],
-							/**
-							 * @type {number}
-							 */
-							userId = tweet['user']['id'];
+						for (var i = 0; i < data.length; ++i) {
+							var
+								/**
+								 * @type {Object}
+								 */
+								tweet = data[i],
+								/**
+								 * @type {number}
+								 */
+								tweetId = tweet['id'],
+								/**
+								 * @type {number}
+								 */
+								userId = tweet['user']['id'];
 
-						if (!(userId in users)) {
-							users[userId] = tweet['user'];
+							if (!(userId in users)) {
+								users[userId] = tweet['user'];
+							}
+
+							var tweetObj = new twic.db.obj.Tweet();
+							tweetObj.updateFromJSON(tweetId, tweet);
+						
+							twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId);
 						}
 
-						var tweetObj = new twic.db.obj.Tweet();
-						tweetObj.updateFromJSON(tweetId, tweet);
-						
-						twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId);
-					}
+						for (var userId in users) {
+							var
+								/**
+								 * @type {Object}
+								 */
+								user = users[userId];
 
-					for (var userId in users) {
-						var
-							/**
-							 * @type {Object}
-							 */
-							user = users[userId];
-
-						var userObj = new twic.db.obj.User();
-						userObj.updateFromJSON(userId, user);
-					}
-				} );
+							var userObj = new twic.db.obj.User();
+							userObj.updateFromJSON(userId, user);
+						}
+					} 
+				);
 			}
 		);
 	};
