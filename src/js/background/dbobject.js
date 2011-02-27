@@ -33,9 +33,9 @@ twic.DBObject = function() {
 
 	/**
 	 * Record changed
-	 * @type {boolean}
+	 * @type {Array}
 	 */
-	this.changed = false;
+	this.changed = [];
 };
 
 /**
@@ -53,6 +53,8 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var dbobject = this;
+
+	dbobject.changed = [];
 
 	for (var key in dbobject.fields) {
 		var fld = key;
@@ -90,7 +92,6 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 
 /**
  * Save object to database
- * TODO update only fields with changed values
  * @param {function()} callback Callback function
  */
 twic.DBObject.prototype.save = function(callback) {
@@ -99,7 +100,7 @@ twic.DBObject.prototype.save = function(callback) {
 
 	if (
 		dbobject.exists
-		&& !dbobject.changed
+		&& 0 == dbobject.changed.length
 	) {
 		// nothing was changed
 		return;
@@ -116,9 +117,14 @@ twic.DBObject.prototype.save = function(callback) {
 			continue;
 		}
 
-		fld.push(key);
-		params.push('?');
-		vals.push(dbobject.fields[key]);
+		if (
+			!dbobject.exists
+			|| dbobject.changes.indexOf(key) >= 0
+		) {
+			fld.push(key);
+			params.push('?');
+			vals.push(dbobject.fields[key]);
+		}
 	}
 
 	vals.push(dbobject.fields['id']);
@@ -155,10 +161,17 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 		fieldname in dbobject.fields
 		&& dbobject.fields[fieldname] != value
 	) {
+		// changed fields
+		if (dbobject.changed.indexOf(fieldName) < 0) {
+			dbobject.changed.push(fieldName);
+		}
+
+		// change handler
 		if (dbobject.exists) {
 			dbobject.onFieldChange(fieldname, value);
 		}
 
+		// change the value
 		dbobject.fields[fieldname] = value;
 	}
 };
@@ -172,6 +185,8 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 	var 
 		obj = this,
 		al = (alias ? alias + '_' : '');
+
+	obj.changed = [];
 
 	for (var key in obj.fields) {
 		obj.setValue(key, row[al + key]);
