@@ -12,8 +12,15 @@ twic.DBObjectList = function(cls) {
 };
 
 /**
+ * Clear the object list
+ */
+twic.DBObjectList.prototype.clear = function() {
+	this.items = { };
+};
+
+/**
  * Load objects from result dataset
- * @param {Object} result Dataset
+ * @param {!Object} result Dataset
  */
 twic.DBObjectList.prototype.load = function(result) {
 	var objList = this;
@@ -31,7 +38,7 @@ twic.DBObjectList.prototype.load = function(result) {
 
 /**
  * Push the unique object to list
- * @param {Object} row DB row
+ * @param {!Object} row DB row
  * @param {string} alias Alias for fields
  */
 twic.DBObjectList.prototype.pushUnique = function(row, alias) {
