@@ -240,6 +240,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 
 			callback.apply(obj);
 		} else {
+			obj.exists = false;
 			nfcallback.apply(obj);
 		}
 	}, function(error) {
