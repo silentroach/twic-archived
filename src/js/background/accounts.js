@@ -29,7 +29,8 @@ twic.Accounts = function() {
 			accs.push( {
 				'id': id,
 				'avatar': item.user.fields['avatar'],
-				'screen_name': item.user.fields['screen_name']
+				'screen_name': item.user.fields['screen_name'],
+				'unread_tweets': item.fields['unread_tweets_count']
 			} );
 		}
 

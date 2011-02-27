@@ -41,6 +41,14 @@
 
 			a.appendChild(avatar);
 
+			var utweets = element['unread_tweets'];
+			if (utweets > 0) {
+				var utspan = document.createElement('span');
+				utspan.className = 'utweets';
+				utspan.innerHTML = utweets;
+				a.appendChild(utspan);
+			}
+
 			var li = document.createElement('li');
 
 			li.appendChild(a);
