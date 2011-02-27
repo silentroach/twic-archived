@@ -1,134 +1,70 @@
-twic.oauth = ( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
 
-	var 
-		/**
-		 * Consumer key for Twitter API
-		 * @const
-		 */
-		consumer_key = 'Yda6L1lsEkqwDhcqxWPXtw',
-		/**
-		 * Consumer secret for Twitter API
-		 * @const
-		 */
-		consumer_secret = 'IHtRC1kPwQ4MH1lccSaZGdhZPyPiw2iuEfhCDV4',
-		/**
-		 * OAuth-token
-		 * @type {string}
-		 */
-		token = '',
-		/**
-		 * OAuth-token secret
-		 * @type {string}
-		 */
-		token_secret = '',
+/**
+ * @constructor
+ */
+twic.OAuthRequest = function(method, url) {
+	twic.OAuthRequest.superclass.constructor.call(this, method, url);
+};
+
+twic.utils.extend(twic.OAuthRequest, twic.Request);
+
+/**
+ * Get the random OAuth nonce
+ * @return {string}
+ */
+twic.OAuthRequest.prototype.getNonce = function() {
+	var
 		/**
 		 * Nonce charset for random string
 		 * @const
 		 */
-		nonce_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+		nonce_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz',
+		result = '';
 
-	/**
-	 * Get the random OAuth nonce
-	 * @return {string}
-	 */
-	var getNonce = function() {
-		var result = '';
-		
-		for (var i = 0; i < 6; ++i) {	
-			result += nonce_chars[Math.floor(Math.random() * nonce_chars.length)];
-		}
-		
-		return result;
-	};
-	
-	/**
-	 * Encode the string
-	 * @param {string} str String
-	 * @return {string}
-	 */
-	var encode = function(str) {
-		var result = encodeURIComponent(str);
-		
-    result = result.replace(/\!/g, '%21');
-    result = result.replace(/\*/g, '%2A');
-    result = result.replace(/\'/g, '%27');
-    result = result.replace(/\(/g, '%28');
-    result = result.replace(/\)/g, '%29');
-    
-    return result;
-	};
-	
-	/**
-	 * Get the request signature
-	 * @param {twic.request} req Request
-	 * @return {string} Signature
-	 */
-	var getSignature = function(req) {
-		b64pad = '=';
-		
-		var 
-			baseString = req.method + '&' + encode(req.url) + '&',
-			params = [];
-		
-		for (var key in req.data) {
-			params.push(encode(key) + '%3D' + encode(req.data[key]));
-		}
-		
-		baseString += params.sort().join('%26');
-	
-		return b64_hmac_sha1(encode(consumer_secret) + '&', baseString);
-	};
-	
-	/**
-	 * Sign the request
-	 * @param {twic.request} req Request
-	 */
-	var signRequest = function(req) {
-		var dt  = new Date();
-	
-		req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-	
-		req.setData('oauth_consumer_key', consumer_key);
-		req.setData('oauth_signature_method', 'HMAC-SHA1');
-		req.setData('oauth_version', '1.0');
-		req.setData('oauth_timestamp', Math.floor(dt.getTime() / 1000));
-		req.setData('oauth_nonce', getNonce());
-		req.setData('oauth_signature', getSignature(req));
-	};
-	
-	/**
-	 * Request the token
-	 * @param {string} url Url
-	 */
-	var requestToken = function(url) {
-		var req = new t.request('POST', url);
-		signRequest(req);
-		req.send( function(result) {
-			var data = result.responseText.split('&');
-			
-			data.forEach( function(element) {
-				var v = element.split('=');
-				
-				if (v.length != 2) {
-					return;
-				}
-				
-				if (v[0] == 'oauth_token') {
-					token = v[1];
-				} else
-				if (v[0] == 'oauth_token_secret') {
-					token_secret = v[1];
-				}
-			} );
-		} );
-	};
+	for (var i = 0; i < 6; ++i) {
+		result += nonce_chars[Math.floor(Math.random() * nonce_chars.length)];
+	}
 
-	return {
-    sign: signRequest,
-    requestToken: requestToken,
-    getToken: function() {
-    	return token;
-    }
-	};
+	return result;
+};
 
-} )(twic);
+/**
+ * Sign the request
+ * @param {string} token OAuth token
+ * @param {string} token_secret OAuth token secret
+ */
+twic.OAuthRequest.prototype.sign = function(token, token_secret) {
+	var
+		baseString = this.method + '&' + this.encodeString(this.url) + '&',
+		params = [];
+
+	if (this.method != 'GET') {
+		this.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+	}
+
+	this.setData('oauth_consumer_key', twic.consumer_key);
+	this.setData('oauth_signature_method', 'HMAC-SHA1');
+	this.setData('oauth_version', '1.0');
+	this.setData('oauth_timestamp', twic.utils.getCurrentTimestamp());
+	this.setData('oauth_nonce', this.getNonce());
+
+	if (token) {
+		this.setData('oauth_token', token);
+	}
+
+	b64pad = '=';
+
+	for (var key in this.data) {
+		params.push(this.encodeString(key) + '%3D' + this.encodeString(this.data[key]));
+	}
+
+	baseString += params.sort().join('%26');
+
+	this.setData('oauth_signature',
+		b64_hmac_sha1(this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''), baseString)
+	);
+};

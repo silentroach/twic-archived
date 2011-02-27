@@ -1,3 +1,32 @@
 {
+	"auth_confirm_wait": {
+		"message": "wait a moment",
+		"description": "Message indicates that extension tries to authenticate user by its confirmation on twitter.com"
+	},
+	"auth_in_progress": {
+	  "message": "authenticating...",
+	  "description": "Message on authorisation page, indicates that twic is getting access_token"
+	},
+	"auth_already": {
+		"message": "already authenticated",
+		"description": "Message indicates that user is already authenticated"
+	},
+	"auth_success": {
+		"message": "thank you",
+		"description": "Message indicates thanks to user"
+	},
+	"auth_failed": {
+		"message": "failure",
+		"description": "Message indicates authentication error"
+	},
+	
+	"add_first_account": {
+		"message": "add your first account",
+		"description": "message on the first screen when no accounts specified yet"
+	},
 
+	"hint_add_account": {
+		"message": "add account",
+		"description": "hint to the add button"
+	}
 }

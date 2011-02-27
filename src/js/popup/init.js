@@ -1,5 +1,6 @@
-( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
 
-	window.onhashchange();
-
-} )(twic);
+window.onhashchange();

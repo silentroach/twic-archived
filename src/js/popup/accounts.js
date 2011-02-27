@@ -1,49 +1,72 @@
-( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+( function() {
 
 	var
-		/** @type {HTMLUListElement} */ list = document.querySelector('#accounts ul');
-		
+		/** @type {HTMLUListElement} */ list = document.querySelector('#accounts ul'),
+		/** @type {HTMLElement}      */ firstAccountElement = document.querySelector('#accounts p');
+
 	var clearList = function() {
 		list.innerHTML = '';
 	};
-	
+
 	var buildList = function(elements) {
 		if (elements.length == 0) {
+			if (firstAccountElement) {
+				firstAccountElement.innerText = chrome.i18n.getMessage('add_first_account');
+				firstAccountElement.style.display = 'block';
+			}
+		
 			return;
+		} else {
+			if (firstAccountElement) {
+				firstAccountElement.style.display = '';
+			}
 		}
-		
+
 		var frag = document.createDocumentFragment();
-		
+
 		for (var i = 0; i < elements.length; ++i) {
 			var element = elements[i];
-			
+
 			var avatar = document.createElement('img');
 			avatar.src = element['avatar'];
 			avatar.title = element['screen_name'];
 			avatar.className = 'avatar';
-			
+
+			var a = document.createElement('a');
+			a.href = '#timeline#' + element['id'];
+
+			a.appendChild(avatar);
+
 			var li = document.createElement('li');
-			
-			li.appendChild(avatar);
-			
+
+			li.appendChild(a);
+
 			frag.appendChild(li);
 		}
 
 		list.appendChild(frag);
 	};
-	
+
 	document.getElementById('account_add').onclick = function() {
-		t.requests.send('addAccount');
+		this.innerHTML = chrome.i18n.getMessage('auth_confirm_wait');
+
+		twic.requests.send('accountAdd');
 	};
 
-	t.router.handle('accounts', function(data) {
+	document.querySelector('#account_add img').title = chrome.i18n.getMessage('hint_add_account');
+
+	twic.router.handle('accounts', function(data) {
 		clearList();
-		
-		t.requests.send('getAccountList', {}, function(list) {
+
+		twic.requests.send('accountList', {}, function(list) {
 			if (list) {
 				buildList(list);
 			}
 		} );
 	} );
 
-} )(twic);
+} )();

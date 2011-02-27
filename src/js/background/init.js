@@ -1,8 +1,7 @@
-( function(t) {
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
 
-	t.oauth.requestToken('https://twitter.com/oauth/request_token');
-	
-	t.accounts = new t.Accounts();
-	t.accounts.update();
-
-} )(twic);
+twic.accounts = new twic.Accounts();
+twic.accounts.update();
