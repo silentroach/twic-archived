@@ -83,7 +83,7 @@ twic.Accounts = function() {
 				} );
 
 				checkUser(account.fields['id']);
-			}
+			};
 
 			var account = new twic.db.obj.Account();
 			account.loadById(userid, function() {

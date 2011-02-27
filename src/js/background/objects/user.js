@@ -26,7 +26,7 @@ twic.db.obj.User = function() {
 			return ('verified' in obj && obj['verified']) ? 1 : 0;
 		}
 	};
-}
+};
 
 twic.utils.extend(twic.db.obj.User, twic.DBObject);
 
@@ -35,4 +35,4 @@ twic.db.obj.User.prototype.save = function(callback) {
 	this.fields['dt'] = twic.utils.getCurrentTimestamp();
 
 	twic.db.obj.User.superclass.save.call(this, callback);
-}
+};

@@ -8,7 +8,7 @@
  */
 twic.OAuthRequest = function(method, url) {
 	twic.OAuthRequest.superclass.constructor.call(this, method, url);
-}
+};
 
 twic.utils.extend(twic.OAuthRequest, twic.Request);
 
@@ -67,4 +67,4 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	this.setData('oauth_signature',
 		b64_hmac_sha1(this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''), baseString)
 	);
-}
+};

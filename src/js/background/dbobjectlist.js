@@ -9,7 +9,7 @@
 twic.DBObjectList = function(cls) {
 	this.cls = cls;
 	this.items = { };
-}
+};
 
 /**
  * Load objects from result dataset
@@ -27,7 +27,7 @@ twic.DBObjectList.prototype.load = function(result) {
 
 		obj.items[obj.fields['id']] = obj;
 	}
-}
+};
 
 /**
  * Push the unique object to list
@@ -47,4 +47,4 @@ twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 	obj.loadFromRow(row, alias);
 	
 	objList.items[id] = obj;
-}
+};

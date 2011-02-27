@@ -24,7 +24,7 @@ twic.utils.extend = function(Child, Parent) {
  * @return {number} Timestamp
  */
 twic.utils.getTimestamp = function(dt) {
-	return Math.floor(dt.getTime() / 1000)
+	return Math.floor(dt.getTime() / 1000);
 };
 
 /**

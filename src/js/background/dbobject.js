@@ -36,7 +36,7 @@ twic.DBObject = function() {
 	 * @type {boolean}
 	 */
 	this.changed = false;
-}
+};
 
 /**
  * Handler for field value changed
@@ -86,7 +86,7 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 	};
 
 	dbobject.loadById(id, updateMe, updateMe);
-}
+};
 
 /**
  * Save object to database
@@ -176,7 +176,7 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 	for (var key in obj.fields) {
 		obj.setValue(key, row[al + key]);
 	}
-}
+};
 
 /**
  * Get the field list
@@ -192,7 +192,7 @@ twic.DBObject.prototype.getFieldString = function(alias) {
 	}
 	
 	return result.slice(0, result.length - 2);
-}
+};
 
 /**
  * Locate and load object by field value

@@ -34,6 +34,6 @@ twic.db.obj.Timeline = ( function() {
 
 	return {
 		pushUserTimelineTweet: pushUserTimelineTweet
-	}
+	};
 
 } )();
