@@ -54,6 +54,7 @@
 	document.getElementById('account_add').onclick = function() {
 		this.innerHTML = chrome.i18n.getMessage('auth_confirm_wait');
 
+		// TODO handle errors
 		twic.requests.send('accountAdd');
 	};
 
