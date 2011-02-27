@@ -9,7 +9,7 @@
 	  /** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
 
   var buildList = function(list) {
-	console.dir(list);
+		console.dir(list);
   };
 
   twic.router.handle('timeline', function(data) {
@@ -17,8 +17,12 @@
 		  !data.length
 		  || 1 !== data.length
 	  ) {
+	  	// todo return to the accounts list screen
 		  return;
 	  }
+	  
+	  // make popup 60% of screen height
+	  document.body.style.height = Math.round(screen.height / 100 * 60) + 'px';
 
 	  var id = data[0];
 

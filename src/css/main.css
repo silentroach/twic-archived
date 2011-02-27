@@ -24,7 +24,7 @@ div.bar {
 	position: absolute;
 	width: 100%;
 	margin: 0px;
-	padding: 5px;
+	padding: 5px 0px 5px 0px;
 	}
 	div.bar.top {
 
@@ -38,4 +38,7 @@ div.bar {
 	div.bar a {
 		text-decoration: none;
 		display: block;
-		}
+		}	
+		div.bar a img {
+			padding: 0px 5px 0px 5px;
+			}
