@@ -23,5 +23,10 @@
 	"add_first_account": {
 		"message": "add your first account",
 		"description": "message on the first screen when no accounts specified yet"
+	},
+
+	"hint_add_account": {
+		"message": "add account",
+		"description": "hint to the add button"
 	}
 }

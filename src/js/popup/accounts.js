@@ -57,6 +57,8 @@
 		twic.requests.send('accountAdd');
 	};
 
+	document.querySelector('#account_add img').title = chrome.i18n.getMessage('hint_add_account');
+
 	twic.router.handle('accounts', function(data) {
 		clearList();
 
