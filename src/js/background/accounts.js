@@ -63,18 +63,20 @@ twic.Accounts = function() {
 
 		twic.api.getAccessToken(data['pin'], function(data) {
 
+			var afterAll = function() {
+				self.update();
+				
+				// reset the token after auth is complete
+				twic.api.resetToken();
+			};
+
 			var checkUser = function(id) {
 				var user = new twic.db.obj.User();
-				user.loadById(id, function() {
-					// found? great
-					self.update();
-				}, function() {
+				user.loadById(id, afterAll, function() {
 					// not found. lets get it
 					twic.api.userinfo(id, function(info) {
 						user.loadFromJSON(info);
-						user.save( function() {
-							self.update();
-						} );
+						user.save(afterAll);
 					} );
 				} );
 			};

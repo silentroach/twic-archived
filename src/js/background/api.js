@@ -49,6 +49,14 @@ twic.api = ( function() {
 			console.info('Ratelimit', ratelimit_remains, ratelimit_reset);
 		}
 	};
+	
+	/**
+	 * Reset the request token after auth
+	 */
+	var resetToken = function() {
+		oauth_token = false;
+		oauth_token_secret = false;
+	};
 
 	/**
 	 * Get the app request token
@@ -150,6 +158,7 @@ twic.api = ( function() {
 
 	return {
 		getRequestToken: getRequestToken,
+		resetToken: resetToken,
 		tryGrantAccess: tryGrantAccess,
 		getAccessToken: getAccessToken,
 		userinfo: getUserInfo,
