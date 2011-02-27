@@ -139,14 +139,20 @@ twic.DBObject.prototype.save = function(callback) {
 			setters.push(fld[i] + ' = ?');
 		}
 
-		sql += 'set ' + setters.join(',') + ' where id = ?';
+		sql += 'set ' + setters.join(', ') + ' where id = ?';
 	} else {
-		sql += '(' + fld.join(',') + ',id) values (' + params.join(',') + ', ?)';
+		sql += '(' + fld.join(', ') + ', id) values (' + params.join(', ') + ', ?)';
 	}
 
 	console.info(sql);
 
-	twic.db.execute(sql, vals, callback);
+	twic.db.execute(sql, vals, function() {
+		// reset flags
+		dbobject.exists = true;
+		dbobject.changed = [];
+	
+		callback();
+	} );
 };
 
 /**
