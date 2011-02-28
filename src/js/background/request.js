@@ -14,6 +14,28 @@ twic.Request = function(method, url) {
 };
 
 /**
+ * @param {string} data Data
+ * @return {Object} Parsed object
+ * FIXME FIXTHISSHIT!
+ */
+twic.Request.convertDataToParams = function(data) {
+	var
+		result = {},
+		parts  = data.split('&');
+
+	for (var i = 0; i < parts.length; ++i) {
+		var
+			tmp = parts[i].split('=');
+
+		if (2 == tmp.length) {
+			result[tmp[0]] = tmp[1];
+		}
+	}
+
+	return result;
+};
+
+/**
  * Encode the string
  * @param {string} str String
  * @return {string}
@@ -94,26 +116,4 @@ twic.Request.prototype.send = function(callback) {
 	} else {
 		req.send(data.join('&'));
 	}
-};
-
-/**
- * @param {string} data Data
- * @return {Object} Parsed object
- * FIXME FIXTHISSHIT!
- */
-convertDataToParams = function(data) {
-	var
-		result = {},
-		parts  = data.split('&');
-
-	for (var i = 0; i < parts.length; ++i) {
-		var
-			tmp = parts[i].split('=');
-
-		if (2 == tmp.length) {
-			result[tmp[0]] = tmp[1];
-		}
-	}
-
-	return result;
 };

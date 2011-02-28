@@ -72,7 +72,7 @@ twic.api = ( function() {
 		req.sign();
 
 		req.send( function(r) {
-			var obj = convertDataToParams(r.responseText);
+			var obj = twic.Request.convertDataToParams(r.responseText);
 
 			// FIXME check
 			oauth_token        = obj['oauth_token'];
@@ -95,7 +95,7 @@ twic.api = ( function() {
 			req.sign(token, secret);
 
 			req.send( function(data) {
-				callback(convertDataToParams(data.responseText));
+				callback(twic.Request.convertDataToParams(data.responseText));
 			} );
 		} );
 	};
