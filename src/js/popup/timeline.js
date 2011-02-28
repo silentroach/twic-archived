@@ -8,8 +8,33 @@
   var
 	  /** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
 
-  var buildList = function(list) {
-		console.dir(list);
+  var buildList = function(data) {
+	console.dir(data);
+  
+	var frag = document.createDocumentFragment();
+		
+	for (var id in data) {
+		var 
+			item      = data[id],
+			li        = document.createElement('li'),
+			avatarEl  = document.createElement('img'),
+			nickEl    = document.createElement('p'),
+			messageEl = document.createElement('p');
+
+		avatarEl.src        = item['user']['avatar'];
+		avatarEl.className  = 'avatar';
+		
+		nickEl.innerHTML    = '@' + item['user']['name'];
+		messageEl.innerHTML = item['msg'];
+
+		li.appendChild(avatarEl);
+		li.appendChild(nickEl);
+		li.appendChild(messageEl);
+
+		frag.appendChild(li);
+	}
+		
+	list.appendChild(frag);
   };
 
   twic.router.handle('timeline', function(data) {

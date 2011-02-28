@@ -1,0 +1,8 @@
+#timeline ul li {
+	clear: both;
+	list-style: none;
+	}
+	#timeline ul li img {
+		float: left;
+		margin-right: .5em;
+		}
