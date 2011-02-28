@@ -12,30 +12,44 @@
 	var buildList = function(data) {
 		console.dir(data);
 
-		var frag = document.createDocumentFragment();
+		var 
+			frag = document.createDocumentFragment(),
+			prevUserId = -1,
+			lastLi = undefined;
 
 		for (var id in data) {
 			var 
 				item      = data[id],
-				li        = document.createElement('li'),
-				avatarEl  = document.createElement('img'),
-				nickEl    = document.createElement('p'),
+				useOld    = prevUserId == item['user']['id'],
+				li        = useOld && lastLi ? lastLi : document.createElement('li'),
 				messageEl = document.createElement('p'),
 				clearEl   = document.createElement('div');
-
-			avatarEl.src        = item['user']['avatar'];
-			avatarEl.className  = 'avatar';
+				
+			if (!useOld) {
+				var
+					avatarEl  = document.createElement('img'),
+					nickEl    = document.createElement('p');
 			
-			nickEl.innerHTML    = '@' + item['user']['name'];
+				avatarEl.src        = item['user']['avatar'];
+				avatarEl.className  = 'avatar';
+				
+				nickEl.innerHTML = '@' + item['user']['name'];
+				
+				li.appendChild(avatarEl);
+				li.appendChild(nickEl);
+				
+				prevUserId = item['user']['id'];
+				lastLi = li;
+			}
+			
 			messageEl.innerHTML = item['msg'];
+			messageEl.className = 'msg';
 			
 			clearEl.className = 'clearer';
 
-			li.appendChild(avatarEl);
-			li.appendChild(nickEl);
 			li.appendChild(messageEl);
 			li.appendChild(clearEl);
-
+			
 			frag.appendChild(li);
 		}
 
