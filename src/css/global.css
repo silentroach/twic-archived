@@ -6,6 +6,7 @@ body {
 	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
 	font-size: 10pt;
 	background-color: rgba(0, 0, 0, .03);
+	overflow-x: hidden;
 	}
 
 ul {

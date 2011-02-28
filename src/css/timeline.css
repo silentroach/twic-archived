@@ -1,18 +1,20 @@
 #timeline {
 	font-size: 8pt;
+	width: 94%;
 	}
 	#timeline ul li {
 		list-style: none;
 		padding-bottom: .4em;
 		margin-bottom: .4em;
-		border-bottom: 1px dotted silver;
+		border-bottom: 1px dotted grey;
 		}
 		#timeline ul li img {
 			float: left;
 			margin-right: .5em;
 			}
 		#timeline ul li p {
-			margin: 0px;
+			margin: 0;
+			padding-left: 55px;
 			}
 			#timeline ul li p.msg {
 				margin-top: .5em;

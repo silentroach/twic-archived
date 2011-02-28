@@ -67,6 +67,7 @@
 				
 				li.appendChild(avatarEl);
 				li.appendChild(nickEl);
+				li.id = id;
 				
 				prevUserId = item['user']['id'];
 				lastLi = li;
@@ -96,7 +97,7 @@
 		}
 
 		// make popup 60% of screen height
-		timeline.style.height = Math.round(screen.height / 100 * 60) + 'px';
+		//timeline.style.height = Math.round(screen.height / 100 * 60) + 'px';
 
 		var id = data[0];
 
