@@ -114,6 +114,28 @@ twic.Accounts.prototype.clear = function() {
 };
 
 /**
+ * Update the unread messages counter
+ */
+twic.Accounts.prototype.updateCounter = function() {
+	var
+		accounts = this,
+		unreadTweetsCount = 0,
+		badgeHint = [];
+
+	for (var id in accounts.items) {
+		unreadTweetsCount += accounts.items[id].fields['unread_tweets_count'];
+	}
+	
+	if (unreadTweetsCount > 0) {
+		badgeHint.push(chrome.i18n.getMessage('badge_unread_tweets_count', [unreadTweetsCount]));
+	}
+	
+	chrome.browserAction.setTitle( {
+		'title': badgeHint.length > 0 ? badgeHint.join("\n") : ''
+	} );
+};
+
+/**
  * Update accounts info
  */
 twic.Accounts.prototype.update = function() {
@@ -135,16 +157,22 @@ twic.Accounts.prototype.update = function() {
 			var 
 				accs = new twic.DBObjectList(twic.db.obj.Account),
 				usrs = new twic.DBObjectList(twic.db.obj.User);
-		
+
 			accs.load(this, 'a');
 			usrs.load(this, 'u');
-		
+
 			for (var id in accs.items) {
 				var tmp = accs.items[id];
 				tmp.user = usrs.items[id];
 				
 				accounts.items[id] = tmp;
+				
+				accounts.items[id].onUnreadTweetsCountChanged( function() {
+					accounts.updateCounter();
+				} );
 			}
+			
+			accounts.updateCounter();
 	} );
 };
 

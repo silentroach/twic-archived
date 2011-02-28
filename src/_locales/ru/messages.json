@@ -27,5 +27,16 @@
 	"hint_add_account": {
 		"message": "добавить учетную запись",
 		"description": "подсказка на кнопке добавления учетной записи"
+	},
+	
+	"badge_unread_tweets_count": {
+		"message": "Всего непрочитанных твитов: $count$",
+		"description": "Количество непрочитанных твитов, подсказка на иконке в тулбаре",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "10"
+			}
+		}
 	}
 }

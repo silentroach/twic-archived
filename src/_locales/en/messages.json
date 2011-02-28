@@ -28,5 +28,16 @@
 	"hint_add_account": {
 		"message": "add account",
 		"description": "hint to the add button"
+	},
+	
+	"badge_unread_tweets_count": {
+		"message": "Unread tweets count: $count$",
+		"description": "Unread tweets count hint on the badge",
+		"placeholders": {
+			"count": {
+				"content": "$1",
+				"example": "10"
+			}
+		}
 	}
 }
