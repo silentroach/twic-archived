@@ -77,6 +77,11 @@ twic.Request.prototype.send = function(callback) {
 				// fixme handler
 				return;
 			}
+			
+			if (req.responseText == '') {
+				// timeout or something is wrong
+				return;
+			}
 
 			if (req.status = 200) {
 				callback(req);
