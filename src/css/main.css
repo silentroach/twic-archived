@@ -42,3 +42,7 @@ div.bar {
 		div.bar a img {
 			padding: 0px 5px 0px 5px;
 			}
+
+.clearer {
+	clear: both;
+	}
