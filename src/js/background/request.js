@@ -36,7 +36,7 @@ twic.Request.convertDataToParams = function(data) {
 };
 
 /**
- * Encode the string
+ * Static function to encode the string
  * @param {string} str String
  * @return {string}
  */
@@ -92,21 +92,33 @@ twic.Request.prototype.send = function(callback) {
 		var req = this;
 
 		if (req.readyState == XMLHttpRequest.DONE) {
-			console.dir(req);
-		
 			if (req.status == 401) {
+				console.group(req);
+				console.error('Unauthorized');
+				console.groupEnd();
+			
 				// Unauthorized
 				// fixme handler
 				return;
 			}
 			
 			if (req.responseText == '') {
+				console.group(req);
+				console.error('Empty reply');
+				console.groupEnd();
+
 				// timeout or something is wrong
 				return;
 			}
 
 			if (req.status = 200) {
 				callback(req);
+			} else {
+				console.group(req);
+				console.error('Unknown status');
+				console.log(req.status);
+				console.log(responseText);
+				console.groupEnd();
 			}
 		}
 	};
