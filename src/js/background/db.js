@@ -35,7 +35,7 @@ twic.db = ( function() {
 					'user_id int not null, ' +
 					'reply_to int null, ' +
 					'dt int not null, ' +
-					'msg varchar(140) not null)');
+					'msg text not null)'); // can be entity encoded
 
 				// timeline table for each account
 				t.executeSql('create table timeline (' +
