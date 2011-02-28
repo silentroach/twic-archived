@@ -9,6 +9,36 @@
 		/** @type {HTMLElement}      */ timeline = document.querySelector('#timeline'),
 		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
 
+	var parseTweetText = function(text) {
+		// preparing urls
+		var txt = text.replace(
+			/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
+			function(url) {
+				var stripped = url;
+
+				if (stripped.length > 30) {
+					stripped = stripped.substring(0, 30) + '&hellip;';
+				}
+
+				return '<a target="_blank" href="' + url + '" title="' + url + '">' + stripped + '</a>';
+			}
+		);
+
+		// preparing nicks
+		txt = txt.replace(
+			/(^|\s)@(\w+)/g,
+			'$1<a class="nick" target="_blank" href="http://twitter.com/#!/$2">@$2</a>'
+		);
+
+		// preparing hashtags
+		txt = txt.replace(
+			/(^|\s)#(\w+)/g,
+			'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$2">#$2</a>'
+		);
+
+		return txt;
+	};
+
 	var buildList = function(data) {
 		console.dir(data);
 
@@ -42,7 +72,7 @@
 				lastLi = li;
 			}
 			
-			messageEl.innerHTML = item['msg'];
+			messageEl.innerHTML = parseTweetText(item['msg']);
 			messageEl.className = 'msg';
 			
 			clearEl.className = 'clearer';
