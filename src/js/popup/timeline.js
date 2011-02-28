@@ -6,6 +6,7 @@
 ( function() {
 
 	var
+		/** @type {HTMLElement}      */ timeline = document.querySelector('#timeline'),
 		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
 
 	var buildList = function(data) {
@@ -51,7 +52,7 @@
 		}
 
 		// make popup 60% of screen height
-		document.body.style.height = Math.round(screen.height / 100 * 60) + 'px';
+		timeline.style.height = Math.round(screen.height / 100 * 60) + 'px';
 
 		var id = data[0];
 
