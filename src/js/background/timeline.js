@@ -12,9 +12,10 @@
 		}
 
 		var
-			id = data['id'];
-
-		twic.twitter.getHomeTimeline(id, function(tweets, users) {
+			id = data['id'],
+			account = twic.accounts.getInfo(id);
+			
+		var replyWithTimeline = function(tweets, users) {
 			var reply = { };
 
 			for (var tweetId in tweets.items) {
@@ -33,7 +34,14 @@
 			}
 
 			sendResponse(reply);
-		} );
+		};
+
+		if (account) {
+			twic.twitter.getHomeTimeline(id, replyWithTimeline);
+			
+			account.setValue('unread_tweets_count', 0);
+			account.save();
+		}
 	} );
 
 } )();
