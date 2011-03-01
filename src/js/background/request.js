@@ -117,7 +117,7 @@ twic.Request.prototype.send = function(callback) {
 				console.group(req);
 				console.error('Unknown status');
 				console.log(req.status);
-				console.log(responseText);
+				console.log(req.responseText);
 				console.groupEnd();
 			}
 		}

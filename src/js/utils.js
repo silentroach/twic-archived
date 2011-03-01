@@ -32,6 +32,5 @@ twic.utils.getTimestamp = function(dt) {
  * @return {number} Timestamp
  */
 twic.utils.getCurrentTimestamp = function() {
-	return goog.now();
-	//return twic.utils.getTimestamp(new Date());
+	return twic.utils.getTimestamp(new Date());
 };
