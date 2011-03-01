@@ -34,5 +34,5 @@ twic.db.obj.User.prototype.save = function(callback) {
 	// update for 'dt' each save method call
 	this.fields['dt'] = twic.utils.getCurrentTimestamp();
 
-	twic.DBObject.save.call(this, callback);
+	twic.DBObject.prototype.save.call(this, callback);
 };

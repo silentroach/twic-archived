@@ -64,11 +64,18 @@ twic.Accounts = function() {
 
 		twic.api.getAccessToken(data['pin'], function(data) {
 
+			var
+				account = new twic.db.obj.Account();
+
 			var afterAll = function() {
-				self.update();
-				
 				// reset the token after auth is complete
 				twic.api.resetToken();
+				
+				// update the accounts information
+				self.update( function() { 
+					// and update the home timeline for user
+					twic.twitter.updateHomeTimeline(account.fields['id']);
+				} );
 			};
 
 			var checkUser = function(id) {
@@ -94,7 +101,6 @@ twic.Accounts = function() {
 				checkUser(account.fields['id']);
 			};
 
-			account = new twic.db.obj.Account();
 			account.loadById(userid, function() {
 				// found? great, let's modify oauth data
 				updateAccount(account);
@@ -137,8 +143,9 @@ twic.Accounts.prototype.updateCounter = function() {
 
 /**
  * Update accounts info
+ * @param {function()} callback Callback function
  */
-twic.Accounts.prototype.update = function() {
+twic.Accounts.prototype.update = function(callback) {
 	var 
 		accounts = this;
 		tmpAccount = new twic.db.obj.Account(),
@@ -173,6 +180,10 @@ twic.Accounts.prototype.update = function() {
 			}
 			
 			accounts.updateCounter();
+			
+			if (callback) {
+				callback.apply(accounts);
+			}
 	} );
 };
 
