@@ -155,7 +155,7 @@ twic.Accounts.prototype.updateCounter = function() {
 	} );
 	
 	chrome.browserAction.setBadgeText( {
-		'text': unreadTweetsCount == 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount : '...')
+		'text': unreadTweetsCount == 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
 	} );
 };
 
@@ -192,9 +192,9 @@ twic.Accounts.prototype.update = function(callback) {
 				
 				accounts.items[id] = tmp;
 				
-				accounts.items[id].onUnreadTweetsCountChanged( function() {
+				accounts.items[id].onUnreadTweetsCountChanged = function() {
 					accounts.updateCounter();
-				} );
+				};
 			}
 			
 			accounts.updateCounter();
