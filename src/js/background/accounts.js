@@ -110,6 +110,20 @@ twic.Accounts = function() {
 			} );
 		} );
 	} );
+
+	/**
+	 * Schedule to update user home timeline
+	 */
+	var scheduler = function() {
+		for (var i in self.items) {
+			var account = self.items[i];
+
+			twic.twitter.updateHomeTimeline(account.field['id']);
+		}
+	};
+
+	// every minute check
+	setInterval(scheduler, 60 * 1000);
 };
 
 /**
@@ -138,6 +152,10 @@ twic.Accounts.prototype.updateCounter = function() {
 	
 	chrome.browserAction.setTitle( {
 		'title': badgeHint.length > 0 ? badgeHint.join("\n") : ''
+	} );
+	
+	chrome.browserAction.setBadgeText( {
+		'text': unreadTweetsCount == 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount : '...')
 	} );
 };
 
