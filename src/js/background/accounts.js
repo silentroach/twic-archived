@@ -118,7 +118,7 @@ twic.Accounts = function() {
 		for (var i in self.items) {
 			var account = self.items[i];
 
-			twic.twitter.updateHomeTimeline(account.field['id']);
+			twic.twitter.updateHomeTimeline(account.fields['id']);
 		}
 	};
 
