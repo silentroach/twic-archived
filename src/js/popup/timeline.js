@@ -46,41 +46,47 @@
 			frag = document.createDocumentFragment(),
 			prevUserId = -1,
 			lastLi = undefined;
+			lastCl = undefined;
 
 		for (var id in data) {
 			var 
 				item      = data[id],
 				useOld    = prevUserId == item['user']['id'],
 				li        = useOld && lastLi ? lastLi : document.createElement('li'),
-				messageEl = document.createElement('p'),
+				messageEl = document.createElement('p');
 				clearEl   = document.createElement('div');
-				
+
 			if (!useOld) {
 				var
 					avatarEl  = document.createElement('img'),
 					nickEl    = document.createElement('p');
-			
+
 				avatarEl.src        = item['user']['avatar'];
 				avatarEl.className  = 'avatar';
-				
+
 				nickEl.innerHTML = '@' + item['user']['name'];
-				
+
 				li.appendChild(avatarEl);
 				li.appendChild(nickEl);
 				li.id = id;
-				
+
 				prevUserId = item['user']['id'];
 				lastLi = li;
 			}
-			
+
 			messageEl.innerHTML = parseTweetText(item['msg']);
 			messageEl.className = 'msg';
-			
-			clearEl.className = 'clearer';
-
 			li.appendChild(messageEl);
+
+			if (useOld) {
+				lastCl.parentNode.removeChild(lastCl);
+			}
+
+			clearEl.className = 'clearer';
+			lastCl = clearEl;
+
 			li.appendChild(clearEl);
-			
+
 			frag.appendChild(li);
 		}
 
