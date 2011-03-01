@@ -71,7 +71,7 @@ twic.twitter = ( function() {
 					since_id = false;
 
 				if (rows.length > 0) {
-					since_id = rows.item(0)['id'];
+					since_id = rows.item(0)['id'] + 1;
 				}
 
 				twic.api.homeTimeline(
