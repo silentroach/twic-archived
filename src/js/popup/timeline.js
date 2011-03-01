@@ -7,15 +7,24 @@
 
 	var
 		/** @type {HTMLElement}      */ timeline = document.querySelector('#timeline'),
-		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul');
+		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul'),
+		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i;
 
 	var parseTweetText = function(text) {
 		// preparing urls
 		var txt = text.replace(
 			/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
 			function(url) {
-				var stripped = url;
-
+				var 
+					stripped = url,
+					parsed = urlPattern.exec(url);
+				
+				if (
+					parsed 
+					&& parsed.length > 2
+				) {
+					stripped = parsed[2];
+				} else			
 				if (stripped.length > 30) {
 					stripped = stripped.substring(0, 30) + '&hellip;';
 				}
