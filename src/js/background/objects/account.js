@@ -29,7 +29,7 @@ twic.db.obj.Account.prototype.onUnreadMessagesCountChanged = function(newCount) 
 
 };
 
-twic.db.obj.Account.prototype.onFieldChange = function(fieldName, newValue) {
+twic.db.obj.Account.prototype.onFieldChanged = function(fieldName, newValue) {
 	var account = this;
 
 	if (fieldName == 'unread_tweets_count') {

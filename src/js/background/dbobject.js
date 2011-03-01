@@ -43,7 +43,7 @@ twic.DBObject = function() {
  * @param {string} fieldName Field name
  * @param {string|number} newValue New field value
  */
-twic.DBObject.prototype.onFieldChange = function(fieldName, newValue) {
+twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 
 };
 
@@ -167,6 +167,9 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 		fieldname in dbobject.fields
 		&& dbobject.fields[fieldname] != value
 	) {
+		// change the value
+		dbobject.fields[fieldname] = value;
+
 		// change handler
 		if (dbobject.exists) {
 			// changed fields
@@ -174,11 +177,8 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 				dbobject.changed.push(fieldname);
 			}
 		
-			dbobject.onFieldChange(fieldname, value);
+			dbobject.onFieldChanged(fieldname, value);
 		}
-
-		// change the value
-		dbobject.fields[fieldname] = value;
 	}
 };
 
