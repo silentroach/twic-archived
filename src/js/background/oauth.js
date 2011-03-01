@@ -7,10 +7,10 @@
  * @constructor
  */
 twic.OAuthRequest = function(method, url) {
-	twic.OAuthRequest.superclass.constructor.call(this, method, url);
+	twic.Request.call(this, method, url);
 };
 
-twic.utils.extend(twic.OAuthRequest, twic.Request);
+goog.inherits(twic.OAuthRequest, twic.Request);
 
 /**
  * Get the random OAuth nonce

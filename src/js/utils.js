@@ -9,7 +9,6 @@ twic.utils = { };
  * Extend the object
  * @param {Object} Child Child object
  * @param {Object} Parent Parent object
- */
 twic.utils.extend = function(Child, Parent) {
 	var F = function() { };
 	F.prototype = Parent.prototype;
@@ -17,6 +16,7 @@ twic.utils.extend = function(Child, Parent) {
 	Child.prototype.constructor = Child;
 	Child.superclass = Parent.prototype;
 };
+*/
 
 /**
  * Get the timestamp from Date
@@ -32,5 +32,6 @@ twic.utils.getTimestamp = function(dt) {
  * @return {number} Timestamp
  */
 twic.utils.getCurrentTimestamp = function() {
-	return twic.utils.getTimestamp(new Date());
+	return goog.now();
+	//return twic.utils.getTimestamp(new Date());
 };

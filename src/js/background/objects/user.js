@@ -7,7 +7,7 @@
  * @constructor
  */
 twic.db.obj.User = function() {
-	twic.db.obj.User.superclass.constructor.call(this);
+	twic.DBObject.call(this);
 
 	this.table = 'users';
 	this.fields = {
@@ -28,11 +28,11 @@ twic.db.obj.User = function() {
 	};
 };
 
-twic.utils.extend(twic.db.obj.User, twic.DBObject);
+goog.inherits(twic.db.obj.User, twic.DBObject);
 
 twic.db.obj.User.prototype.save = function(callback) {
 	// update for 'dt' each save method call
 	this.fields['dt'] = twic.utils.getCurrentTimestamp();
 
-	twic.db.obj.User.superclass.save.call(this, callback);
+	twic.DBObject.save.call(this, callback);
 };

@@ -7,7 +7,7 @@
  * @constructor
  */
 twic.db.obj.Account = function() {
-	twic.db.obj.Account.superclass.constructor.call(this);
+	twic.DBObject.call(this);
 
 	this.table = 'accounts';
 	this.fields = {
@@ -19,7 +19,7 @@ twic.db.obj.Account = function() {
 	};
 };
 
-twic.utils.extend(twic.db.obj.Account, twic.DBObject);
+goog.inherits(twic.db.obj.Account, twic.DBObject);
 
 twic.db.obj.Account.prototype.onUnreadTweetsCountChanged = function(newCount) {
 

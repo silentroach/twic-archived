@@ -7,7 +7,7 @@
  * @constructor
  */
 twic.db.obj.Tweet = function() {
-	twic.db.obj.Tweet.superclass.constructor.call(this);
+	twic.DBObject.call(this);
 
 	this.table = 'tweets';
 	this.fields = {
@@ -30,4 +30,4 @@ twic.db.obj.Tweet = function() {
 	};
 };
 
-twic.utils.extend(twic.db.obj.Tweet, twic.DBObject);
+goog.inherits(twic.db.obj.Tweet, twic.DBObject);
