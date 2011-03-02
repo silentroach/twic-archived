@@ -2,22 +2,37 @@
 	font-size: 9pt;
 	width: 94%;
 	}
-	#timeline ul li {
-		padding-bottom: .4em;
-		margin-bottom: .4em;
-		border-bottom: 1px dotted grey;
+	#timeline #tweet {
+		width: 100%;
+		font-size: 9pt;
+		/* move it somewhere */
+		font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
+		padding: .3em;
 		}
-		#timeline ul li img {
-			float: left;
-			margin-right: .5em;
+	#timeline ul {
+		margin-top: 2px;
+		padding-top: 4px;
+		border-top: 1px dotted silver;
+		}
+		#timeline ul li {
+			padding-bottom: .4em;
+			margin-bottom: .4em;
+			border-bottom: 1px dotted grey;
 			}
-		#timeline ul li p {
-			margin: 0;
-			padding-left: 55px;
-			}
-			#timeline ul li p.msg {
-				margin-top: .5em;
+			#timeline ul li.me {
+				background-color: rgba(100, 200, 0, .3);
 				}
+			#timeline ul li img {
+				float: left;
+				margin-right: .5em;
+				}
+			#timeline ul li p {
+				margin: 0;
+				padding-left: 55px;
+				}
+				#timeline ul li p.msg {
+					margin-top: .5em;
+					}
 	#timeline ul li:last-child {
 		border-bottom: 0px;
 		}
