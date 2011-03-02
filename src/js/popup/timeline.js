@@ -8,7 +8,8 @@
 	var
 		/** @type {HTMLElement}      */ timeline = document.querySelector('#timeline'),
 		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul'),
-		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i;
+		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
+		/** @type {number}           */ userId = undefined;
 
 	var parseTweetText = function(text) {
 		// preparing urls
@@ -49,8 +50,6 @@
 	};
 
 	var buildList = function(data) {
-		console.dir(data);
-
 		var 
 			frag = document.createDocumentFragment(),
 			prevUserId = -1,
@@ -80,6 +79,11 @@
 				li.id = id;
 
 				prevUserId = item['user']['id'];
+				
+				if (prevUserId == userId) {
+					li.className = 'me';
+				}
+				
 				lastLi = li;
 			}
 
@@ -114,10 +118,10 @@
 		// make popup 60% of screen height
 		//timeline.style.height = Math.round(screen.height / 100 * 60) + 'px';
 
-		var id = data[0];
+		userId = data[0];
 
 		twic.requests.send('getTimeline', {
-			'id': id
+			'id': userId
 		}, function(list) {
 			if (list) {
 				buildList(list);
