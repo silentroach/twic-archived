@@ -29,6 +29,10 @@ twic.db.obj.Timeline = ( function() {
 					'values (?, ?) ',
 					[userId, tweetId]
 				);
+				
+				if (addCallback) {
+					addCallback();
+				}
 			} 
 		);
 	};
