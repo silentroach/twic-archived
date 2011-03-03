@@ -58,8 +58,6 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		this.setData('oauth_token', token);
 	}
 
-	b64pad = '=';
-
 	for (key in this.data) {
 		params.push(this.encodeString(key) + '%3D' + this.encodeString(this.data[key]));
 	}
@@ -67,6 +65,6 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	baseString += params.sort().join('%26');
 
 	this.setData('oauth_signature',
-		b64_hmac_sha1(this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''), baseString)
+		SHA1.encode(this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''), baseString)
 	);
 };

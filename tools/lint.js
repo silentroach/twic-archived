@@ -21,7 +21,7 @@ var testFile = function(path) {
 		maxerr: maxErrorCount
 	} );
 
-	var 
+	var
 		e = JSLINT.errors,
 		err;
 
@@ -52,15 +52,12 @@ var testDir = function(path) {
 	var entries = rdir(path);
 
 	for (var i = 0; i < entries.length; ++i) {
-		var 
+		var
 			entry = entries[i],
 			ename = path + '/' + entry,
 			st = stat(ename);
 
-		if (
-			st.isDirectory()
-			&& entry !== '3rdparty'
-		) {
+		if (st.isDirectory()) {
 			testDir(ename);
 		} else
 		if (
