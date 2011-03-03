@@ -5,7 +5,7 @@ var
 	stat = require('fs').statSync,
 	rf = require('fs').readFileSync,
 	errorCount = 0,
-	maxErrorCount = 20;
+	maxErrorCount = 10;
 
 var testFile = function(path) {
 	var src = rf(path, 'utf8');

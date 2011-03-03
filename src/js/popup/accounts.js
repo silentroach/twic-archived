@@ -13,7 +13,7 @@
 	};
 
 	var buildList = function(elements) {
-		if (elements.length == 0) {
+		if (elements.length === 0) {
 			if (firstAccountElement) {
 				firstAccountElement.innerText = chrome.i18n.getMessage('add_first_account');
 				firstAccountElement.style.display = 'block';
@@ -26,9 +26,11 @@
 			}
 		}
 
-		var frag = document.createDocumentFragment();
+		var 
+			frag = document.createDocumentFragment(),
+			i;
 
-		for (var i = 0; i < elements.length; ++i) {
+		for (i = 0; i < elements.length; ++i) {
 			var element = elements[i];
 
 			var avatar = document.createElement('img');

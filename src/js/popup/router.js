@@ -7,10 +7,11 @@ twic.router = ( function() {
 
 	var
 		/** @type {Object} */ frames = { },
-		/** @type {string} */ currentFrame;
+		/** @type {string} */ currentFrame,
+		i;
 
 	var tmp = document.querySelectorAll('body > div');
-	for (var i = 0; i < tmp.length; ++i) {
+	for (i = 0; i < tmp.length; ++i) {
 		var frame = tmp[i];
 		frames[frame.id] = {
 			frame: frame,
@@ -21,14 +22,18 @@ twic.router = ( function() {
 	// ----------------------------------------------------
 
 	var changeFrame = function(targetFrameName, data) {
+		var
+			frame,
+			i;
+
 		if (currentFrame) {
 			frames[currentFrame].frame.style.display = 'none';
 		}
 
-		var frame = frames[targetFrameName];
+		frame = frames[targetFrameName];
 
 		if (frame) {
-			for (var i = 0; i < frame.callbacks.length; ++i) {
+			for (i = 0; i < frame.callbacks.length; ++i) {
 				frame.callbacks[i](data);
 			}
 
@@ -61,4 +66,4 @@ twic.router = ( function() {
 		}
 	};
 
-} )();
+}());
