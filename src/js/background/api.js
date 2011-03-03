@@ -165,4 +165,4 @@ twic.api = ( function() {
 		homeTimeline: homeTimeline
 	};
 
-} )();
+}() );

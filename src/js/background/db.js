@@ -56,7 +56,7 @@ twic.db = ( function() {
 	 * @param {function()} callback Callback function
 	 */
 	var migrate = function(db, ver, callback) {
-		var version = (ver == '') ? '0' : ver;
+		var version = (ver === '') ? '0' : ver;
 
 		if (version in migrations) {
 			var migration = migrations[version];
@@ -175,4 +175,4 @@ twic.db = ( function() {
 		obj: {}
 	};
 
-} )();
+}() );

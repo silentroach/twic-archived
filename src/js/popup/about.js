@@ -13,4 +13,4 @@
 		awhat.innerHTML = chrome.i18n.getMessage('about_what');
 	} );
 
-} )();
+}() );

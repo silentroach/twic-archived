@@ -62,7 +62,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 		var fld = key;
 
 		if (key in dbobject.jsonMap) {
-			if (typeof dbobject.jsonMap[key] == 'string') {
+			if (typeof dbobject.jsonMap[key] === 'string') {
 				fld = dbobject.jsonMap[key];
 			} else {
 				dbobject.setValue(key, dbobject.jsonMap[key](obj));

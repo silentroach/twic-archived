@@ -21,9 +21,11 @@ twic.Accounts = function() {
 	} );
 
 	twic.requests.subscribe('accountList', function(data, sendResponse) {
-		var accs = [];
+		var 
+			accs = [],
+			id;
 		
-		for (var id in self.items) {
+		for (id in self.items) {
 			var item = self.items[id];
 			
 			accs.push( {
@@ -115,7 +117,9 @@ twic.Accounts = function() {
 	 * Schedule to update user home timeline
 	 */
 	var scheduler = function() {
-		for (var i in self.items) {
+		var i;
+
+		for (i in self.items) {
 			var account = self.items[i];
 
 			twic.twitter.updateHomeTimeline(account.fields['id']);
@@ -140,9 +144,10 @@ twic.Accounts.prototype.updateCounter = function() {
 	var
 		accounts = this,
 		unreadTweetsCount = 0,
-		badgeHint = [];
+		badgeHint = [],
+		id;
 
-	for (var id in accounts.items) {
+	for (id in accounts.items) {
 		unreadTweetsCount += accounts.items[id].fields['unread_tweets_count'];
 	}
 	
@@ -155,7 +160,7 @@ twic.Accounts.prototype.updateCounter = function() {
 	} );
 	
 	chrome.browserAction.setBadgeText( {
-		'text': unreadTweetsCount == 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
+		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
 	} );
 };
 
@@ -165,7 +170,7 @@ twic.Accounts.prototype.updateCounter = function() {
  */
 twic.Accounts.prototype.update = function(callback) {
 	var 
-		accounts = this;
+		accounts = this,
 		tmpAccount = new twic.db.obj.Account(),
 		tmpUser    = new twic.db.obj.User();
 

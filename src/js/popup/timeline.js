@@ -9,7 +9,7 @@
 		/** @type {HTMLElement}      */ timeline = document.querySelector('#timeline'),
 		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul'),
 		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
-		/** @type {number}           */ userId = undefined;
+		/** @type {number}           */ userId;
 
 	var parseTweetText = function(text) {
 		// preparing urls
@@ -53,13 +53,14 @@
 		var 
 			frag = document.createDocumentFragment(),
 			prevUserId = -1,
-			lastLi = undefined;
-			lastCl = undefined;
+			lastLi,
+			lastCl,
+			id;
 
-		for (var id in data) {
+		for (id in data) {
 			var 
 				item      = data[id],
-				useOld    = prevUserId == item['user']['id'],
+				useOld    = prevUserId === item['user']['id'],
 				li        = useOld && lastLi ? lastLi : document.createElement('li'),
 				messageEl = document.createElement('p');
 				clearEl   = document.createElement('div');
@@ -80,7 +81,7 @@
 
 				prevUserId = item['user']['id'];
 				
-				if (prevUserId == userId) {
+				if (prevUserId === userId) {
 					li.className = 'me';
 				}
 				
@@ -129,4 +130,4 @@
 		} );
 	} );
 
-} )();
+}() );
