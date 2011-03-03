@@ -41,4 +41,4 @@ twic.db.obj.Timeline = ( function() {
 		pushUserTimelineTweet: pushUserTimelineTweet
 	};
 
-} )();
+}() );

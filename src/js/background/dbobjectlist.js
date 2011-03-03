@@ -24,9 +24,11 @@ twic.DBObjectList.prototype.clear = function() {
  * @param {string} alias Alias
  */
 twic.DBObjectList.prototype.load = function(result, alias) {
-	var objList = this;
+	var 
+		objList = this,
+		i;
 
-	for (var i = 0; i < result.length; ++i) {
+	for (i = 0; i < result.length; ++i) {
 		/**
 		 * @type {twic.DBObject} obj
 		 */
@@ -47,7 +49,7 @@ twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 		objList = this,
 		id = row[(alias ? alias + '_' : '') + 'id'];
 	
-	if (id in objList.items) {
+	if (objList.items[id]) {
 		return;
 	}
 	

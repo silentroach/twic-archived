@@ -41,8 +41,8 @@ twic.Accounts = function() {
 
 	twic.requests.subscribe('accountAuth', function(data, sendResponse) {
 		if (
-			!('pin' in data)
-			|| !('user_id' in data)
+			!data['pin']
+			|| !data['user_id']
 		) {
 			sendResponse( {
 				// todo make reply identifiers const

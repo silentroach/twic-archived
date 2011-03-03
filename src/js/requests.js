@@ -31,7 +31,7 @@ twic.requests = ( function() {
 	 * @param {function(Object, function(Object))} callback Callback function
 	 */
 	var subscribe = function(event, callback) {
-		if (!(event in subscriptions)) {
+		if (!subscriptions[event]) {
 			subscriptions[event] = [];
 		}
 
@@ -40,14 +40,15 @@ twic.requests = ( function() {
 
 	chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
 		if (
-			'method' in request
-			&& request['method'] in subscriptions
+			request['method']
+			&& subscriptions[request['method']]
 		) {
 			var
 				data = request['data'] || {},
-				s = subscriptions[request['method']];
+				s = subscriptions[request['method']],
+				i;
 
-			for (var i = 0; i < s.length; ++i) {
+			for (i = 0; i < s.length; ++i) {
 				s[i](data, sendResponse);
 			}
 		} else {
@@ -60,4 +61,4 @@ twic.requests = ( function() {
 		subscribe: subscribe
 	};
 
-} )();
+}() );

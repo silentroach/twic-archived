@@ -23,7 +23,7 @@ twic.db.obj.User = function() {
 	this.jsonMap = {
 		'avatar': 'profile_image_url',
 		'verified': function(obj) {
-			return ('verified' in obj && obj['verified']) ? 1 : 0;
+			return (obj['verified']) ? 1 : 0;
 		}
 	};
 };

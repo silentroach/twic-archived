@@ -57,7 +57,10 @@ var testDir = function(path) {
 			ename = path + '/' + entry,
 			st = stat(ename);
 
-		if (st.isDirectory()) {
+		if (
+			st.isDirectory()
+			&& entry !== '3rdparty'
+		) {
 			testDir(ename);
 		} else
 		if (

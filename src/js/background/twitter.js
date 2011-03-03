@@ -81,7 +81,8 @@ twic.twitter = ( function() {
 					function(data) {
 						var 
 							users = [],
-							i;
+							i,
+							userId;
 					
 						if (data.length === 0) {
 							return;
@@ -96,13 +97,11 @@ twic.twitter = ( function() {
 								/**
 								 * @type {number}
 								 */
-								tweetId = tweet['id'],
-								/**
-								 * @type {number}
-								 */
-								userId = tweet['user']['id'];
+								tweetId = tweet['id'];
+							
+							userId = tweet['user']['id'];
 
-							if (!(userId in users)) {
+							if (!users[userId]) {
 								users[userId] = tweet['user'];
 							}
 
@@ -116,9 +115,9 @@ twic.twitter = ( function() {
 							} );
 						}
 
-						for (var userId in users) {
+						for (userId in users) {
 							var
-								/**
+								 /**
 								 * @type {Object}
 								 */
 								user = users[userId];

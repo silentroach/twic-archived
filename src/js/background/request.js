@@ -21,13 +21,14 @@ twic.Request = function(method, url) {
 twic.Request.convertDataToParams = function(data) {
 	var
 		result = {},
-		parts  = data.split('&');
+		parts  = data.split('&'),
+		i;
 
-	for (var i = 0; i < parts.length; ++i) {
+	for (i = 0; i < parts.length; ++i) {
 		var
 			tmp = parts[i].split('=');
 
-		if (2 == tmp.length) {
+		if (2 === tmp.length) {
 			result[tmp[0]] = tmp[1];
 		}
 	}
@@ -75,24 +76,26 @@ twic.Request.prototype.setData = function(key, value) {
  * @param {function(XMLHttpRequest)} callback Callback
  */
 twic.Request.prototype.send = function(callback) {
-	var data = [];
+	var 
+		data = [],
+		key;
 
-	for (var key in this.data) {
+	for (key in this.data) {
 		data.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
 	}
 
 	var req = new XMLHttpRequest();
-	req.open(this.method, this.url + (this.method == 'GET' ? '?' + data.join('&') : ''));
+	req.open(this.method, this.url + (this.method === 'GET' ? '?' + data.join('&') : ''));
 
-	for (var key in this.headers) {
+	for (key in this.headers) {
 		req.setRequestHeader(key, this.headers[key]);
 	}
 
 	req.onreadystatechange = function() {
 		var req = this;
 
-		if (req.readyState == XMLHttpRequest.DONE) {
-			if (req.status == 401) {
+		if (req.readyState === XMLHttpRequest.DONE) {
+			if (req.status === 401) {
 				console.group(req);
 				console.error('Unauthorized');
 				console.groupEnd();
@@ -102,7 +105,7 @@ twic.Request.prototype.send = function(callback) {
 				return;
 			}
 			
-			if (req.responseText == '') {
+			if (req.responseText === '') {
 				console.group(req);
 				console.error('Empty reply');
 				console.groupEnd();
@@ -111,7 +114,7 @@ twic.Request.prototype.send = function(callback) {
 				return;
 			}
 
-			if (req.status = 200) {
+			if (req.status === 200) {
 				callback(req);
 			} else {
 				console.group(req);
@@ -123,7 +126,7 @@ twic.Request.prototype.send = function(callback) {
 		}
 	};
 
-	if (this.method == 'GET') {
+	if (this.method === 'GET') {
 		req.send();
 	} else {
 		req.send(data.join('&'));

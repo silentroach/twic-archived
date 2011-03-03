@@ -32,10 +32,10 @@ twic.db.obj.Account.prototype.onUnreadMessagesCountChanged = function(newCount) 
 twic.db.obj.Account.prototype.onFieldChanged = function(fieldName, newValue) {
 	var account = this;
 
-	if (fieldName == 'unread_tweets_count') {
+	if (fieldName === 'unread_tweets_count') {
 		account.onUnreadTweetsCountChanged(newValue);
 	} else
-	if (fieldName == 'unread_messages_count') {
+	if (fieldName === 'unread_messages_count') {
 		account.onUnreadMessagesCountChanged(newValue);
 	}
 };

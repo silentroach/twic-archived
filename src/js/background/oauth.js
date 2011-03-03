@@ -23,9 +23,10 @@ twic.OAuthRequest.prototype.getNonce = function() {
 		 * @const
 		 */
 		nonce_chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz',
-		result = '';
+		result = '',
+		i;
 
-	for (var i = 0; i < 6; ++i) {
+	for (i = 0; i < 6; ++i) {
 		result += nonce_chars[Math.floor(Math.random() * nonce_chars.length)];
 	}
 
@@ -40,9 +41,10 @@ twic.OAuthRequest.prototype.getNonce = function() {
 twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	var
 		baseString = this.method + '&' + this.encodeString(this.url) + '&',
-		params = [];
+		params = [],
+		key;
 
-	if (this.method != 'GET') {
+	if (this.method !== 'GET') {
 		this.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	}
 
@@ -58,7 +60,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 
 	b64pad = '=';
 
-	for (var key in this.data) {
+	for (key in this.data) {
 		params.push(this.encodeString(key) + '%3D' + this.encodeString(this.data[key]));
 	}
 

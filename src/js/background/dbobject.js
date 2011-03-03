@@ -70,7 +70,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 			}
 		}
 
-		if (fld in obj) {
+		if (obj[fld]) {
 			dbobject.setValue(key, obj[fld]);
 		}
 	}
@@ -169,8 +169,7 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 	var dbobject = this;
 
 	if (
-		fieldname in dbobject.fields
-		&& dbobject.fields[fieldname] !== value
+		dbobject.fields[fieldname] !== value
 	) {
 		// change the value
 		dbobject.fields[fieldname] = value;
@@ -243,7 +242,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
 
 	twic.db.select(sql, [value], function() {
-		if (this.length == 1) {
+		if (this.length === 1) {
 			obj.loadFromRow(this.item(0));
 
 			callback.apply(obj);

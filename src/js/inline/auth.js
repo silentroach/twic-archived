@@ -14,8 +14,8 @@
 	}
 
 	var
-		pin = parseInt(pinElement.innerText),
-		userId = parseInt(idElement['content']);
+		pin = parseInt(pinElement.innerText, 10),
+		userId = parseInt(idElement['content'], 10);
 
 	if (
 		!pin
@@ -42,9 +42,9 @@
 		'user_id': userId
 	}, function(reply) {
 		if (
-			!('res' in reply)
+			!reply['res']
 			// todo make reply identifiers const
-			|| (0 == reply['res'])
+			|| 0 === reply['res']
 		) {
 			changePinText('auth_failed');
 			return;
@@ -52,14 +52,14 @@
 
 		var res = reply['res'];
 
-		if (1 == res) {
+		if (1 === res) {
 			// success
 			changePinText('auth_success');
 		} else
-		if (2 == res) {
+		if (2 === res) {
 			// already authenticated
 			changePinText('auth_already');
 		}
 	} );
 
-} )();
+}() );

@@ -8,7 +8,7 @@
 	// listen for the "getTimeline" request
 	twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 		// check for id in request data
-		if (!('id' in data)) {
+		if (!data['id']) {
 			sendResponse({ });
 			return;
 		}
@@ -19,9 +19,11 @@
 
 		// prepare tweets data and send the response
 		var replyWithTimeline = function(tweets, users) {
-			var reply = { };
+			var 
+				reply = { },
+				tweetId;
 
-			for (var tweetId in tweets.items) {
+			for (tweetId in tweets.items) {
 				var 
 					tweet = tweets.items[tweetId],
 					user  = users.items[tweet.fields['user_id']];
@@ -48,4 +50,4 @@
 		}
 	} );
 
-} )();
+}() );
