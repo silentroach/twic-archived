@@ -1,6 +1,3 @@
 [submodule "tools/builder"]
 	path = tools/builder
 	url = git://github.com/silentroach/chrome-extension-builder.git
-[submodule "tools/jslint"]
-	path = tools/jslint
-	url = git://github.com/douglascrockford/JSLint.git
