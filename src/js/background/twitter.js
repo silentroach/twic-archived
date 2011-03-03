@@ -135,7 +135,10 @@ twic.twitter = ( function() {
 							var tweetObj = new twic.db.obj.Tweet();
 							tweetObj.updateFromJSON(tweetId, tweet);
 						
-							twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, incrementUnreadTweets);
+							twic.db.obj.Timeline.pushUserTimelineTweet(
+								id, tweetId, 
+								tweet['user'] !== id ? incrementUnreadTweets : undefined
+							);
 						}
 
 						for (userId in users) {
