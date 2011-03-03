@@ -61,17 +61,21 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 	for (key in dbobject.fields) {
 		var fld = key;
 
-		if (dbobject.jsonMap[key]) {
-			if (typeof dbobject.jsonMap[key] === 'string') {
-				fld = dbobject.jsonMap[key];
-			} else {
-				dbobject.setValue(key, dbobject.jsonMap[key](obj));
-				continue;
+		if (
+			dbobject.jsonMap[key]
+			&& typeof dbobject.jsonMap[key] !== 'string'
+		) {
+			dbobject.setValue(key, dbobject.jsonMap[key](obj));
+		} else {
+			if (dbobject.jsonMap[key]) {
+				if (typeof dbobject.jsonMap[key] === 'string') {
+					fld = dbobject.jsonMap[key];
+				} 
 			}
-		}
 
-		if (obj[fld]) {
-			dbobject.setValue(key, obj[fld]);
+			if (obj[fld]) {
+				dbobject.setValue(key, obj[fld]);
+			}
 		}
 	}
 };
@@ -116,13 +120,12 @@ twic.DBObject.prototype.save = function(callback) {
 		key;
 
 	for (key in dbobject.fields) {
-		if (key === 'id') {
-			continue;
-		}
-
 		if (
-			!dbobject.exists
-			|| dbobject.changed.indexOf(key) >= 0
+			key !== 'id'
+			&& (
+				!dbobject.exists
+				|| dbobject.changed.indexOf(key) >= 0
+			)
 		) {
 			fld.push(key);
 			params.push('?');

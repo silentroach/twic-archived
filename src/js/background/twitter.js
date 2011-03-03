@@ -88,6 +88,12 @@ twic.twitter = ( function() {
 							return;
 						}
 
+						var incrementUnreadTweets = function() {
+								// increment the nread tweets count if it is new
+								account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
+								account.save();
+						};
+
 						for (i = 0; i < data.length; ++i) {
 							var
 								/**
@@ -108,11 +114,7 @@ twic.twitter = ( function() {
 							var tweetObj = new twic.db.obj.Tweet();
 							tweetObj.updateFromJSON(tweetId, tweet);
 						
-							twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, function() {
-								// increment the nread tweets count if it is new
-								account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
-								account.save();
-							} );
+							twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, incrementUnreadTweets);
 						}
 
 						for (userId in users) {
@@ -140,4 +142,4 @@ twic.twitter = ( function() {
 		updateHomeTimeline: updateHomeTimeline
 	};
 
-} )();
+}() );
