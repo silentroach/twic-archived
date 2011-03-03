@@ -128,5 +128,13 @@
 			}
 		} );
 	} );
+	
+	var checkTweetArea = function() {
+		tweetElement.className = tweetElement.value.length > 140 ? 'overload' : '';
+	};
+	
+	tweetElement.onkeyup = function(e) {
+		checkTweetArea();
+	};
 
 }() );

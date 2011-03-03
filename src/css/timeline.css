@@ -9,6 +9,9 @@
 		font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
 		padding: .3em;
 		}
+		#timeline #tweet.overload {
+				background-color: rgba(255, 0, 0, .1);
+			}
 	#timeline ul {
 		margin-top: 2px;
 		padding-top: 4px;
