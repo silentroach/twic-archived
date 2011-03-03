@@ -6,9 +6,10 @@
 ( function() {
 
 	var
-		/** @type {HTMLElement}      */ timeline = document.querySelector('#timeline'),
+		/** @type {HTMLElement}      */ timeline = document.getElementById('timeline'),
 		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul'),
 		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
+		/** @type {HTMLElement}      */ tweetElement = document.getElementById('tweet'),
 		/** @type {number}           */ userId;
 
 	var parseTweetText = function(text) {
@@ -67,16 +68,13 @@
 
 			if (!useOld) {
 				var
-					avatarEl  = document.createElement('img'),
-					nickEl    = document.createElement('p');
+					avatarEl  = document.createElement('img');
 
 				avatarEl.src        = item['user']['avatar'];
 				avatarEl.className  = 'avatar';
-
-				nickEl.innerHTML = '@' + item['user']['name'];
+				avatarEl.title      = '@' + item['user']['name'];
 
 				li.appendChild(avatarEl);
-				li.appendChild(nickEl);
 
 				prevUserId = item['user']['id'];
 				
