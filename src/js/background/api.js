@@ -150,7 +150,39 @@ twic.api = ( function() {
 		req.send( function(obj) {		
 			var data = JSON.parse(obj.responseText);
 
-			if (data) {
+			if (
+				data
+				&& callback
+			) {
+				callback(data);
+			}
+		} );
+	};
+	
+	/**
+	 * Update user status
+	 * @param {string} status New user status
+	 * @param {string} token OAuth token
+	 * @param {string} token_secret OAuth token secret
+	 * @param {function(Array.<Object>)} callback Callback function
+	 */
+	var updateStatus = function(status, token, token_secret, callback) {
+		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');
+		
+		req.setData('status', status);
+		
+		req.sign(token, token_secret);
+		
+		console.info('sending the new tweet: ' + status);
+		
+		// todo not r, use func.apply(req) and use this
+		req.send( function(r) {
+			var data = JSON.parse(r.responseText);
+			
+			if (
+				data
+				&& callback
+			) {
 				callback(data);
 			}
 		} );
@@ -162,7 +194,8 @@ twic.api = ( function() {
 		tryGrantAccess: tryGrantAccess,
 		getAccessToken: getAccessToken,
 		userinfo: getUserInfo,
-		homeTimeline: homeTimeline
+		homeTimeline: homeTimeline,
+		updateStatus: updateStatus
 	};
 
 }() );

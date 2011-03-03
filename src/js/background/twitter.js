@@ -50,6 +50,27 @@ twic.twitter = ( function() {
 			}
 		);
 	};
+	
+	/**
+	 * Update the user status
+	 * @param {number} id User identifier
+	 * @param {string} status New status text
+	 */
+	var updateStatus = function(id, status) {
+		var account = twic.accounts.getInfo(id);
+
+		if (!account) {
+			return;
+		}
+		
+		twic.api.updateStatus(
+			status,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],
+			function(data) {
+				console.dir(data);
+			}
+		);
+	}
 
 	/**
 	 * Update user home timeline
@@ -139,7 +160,8 @@ twic.twitter = ( function() {
 		getHomeTimeline: getHomeTimeline,
 
 		// updaters
-		updateHomeTimeline: updateHomeTimeline
+		updateHomeTimeline: updateHomeTimeline,
+		updateStatus: updateStatus
 	};
 
 }() );
