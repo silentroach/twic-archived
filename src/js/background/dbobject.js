@@ -61,19 +61,19 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 	for (key in dbobject.fields) {
 		var fld = key;
 
-		if (key in dbobject.jsonMap) {
+		if (dbobject.jsonMap[key]) {
 			if (typeof dbobject.jsonMap[key] === 'string') {
 				fld = dbobject.jsonMap[key];
 			} else {
 				dbobject.setValue(key, dbobject.jsonMap[key](obj));
 				continue;
 			}
-		};
+		}
 
 		if (fld in obj) {
 			dbobject.setValue(key, obj[fld]);
-		};
-	};
+		}
+	}
 };
 
 /**
@@ -102,7 +102,7 @@ twic.DBObject.prototype.save = function(callback) {
 
 	if (
 		dbobject.exists
-		&& 0 == dbobject.changed.length
+		&& 0 === dbobject.changed.length
 	) {
 		// nothing was changed
 		return;
@@ -112,10 +112,11 @@ twic.DBObject.prototype.save = function(callback) {
 		fld = [],
 		params = [],
 		vals = [],
-		sql = '';
+		sql = '',
+		key;
 
-	for (var key in dbobject.fields) {
-		if (key == 'id') {
+	for (key in dbobject.fields) {
+		if (key === 'id') {
 			continue;
 		}
 
@@ -135,9 +136,11 @@ twic.DBObject.prototype.save = function(callback) {
 	sql += dbobject.table + ' ';
 
 	if (dbobject.exists) {
-		var setters = [];
+		var 
+			setters = [],
+			i;
 
-		for (var i = 0; i < fld.length; ++i) {
+		for (i = 0; i < fld.length; ++i) {
 			setters.push(fld[i] + ' = ?');
 		}
 
@@ -167,7 +170,7 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 
 	if (
 		fieldname in dbobject.fields
-		&& dbobject.fields[fieldname] != value
+		&& dbobject.fields[fieldname] !== value
 	) {
 		// change the value
 		dbobject.fields[fieldname] = value;
@@ -192,10 +195,11 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 twic.DBObject.prototype.loadFromRow = function(row, alias) {
 	var 
 		obj = this,
-		al = (alias ? alias + '_' : '');
+		al = (alias ? alias + '_' : ''),
+		fkey;
 
-	for (var key in obj.fields) {
-		obj.setValue(key, row[al + key]);
+	for (fkey in obj.fields) {
+		obj.setValue(fkey, row[al + fkey]);
 	}
 	
 	obj.exists = true;
@@ -209,9 +213,10 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 twic.DBObject.prototype.getFieldString = function(alias) {
 	var 
 		obj = this,
-		result = '';
+		result = '',
+		key;
 	
-	for(var key in obj.fields) {
+	for(key in obj.fields) {
 		result += (alias ? alias + '.' : '') + key + (alias ? ' ' + alias + '_' + key : '') + ', ';
 	}
 	
@@ -228,9 +233,10 @@ twic.DBObject.prototype.getFieldString = function(alias) {
 twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
 	var
 		obj = this,
-		fld = [];
+		fld = [],
+		key;
 
-	for (var key in obj.fields) {
+	for (key in obj.fields) {
 		fld.push(key);
 	}
 	

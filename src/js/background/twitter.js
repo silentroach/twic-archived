@@ -36,9 +36,10 @@ twic.twitter = ( function() {
 				var 
 					rows = this,
 					tweetList = new twic.DBObjectList(twic.db.obj.Tweet),
-					userList  = new twic.DBObjectList(twic.db.obj.User);
+					userList  = new twic.DBObjectList(twic.db.obj.User),
+					i;
 
-				for (var i = 0; i <rows.length; ++i) {
+				for (i = 0; i <rows.length; ++i) {
 					var row = rows.item(i);
 				
 					tweetList.pushUnique(row, 't');
@@ -78,13 +79,15 @@ twic.twitter = ( function() {
 					id, since_id, 
 					account.fields['oauth_token'], account.fields['oauth_token_secret'], 
 					function(data) {
-						var users = [];
+						var 
+							users = [],
+							i;
 					
-						if (data.length == 0) {
+						if (data.length === 0) {
 							return;
 						}
 
-						for (var i = 0; i < data.length; ++i) {
+						for (i = 0; i < data.length; ++i) {
 							var
 								/**
 								 * @type {Object}

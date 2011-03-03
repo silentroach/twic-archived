@@ -58,7 +58,7 @@ twic.db = ( function() {
 	var migrate = function(db, ver, callback) {
 		var version = (ver === '') ? '0' : ver;
 
-		if (version in migrations) {
+		if (migrations[version]) {
 			var migration = migrations[version];
 
 			db.changeVersion(ver, migration.version, function(t) {

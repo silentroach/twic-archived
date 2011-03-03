@@ -186,20 +186,18 @@ twic.Accounts.prototype.update = function(callback) {
 		function() {
 			var 
 				accs = new twic.DBObjectList(twic.db.obj.Account),
-				usrs = new twic.DBObjectList(twic.db.obj.User);
+				usrs = new twic.DBObjectList(twic.db.obj.User),
+				id;
 
 			accs.load(this, 'a');
 			usrs.load(this, 'u');
 
-			for (var id in accs.items) {
+			for (id in accs.items) {
 				var tmp = accs.items[id];
 				tmp.user = usrs.items[id];
 				
 				accounts.items[id] = tmp;
-				
-				accounts.items[id].onUnreadTweetsCountChanged = function() {
-					accounts.updateCounter();
-				};
+				accounts.items[id].onUnreadTweetsCountChanged = accounts.updateCounter;
 			}
 			
 			accounts.updateCounter();
@@ -216,7 +214,7 @@ twic.Accounts.prototype.update = function(callback) {
  * @return {Object|boolean} Account or false
  */
 twic.Accounts.prototype.getInfo = function(id) {
-	if (id in this.items) {
+	if (this.items[id]) {
 		return this.items[id];
 	}
 	

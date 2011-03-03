@@ -16,6 +16,8 @@ var testFile = function(path) {
 		evil: false,
 		forin: true,
 		sub: true,
+		es5: true,
+		fragment: true,
 		maxerr: maxErrorCount
 	} );
 
