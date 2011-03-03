@@ -112,7 +112,7 @@ twic.db = ( function() {
 						}
 					},
 					function(tr, error) {
-						console.group(sqlText, sqlParams);
+						console.groupCollapsed(sqlText, sqlParams);
 						console.error('sql error: ' + error.message);
 						console.groupEnd();
 						
@@ -122,7 +122,7 @@ twic.db = ( function() {
 					}
 				);
 			}, function(error) {
-				console.group(sqlText, sqlParams);
+				console.groupCollapsed(sqlText, sqlParams);
 				console.error('sql error: ' + error.message);
 				console.groupEnd();
 				
@@ -151,7 +151,7 @@ twic.db = ( function() {
 						}
 					},
 					function(tr, error) {
-						console.group(sqlText, sqlParams);
+						console.groupCollapsed(sqlText, sqlParams);
 						console.error('sql error: ' + error.message);
 						console.groupEnd();
 						
@@ -161,7 +161,7 @@ twic.db = ( function() {
 					}
 				);
 			}, function(error) {
-				console.group(sqlText, sqlParams);
+				console.groupCollapsed(sqlText, sqlParams);
 				console.error('sql error: ' + error.message);
 				console.groupEnd();
 				

@@ -96,7 +96,7 @@ twic.Request.prototype.send = function(callback) {
 
 		if (req.readyState === XMLHttpRequest.DONE) {
 			if (req.status === 401) {
-				console.group(req);
+				console.groupCollapsed(req);
 				console.error('Unauthorized');
 				console.groupEnd();
 			
@@ -106,7 +106,7 @@ twic.Request.prototype.send = function(callback) {
 			}
 			
 			if (req.responseText === '') {
-				console.group(req);
+				console.groupCollapsed(req);
 				console.error('Empty reply');
 				console.groupEnd();
 
@@ -117,7 +117,7 @@ twic.Request.prototype.send = function(callback) {
 			if (req.status === 200) {
 				callback(req);
 			} else {
-				console.group(req);
+				console.groupCollapsed(req);
 				console.error('Unknown status');
 				console.log(req.status);
 				console.log(req.responseText);
