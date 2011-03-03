@@ -191,13 +191,17 @@ twic.Accounts.prototype.update = function(callback) {
 
 			accs.load(this, 'a');
 			usrs.load(this, 'u');
+			
+			var updateMyCounter = function() {
+				accounts.updateCounter.apply(accounts);
+			};
 
 			for (id in accs.items) {
 				var tmp = accs.items[id];
 				tmp.user = usrs.items[id];
 				
 				accounts.items[id] = tmp;
-				accounts.items[id].onUnreadTweetsCountChanged = accounts.updateCounter;
+				accounts.items[id].onUnreadTweetsCountChanged = updateMyCounter;
 			}
 			
 			accounts.updateCounter();
