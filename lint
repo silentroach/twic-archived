@@ -1,2 +1,14 @@
 #!/bin/bash
-node tools/lint.js
+
+NODEJS=`which node`
+
+if [ -z ${NODEJS} ]; then
+	NODEJS=`which nodejs`;
+fi
+
+if [ -z ${NODEJS} ]; then
+	echo 'NodeJS not found'
+	exit
+fi
+
+${NODEJS} tools/lint.js
