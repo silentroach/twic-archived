@@ -77,7 +77,6 @@
 
 				li.appendChild(avatarEl);
 				li.appendChild(nickEl);
-				li.id = id;
 
 				prevUserId = item['user']['id'];
 				
@@ -90,6 +89,8 @@
 
 			messageEl.innerHTML = parseTweetText(item['msg']);
 			messageEl.className = 'msg';
+			messageEl.id = id;
+			
 			li.appendChild(messageEl);
 
 			if (useOld) {
@@ -119,7 +120,7 @@
 		// make popup 60% of screen height
 		//timeline.style.height = Math.round(screen.height / 100 * 60) + 'px';
 
-		userId = data[0];
+		userId = parseInt(data[0], 10);
 
 		twic.requests.send('getTimeline', {
 			'id': userId
