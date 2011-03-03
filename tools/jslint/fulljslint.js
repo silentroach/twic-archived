@@ -6494,6 +6494,10 @@ loop:   for (;;) {
 
     itself.edition = '2011-02-28';
 
+		if (typeof exports !== 'undefined') {
+			exports.JSLINT = itself;
+		}
+
     return itself;
 
 }());

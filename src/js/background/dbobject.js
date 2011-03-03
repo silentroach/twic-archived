@@ -52,11 +52,13 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
  * @param {Object} obj JSON object
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
-	var dbobject = this;
+	var 
+		dbobject = this,
+		key;
 
 	dbobject.changed = [];
 
-	for (var key in dbobject.fields) {
+	for (key in dbobject.fields) {
 		var fld = key;
 
 		if (key in dbobject.jsonMap) {
