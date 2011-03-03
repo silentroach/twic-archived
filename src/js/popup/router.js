@@ -49,6 +49,8 @@ twic.router = ( function() {
 		var loc = window.location.hash.split('#');
 		loc.shift();
 
+		localStorage.setItem('location', loc.join('#'));
+
 		var trg = loc.shift();
 
 		if (
