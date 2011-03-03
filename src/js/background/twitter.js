@@ -70,7 +70,7 @@ twic.twitter = ( function() {
 				console.dir(data);
 			}
 		);
-	}
+	};
 
 	/**
 	 * Update user home timeline
