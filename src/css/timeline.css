@@ -24,7 +24,8 @@
 			font-size: 8pt;
 			}
 		#timeline #tweet.overload span {
-			color: rgba(255, 0, 0, .1);
+			color: rgba(255, 0, 0, 1);
+			font-weight: bold;
 			}
 	#timeline ul {
 		margin-top: 2px;

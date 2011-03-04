@@ -10,6 +10,8 @@
 		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul'),
 		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
 		/** @type {HTMLElement}      */ tweetElement = document.getElementById('tweet'),
+		/** @type {HTMLElement}      */ tweetText    = tweetElement.querySelector('textarea'),
+		/** @type {HTMLElement}      */ tweetCounter = tweetElement.querySelector('span'),
 		/** @type {number}           */ userId;
 
 	var parseTweetText = function(text) {
@@ -138,11 +140,27 @@
 	} );
 
 	var checkTweetArea = function() {
-		tweetElement.className = tweetElement.value.length > 140 ? 'overload' : '';
+		var tLen = tweetText.value.length;
+
+		while (tweetText.scrollTop > 0) {
+			++tweetText.rows;
+		}
+
+		tweetCounter.innerHTML = (140 - tLen).toString();
+		tweetElement.className = tLen > 140 ? 'overload' : '';
 	};
 
-	tweetElement.onkeyup = function(e) {
+	// check the textarea for chars count
+	tweetText.onkeyup = function(e) {
 		checkTweetArea();
+	};
+
+	// prevent user to press enter
+	tweetText.onkeydown = function(e) {
+		if (e.keyCode === 13) {
+			e.preventDefault();
+			return;
+		}
 	};
 
 }() );
