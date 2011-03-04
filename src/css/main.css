@@ -10,7 +10,7 @@ a.nick, a.hash {
 	color: black;
 	text-decoration: none;
 	background-color: rgba(0, 120, 55, .1);
-	padding: 0 4px;
+	padding: 0 3px;
 	border-radius: 3px;
 	}
 
