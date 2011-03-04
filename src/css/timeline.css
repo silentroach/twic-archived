@@ -4,13 +4,27 @@
 	}
 	#timeline #tweet {
 		width: 100%;
-		font-size: 9pt;
-		/* move it somewhere */
-		font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
-		padding: .3em;
+		text-align: right;
 		}
-		#timeline #tweet.overload {
-				background-color: rgba(255, 0, 0, .1);
+		#timeline #tweet textarea {
+			width: 100%;
+			max-width: 100%;
+			font-size: 9pt;
+			/* move it somewhere */
+			font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
+			padding: .3em;
+			background-color: rgba(255, 255, 255, .7);
+			}
+		#timeline #tweet.overload textarea {
+			background-color: rgba(255, 0, 0, .1);
+			}
+		/** char counter **/
+		#timeline #tweet span {
+			font-style: italic;
+			font-size: 8pt;
+			}
+		#timeline #tweet.overload span {
+			color: rgba(255, 0, 0, .1);
 			}
 	#timeline ul {
 		margin-top: 2px;
