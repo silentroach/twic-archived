@@ -6,13 +6,16 @@
 ( function() {
 
 	var
-		/** @type {HTMLElement}      */ timeline = document.getElementById('timeline'),
-		/** @type {HTMLUListElement} */ list = document.querySelector('#timeline ul'),
-		/** @type {RegExp}           */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
-		/** @type {HTMLElement}      */ tweetElement = document.getElementById('tweet'),
-		/** @type {HTMLElement}      */ tweetText    = tweetElement.querySelector('textarea'),
-		/** @type {HTMLElement}      */ tweetCounter = tweetElement.querySelector('span'),
-		/** @type {number}           */ userId;
+		/** @type {HTMLElement} */
+		timeline = document.getElementById('timeline'),
+		/** @type {HTMLUListElement} */
+		list = document.querySelector('#timeline ul'),
+		/** @type {RegExp} */
+		urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
+		/** @type {twic.vcl.tweetEditor} */
+		tweetEditor = new twic.vcl.tweetEditor(timeline),
+		/** @type {number} */
+		userId;
 
 	var parseTweetText = function(text) {
 		// preparing urls
@@ -139,45 +142,6 @@
 		} );
 	} );
 
-	var checkTweetArea = function() {
-		var tLen = tweetText.value.length;
-
-		while (tweetText.scrollTop > 0) {
-			++tweetText.rows;
-		}
-
-		tweetCounter.innerHTML = (140 - tLen).toString();
-
-		// fixme refactor
-		if (tLen > 140) {
-			twic.dom(tweetElement).addClass('overload');
-		} else {
-			twic.dom(tweetElement).removeClass('overload');
-		}
-	};
-
-	// check the textarea for chars count
-	tweetText.onkeyup = function(e) {
-		checkTweetArea();
-	};
-
-	// prevent user to press enter
-	tweetText.onkeydown = function(e) {
-		if (e.keyCode === 13) {
-			e.preventDefault();
-			return;
-		}
-	};
-
-	tweetText.onfocus = function() {
-		twic.dom(tweetElement).addClass('focused');
-	};
-
-	tweetText.onblur = function() {
-		twic.dom(tweetElement).removeClass('focused');
-	};
-
-	// placeholder for the new tweet
-	tweetText.placeholder = chrome.i18n.getMessage('placeholder_newtweet');
+	tweetEditor.setPlaceholder('placeholder_newtweet');
 
 }() );
