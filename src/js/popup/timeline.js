@@ -142,6 +142,8 @@
 		} );
 	} );
 
+	// ------------------------------------------------
+
 	tweetEditor.setPlaceholder('placeholder_newtweet');
 
 }() );
