@@ -147,7 +147,13 @@
 		}
 
 		tweetCounter.innerHTML = (140 - tLen).toString();
-		tweetElement.className = tLen > 140 ? 'overload' : '';
+
+		// fixme refactor
+		if (tLen > 140) {
+			twic.dom(tweetElement).addClass('overload');
+		} else {
+			twic.dom(tweetElement).removeClass('overload');
+		}
 	};
 
 	// check the textarea for chars count
@@ -164,11 +170,11 @@
 	};
 
 	tweetText.onfocus = function() {
-		tweetElement.className = 'focused';
+		twic.dom(tweetElement).addClass('focused');
 	};
 
 	tweetText.onblur = function() {
-		tweetElement.className = '';
+		twic.dom(tweetElement).removeClass('focused');
 	};
 
 	// placeholder for the new tweet
