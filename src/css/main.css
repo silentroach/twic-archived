@@ -1,5 +1,7 @@
 body > div {
 	display: none;
+	padding-left: 3px;
+	padding-top: 3px;
 	}
 
 img.avatar {
