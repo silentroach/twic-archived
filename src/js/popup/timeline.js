@@ -17,16 +17,16 @@
 		var txt = text.replace(
 			/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
 			function(url) {
-				var 
+				var
 					stripped = url,
 					parsed = urlPattern.exec(url);
-				
+
 				if (
-					parsed 
+					parsed
 					&& parsed.length > 2
 				) {
 					stripped = parsed[2];
-				} else			
+				} else
 				if (stripped.length > 30) {
 					stripped = stripped.substring(0, 30) + '&hellip;';
 				}
@@ -50,21 +50,24 @@
 		return txt;
 	};
 
-	var buildList = function(data) {
-		var 
+	var buildList = function(info) {
+		var
 			frag = document.createDocumentFragment(),
 			prevUserId = -1,
 			lastLi,
 			lastCl,
-			id;
+			id,
+			userName = info['account']['name'],
+			data = info['data'];
 
 		for (id in data) {
-			var 
+			var
 				item      = data[id],
 				useOld    = prevUserId === item['user']['id'],
 				li        = useOld && lastLi ? lastLi : document.createElement('li'),
 				messageEl = document.createElement('p');
-				clearEl   = document.createElement('div');
+				clearEl   = document.createElement('div'),
+				msgText   = parseTweetText(item['msg']);
 
 			if (!useOld) {
 				var
@@ -77,18 +80,23 @@
 				li.appendChild(avatarEl);
 
 				prevUserId = item['user']['id'];
-				
+
 				if (prevUserId === userId) {
 					li.className = 'me';
 				}
-				
+
 				lastLi = li;
 			}
 
-			messageEl.innerHTML = parseTweetText(item['msg']);
+			messageEl.innerHTML = msgText;
 			messageEl.className = 'msg';
 			messageEl.id = id;
-			
+
+			// highlight the message with mention
+			if (msgText.indexOf('>@' + userName + '<') >= 0) {
+				messageEl.className += ' mention';
+			}
+
 			li.appendChild(messageEl);
 
 			if (useOld) {
@@ -128,11 +136,11 @@
 			}
 		} );
 	} );
-	
+
 	var checkTweetArea = function() {
 		tweetElement.className = tweetElement.value.length > 140 ? 'overload' : '';
 	};
-	
+
 	tweetElement.onkeyup = function(e) {
 		checkTweetArea();
 	};

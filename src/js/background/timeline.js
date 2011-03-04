@@ -19,15 +19,15 @@
 
 		// prepare tweets data and send the response
 		var replyWithTimeline = function(tweets, users) {
-			var 
+			var
 				reply = { },
 				tweetId;
 
 			for (tweetId in tweets.items) {
-				var 
+				var
 					tweet = tweets.items[tweetId],
 					user  = users.items[tweet.fields['user_id']];
-				
+
 				reply[tweet.fields['id']] = {
 					'msg': tweet.fields['msg'],
 					'user': {
@@ -38,7 +38,13 @@
 				};
 			}
 
-			sendResponse(reply);
+			sendResponse( {
+				'account': {
+					'id': account.fields['id'],
+					'name': account.user.fields['screen_name']
+				},
+				'data': reply
+			} );
 		};
 
 		if (account) {
