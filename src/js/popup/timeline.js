@@ -67,7 +67,7 @@
 				item      = data[id],
 				useOld    = prevUserId === item['user']['id'],
 				li        = useOld && lastLi ? lastLi : document.createElement('li'),
-				messageEl = document.createElement('p');
+				messageEl = document.createElement('p'),
 				clearEl   = document.createElement('div'),
 				msgText   = parseTweetText(item['msg']);
 
