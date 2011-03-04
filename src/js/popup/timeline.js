@@ -163,4 +163,15 @@
 		}
 	};
 
+	tweetText.onfocus = function() {
+		tweetElement.className = 'focused';
+	};
+
+	tweetText.onblur = function() {
+		tweetElement.className = '';
+	};
+
+	// placeholder for the new tweet
+	tweetText.placeholder = chrome.i18n.getMessage('placeholder_newtweet');
+
 }() );

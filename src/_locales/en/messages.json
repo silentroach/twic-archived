@@ -19,7 +19,7 @@
 		"message": "failure",
 		"description": "Message indicates authentication error"
 	},
-	
+
 	"add_first_account": {
 		"message": "add your first account",
 		"description": "message on the first screen when no accounts specified yet"
@@ -29,7 +29,7 @@
 		"message": "add account",
 		"description": "hint to the add button"
 	},
-	
+
 	"badge_unread_tweets_count": {
 		"message": "Unread tweets count: $count$",
 		"description": "Unread tweets count hint on the badge",
@@ -40,9 +40,14 @@
 			}
 		}
 	},
-	
+
 	"about_what": {
 		"message": "Twic &mdash; opensource twitter client.",
 		"description": "What it is"
+	},
+
+	"placeholder_newtweet": {
+		"message": "Enter the new tweet text",
+		"description": "Placeholder for the textarea in new tweet element"
 	}
 }

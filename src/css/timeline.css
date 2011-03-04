@@ -22,10 +22,14 @@
 		#timeline #tweet span {
 			font-style: italic;
 			font-size: 8pt;
+			display: none;
 			}
 		#timeline #tweet.overload span {
 			color: rgba(255, 0, 0, 1);
 			font-weight: bold;
+			}
+		#timeline #tweet.focused span {
+			display: block;
 			}
 	#timeline ul {
 		margin-top: 2px;
