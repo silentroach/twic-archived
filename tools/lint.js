@@ -13,7 +13,6 @@ var testFile = function(path) {
 	print('=== Checking ' + path + "...\n");
 
 	JSLINT(src, {
-		evil: false,
 		forin: true,
 		sub: true,
 		es5: true,
