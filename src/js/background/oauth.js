@@ -34,15 +34,6 @@ twic.OAuthRequest.prototype.getNonce = function() {
 };
 
 /**
- * Set request POST data
- * @param {string} key Key
- * @param {string} value Value
- */
-twic.OAuthRequest.prototype.setData = function(key, value) {
-	twic.Request.prototype.setData.call(this, key, this.encodeString(value));
-};
-
-/**
  * Sign the request
  * @param {string} token OAuth token
  * @param {string} token_secret OAuth token secret

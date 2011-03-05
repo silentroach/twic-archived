@@ -76,12 +76,12 @@ twic.Request.prototype.setData = function(key, value) {
  * @param {function(XMLHttpRequest)} callback Callback
  */
 twic.Request.prototype.send = function(callback) {
-	var 
+	var
 		data = [],
 		key;
 
 	for (key in this.data) {
-		data.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
+		data.push(key + '=' + this.encodeString(this.data[key]));
 	}
 
 	var req = new XMLHttpRequest();
@@ -99,12 +99,12 @@ twic.Request.prototype.send = function(callback) {
 				console.groupCollapsed(req);
 				console.error('Unauthorized');
 				console.groupEnd();
-			
+
 				// Unauthorized
 				// fixme handler
 				return;
 			}
-			
+
 			if (req.responseText === '') {
 				console.groupCollapsed(req);
 				console.error('Empty reply');
