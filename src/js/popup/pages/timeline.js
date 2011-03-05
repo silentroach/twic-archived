@@ -43,7 +43,7 @@
 		// preparing nicks
 		txt = txt.replace(
 			/(^|\s)@(\w+)/g,
-			'$1<a class="nick" target="_blank" href="#profile#$2">@$2</a>'
+			'$1<a class="nick" href="#profile#$2">@$2</a>'
 		);
 
 		// preparing hashtags
