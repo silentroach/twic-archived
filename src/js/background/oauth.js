@@ -59,10 +59,10 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	}
 
 	for (key in this.data) {
-		params.push(this.encodeString(key) + '%3D' + this.encodeString(this.data[key]));
+		params.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
 	}
 
-	baseString += params.sort().join('%26');
+	baseString += this.encodeString(params.sort().join('&'));
 
 	this.setData('oauth_signature',
 		SHA1.encode(this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''), baseString)
