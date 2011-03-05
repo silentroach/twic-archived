@@ -46,7 +46,7 @@ twic.api = ( function() {
 			ratelimit_remains = tmpRemains;
 			ratelimit_reset   = tmpReset;
 
-			console.info('Ratelimit', ratelimit_remains, ratelimit_reset);
+			twic.debug.info('Ratelimit', ratelimit_remains, ratelimit_reset);
 		}
 	};
 
@@ -145,7 +145,7 @@ twic.api = ( function() {
 
 		req.sign(token, token_secret);
 
-		console.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
+		twic.debug.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
 
 		req.send( function(obj) {
 			var data = JSON.parse(obj.responseText);
@@ -176,7 +176,7 @@ twic.api = ( function() {
 
 		req.sign(token, token_secret);
 
-		console.info('sending the new tweet: ' + status);
+		twic.debug.info('sending the new tweet: ' + status);
 
 		// todo not r, use func.apply(req) and use this
 		req.send( function(r) {

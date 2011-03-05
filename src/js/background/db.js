@@ -105,16 +105,16 @@ twic.db = ( function() {
 				tr.executeSql(
 					sqlText, sqlParams, 
 					function(tr, res) {
-						console.info(sqlText, sqlParams);
+						twic.debug.info(sqlText, sqlParams);
 						
 						if (successCallback) {
 							successCallback.apply(res.rows);
 						}
 					},
 					function(tr, error) {
-						console.groupCollapsed(sqlText, sqlParams);
-						console.error('sql error: ' + error.message);
-						console.groupEnd();
+						twic.debug.groupCollapsed(sqlText, sqlParams);
+						twic.debug.error('sql error: ' + error.message);
+						twic.debug.groupEnd();
 						
 						if (failedCallback) {
 							failedCallback(error.message);
@@ -122,9 +122,9 @@ twic.db = ( function() {
 					}
 				);
 			}, function(error) {
-				console.groupCollapsed(sqlText, sqlParams);
-				console.error('sql error: ' + error.message);
-				console.groupEnd();
+				twic.debug.groupCollapsed(sqlText, sqlParams);
+				twic.debug.error('sql error: ' + error.message);
+				twic.debug.groupEnd();
 				
 				if (failedCallback) {
 					failedCallback(error.message);
@@ -144,16 +144,16 @@ twic.db = ( function() {
 				tr.executeSql(
 					sqlText, sqlParams, 
 					function(tr, res) {
-						console.info(sqlText, sqlParams);
+						twic.debug.info(sqlText, sqlParams);
 
 						if (successCallback) {
 							successCallback();
 						}
 					},
 					function(tr, error) {
-						console.groupCollapsed(sqlText, sqlParams);
-						console.error('sql error: ' + error.message);
-						console.groupEnd();
+						twic.debug.groupCollapsed(sqlText, sqlParams);
+						twic.debug.error('sql error: ' + error.message);
+						twic.debug.groupEnd();
 						
 						if (failedCallback) {
 							failedCallback(error.message);
@@ -161,9 +161,9 @@ twic.db = ( function() {
 					}
 				);
 			}, function(error) {
-				console.groupCollapsed(sqlText, sqlParams);
-				console.error('sql error: ' + error.message);
-				console.groupEnd();
+				twic.debug.groupCollapsed(sqlText, sqlParams);
+				twic.debug.error('sql error: ' + error.message);
+				twic.debug.groupEnd();
 				
 				if (failedCallback) {
 					failedCallback(error.message);

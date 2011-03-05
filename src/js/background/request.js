@@ -96,9 +96,9 @@ twic.Request.prototype.send = function(callback) {
 
 		if (req.readyState === XMLHttpRequest.DONE) {
 			if (req.status === 401) {
-				console.groupCollapsed(req);
-				console.error('Unauthorized');
-				console.groupEnd();
+				twic.debug.groupCollapsed(req);
+				twic.debug.error('Unauthorized');
+				twic.debug.groupEnd();
 
 				// Unauthorized
 				// fixme handler
@@ -106,9 +106,9 @@ twic.Request.prototype.send = function(callback) {
 			}
 
 			if (req.responseText === '') {
-				console.groupCollapsed(req);
-				console.error('Empty reply');
-				console.groupEnd();
+				twic.debug.groupCollapsed(req);
+				twic.debug.error('Empty reply');
+				twic.debug.groupEnd();
 
 				// timeout or something is wrong
 				return;
@@ -117,11 +117,11 @@ twic.Request.prototype.send = function(callback) {
 			if (req.status === 200) {
 				callback(req);
 			} else {
-				console.groupCollapsed(req);
-				console.error('Unknown status');
-				console.log(req.status);
-				console.log(req.responseText);
-				console.groupEnd();
+				twic.debug.groupCollapsed(req);
+				twic.debug.error('Unknown status');
+				twic.debug.log(req.status);
+				twic.debug.log(req.responseText);
+				twic.debug.groupEnd();
 			}
 		}
 	};
