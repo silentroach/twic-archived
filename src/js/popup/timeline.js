@@ -146,4 +146,13 @@
 
 	tweetEditor.setPlaceholder('placeholder_newtweet');
 
+	tweetEditor.onTweetSend = function(tweetText) {
+		twic.requests.send('sendTweet', {
+			'id': userId,
+			'tweet': tweetText
+		}, function() {
+			tweetEditor.clearText();
+		} );
+	};
+
 }() );

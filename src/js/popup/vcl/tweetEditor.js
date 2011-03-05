@@ -14,12 +14,17 @@ twic.vcl.tweetEditor = function(parent) {
 
 	var
 		editor = this,
-		editorWrapper  = document.createElement('div'),
-		editorTextarea = document.createElement('textarea'),
-		editorCounter  = document.createElement('span');
+		/** @type {HTMLDivElement}      **/ editorWrapper  = document.createElement('div'),
+		/** @type {twic.dom}            **/ $editorWrapper = twic.dom(editorWrapper),
+		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
+		/** @type {HTMLElement}         **/ editorCounter  = document.createElement('span'),
+
+		/** @const **/ overloadClass = 'overload',
+		/** @const **/ focusedClass  = 'focused';
 
 	editorWrapper.className = 'tweetEditor';
 	editorTextarea.rows = 1;
+	editorCounter.innerHTML = '140';
 
 	editorWrapper.appendChild(editorTextarea);
 	editorWrapper.appendChild(editorCounter);
@@ -41,9 +46,9 @@ twic.vcl.tweetEditor = function(parent) {
 
 		// fixme refactor
 		if (tLen > 140) {
-			twic.dom(editorWrapper).addClass('overload');
+			$editorWrapper.addClass(overloadClass);
 		} else {
-			twic.dom(editorWrapper).removeClass('overload');
+			$editorWrapper.removeClass(overloadClass);
 		}
 	};
 
@@ -56,16 +61,23 @@ twic.vcl.tweetEditor = function(parent) {
 	editorTextarea.onkeydown = function(e) {
 		if (e.keyCode === 13) {
 			e.preventDefault();
-			return;
+
+			if (e.ctrlKey) {
+				/** @type {string} **/ var val = editorTextarea.value;
+
+				if (val.length > 0) {
+					editor.onTweetSend(val);
+				}
+			}
 		}
 	};
 
 	editorTextarea.onfocus = function() {
-		twic.dom(editorWrapper).addClass('focused');
+		$editorWrapper.addClass(focusedClass);
 	};
 
 	editorTextarea.onblur = function() {
-		twic.dom(editorWrapper).removeClass('focused');
+		$editorWrapper.removeClass(focusedClass);
 	};
 
 	// functions
@@ -73,4 +85,11 @@ twic.vcl.tweetEditor = function(parent) {
 	editor.setPlaceholder = function(alias) {
 		editorTextarea.placeholder = chrome.i18n.getMessage(alias);
 	};
+
+	editor.clearText = function() {
+		editorTextarea.value = '';
+		editorTextarea.rows = 1;
+	};
+
+	editor.onTweetSend = function(tweetText) { };
 };
