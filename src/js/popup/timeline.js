@@ -43,7 +43,7 @@
 		// preparing nicks
 		txt = txt.replace(
 			/(^|\s)@(\w+)/g,
-			'$1<a class="nick" target="_blank" href="http://twitter.com/#!/$2">@$2</a>'
+			'$1<a class="nick" target="_blank" href="#profile#$2">@$2</a>'
 		);
 
 		// preparing hashtags
@@ -67,22 +67,27 @@
 
 		for (id in data) {
 			var
-				item      = data[id],
-				useOld    = prevUserId === item['user']['id'],
-				li        = useOld && lastLi ? lastLi : document.createElement('li'),
-				messageEl = document.createElement('p'),
-				clearEl   = document.createElement('div'),
-				msgText   = parseTweetText(item['msg']);
+				item        = data[id],
+				useOld      = prevUserId === item['user']['id'],
+				li          = useOld && lastLi ? lastLi : document.createElement('li'),
+				messageEl   = document.createElement('p'),
+				clearEl     = document.createElement('div'),
+				profileLink = document.createElement('a'),
+				msgText     = parseTweetText(item['msg']);
 
 			if (!useOld) {
 				var
 					avatarEl  = document.createElement('img');
 
-				avatarEl.src        = item['user']['avatar'];
-				avatarEl.className  = 'avatar';
-				avatarEl.title      = '@' + item['user']['name'];
+				profileLink.title = '@' + item['user']['name'];
+				profileLink.className = 'avatar';
+				profileLink.href = '#profile#' + item['user']['name'];
 
-				li.appendChild(avatarEl);
+				avatarEl.src       = item['user']['avatar'];
+				avatarEl.className = 'avatar';
+
+				profileLink.appendChild(avatarEl);
+				li.appendChild(profileLink);
 
 				prevUserId = item['user']['id'];
 

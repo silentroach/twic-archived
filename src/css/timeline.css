@@ -10,15 +10,13 @@
 			padding-bottom: .4em;
 			border-bottom: 1px dotted grey;
 			}
-			#timeline ul li img.avatar {
+			#timeline ul li a.avatar {
 				padding-top: .4em;
+				float: left;
+				margin-right: .5em;
 				}
 			#timeline ul li.me {
 				background-color: rgba(100, 200, 0, .15);
-				}
-			#timeline ul li img {
-				float: left;
-				margin-right: .5em;
 				}
 			#timeline ul li p {
 				margin: 0;

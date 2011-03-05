@@ -18,6 +18,7 @@ twic.vcl.tweetEditor = function(parent) {
 		/** @type {twic.dom}            **/ $editorWrapper = twic.dom(editorWrapper),
 		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
 		/** @type {HTMLElement}         **/ editorCounter  = document.createElement('span'),
+		/** @type {number}              **/ charCount      = 0;
 
 		/** @const **/ overloadClass = 'overload',
 		/** @const **/ focusedClass  = 'focused';
@@ -36,16 +37,15 @@ twic.vcl.tweetEditor = function(parent) {
 	}
 
 	var checkTweetArea = function() {
-		var tLen = editorTextarea.value.length;
+		charCount = editorTextarea.value.length;
 
 		while (editorTextarea.scrollTop > 0) {
 			++editorTextarea.rows;
 		}
 
-		editorCounter.innerHTML = (140 - tLen).toString();
+		editorCounter.innerHTML = (140 - charCount).toString();
 
-		// fixme refactor
-		if (tLen > 140) {
+		if (charCount > 140) {
 			$editorWrapper.addClass(overloadClass);
 		} else {
 			$editorWrapper.removeClass(overloadClass);
@@ -62,7 +62,11 @@ twic.vcl.tweetEditor = function(parent) {
 		if (e.keyCode === 13) {
 			e.preventDefault();
 
-			if (e.ctrlKey) {
+			if (
+				e.ctrlKey
+				&& charCount > 0
+				&& charCount < 141
+			) {
 				/** @type {string} **/ var val = editorTextarea.value;
 
 				if (val.length > 0) {
