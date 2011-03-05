@@ -20,20 +20,20 @@ twic.twitter = ( function() {
 	 * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
 	 */
 	var getHomeTimeline = function(id, callback) {
-		var 
+		var
 			tmpTweet = new twic.db.obj.Tweet(),
 			tmpUser  = new twic.db.obj.User();
-	
+
 		twic.db.select(
 			'select ' + tmpTweet.getFieldString('t') + ', ' + tmpUser.getFieldString('u') + ' ' +
-			'from tweets t ' + 
+			'from tweets t ' +
 				'inner join timeline tl on (t.id = tl.tweet_id) ' +
-				'inner join users u on (t.user_id = u.id) ' + 
+				'inner join users u on (t.user_id = u.id) ' +
 			'where tl.user_id = ? ' +
 			'order by t.id desc limit 20 ',
 			[id],
 			function() {
-				var 
+				var
 					rows = this,
 					tweetList = new twic.DBObjectList(twic.db.obj.Tweet),
 					userList  = new twic.DBObjectList(twic.db.obj.User),
@@ -41,33 +41,38 @@ twic.twitter = ( function() {
 
 				for (i = 0; i <rows.length; ++i) {
 					var row = rows.item(i);
-				
+
 					tweetList.pushUnique(row, 't');
 					userList.pushUnique(row, 'u');
 				}
-				
+
 				callback(tweetList, userList);
 			}
 		);
 	};
-	
+
 	/**
 	 * Update the user status
 	 * @param {number} id User identifier
 	 * @param {string} status New status text
+	 * @param {function()} callback Callback function
 	 */
-	var updateStatus = function(id, status) {
+	var updateStatus = function(id, status, callback) {
 		var account = twic.accounts.getInfo(id);
 
 		if (!account) {
 			return;
 		}
-		
+
 		twic.api.updateStatus(
 			status,
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
 			function(data) {
 				console.dir(data);
+
+				if (callback) {
+					callback();
+				}
 			}
 		);
 	};
@@ -84,11 +89,11 @@ twic.twitter = ( function() {
 		}
 
 		twic.db.select(
-			'select t.id ' + 
+			'select t.id ' +
 			'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
 			'where tl.user_id = ? order by t.id desc limit 1 ', [id],
 			function() {
-				var 
+				var
 					rows = this,
 					since_id = false;
 
@@ -97,14 +102,14 @@ twic.twitter = ( function() {
 				}
 
 				twic.api.homeTimeline(
-					id, since_id, 
-					account.fields['oauth_token'], account.fields['oauth_token_secret'], 
+					id, since_id,
+					account.fields['oauth_token'], account.fields['oauth_token_secret'],
 					function(data) {
-						var 
+						var
 							users = [],
 							i,
 							userId;
-					
+
 						if (data.length === 0) {
 							return;
 						}
@@ -125,7 +130,7 @@ twic.twitter = ( function() {
 								 * @type {number}
 								 */
 								tweetId = tweet['id'];
-							
+
 							userId = tweet['user']['id'];
 
 							if (!users[userId]) {
@@ -134,9 +139,9 @@ twic.twitter = ( function() {
 
 							var tweetObj = new twic.db.obj.Tweet();
 							tweetObj.updateFromJSON(tweetId, tweet);
-						
+
 							twic.db.obj.Timeline.pushUserTimelineTweet(
-								id, tweetId, 
+								id, tweetId,
 								tweet['user'] !== id ? incrementUnreadTweets : undefined
 							);
 						}
@@ -151,7 +156,7 @@ twic.twitter = ( function() {
 							var userObj = new twic.db.obj.User();
 							userObj.updateFromJSON(userId, user);
 						}
-					} 
+					}
 				);
 			}
 		);

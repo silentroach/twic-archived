@@ -56,4 +56,20 @@
 		}
 	} );
 
+	twic.requests.subscribe('sendTweet', function(data, sendResponse) {
+		// check for id in request data
+		if (!data['id']) {
+			sendResponse({ });
+			return;
+		}
+
+		var
+			id = data['id'],
+			tweet = data['tweet'];
+
+		twic.twitter.updateStatus(id, tweet, function() {
+			sendResponse({ });
+		} );
+	} );
+
 }() );
