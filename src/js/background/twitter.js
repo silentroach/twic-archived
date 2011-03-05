@@ -63,6 +63,8 @@ twic.twitter = ( function() {
 		if (!account) {
 			return;
 		}
+		
+		// FIXME get all the new messages before send
 
 		twic.api.updateStatus(
 			status,
