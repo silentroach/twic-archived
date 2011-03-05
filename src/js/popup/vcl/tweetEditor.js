@@ -18,7 +18,7 @@ twic.vcl.tweetEditor = function(parent) {
 		/** @type {twic.dom}            **/ $editorWrapper = twic.dom(editorWrapper),
 		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
 		/** @type {HTMLElement}         **/ editorCounter  = document.createElement('span'),
-		/** @type {number}              **/ charCount      = 0;
+		/** @type {number}              **/ charCount      = 0,
 
 		/** @const **/ overloadClass = 'overload',
 		/** @const **/ focusedClass  = 'focused';
