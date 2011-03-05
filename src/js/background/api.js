@@ -49,7 +49,7 @@ twic.api = ( function() {
 			console.info('Ratelimit', ratelimit_remains, ratelimit_reset);
 		}
 	};
-	
+
 	/**
 	 * Reset the request token after auth
 	 */
@@ -144,10 +144,10 @@ twic.api = ( function() {
 		}
 
 		req.sign(token, token_secret);
-		
+
 		console.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
 
-		req.send( function(obj) {		
+		req.send( function(obj) {
 			var data = JSON.parse(obj.responseText);
 
 			if (
@@ -158,7 +158,7 @@ twic.api = ( function() {
 			}
 		} );
 	};
-	
+
 	/**
 	 * Update user status
 	 * @param {string} status New user status
@@ -168,17 +168,20 @@ twic.api = ( function() {
 	 */
 	var updateStatus = function(status, token, token_secret, callback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');
-		
+
 		req.setData('status', status);
-		
+
+		// do not request additional user info cause it is about us
+		req.setData('trim_user', 1);
+
 		req.sign(token, token_secret);
-		
+
 		console.info('sending the new tweet: ' + status);
-		
+
 		// todo not r, use func.apply(req) and use this
 		req.send( function(r) {
 			var data = JSON.parse(r.responseText);
-			
+
 			if (
 				data
 				&& callback

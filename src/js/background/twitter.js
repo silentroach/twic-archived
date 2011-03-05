@@ -67,8 +67,14 @@ twic.twitter = ( function() {
 		twic.api.updateStatus(
 			status,
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
-			function(data) {
-				console.dir(data);
+			function(tweet) {
+				var
+					tweetId = tweet['id'],
+					tweetObj = new twic.db.obj.Tweet();
+
+				tweetObj.updateFromJSON(tweetId, tweet);
+
+				twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId);
 
 				if (callback) {
 					callback();
@@ -115,9 +121,9 @@ twic.twitter = ( function() {
 						}
 
 						var incrementUnreadTweets = function() {
-								// increment the nread tweets count if it is new
-								account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
-								account.save();
+							// increment the nread tweets count if it is new
+							account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
+							account.save();
 						};
 
 						for (i = 0; i < data.length; ++i) {
