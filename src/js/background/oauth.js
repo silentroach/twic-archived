@@ -26,11 +26,20 @@ twic.OAuthRequest.prototype.getNonce = function() {
 		result = '',
 		i;
 
-	for (i = 0; i < 6; ++i) {
+	for (i = 0; i < 32; ++i) {
 		result += nonce_chars[Math.floor(Math.random() * nonce_chars.length)];
 	}
 
 	return result;
+};
+
+/**
+ * Set request POST data
+ * @param {string} key Key
+ * @param {string} value Value
+ */
+twic.OAuthRequest.prototype.setData = function(key, value) {
+	twic.Request.prototype.setData.call(this, key, this.encodeString(value));
 };
 
 /**
