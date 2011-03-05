@@ -10,7 +10,7 @@ var
 var testFile = function(path) {
 	var src = rf(path, 'utf8');
 
-	print('=== Checking ' + path + "...\n");
+	print('=== Checking ' + path + "\n");
 
 	JSLINT(src, {
 		forin: true,
