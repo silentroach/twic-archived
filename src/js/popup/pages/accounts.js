@@ -18,7 +18,7 @@
 				firstAccountElement.innerText = chrome.i18n.getMessage('add_first_account');
 				firstAccountElement.style.display = 'block';
 			}
-		
+
 			return;
 		} else {
 			if (firstAccountElement) {
@@ -26,7 +26,7 @@
 			}
 		}
 
-		var 
+		var
 			frag = document.createDocumentFragment(),
 			i;
 
@@ -35,10 +35,10 @@
 
 			var avatar = document.createElement('img');
 			avatar.src = element['avatar'];
-			avatar.title = element['screen_name'];
 			avatar.className = 'avatar';
 
 			var a = document.createElement('a');
+			a.title = '@' + element['screen_name'];
 			a.href = '#timeline#' + element['id'];
 
 			a.appendChild(avatar);
