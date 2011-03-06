@@ -15,7 +15,6 @@ SHA1 = ( function() {
 	 * the server-side, but the defaults work in most cases.
 	 */
 	var
-		/** @const **/ hexcase = 0,  /* hex output format. 0 - lowercase; 1 - uppercase        */
 		/** @const **/ chrsz   = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode      */
 
 	/**
