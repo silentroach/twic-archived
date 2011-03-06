@@ -61,6 +61,7 @@ var testDir = function(path) {
 		} else
 		if (
 			st.isFile()
+			&& '.js' === ename.substring(ename.length - 3)
 		) {
 			testFile(ename);
 		}
