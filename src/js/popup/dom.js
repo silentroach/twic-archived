@@ -233,12 +233,8 @@ twic.dom = (function() {
 		 */
 		hide: function() {
 			this.css('display', 'none');
-		},
-
-		// FIXME shit
-		unhide: function() {
-			this.css('display', '');
 		}
+
 	};
 
 	dom.fn.init.prototype = dom.fn;
