@@ -8,10 +8,21 @@ twic.twitter = ( function() {
 	/**
 	 * Get the user info
 	 * @param {string} nick Nickname
-	 * @param {function()} callback Callback function
+	 * @param {function(Object)} callback Callback function
 	 */
 	var getUserInfo = function(nick, callback) {
+		var
+			tmpUser = new twic.db.obj.User();
 
+		tmpUser.loadByFieldValue(
+			'screen_name', nick,
+			function() {
+				callback(tmpUser);
+			},
+			function() {
+				// not found
+			}
+		);
 	};
 
 	/**
@@ -63,7 +74,7 @@ twic.twitter = ( function() {
 		if (!account) {
 			return;
 		}
-		
+
 		// FIXME get all the new messages before send
 
 		twic.api.updateStatus(

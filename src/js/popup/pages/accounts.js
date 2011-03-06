@@ -72,12 +72,7 @@
 
 	twic.router.handle('accounts', function(data) {
 		clearList();
-
-		twic.requests.send('accountList', {}, function(list) {
-			if (list) {
-				buildList(list);
-			}
-		} );
+		twic.requests.send('accountList', {}, buildList);
 	} );
 
 }());

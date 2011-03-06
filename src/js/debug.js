@@ -68,6 +68,17 @@ twic.debug.error = function(args) {
 /**
  * @param {...*} args
  */
+twic.debug.dir = function(args) {
+	if (!twic.debug.ENABLED) {
+		return;
+	}
+
+	console.dir.apply(console, arguments);
+};
+
+/**
+ * @param {...*} args
+ */
 twic.debug.groupEnd = function() {
 	if (!twic.debug.ENABLED) {
 		return;

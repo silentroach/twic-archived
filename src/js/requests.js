@@ -35,6 +35,8 @@ twic.requests = ( function() {
 			subscriptions[event] = [];
 		}
 
+		twic.debug.info('subscribe for ' + event);
+
 		subscriptions[event].push(callback);
 	};
 
@@ -47,6 +49,10 @@ twic.requests = ( function() {
 				data = request['data'] || {},
 				s = subscriptions[request['method']],
 				i;
+
+			twic.debug.groupCollapsed('request ' + request['method'] + 'received');
+			twic.debug.dir(data);
+			twic.debug.groupEnd();
 
 			for (i = 0; i < s.length; ++i) {
 				s[i](data, sendResponse);

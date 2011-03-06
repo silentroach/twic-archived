@@ -140,11 +140,7 @@
 
 		twic.requests.send('getTimeline', {
 			'id': userId
-		}, function(list) {
-			if (list) {
-				buildList(list);
-			}
-		} );
+		}, buildList);
 	} );
 
 	// ------------------------------------------------
