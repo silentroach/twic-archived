@@ -6,10 +6,11 @@
 
 	var
 		page = document.getElementById('profile'),
-		elementAvatar = page.querySelector('.avatar'),
-		elementName   = page.querySelector('.name'),
-		elementNick   = page.querySelector('.nick'),
-		elementUrl    = page.querySelector('.url');
+		elementAvatar   = page.querySelector('.avatar'),
+		elementName     = page.querySelector('.name'),
+		elementNick     = page.querySelector('.nick'),
+		elementUrl      = page.querySelector('.url'),
+		toolbarTimeline = page.querySelector('.toolbar a');
 
 	var clearProfileData = function() {
 		elementAvatar.style.display = 'none';
@@ -28,6 +29,11 @@
 	};
 
 	twic.router.handle('profile', function(data) {
+		var prev = this.previous();
+
+		toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
+		toolbarTimeline.href = '#' + prev.join('#');
+
 		clearProfileData();
 
 		if (

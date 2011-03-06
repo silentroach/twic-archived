@@ -1,6 +1,6 @@
-#profile {
+#profile .info {
 	padding: 1em;
 	}
-	#profile .avatar {
+	#profile .info .avatar {
 		float: right;
 		}

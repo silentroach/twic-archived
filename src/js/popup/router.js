@@ -9,6 +9,8 @@ twic.router = ( function() {
 		self = { },
 		/** @type {Object} */ frames = { },
 		/** @type {string} */ currentFrame,
+		/** @type {Array.<string>} */ location = [],
+		/** @type {Array.<string>} */ previousLocation = [],
 		i;
 
 	var tmp = document.querySelectorAll('body > div');
@@ -47,17 +49,20 @@ twic.router = ( function() {
 	// ----------------------------------------------------
 
 	window.onhashchange = function() {
-		var loc = window.location.hash.split('#');
-		loc.shift();
+		// store the previous location
+		previousLocation = location;
 
-		var trg = loc.shift();
+		location = window.location.hash.split('#');
+		location.shift();
+
+		var trg = location[0];
 
 		if (
 			trg
 			&& currentFrame !== trg
 			&& frames[trg]
 		) {
-			changeFrame(trg, loc);
+			changeFrame(trg, location.slice(1));
 		}
 	};
 
@@ -66,13 +71,13 @@ twic.router = ( function() {
 			frames[frameName].callbacks.push(callback);
 		},
 
+		previous: function() {
+			return previousLocation;
+		},
+
 		// remember the page to open it next time popup is open
 		remember: function() {
-			// todo refactor
-			var loc = window.location.hash.split('#');
-			loc.shift();
-
-			localStorage.setItem('location', loc.join('#'));
+			localStorage.setItem('location', location.join('#'));
 		}
 	};
 
