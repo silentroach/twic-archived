@@ -142,8 +142,7 @@
 			return;
 		}
 
-		// make popup 60% of screen height
-		//timeline.style.height = Math.round(screen.height / 100 * 60) + 'px';
+		this.remember();
 
 		userId = parseInt(data[0], 10);
 
