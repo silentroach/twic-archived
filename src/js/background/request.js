@@ -77,18 +77,19 @@ twic.Request.prototype.setData = function(key, value) {
  */
 twic.Request.prototype.send = function(callback) {
 	var
+		self = this,
 		data = [],
 		key;
 
-	for (key in this.data) {
-		data.push(key + '=' + this.encodeString(this.data[key]));
+	for (key in self.data) {
+		data.push(key + '=' + self.encodeString(self.data[key]));
 	}
 
 	var req = new XMLHttpRequest();
-	req.open(this.method, this.url + (this.method === 'GET' ? '?' + data.join('&') : ''));
+	req.open(self.method, self.url + (self.method === 'GET' ? '?' + data.join('&') : ''));
 
-	for (key in this.headers) {
-		req.setRequestHeader(key, this.headers[key]);
+	for (key in self.headers) {
+		req.setRequestHeader(key, self.headers[key]);
 	}
 
 	req.onreadystatechange = function() {
@@ -115,7 +116,7 @@ twic.Request.prototype.send = function(callback) {
 			}
 
 			if (req.status === 200) {
-				twic.debug.groupCollapsed('http request to ' + this.url + ' finished');
+				twic.debug.groupCollapsed('http request to ' + self.url + ' finished');
 				try {
 					twic.debug.dir(JSON.parse(req.responseText));
 				} catch(e) {
@@ -134,7 +135,7 @@ twic.Request.prototype.send = function(callback) {
 		}
 	};
 
-	if (this.method === 'GET') {
+	if (self.method === 'GET') {
 		req.send();
 	} else {
 		req.send(data.join('&'));
