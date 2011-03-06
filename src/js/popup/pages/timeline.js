@@ -144,6 +144,8 @@
 
 		this.remember();
 
+		list.innerHTML = '';
+
 		userId = parseInt(data[0], 10);
 
 		twic.requests.send('getTimeline', {
