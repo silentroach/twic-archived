@@ -115,6 +115,14 @@ twic.Request.prototype.send = function(callback) {
 			}
 
 			if (req.status === 200) {
+				twic.debug.groupCollapsed('http request to ' + this.url + ' finished');
+				try {
+					twic.debug.dir(JSON.parse(req.responseText));
+				} catch(e) {
+					twic.debug.info(req.responseText);
+				}
+				twic.debug.groupEnd();
+
 				callback(req);
 			} else {
 				twic.debug.groupCollapsed(req);
