@@ -6,11 +6,17 @@
 ( function() {
 
 	var
-		/** @type {HTMLElement} */ about = document.querySelector('#about'),
-		/** @type {HTMLElement} */ awhat = document.querySelector('#awhat');
-		
+		/** @type {HTMLElement} */ awhat = document.getElementById('awhat'),
+		/** @type {HTMLElement} */ donateButton = document.getElementById('donate');
+
+	donateButton.value = chrome.i18n.getMessage('button_donate');
+	awhat.innerHTML    = chrome.i18n.getMessage('about_what');
+
+	document.querySelector('#about .toolbar p').innerHTML = chrome.i18n.getMessage('toolbar_about');
+	document.querySelector('#about .toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+
 	twic.router.handle('about', function(data) {
-		awhat.innerHTML = chrome.i18n.getMessage('about_what');
+
 	} );
 
 }() );

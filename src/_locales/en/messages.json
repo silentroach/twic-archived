@@ -29,6 +29,10 @@
 		"message": "add account",
 		"description": "hint to the add button"
 	},
+	"hint_about": {
+		"message": "about",
+		"description": "hint to the button to about page"
+	},
 
 	"badge_unread_tweets_count": {
 		"message": "Unread tweets count: $count$",
@@ -53,6 +57,15 @@
 
 	"toolbar_accounts": {
 		"message": "accounts",
-		"description": "button to return to the accounts page from timeline"
+		"description": "Button to return to the accounts page from timeline"
+	},
+	"toolbar_about": {
+		"message": "about",
+		"description": "Text to the right in the top of about page"
+	},
+
+	"button_donate": {
+		"message": "donate",
+		"description": "Button for making donations"
 	}
 }

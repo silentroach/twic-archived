@@ -2,8 +2,7 @@
 	text-align: center;
 	}
 	#accounts ul {
-		margin-top: 10px;
-		margin-bottom: 30px;
+		margin: 10px 0;
 		}
 		#accounts ul li {
 			display: inline-block;
@@ -23,7 +22,7 @@
 					border-radius: 3px;
 					margin-left: -10px;
 					}
-				
+
 #accounts p {
 	font-size: 12pt;
 	padding: 1em;

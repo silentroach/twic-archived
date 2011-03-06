@@ -1,10 +1,14 @@
 .toolbar {
-	border-bottom: 1px solid white;
-	background-color: rgba(0, 0, 0, .1);
+	border-bottom: 1px dotted silver;
+	background-color: rgba(0, 0, 0, .05);
 	padding: .5em .3em;
+	margin-bottom: 4px;
 	color: black;
 	font-size: 9pt;
 	}
+	.toolbar a.icon {
+		margin: 0 10px;
+		}
 	.toolbar a.button {
 		text-decoration: none;
 		color: white;

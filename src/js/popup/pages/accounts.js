@@ -61,14 +61,15 @@
 		list.appendChild(frag);
 	};
 
-	document.getElementById('account_add').onclick = function() {
+	document.getElementById('button_account_add').onclick = function() {
 		this.innerHTML = chrome.i18n.getMessage('auth_confirm_wait');
 
 		// TODO handle errors
 		twic.requests.send('accountAdd');
 	};
 
-	document.querySelector('#account_add img').title = chrome.i18n.getMessage('hint_add_account');
+	document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
+	document.getElementById('button_about').title = chrome.i18n.getMessage('hint_about');
 
 	twic.router.handle('accounts', function(data) {
 		this.remember();

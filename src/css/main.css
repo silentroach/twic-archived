@@ -1,7 +1,6 @@
 body > div {
 	display: none;
-	padding-left: 3px;
-	padding-top: 3px;
+	padding: 2px;
 	}
 
 img.avatar {
@@ -29,29 +28,6 @@ ul.list {
 			ul.list li:hover img.avatar {
 				-webkit-box-shadow: white -1px -1px 1px;
 				}
-
-div.bar {
-	position: absolute;
-	width: 100%;
-	margin: 0px;
-	padding: 5px 0px 5px 0px;
-	}
-	div.bar.top {
-
-		}
-
-	div.bar.bottom {
-		bottom: 0px;
-		border-top: 1px solid silver;
-		}
-
-	div.bar a {
-		text-decoration: none;
-		display: block;
-		}
-		div.bar a img {
-			padding: 0px 5px 0px 5px;
-			}
 
 .clearer {
 	clear: both;

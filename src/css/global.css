@@ -3,11 +3,14 @@ body {
 	height: auto;
 	margin: 0px;
 	padding: 0px;
-	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
-	font-size: 10pt;
 	background-color: rgba(0, 0, 0, .03);
 	overflow-x: hidden;
 	line-height: 1.3;
+	}
+
+body, input, textarea {
+	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
+	font-size: 10pt;
 	}
 
 ul {
