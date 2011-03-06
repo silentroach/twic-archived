@@ -20,7 +20,12 @@ twic.twitter = ( function() {
 				callback(tmpUser);
 			},
 			function() {
-				// not found
+				twic.api.getUserInfo(nick, function(obj) {
+					tmpUser.loadFromJSON(obj);
+					tmpUser.save();
+
+					callback(tmpUser);
+				} );
 			}
 		);
 	};

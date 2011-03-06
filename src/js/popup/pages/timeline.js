@@ -43,7 +43,11 @@
 		// preparing nicks
 		txt = txt.replace(
 			/(^|\s)@(\w+)/g,
-			'$1<a class="nick" href="#profile#$2">@$2</a>'
+			function(nick) {
+				var n = nick.substring(2);
+
+				return nick[0] + '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
+			}
 		);
 
 		// preparing hashtags

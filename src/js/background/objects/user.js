@@ -24,6 +24,10 @@ twic.db.obj.User = function() {
 		'avatar': 'profile_image_url',
 		'verified': function(obj) {
 			return (obj['verified']) ? 1 : 0;
+		},
+		// make the screen_name lowercase to search it right
+		'screen_name': function(obj) {
+			return obj['screen_name'].toLowerCase();
 		}
 	};
 };

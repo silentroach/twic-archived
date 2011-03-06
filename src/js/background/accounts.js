@@ -9,7 +9,7 @@
 twic.Accounts = function() {
 
 	var self = this;
-	
+
 	self.items = undefined;
 
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
@@ -21,13 +21,13 @@ twic.Accounts = function() {
 	} );
 
 	twic.requests.subscribe('accountList', function(data, sendResponse) {
-		var 
+		var
 			accs = [],
 			id;
-		
+
 		for (id in self.items) {
 			var item = self.items[id];
-			
+
 			accs.push( {
 				'id': id,
 				'avatar': item.user.fields['avatar'],
@@ -72,9 +72,9 @@ twic.Accounts = function() {
 			var afterAll = function() {
 				// reset the token after auth is complete
 				twic.api.resetToken();
-				
+
 				// update the accounts information
-				self.update( function() { 
+				self.update( function() {
 					// and update the home timeline for user
 					twic.twitter.updateHomeTimeline(account.fields['id']);
 				} );
@@ -84,7 +84,7 @@ twic.Accounts = function() {
 				var user = new twic.db.obj.User();
 				user.loadById(id, afterAll, function() {
 					// not found. lets get it
-					twic.api.userinfo(id, function(info) {
+					twic.api.getUserInfo(id, function(info) {
 						user.loadFromJSON(info);
 						user.save(afterAll);
 					} );
@@ -150,15 +150,15 @@ twic.Accounts.prototype.updateCounter = function() {
 	for (id in accounts.items) {
 		unreadTweetsCount += accounts.items[id].fields['unread_tweets_count'];
 	}
-	
+
 	if (unreadTweetsCount > 0) {
 		badgeHint.push(chrome.i18n.getMessage('badge_unread_tweets_count', [unreadTweetsCount]));
 	}
-	
+
 	chrome.browserAction.setTitle( {
 		'title': badgeHint.length > 0 ? badgeHint.join("\n") : ''
 	} );
-	
+
 	chrome.browserAction.setBadgeText( {
 		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
 	} );
@@ -169,7 +169,7 @@ twic.Accounts.prototype.updateCounter = function() {
  * @param {function()} callback Callback function
  */
 twic.Accounts.prototype.update = function(callback) {
-	var 
+	var
 		accounts = this,
 		tmpAccount = new twic.db.obj.Account(),
 		tmpUser    = new twic.db.obj.User();
@@ -182,16 +182,16 @@ twic.Accounts.prototype.update = function(callback) {
 			'inner join users u on ( ' +
 				'u.id = a.id ' +
 			') ' +
-		'order by u.screen_name ', [], 
+		'order by u.screen_name ', [],
 		function() {
-			var 
+			var
 				accs = new twic.DBObjectList(twic.db.obj.Account),
 				usrs = new twic.DBObjectList(twic.db.obj.User),
 				id;
 
 			accs.load(this, 'a');
 			usrs.load(this, 'u');
-			
+
 			var updateMyCounter = function() {
 				accounts.updateCounter.apply(accounts);
 			};
@@ -199,13 +199,13 @@ twic.Accounts.prototype.update = function(callback) {
 			for (id in accs.items) {
 				var tmp = accs.items[id];
 				tmp.user = usrs.items[id];
-				
+
 				accounts.items[id] = tmp;
 				accounts.items[id].onUnreadTweetsCountChanged = updateMyCounter;
 			}
-			
+
 			accounts.updateCounter();
-			
+
 			if (callback) {
 				callback.apply(accounts);
 			}
@@ -221,6 +221,6 @@ twic.Accounts.prototype.getInfo = function(id) {
 	if (this.items[id]) {
 		return this.items[id];
 	}
-	
+
 	return false;
 };

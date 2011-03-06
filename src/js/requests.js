@@ -50,7 +50,7 @@ twic.requests = ( function() {
 				s = subscriptions[request['method']],
 				i;
 
-			twic.debug.groupCollapsed('request ' + request['method'] + 'received');
+			twic.debug.groupCollapsed('request ' + request['method'] + ' received');
 			twic.debug.dir(data);
 			twic.debug.groupEnd();
 

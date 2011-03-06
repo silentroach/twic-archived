@@ -112,7 +112,7 @@ twic.api = ( function() {
 
 	/**
 	 * Get the user info
-	 * @param {number} id User identifier
+	 * @param {number|string} id User identifier or screen name
 	 * @param {function()} callback Callback function
 	 */
 	var getUserInfo = function(id, callback) {
@@ -196,7 +196,7 @@ twic.api = ( function() {
 		resetToken: resetToken,
 		tryGrantAccess: tryGrantAccess,
 		getAccessToken: getAccessToken,
-		userinfo: getUserInfo,
+		getUserInfo: getUserInfo,
 		homeTimeline: homeTimeline,
 		updateStatus: updateStatus
 	};
