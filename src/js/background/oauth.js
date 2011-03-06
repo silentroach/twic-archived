@@ -51,7 +51,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	this.setData('oauth_consumer_key', twic.consumer_key);
 	this.setData('oauth_signature_method', 'HMAC-SHA1');
 	this.setData('oauth_version', '1.0');
-	this.setData('oauth_timestamp', twic.utils.getCurrentTimestamp());
+	this.setData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());
 	this.setData('oauth_nonce', this.getNonce());
 
 	if (token) {

@@ -17,7 +17,7 @@ twic.db.obj.User = function() {
 		'avatar': '',
 		'url': '',
 		'verified': '',
-		'dt': twic.utils.getCurrentTimestamp()
+		'dt': twic.utils.date.getCurrentTimestamp()
 	};
 
 	this.jsonMap = {
@@ -32,7 +32,7 @@ goog.inherits(twic.db.obj.User, twic.DBObject);
 
 twic.db.obj.User.prototype.save = function(callback) {
 	// update for 'dt' each save method call
-	this.fields['dt'] = twic.utils.getCurrentTimestamp();
+	this.fields['dt'] = twic.utils.date.getCurrentTimestamp();
 
 	twic.DBObject.prototype.save.call(this, callback);
 };

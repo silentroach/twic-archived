@@ -14,7 +14,7 @@ twic.db.obj.Tweet = function() {
 		'id': 0,
 		'user_id': 0,
 		'reply_to': '',
-		'dt': twic.utils.getCurrentTimestamp(),
+		'dt': twic.utils.date.getCurrentTimestamp(),
 		'msg': ''
 	};
 
@@ -22,7 +22,7 @@ twic.db.obj.Tweet = function() {
 		'msg': 'text',
 		'reply_to': 'in_reply_to_status_id',
 		'dt': function(obj) {
-			return twic.utils.getTimestamp(new Date(obj['created_at']));
+			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		},
 		'user_id': function(obj) {
 			return obj['user']['id'];

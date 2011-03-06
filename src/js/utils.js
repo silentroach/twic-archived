@@ -5,25 +5,14 @@
 
 twic.utils = { };
 
-/**
- * Extend the object
- * @param {Object} Child Child object
- * @param {Object} Parent Parent object
-twic.utils.extend = function(Child, Parent) {
-	var F = function() { };
-	F.prototype = Parent.prototype;
-	Child.prototype = new F();
-	Child.prototype.constructor = Child;
-	Child.superclass = Parent.prototype;
-};
-*/
+twic.utils.date = { };
 
 /**
  * Get the timestamp from Date
  * @param {Date} dt Date
  * @return {number} Timestamp
  */
-twic.utils.getTimestamp = function(dt) {
+twic.utils.date.getTimestamp = function(dt) {
 	return Math.floor(dt.getTime() / 1000);
 };
 
@@ -31,6 +20,6 @@ twic.utils.getTimestamp = function(dt) {
  * Get the current timestamp
  * @return {number} Timestamp
  */
-twic.utils.getCurrentTimestamp = function() {
-	return twic.utils.getTimestamp(new Date());
+twic.utils.date.getCurrentTimestamp = function() {
+	return twic.utils.date.getTimestamp(new Date());
 };
