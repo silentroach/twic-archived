@@ -12,8 +12,10 @@
 		list = document.querySelector('#timeline ul'),
 		/** @type {RegExp} */
 		urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
+		/** @type {HTMLElement} */
+		newTweet = timeline.querySelector('.newtweet'),
 		/** @type {twic.vcl.tweetEditor} */
-		tweetEditor = new twic.vcl.tweetEditor(timeline),
+		tweetEditor = new twic.vcl.tweetEditor(newTweet),
 		/** @type {number} */
 		userId;
 
@@ -68,6 +70,9 @@
 			id,
 			userName = info['account']['name'],
 			data = info['data'];
+
+		var accountNameElement = timeline.querySelector('.toolbar p');
+		accountNameElement.innerHTML = userName;
 
 		for (id in data) {
 			var
@@ -148,6 +153,9 @@
 	} );
 
 	// ------------------------------------------------
+
+	var accountsButton = timeline.querySelector('.toolbar a');
+	accountsButton.innerHTML = chrome.i18n.getMessage('toolbar_accounts');
 
 	tweetEditor.setPlaceholder('placeholder_newtweet');
 

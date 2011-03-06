@@ -49,5 +49,10 @@
 	"placeholder_newtweet": {
 		"message": "Enter the new tweet text",
 		"description": "Placeholder for the textarea in new tweet element"
+	},
+
+	"toolbar_accounts": {
+		"message": "accounts",
+		"description": "button to return to the accounts page from timeline"
 	}
 }
