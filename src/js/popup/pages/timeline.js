@@ -72,7 +72,7 @@
 			data = info['data'];
 
 		var accountNameElement = timeline.querySelector('.toolbar p');
-		accountNameElement.innerHTML = userName;
+		accountNameElement.innerHTML = '@' + userName;
 
 		for (id in data) {
 			var
