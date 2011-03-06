@@ -12,6 +12,7 @@
 		elementUrl    = page.querySelector('.url');
 
 	var clearProfileData = function() {
+		elementAvatar.style.display = 'none';
 		elementAvatar.src = '';
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';
@@ -20,6 +21,7 @@
 
 	var showProfile = function(data) {
 		elementAvatar.src = data['avatar'];
+		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
 		elementUrl.innerHTML = '<a href="' + data['url'] + '">' + data['url'] + '</a>';
