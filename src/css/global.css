@@ -4,15 +4,11 @@ body {
 	margin: 0px;
 	padding: 0px;
 	background-color: rgba(0, 0, 0, .03);
-	overflow-x: hidden;
 	line-height: 1.3;
+	overflow-x: hidden;
 	}
 
 body, input, textarea {
 	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
 	font-size: 10pt;
-	}
-
-ul {
-	/* padding: .3em; */
 	}

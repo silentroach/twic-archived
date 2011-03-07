@@ -20,4 +20,5 @@
 	.toolbar p {
 		display: inline;
 		float: right;
+		margin-right: .4em;
 		}
