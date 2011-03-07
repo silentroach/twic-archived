@@ -104,6 +104,7 @@ twic.twitter = ( function() {
 	/**
 	 * Update user home timeline
 	 * @param {number} id User identifier
+	 * todo make variable names more pretty
 	 */
 	var updateHomeTimeline = function(id) {
 		var account = twic.accounts.getInfo(id);
@@ -166,7 +167,7 @@ twic.twitter = ( function() {
 
 							twic.db.obj.Timeline.pushUserTimelineTweet(
 								id, tweetId,
-								tweet['user'] !== id ? incrementUnreadTweets : undefined
+								userId !== id ? incrementUnreadTweets : undefined
 							);
 						}
 
