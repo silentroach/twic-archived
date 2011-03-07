@@ -1,2 +1,2 @@
 #!/bin/bash
-tools/builder/builder src/manifest.json
+tools/builder/builder src/manifest.json --js_define twic.debug.ENABLED=false
