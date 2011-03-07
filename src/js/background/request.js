@@ -14,23 +14,23 @@ twic.Request = function(method, url) {
 };
 
 /**
- * @param {string} data Data
+ * @param {!string} data Data
  * @return {Object} Parsed object
- * FIXME FIXTHISSHIT!
  */
-twic.Request.convertDataToParams = function(data) {
+twic.Request.queryStringToObject = function(data) {
 	var
-		result = {},
-		parts  = data.split('&'),
-		i;
+		result = { },
+		tmp,
+		r = /([^&=]+)=?([^&]*)/g;
 
-	for (i = 0; i < parts.length; ++i) {
-		var
-			tmp = parts[i].split('=');
+	while (true) {
+		tmp = r.exec(data);
 
-		if (2 === tmp.length) {
-			result[tmp[0]] = tmp[1];
+		if (!tmp) {
+			break;
 		}
+
+		result[tmp[1]] = tmp[2];
 	}
 
 	return result;
@@ -38,7 +38,7 @@ twic.Request.convertDataToParams = function(data) {
 
 /**
  * Static function to encode the string
- * @param {string} str String
+ * @param {!string} str String
  * @return {string}
  */
 twic.Request.prototype.encodeString = function(str) {
@@ -55,8 +55,8 @@ twic.Request.prototype.encodeString = function(str) {
 
 /**
  * Set request custom header
- * @param {string} key Key
- * @param {string} value Value
+ * @param {!string} key Key
+ * @param {!string} value Value
  */
 twic.Request.prototype.setHeader = function(key, value) {
   this.headers[key] = value;
@@ -64,8 +64,8 @@ twic.Request.prototype.setHeader = function(key, value) {
 
 /**
  * Set request POST data
- * @param {string} key Key
- * @param {string} value Value
+ * @param {!string} key Key
+ * @param {!string} value Value
  */
 twic.Request.prototype.setData = function(key, value) {
 	this.data[key] = value;

@@ -72,7 +72,7 @@ twic.api = ( function() {
 		req.sign();
 
 		req.send( function(r) {
-			var obj = twic.Request.convertDataToParams(r.responseText);
+			var obj = twic.Request.queryStringToObject(r.responseText);
 
 			oauth_token        = obj['oauth_token'];
 			oauth_token_secret = obj['oauth_token_secret'];
@@ -94,7 +94,7 @@ twic.api = ( function() {
 			req.sign(token, secret);
 
 			req.send( function(data) {
-				callback(twic.Request.convertDataToParams(data.responseText));
+				callback(twic.Request.queryStringToObject(data.responseText));
 			} );
 		} );
 	};
