@@ -4,3 +4,6 @@
 [submodule "src/_locales"]
 	path = src/_locales
 	url = git://github.com/silentroach/twic-i18n.git
+[submodule "tools/nodeunit"]
+	path = tools/nodeunit
+	url = git://github.com/caolan/nodeunit.git

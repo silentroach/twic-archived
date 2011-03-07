@@ -8,7 +8,6 @@
 	var
 		/** @type {HTMLElement}          */ timeline,
 		/** @type {HTMLUListElement}     */ list,
-		/** @type {RegExp}               */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
 		/** @type {HTMLElement}          */ newTweet,
 		/** @type {twic.vcl.tweetEditor} */	tweetEditor,
 		/** @type {number}               */ userId;
@@ -33,48 +32,6 @@
 		};
 	};
 
-	var parseTweetText = function(text) {
-		// preparing urls
-		var txt = text.replace(
-			/[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
-			function(url) {
-				var
-					stripped = url,
-					parsed = urlPattern.exec(url);
-
-				if (
-					parsed
-					&& parsed.length > 2
-				) {
-					stripped = parsed[2];
-				} else
-				if (stripped.length > 30) {
-					stripped = stripped.substring(0, 30) + '&hellip;';
-				}
-
-				return '<a target="_blank" href="' + url + '" title="' + url + '">' + stripped + '</a>';
-			}
-		);
-
-		// preparing nicks
-		txt = txt.replace(
-			/(^|\s)@(\w+)/g,
-			function(nick) {
-				var n = nick.substring(2);
-
-				return nick[0] + '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
-			}
-		);
-
-		// preparing hashtags
-		txt = txt.replace(
-			/(^|\s)#(\w+)/g,
-			'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$2">#$2</a>'
-		);
-
-		return txt;
-	};
-
 	var buildList = function(info) {
 		var
 			frag = document.createDocumentFragment(),
@@ -96,7 +53,7 @@
 				messageEl   = document.createElement('p'),
 				clearEl     = document.createElement('div'),
 				profileLink = document.createElement('a'),
-				msgText     = parseTweetText(item['msg']);
+				msgText     = twic.twitter.parseTweet(item['msg']);
 
 			if (!useOld) {
 				var
