@@ -7,7 +7,7 @@ foreach($files as $file) {
 	$content = file_get_contents($file);
 
 	if (
-		preg_match_all('@// ?(fixme|todo)(.*?)$@Umi', $content, $matches, PREG_OFFSET_CAPTURE)
+		preg_match_all('@[//|*] ?(fixme|todo)(.*?)$@Umi', $content, $matches, PREG_OFFSET_CAPTURE)
 		&& sizeof($matches) === 3
 	) {
 		echo "\033[1m" . $file . "\033[0m\n";
