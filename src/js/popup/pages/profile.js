@@ -14,6 +14,7 @@
 
 	var initPage = function() {
 		page            = document.getElementById('profile');
+
 		elementAvatar   = page.querySelector('.avatar');
 		elementName     = page.querySelector('.name');
 		elementNick     = page.querySelector('.nick');
@@ -30,6 +31,7 @@
 	};
 
 	var showProfile = function(data) {
+		// fixme shitcode
 		elementAvatar.src = data['avatar'];
 		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
@@ -60,6 +62,7 @@
 		twic.requests.send('getProfileInfo', {
 			'name': userName
 		}, showProfile);
+		// fixme or what?
 	} );
 
 }() );
