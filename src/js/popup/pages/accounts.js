@@ -61,8 +61,20 @@
 		list.appendChild(frag);
 	};
 
+	var loading = false;
+
+	/**
+	 * @this {HTMLElement}
+	 */
 	document.getElementById('button_account_add').onclick = function() {
-		this.innerHTML = chrome.i18n.getMessage('auth_confirm_wait');
+		if (loading) {
+			return false;
+		}
+
+		loading = true;
+
+		this.querySelector('img').src = 'img/loader.gif';
+		this.href = '#';
 
 		// TODO handle errors
 		twic.requests.send('accountAdd');

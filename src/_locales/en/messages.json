@@ -1,8 +1,4 @@
 {
-	"auth_confirm_wait": {
-		"message": "wait a moment",
-		"description": "Message indicates that extension tries to authenticate user by its confirmation on twitter.com"
-	},
 	"auth_in_progress": {
 	  "message": "authenticating...",
 	  "description": "Message on authorisation page, indicates that twic is getting access_token"
