@@ -74,7 +74,6 @@ twic.api = ( function() {
 		req.send( function(r) {
 			var obj = twic.Request.convertDataToParams(r.responseText);
 
-			// FIXME check
 			oauth_token        = obj['oauth_token'];
 			oauth_token_secret = obj['oauth_token_secret'];
 
