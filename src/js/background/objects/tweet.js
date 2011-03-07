@@ -15,17 +15,23 @@ twic.db.obj.Tweet = function() {
 		'user_id': 0,
 		'reply_to': '',
 		'dt': twic.utils.date.getCurrentTimestamp(),
+		'retweeted_user_id': null,
 		'msg': ''
 	};
 
 	this.jsonMap = {
-		'msg': 'text',
+		'msg': function(obj) {
+			return obj['retweeted_status'] ? obj['retweeted_status']['text'] : obj['text'];
+		},
 		'reply_to': 'in_reply_to_status_id',
 		'dt': function(obj) {
 			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		},
 		'user_id': function(obj) {
 			return obj['user']['id'];
+		},
+		'retweeted_user_id': function(obj) {
+			return obj['retweeted_status'] ? obj['retweeted_status']['user']['id'] : null;
 		}
 	};
 };

@@ -26,13 +26,15 @@ twic.db = ( function() {
 					'id int not null primary key, ' +
 					'oauth_token text not null, ' +
 					'oauth_token_secret text not null, ' +
-					'unread_tweets_count int not null default 0, ' + 
+					'unread_tweets_count int not null default 0, ' +
 					'unread_messages_count int not null default 0)');
 
 				// tweets storage
 				t.executeSql('create table tweets (' +
 					'id int not null primary key, ' +
 					'user_id int not null, ' +
+					// original author of retweet
+					'retweeted_user_id int null, ' +
 					'reply_to int null, ' +
 					'dt int not null, ' +
 					'msg text not null)'); // can be entity encoded
@@ -103,10 +105,10 @@ twic.db = ( function() {
 		select: function(sqlText, sqlParams, successCallback, failedCallback) {
 			getDatabase().readTransaction( function(tr) {
 				tr.executeSql(
-					sqlText, sqlParams, 
+					sqlText, sqlParams,
 					function(tr, res) {
 						twic.debug.info(sqlText, sqlParams);
-						
+
 						if (successCallback) {
 							successCallback.apply(res.rows);
 						}
@@ -115,7 +117,7 @@ twic.db = ( function() {
 						twic.debug.groupCollapsed(sqlText, sqlParams);
 						twic.debug.error('sql error: ' + error.message);
 						twic.debug.groupEnd();
-						
+
 						if (failedCallback) {
 							failedCallback(error.message);
 						}
@@ -125,13 +127,13 @@ twic.db = ( function() {
 				twic.debug.groupCollapsed(sqlText, sqlParams);
 				twic.debug.error('sql error: ' + error.message);
 				twic.debug.groupEnd();
-				
+
 				if (failedCallback) {
 					failedCallback(error.message);
 				}
 			} );
 		},
-		
+
 		/**
 		 * Execute the statement
 		 * @param {!string} sqlText SQL query text
@@ -142,7 +144,7 @@ twic.db = ( function() {
 		execute: function(sqlText, sqlParams, successCallback, failedCallback) {
 			getDatabase().transaction( function(tr) {
 				tr.executeSql(
-					sqlText, sqlParams, 
+					sqlText, sqlParams,
 					function(tr, res) {
 						twic.debug.info(sqlText, sqlParams);
 
@@ -154,7 +156,7 @@ twic.db = ( function() {
 						twic.debug.groupCollapsed(sqlText, sqlParams);
 						twic.debug.error('sql error: ' + error.message);
 						twic.debug.groupEnd();
-						
+
 						if (failedCallback) {
 							failedCallback(error.message);
 						}
@@ -164,7 +166,7 @@ twic.db = ( function() {
 				twic.debug.groupCollapsed(sqlText, sqlParams);
 				twic.debug.error('sql error: ' + error.message);
 				twic.debug.groupEnd();
-				
+
 				if (failedCallback) {
 					failedCallback(error.message);
 				}
