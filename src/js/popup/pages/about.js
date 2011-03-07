@@ -5,18 +5,16 @@
 
 ( function() {
 
-	var
-		/** @type {HTMLElement} */ awhat = document.getElementById('awhat'),
-		/** @type {HTMLElement} */ donateButton = document.getElementById('donate');
+	var initPage = function() {
+		document.getElementById('donate').value    = chrome.i18n.getMessage('button_donate');
+		document.getElementById('awhat').innerHTML = chrome.i18n.getMessage('about_what');
 
-	donateButton.value = chrome.i18n.getMessage('button_donate');
-	awhat.innerHTML    = chrome.i18n.getMessage('about_what');
-
-	document.querySelector('#about .toolbar p').innerHTML = chrome.i18n.getMessage('toolbar_about');
-	document.querySelector('#about .toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+		document.querySelector('#about .toolbar p').innerHTML = chrome.i18n.getMessage('toolbar_about');
+		document.querySelector('#about .toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+	};
 
 	twic.router.handle('about', function(data) {
-
+		this.init(initPage);
 	} );
 
 }() );

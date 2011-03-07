@@ -61,30 +61,34 @@
 		list.appendChild(frag);
 	};
 
-	var loading = false;
+	var initPage = function() {
+		var loading = false;
 
-	/**
-	 * @this {HTMLElement}
-	 */
-	document.getElementById('button_account_add').onclick = function() {
-		if (loading) {
-			return false;
-		}
+		/**
+		 * @this {HTMLElement}
+		 */
+		document.getElementById('button_account_add').onclick = function() {
+			if (loading) {
+				return false;
+			}
 
-		loading = true;
+			loading = true;
 
-		this.querySelector('img').src = 'img/loader.gif';
-		this.href = '#';
+			this.querySelector('img').src = 'img/loader.gif';
+			this.href = '#';
 
-		// TODO handle errors
-		twic.requests.send('accountAdd');
+			// TODO handle errors
+			twic.requests.send('accountAdd');
+		};
+
+		document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
+		document.getElementById('button_about').title = chrome.i18n.getMessage('hint_about');
 	};
-
-	document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
-	document.getElementById('button_about').title = chrome.i18n.getMessage('hint_about');
 
 	twic.router.handle('accounts', function(data) {
 		this.remember();
+
+		this.init(initPage);
 
 		clearList();
 		twic.requests.send('accountList', {}, buildList);

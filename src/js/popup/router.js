@@ -18,7 +18,8 @@ twic.router = ( function() {
 		var frame = tmp[i];
 		frames[frame.id] = {
 			frame: frame,
-			callbacks: []
+			callbacks: [],
+			init: false
 		};
 	}
 
@@ -36,13 +37,13 @@ twic.router = ( function() {
 		frame = frames[targetFrameName];
 
 		if (frame) {
+			currentFrame = targetFrameName;
+
 			for (i = 0; i < frame.callbacks.length; ++i) {
 				frame.callbacks[i].call(self, data);
 			}
 
 			frame.frame.style.display = 'block';
-
-			currentFrame = targetFrameName;
 		}
 	};
 
@@ -73,6 +74,22 @@ twic.router = ( function() {
 
 		previous: function() {
 			return previousLocation;
+		},
+
+		/**
+		 * init the page for the first time
+		 * @param {function()}
+		 */
+		init: function(callback) {
+			if (
+				!frames[currentFrame]
+				|| frames[currentFrame].init
+			) {
+				return;
+			}
+
+			frames[currentFrame].init = true;
+			callback();
 		},
 
 		// remember the page to open it next time popup is open

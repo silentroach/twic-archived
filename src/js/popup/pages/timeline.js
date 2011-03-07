@@ -6,18 +6,32 @@
 ( function() {
 
 	var
-		/** @type {HTMLElement} */
-		timeline = document.getElementById('timeline'),
-		/** @type {HTMLUListElement} */
-		list = document.querySelector('#timeline ul'),
-		/** @type {RegExp} */
-		urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
-		/** @type {HTMLElement} */
-		newTweet = timeline.querySelector('.newtweet'),
-		/** @type {twic.vcl.tweetEditor} */
-		tweetEditor = new twic.vcl.tweetEditor(newTweet),
-		/** @type {number} */
-		userId;
+		/** @type {HTMLElement}          */ timeline,
+		/** @type {HTMLUListElement}     */ list,
+		/** @type {RegExp}               */ urlPattern = /^https?:\/\/(www\.)?([^\/]+)?/i,
+		/** @type {HTMLElement}          */ newTweet,
+		/** @type {twic.vcl.tweetEditor} */	tweetEditor,
+		/** @type {number}               */ userId;
+
+	var initPage = function() {
+		timeline = document.getElementById('timeline');
+		list = timeline.querySelector('ul');
+		newTweet = timeline.querySelector('.newtweet');
+
+		timeline.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+
+		tweetEditor = new twic.vcl.tweetEditor(newTweet);
+		tweetEditor.setPlaceholder('placeholder_newtweet');
+
+		tweetEditor.onTweetSend = function(tweetText) {
+			twic.requests.send('sendTweet', {
+				'id': userId,
+				'tweet': tweetText
+			}, function() {
+				tweetEditor.clearText();
+			} );
+		};
+	};
 
 	var parseTweetText = function(text) {
 		// preparing urls
@@ -143,6 +157,7 @@
 		}
 
 		this.remember();
+		this.init(initPage);
 
 		list.innerHTML = '';
 
@@ -152,21 +167,5 @@
 			'id': userId
 		}, buildList);
 	} );
-
-	// ------------------------------------------------
-
-	var accountsButton = timeline.querySelector('.toolbar a');
-	accountsButton.innerHTML = chrome.i18n.getMessage('toolbar_accounts');
-
-	tweetEditor.setPlaceholder('placeholder_newtweet');
-
-	tweetEditor.onTweetSend = function(tweetText) {
-		twic.requests.send('sendTweet', {
-			'id': userId,
-			'tweet': tweetText
-		}, function() {
-			tweetEditor.clearText();
-		} );
-	};
 
 }() );

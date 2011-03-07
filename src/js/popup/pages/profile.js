@@ -5,12 +5,21 @@
 ( function() {
 
 	var
-		page = document.getElementById('profile'),
-		elementAvatar   = page.querySelector('.avatar'),
-		elementName     = page.querySelector('.name'),
-		elementNick     = page.querySelector('.nick'),
-		elementUrl      = page.querySelector('.url'),
+		page,
+		elementAvatar,
+		elementName,
+		elementNick,
+		elementUrl,
+		toolbarTimeline;
+
+	var initPage = function() {
+		page            = document.getElementById('profile');
+		elementAvatar   = page.querySelector('.avatar');
+		elementName     = page.querySelector('.name');
+		elementNick     = page.querySelector('.nick');
+		elementUrl      = page.querySelector('.url');
 		toolbarTimeline = page.querySelector('.toolbar a');
+	};
 
 	var clearProfileData = function() {
 		elementAvatar.style.display = 'none';
@@ -29,6 +38,8 @@
 	};
 
 	twic.router.handle('profile', function(data) {
+		this.init(initPage);
+
 		var prev = this.previous();
 
 		toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
