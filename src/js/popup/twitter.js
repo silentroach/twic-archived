@@ -47,6 +47,12 @@ twic.twitter = (function() {
 			'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$2">#$2</a>'
 		);
 
+		// preparing line breaks
+		txt = txt.replace(
+			/\r?\n/,
+			'<br />'
+		);
+
 		return txt;
 	};
 
