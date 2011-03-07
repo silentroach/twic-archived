@@ -20,6 +20,12 @@
 				'<a href="https://github.com/silentroach/twic" target="_blank">', '</a>'
 			]
 		);
+
+		document.getElementById('atranslate').innerHTML = chrome.i18n.getMessage(
+			'about_translate', [
+				'<a href="https://github.com/silentroach/twic-i18n" target="_blank">', '</a>'
+			]
+		);
 	};
 
 	twic.router.handle('about', function(data) {
