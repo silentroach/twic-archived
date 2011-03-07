@@ -177,7 +177,6 @@ twic.api = ( function() {
 
 		twic.debug.info('sending the new tweet: ' + status);
 
-		// todo not r, use func.apply(req) and use this
 		req.send( function(r) {
 			var data = JSON.parse(r.responseText);
 
