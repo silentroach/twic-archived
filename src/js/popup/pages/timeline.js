@@ -116,6 +116,11 @@
 		this.remember();
 		this.init(initPage);
 
+		// fixme check if popup is out of screen
+		//if (window.screenY + window.outerHeight > screen.height) {
+		//	twic.dom(timeline).css('height', screen.height - window.screenY);
+		//}
+
 		list.innerHTML = '';
 
 		userId = parseInt(data[0], 10);

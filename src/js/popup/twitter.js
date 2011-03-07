@@ -3,8 +3,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-var twic = twic || { };
-
 twic.twitter = (function() {
 
 	var
@@ -57,7 +55,3 @@ twic.twitter = (function() {
 	};
 
 }());
-
-if (twic.debug.ENABLED) {
-	exports.twitter = twic.twitter;
-}
