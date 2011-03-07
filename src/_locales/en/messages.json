@@ -42,8 +42,34 @@
 	},
 
 	"about_what": {
-		"message": "Twic &mdash; opensource twitter client",
+		"message": "twic &mdash; opensource twitter client",
 		"description": "What it is"
+	},
+	"about_thanks": {
+		"message": "thanks",
+		"description": "Thanks to:"
+	},
+	"about_collaborate": {
+		"message": "feel free to $req_link_beg$request any feature$req_link_end$ and to fork $proj_link_beg$project$proj_link_end$ and push your changes back to me",
+		"description": "Collaborate",
+		"placeholders": {
+			"req_link_beg": {
+				"content": "$1",
+				"example": "<a href='link_to_github_issues'>"
+			},
+			"req_link_end": {
+				"content": "$2",
+				"example": "</a>"
+			},
+			"proj_link_beg": {
+				"content": "$3",
+				"example": "<a href='link_to_github_project'>"
+			},
+			"proj_link_end": {
+				"content": "$4",
+				"example": "</a>"
+			}
+		}
 	},
 
 	"placeholder_newtweet": {

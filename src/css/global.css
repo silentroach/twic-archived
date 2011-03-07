@@ -12,3 +12,7 @@ body, input, textarea {
 	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
 	font-size: 10pt;
 	}
+
+strong {
+	font-weight: bold;
+	}

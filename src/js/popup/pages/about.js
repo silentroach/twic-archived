@@ -11,6 +11,15 @@
 
 		document.querySelector('#about .toolbar p').innerHTML = chrome.i18n.getMessage('toolbar_about');
 		document.querySelector('#about .toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+
+		document.getElementById('athanks').innerHTML = chrome.i18n.getMessage('about_thanks');
+
+		document.getElementById('acollaborate').innerHTML = chrome.i18n.getMessage(
+			'about_collaborate', [
+				'<a href="https://github.com/silentroach/twic/issues" target="_blank">', '</a>',
+				'<a href="https://github.com/silentroach/twic" target="_blank">', '</a>'
+			]
+		);
 	};
 
 	twic.router.handle('about', function(data) {

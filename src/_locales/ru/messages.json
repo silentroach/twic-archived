@@ -42,8 +42,34 @@
 	},
 
 	"about_what": {
-		"message": "Twic &mdash; твиттер-клиент с открытым исходным кодом",
+		"message": "twic &mdash; твиттер-клиент с открытым исходным кодом",
 		"description": "Что такое Twic"
+	},
+	"about_thanks": {
+		"message": "спасибо",
+		"description": "Thanks to:"
+	},
+	"about_collaborate": {
+		"message": "есть идеи? $req_link_beg$пишите$req_link_end$ или форкайте $proj_link_beg$проект$proj_link_end$ и пушите мне изменения",
+		"description": "Призыв к посильному участию в разработке",
+		"placeholders": {
+			"req_link_beg": {
+				"content": "$1",
+				"example": "<a href='ссылка'>"
+			},
+			"req_link_end": {
+				"content": "$2",
+				"example": "</a>"
+			},
+			"proj_link_beg": {
+				"content": "$3",
+				"example": "<a href='другая ссылка'>"
+			},
+			"proj_link_end": {
+				"content": "$4",
+				"example": "</a>"
+			}
+		}
 	},
 
 	"placeholder_newtweet": {
