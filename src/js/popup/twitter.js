@@ -33,11 +33,11 @@ twic.twitter = (function() {
 
 		// preparing nicks
 		txt = txt.replace(
-			/(^|\s)@(\w+)/g,
+			/(@(\w*)(\/\w+)?)/i,
 			function(nick) {
-				var n = nick.substring(2);
+				var n = nick.substring(1);
 
-				return nick[0] + '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
+				return '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
 			}
 		);
 
