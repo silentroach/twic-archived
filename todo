@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+$files = explode("\n", trim(`find src -name '*.js'`));
+
+foreach($files as $file) {
+	$content = file_get_contents($file);
+
+	if (
+		preg_match_all('@// ?(fixme|todo)(.*?)$@Umi', $content, $matches, PREG_OFFSET_CAPTURE)
+		&& sizeof($matches) === 3
+	) {
+		echo "\033[1m" . $file . "\033[0m\n";
+
+		foreach($matches[2] as $match) {
+			// shitcode? fuck you ;)
+			echo '  ' . str_pad('Line ' . (substr_count(substr($content, 0, $match[1]), "\n") + 1) . ':', 9, ' ') . $match[0] . "\n";
+		}
+
+		echo "\n";
+	}
+}
