@@ -25,7 +25,7 @@
 		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
-		elementUrl.innerHTML = '<a href="' + data['url'] + '">' + data['url'] + '</a>';
+		elementUrl.innerHTML = '<a href="' + data['url'] + '" target="_blank">' + data['url'] + '</a>';
 	};
 
 	twic.router.handle('profile', function(data) {
