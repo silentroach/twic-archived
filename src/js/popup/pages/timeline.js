@@ -109,7 +109,7 @@
 			!data.length
 			|| 1 !== data.length
 		) {
-			// todo return to the accounts list screen
+			location.hash = '#accounts';
 			return;
 		}
 
