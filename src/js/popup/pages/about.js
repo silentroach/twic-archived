@@ -6,8 +6,17 @@
 ( function() {
 
 	var initPage = function() {
-		document.getElementById('donate').value    = chrome.i18n.getMessage('button_donate');
+		var
+			req = new XMLHttpRequest(),
+			manifest;
+
+    req.open('GET', chrome.extension.getURL('manifest.json'), false);
+    req.send(null);
+    manifest = JSON.parse(req.responseText);
+
+		document.getElementById('aname').innerHTML = twic.name + ' ' + manifest['version'];
 		document.getElementById('awhat').innerHTML = chrome.i18n.getMessage('about_what');
+		document.getElementById('donate').value    = chrome.i18n.getMessage('button_donate');
 
 		document.querySelector('#about .toolbar p').innerHTML = chrome.i18n.getMessage('toolbar_about');
 		document.querySelector('#about .toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
