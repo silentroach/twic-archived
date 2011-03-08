@@ -15,7 +15,7 @@ var SHA1 = ( function() {
 	 * the server-side, but the defaults work in most cases.
 	 */
 	var
-		/** @const **/ chrsz   = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode      */
+		/** @const **/ chrsz = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode */
 
 	/**
 	 * Determine the appropriate additive constant for the current iteration
@@ -120,6 +120,8 @@ var SHA1 = ( function() {
 	/**
 	 * Convert an 8-bit or 16-bit string to an array of big-endian words
 	 * In 8-bit function, characters >255 have their hi-byte silently ignored.
+	 * @param {string} str String
+	 * @return {Array}
 	 */
 	function str2binb(str) {
 		var
@@ -136,6 +138,9 @@ var SHA1 = ( function() {
 
 	/**
 	 * Calculate the HMAC-SHA1 of a key and some data
+	 * @param {string} key Key
+	 * @param {string} data Data
+	 * @return {string}
 	 */
 	function core_hmac_sha1(key, data) {
 		var bkey = str2binb(key);
