@@ -8,7 +8,7 @@ twic.vcl = twic.vcl || { };
 /**
  * @constructor
  */
-twic.vcl.tweetEditor = function(parent) {
+twic.vcl.TweetEditor = function(parent) {
 
 	// init
 

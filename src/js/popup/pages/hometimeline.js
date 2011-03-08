@@ -10,16 +10,61 @@
 		/** @type {HTMLUListElement}     */ list,
 		/** @type {HTMLElement}          */ newTweet,
 		/** @type {twic.vcl.tweetEditor} */	tweetEditor,
-		/** @type {number}               */ userId;
+		/** @type {number}               */ userId,
+		/** @type {Object}               */ mPos = {x: 0, y: 0};
+
+	// todo maybe it is not a great implementation of handling only a click (not a selection)?
+
+	var checkIsTweetClicked = function(e) {
+		if (
+			!e.srcElement
+			|| !e.srcElement.classList.contains('msg')
+		) {
+			mPos.x = 0;
+			mPos.y = 0;
+
+			return false;
+		}
+
+		return true;
+	};
+
+	var onTimeLineMouseDown = function(e) {
+		e.stopPropagation();
+	
+		if (checkIsTweetClicked(e)) {
+			mPos.x = e.x;
+			mPos.y = e.y;
+		}
+		
+		return true;
+	};
+
+	var onTimeLineMouseUp = function(e) {
+		e.stopPropagation();
+	
+		if (
+			checkIsTweetClicked(e)
+			&& mPos.x === e.x
+			&& mPos.y === e.y
+		) {
+			console.dir(e);
+		}
+		
+		return true;
+	};
 
 	var initPage = function() {
 		timeline = document.getElementById('timeline');
 		list = timeline.querySelector('ul');
 		newTweet = timeline.querySelector('.newtweet');
 
+		timeline.addEventListener('mouseup', onTimeLineMouseUp);
+		timeline.addEventListener('mousedown', onTimeLineMouseDown);
+
 		timeline.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
 
-		tweetEditor = new twic.vcl.tweetEditor(newTweet);
+		tweetEditor = new twic.vcl.TweetEditor(newTweet);
 		tweetEditor.setPlaceholder('placeholder_newtweet');
 
 		tweetEditor.onTweetSend = function(tweetText) {
@@ -116,7 +161,7 @@
 		this.remember();
 		this.initOnce(initPage);
 
-		// fixme check if popup is out of screen
+		// todo check if popup is out of screen
 		//if (window.screenY + window.outerHeight > screen.height) {
 		//	twic.dom(timeline).css('height', screen.height - window.screenY);
 		//}
