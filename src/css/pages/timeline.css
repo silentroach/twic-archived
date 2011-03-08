@@ -8,6 +8,7 @@
 		}
 		#timeline ul li {
 			padding-bottom: .4em;
+			padding-right: .5em;
 			border-bottom: 1px dotted grey;
 			}
 			#timeline ul li a.avatar {
