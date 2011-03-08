@@ -8,7 +8,7 @@
  * Modified by Kalashnikov Igor
  */
 
-SHA1 = ( function() {
+var SHA1 = ( function() {
 
 	/**
 	 * Configurable variables. You may need to tweak these to be compatible with
