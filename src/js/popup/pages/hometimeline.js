@@ -6,10 +6,11 @@
 ( function() {
 
 	var
-		/** @type {HTMLElement}          */ timeline,
+		/** @type {twic.vcl.Timeline}    */ timeline,
+		/** @type {HTMLElement}          */ page,
 		/** @type {HTMLUListElement}     */ list,
 		/** @type {HTMLElement}          */ newTweet,
-		/** @type {twic.vcl.tweetEditor} */	tweetEditor,
+		/** @type {twic.vcl.TweetEditor} */	tweetEditor,
 		/** @type {number}               */ userId,
 		/** @type {Object}               */ mPos = {x: 0, y: 0};
 
@@ -55,14 +56,16 @@
 	};
 
 	var initPage = function() {
-		timeline = document.getElementById('timeline');
-		list = timeline.querySelector('ul');
-		newTweet = timeline.querySelector('.newtweet');
+		page = document.getElementById('timeline');
+		timeline = new twic.vcl.Timeline(page);
+		
+		list = page.querySelector('ul');
+		newTweet = page.querySelector('.newtweet');
 
-		timeline.addEventListener('mouseup', onTimeLineMouseUp);
-		timeline.addEventListener('mousedown', onTimeLineMouseDown);
+		page.addEventListener('mouseup', onTimeLineMouseUp);
+		page.addEventListener('mousedown', onTimeLineMouseDown);
 
-		timeline.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
 
 		tweetEditor = new twic.vcl.TweetEditor(newTweet);
 		tweetEditor.setPlaceholder('placeholder_newtweet');
@@ -87,7 +90,7 @@
 			userName = info['account']['name'],
 			data = info['data'];
 
-		var accountNameElement = timeline.querySelector('.toolbar p');
+		var accountNameElement = page.querySelector('.toolbar p');
 		accountNameElement.innerHTML = '@' + userName;
 
 		for (id in data) {

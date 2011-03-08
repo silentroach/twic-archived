@@ -6,12 +6,12 @@
 /**
  * @constructor
  */
-twic.vcl.Timeline = function(parent) {
+twic.vcl.Tweet = function(timeline) {
 
 	var
-		wrapper = document.createElement('ul');
+		wrapper = document.createElement('p');
 		
-	wrapper.className = 'timeline';
+	wrapper.className = 'tweet';
 
 	parent.appendChild(wrapper);
 	
