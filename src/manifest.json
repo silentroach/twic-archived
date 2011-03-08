@@ -17,6 +17,7 @@
 		],
 		"js" : [
 			"js/init.js",
+			"js/global.js",
 			"js/debug.js",
 			"js/requests.js",
 			"js/inline/auth.js"

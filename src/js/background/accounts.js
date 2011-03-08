@@ -45,8 +45,7 @@ twic.Accounts = function() {
 			|| !data['user_id']
 		) {
 			sendResponse( {
-				// todo make reply identifiers const
-				'res': 0
+				'res': twic.global.AUTH_FAILED
 			} );
 
 			return;
@@ -58,7 +57,7 @@ twic.Accounts = function() {
 
 		if (account) {
 			sendResponse( {
-				'res': 2
+				'res': twic.global.AUTH_ALREADY
 			} );
 
 			return;
@@ -97,7 +96,7 @@ twic.Accounts = function() {
 				account.save();
 
 				sendResponse( {
-					'res': 1
+					'res': twic.global.AUTH_SUCCESS
 				} );
 
 				checkUser(account.fields['id']);

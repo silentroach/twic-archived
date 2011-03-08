@@ -43,8 +43,7 @@
 	}, function(reply) {
 		if (
 			!reply['res']
-			// todo make reply identifiers const
-			|| 0 === reply['res']
+			|| twic.global.AUTH_FAILED === reply['res']
 		) {
 			changePinText('auth_failed');
 			return;
@@ -52,11 +51,11 @@
 
 		var res = reply['res'];
 
-		if (1 === res) {
+		if (twic.global.AUTH_SUCCESS === res) {
 			// success
 			changePinText('auth_success');
 		} else
-		if (2 === res) {
+		if (twic.global.AUTH_ALREADY === res) {
 			// already authenticated
 			changePinText('auth_already');
 		}
