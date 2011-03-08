@@ -49,6 +49,7 @@ twic.vcl.TweetEditor = function(parent) {
 	var checkTweetArea = function() {
 		charCount = editorTextarea.value.length;
 
+		// todo think about rows count decrement when it is needed
 		while (editorTextarea.scrollTop > 0) {
 			++editorTextarea.rows;
 		}
@@ -94,6 +95,12 @@ twic.vcl.TweetEditor = function(parent) {
 
 	editorTextarea.onfocus = function() {
 		$editorWrapper.addClass(focusedClass);
+	};
+
+	editorTextarea.onblur = function() {
+		if (editorTextarea.value.length === 0) {
+			editorTextarea.rows = 1;
+		}
 	};
 
 	editorSend.onclick = tryToSend;
