@@ -17,7 +17,9 @@ twic.vcl.TweetEditor = function(parent) {
 		/** @type {HTMLDivElement}      **/ editorWrapper  = document.createElement('div'),
 		/** @type {twic.dom}            **/ $editorWrapper = twic.dom(editorWrapper),
 		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
+		/** @type {HTMLTextAreaElement} **/ editorSend     = document.createElement('input'),
 		/** @type {HTMLElement}         **/ editorCounter  = document.createElement('span'),
+		/** @type {HTMLElement}         **/ clearer        = document.createElement('div'),
 		/** @type {number}              **/ charCount      = 0,
 
 		/** @const **/ overloadClass = 'overload',
@@ -27,8 +29,15 @@ twic.vcl.TweetEditor = function(parent) {
 	editorTextarea.rows = 1;
 	editorCounter.innerHTML = '140';
 
+	editorSend.type  = 'button';
+	editorSend.value = chrome.i18n.getMessage('button_send');
+
+	clearer.className = 'clearer';
+
 	editorWrapper.appendChild(editorTextarea);
+	editorWrapper.appendChild(editorSend);
 	editorWrapper.appendChild(editorCounter);
+	editorWrapper.appendChild(clearer);
 
 	if (parent.childElementCount > 0) {
 		parent.insertBefore(editorWrapper, parent.firstChild);
@@ -47,14 +56,24 @@ twic.vcl.TweetEditor = function(parent) {
 
 		if (charCount > 140) {
 			$editorWrapper.addClass(overloadClass);
+			editorSend.disabled = true;
 		} else {
 			$editorWrapper.removeClass(overloadClass);
+			editorSend.disabled = false;
 		}
 	};
 
 	// check the textarea for chars count
 	editorTextarea.onkeyup = function(e) {
 		checkTweetArea();
+	};
+
+	var tryToSend = function() {
+		/** @tyoe {string} **/ var val = editorTextarea.value;
+
+		if (val.length > 0) {
+			editor.onTweetSend(val);
+		}
 	};
 
 	// prevent user to press enter
@@ -67,11 +86,7 @@ twic.vcl.TweetEditor = function(parent) {
 				&& charCount > 0
 				&& charCount < 141
 			) {
-				/** @type {string} **/ var val = editorTextarea.value;
-
-				if (val.length > 0) {
-					editor.onTweetSend(val);
-				}
+				tryToSend();
 			}
 		}
 	};
@@ -80,9 +95,7 @@ twic.vcl.TweetEditor = function(parent) {
 		$editorWrapper.addClass(focusedClass);
 	};
 
-	editorTextarea.onblur = function() {
-		$editorWrapper.removeClass(focusedClass);
-	};
+	editorSend.onclick = tryToSend;
 
 	// functions
 
