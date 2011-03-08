@@ -78,7 +78,7 @@ twic.router = ( function() {
 
 		/**
 		 * init the page for the first time
-		 * @param {function()}
+		 * @param {function()} callback
 		 */
 		initOnce: function(callback) {
 			if (
