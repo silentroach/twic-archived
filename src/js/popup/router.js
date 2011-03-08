@@ -80,7 +80,7 @@ twic.router = ( function() {
 		 * init the page for the first time
 		 * @param {function()}
 		 */
-		init: function(callback) {
+		initOnce: function(callback) {
 			if (
 				!frames[currentFrame]
 				|| frames[currentFrame].init

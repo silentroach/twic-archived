@@ -40,7 +40,7 @@
 	};
 
 	twic.router.handle('profile', function(data) {
-		this.init(initPage);
+		this.initOnce(initPage);
 
 		var prev = this.previous();
 

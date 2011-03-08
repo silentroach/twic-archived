@@ -88,7 +88,7 @@
 	twic.router.handle('accounts', function(data) {
 		this.remember();
 
-		this.init(initPage);
+		this.initOnce(initPage);
 
 		clearList();
 		twic.requests.send('accountList', {}, buildList);

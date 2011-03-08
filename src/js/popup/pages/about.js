@@ -29,7 +29,7 @@
 	};
 
 	twic.router.handle('about', function(data) {
-		this.init(initPage);
+		this.initOnce(initPage);
 	} );
 
 }() );

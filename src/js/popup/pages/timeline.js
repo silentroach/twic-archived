@@ -114,7 +114,7 @@
 		}
 
 		this.remember();
-		this.init(initPage);
+		this.initOnce(initPage);
 
 		// fixme check if popup is out of screen
 		//if (window.screenY + window.outerHeight > screen.height) {
