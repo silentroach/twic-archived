@@ -103,83 +103,94 @@ twic.twitter = ( function() {
 
 	/**
 	 * Update user home timeline
-	 * @param {number} id User identifier
-	 * todo make variable names more pretty
+	 * @param {number} userId User identifier
 	 */
-	var updateHomeTimeline = function(id) {
-		var account = twic.accounts.getInfo(id);
+	var updateHomeTimeline = function(userId) {
+		var account = twic.accounts.getInfo(userId);
 
 		if (!account) {
-			return;
+			// it is not our account. wtf?
+			twic.debug.error('Can\'t find account in updateHomeTimeline', userId);
+			return false;
 		}
 
+		// first we need to find the last tweet id not to fetch the all timeline from api
 		twic.db.select(
 			'select t.id ' +
 			'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
-			'where tl.user_id = ? order by t.id desc limit 1 ', [id],
+			'where tl.user_id = ? order by t.id desc limit 1 ', [userId],
 			function() {
 				var
 					rows = this,
 					since_id = false;
 
 				if (rows.length > 0) {
+					// nice to see you, since_id
 					since_id = rows.item(0)['id'];
 				}
 
+				// try to get the home timeline from api
 				twic.api.homeTimeline(
-					id, since_id,
+					userId, since_id,
 					account.fields['oauth_token'], account.fields['oauth_token_secret'],
 					function(data) {
 						var
 							users = [],
 							i,
-							userId;
+							tweetUserId;
 
 						if (data.length === 0) {
+							// no updates
 							return;
 						}
 
 						var incrementUnreadTweets = function() {
-							// increment the nread tweets count if it is new
+							// increment the unread tweets count if it is new
+							// todo think about doing it only once per timeline update
 							account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
 							account.save();
 						};
 
 						for (i = 0; i < data.length; ++i) {
 							var
-								/**
-								 * @type {Object}
-								 */
-								tweet = data[i],
-								/**
-								 * @type {number}
-								 */
-								tweetId = tweet['id'];
+								/** @type {Object} */ tweet   = data[i],
+								/** @type {number} */ tweetId = tweet['id'];
 
-							userId = tweet['user']['id'];
+							tweetUserId = tweet['user']['id'];
 
-							if (!users[userId]) {
-								users[userId] = tweet['user'];
+							// add the user to check it after
+							if (!users[tweetUserId]) {
+								users[tweetUserId] = tweet['user'];
+							}
+
+							// the same thing for retweeted_status.user if it is retweet
+							if (
+								tweet['retweeted_status']
+								&& !users[tweet['retweeted_status']['user']['id']]
+							) {
+								users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
 							}
 
 							var tweetObj = new twic.db.obj.Tweet();
 							tweetObj.updateFromJSON(tweetId, tweet);
 
 							twic.db.obj.Timeline.pushUserTimelineTweet(
-								id, tweetId,
-								userId !== id ? incrementUnreadTweets : undefined
+								userId, tweetId,
+								// only increment the unread tweets count if tweet user id isn't me
+								tweetUserId !== userId ? incrementUnreadTweets : undefined
 							);
 						}
 
-						for (userId in users) {
+						// trying to save all the new users
+						for (tweetUserId in users) {
 							var
 								 /**
 								 * @type {Object}
 								 */
-								user = users[userId];
+								user = users[tweetUserId];
 
 							var userObj = new twic.db.obj.User();
-							userObj.updateFromJSON(userId, user);
+							userObj.updateFromJSON(tweetUserId, user);
 						}
 					}
 				);
