@@ -5,6 +5,8 @@
 
 twic.vcl = twic.vcl || { };
 
+// todo reorder this peace of shit
+
 /**
  * @constructor
  */
@@ -23,11 +25,10 @@ twic.vcl.TweetEditor = function(parent) {
 		/** @type {number}              **/ charCount      = 0,
 
 		/** @const **/ overloadClass = 'overload',
-		/** @const **/ focusedClass  = 'focused';
+		/** @const **/ focusedClass  = 'focused',
+		/** @const **/ sendingClass  = 'sending';
 
 	editorWrapper.className = 'tweetEditor';
-	editorTextarea.rows = 1;
-	editorCounter.innerHTML = '140';
 
 	editorSend.type  = 'button';
 	editorSend.value = chrome.i18n.getMessage('button_send');
@@ -47,6 +48,10 @@ twic.vcl.TweetEditor = function(parent) {
 	}
 
 	var checkTweetArea = function() {
+		if ($editorWrapper.hasClass(sendingClass)) {
+			return;
+		}
+
 		charCount = editorTextarea.value.length;
 
 		// todo think about rows count decrement when it is needed
@@ -58,11 +63,11 @@ twic.vcl.TweetEditor = function(parent) {
 
 		if (charCount > 140) {
 			$editorWrapper.addClass(overloadClass);
-			editorSend.disabled = true;
 		} else {
 			$editorWrapper.removeClass(overloadClass);
-			editorSend.disabled = false;
 		}
+
+		editorSend.disabled = (charCount === 0 || charCount > 140);
 	};
 
 	// check the textarea for chars count
@@ -70,10 +75,18 @@ twic.vcl.TweetEditor = function(parent) {
 		checkTweetArea();
 	};
 
+	/**
+	 * Try to send the tweet
+	 */
 	var tryToSend = function() {
-		/** @tyoe {string} **/ var val = editorTextarea.value;
+		/** @type {string} **/ var val = editorTextarea.value;
 
 		if (val.length > 0) {
+			// loading state
+			$editorWrapper.addClass(sendingClass);
+			editorCounter.innerHTML = '&nbsp;';
+			editorSend.disabled = true;
+
 			editor.onTweetSend(val);
 		}
 	};
@@ -95,6 +108,7 @@ twic.vcl.TweetEditor = function(parent) {
 
 	editorTextarea.onfocus = function() {
 		$editorWrapper.addClass(focusedClass);
+		checkTweetArea();
 	};
 
 	editorTextarea.onblur = function() {
@@ -103,7 +117,9 @@ twic.vcl.TweetEditor = function(parent) {
 		}
 	};
 
-	editorSend.onclick = tryToSend;
+	editorSend.onclick = function() {
+		tryToSend();
+	};
 
 	// functions
 
@@ -111,10 +127,17 @@ twic.vcl.TweetEditor = function(parent) {
 		editorTextarea.placeholder = chrome.i18n.getMessage(alias);
 	};
 
-	editor.clearText = function() {
+	editor.reset = function() {
 		editorTextarea.value = '';
 		editorTextarea.rows = 1;
+
+		editorCounter.innerHTML = '140';
+
+		$editorWrapper.removeClass(focusedClass);
+		$editorWrapper.removeClass(sendingClass);
 	};
+
+	editor.reset();
 
 	editor.onTweetSend = function(tweetText) { };
 };

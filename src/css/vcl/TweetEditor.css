@@ -9,9 +9,6 @@
 		padding: .3em;
 		background-color: rgba(255, 255, 255, .7);
 		}
-	.tweetEditor.overload textarea {
-		background-color: rgba(255, 0, 0, .1);
-		}
 	/** button to send tweet **/
 	.tweetEditor input {
 		float: left;
@@ -25,13 +22,25 @@
 		padding-top: 2px;
 		display: none;
 		}
-	.tweetEditor.overload span {
-		color: rgba(255, 0, 0, 1);
-		font-weight: bold;
-		}
-	.tweetEditor.focused span {
-		display: block;
-		}
-	.tweetEditor.focused input {
-		display: block;
-		}
+
+/** tweet editor is focused **/
+.tweetEditor.focused span {
+	display: block;
+	}
+.tweetEditor.focused input {
+	display: block;
+	}
+
+/** too much characters in the textarea **/
+.tweetEditor.overload span {
+	color: rgba(255, 0, 0, 1);
+	font-weight: bold;
+	}
+.tweetEditor.overload textarea {
+	background-color: rgba(255, 0, 0, .1);
+	}
+
+/** sending state **/
+.tweetEditor.sending span {
+	background: url('/img/loader.gif') no-repeat right;
+	}

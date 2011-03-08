@@ -32,18 +32,18 @@
 
 	var onTimeLineMouseDown = function(e) {
 		e.stopPropagation();
-	
+
 		if (checkIsTweetClicked(e)) {
 			mPos.x = e.x;
 			mPos.y = e.y;
 		}
-		
+
 		return true;
 	};
 
 	var onTimeLineMouseUp = function(e) {
 		e.stopPropagation();
-	
+
 		if (
 			checkIsTweetClicked(e)
 			&& mPos.x === e.x
@@ -51,14 +51,14 @@
 		) {
 			console.dir(e);
 		}
-		
+
 		return true;
 	};
 
 	var initPage = function() {
 		page = document.getElementById('timeline');
 		timeline = new twic.vcl.Timeline(page);
-		
+
 		list = page.querySelector('ul');
 		newTweet = page.querySelector('.newtweet');
 
@@ -75,7 +75,7 @@
 				'id': userId,
 				'tweet': tweetText
 			}, function() {
-				tweetEditor.clearText();
+				tweetEditor.reset();
 			} );
 		};
 	};
@@ -93,7 +93,7 @@
 			var
 				item  = data[id],
 				tweet = new twic.vcl.Tweet();
-				
+
 			tweet.setId(id);
 			tweet.setText(item['msg']);
 			tweet.setAuthorNick(item['user']['name']);
