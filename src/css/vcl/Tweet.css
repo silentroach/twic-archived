@@ -1,1 +1,14 @@
- 
+li.tweet.me {
+	background-color: rgba(100, 200, 0, .15);
+	}
+	
+li.tweet p {
+	margin: 0;
+	padding: .3em 0 0 55px;
+	}
+	
+li.tweet a.avatar {
+ 	padding-top: .4em;
+	float: left;
+	margin-right: .5em;
+	}

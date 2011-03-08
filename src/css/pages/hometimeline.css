@@ -1,31 +1,3 @@
 #timeline {
-	font-size: 9pt;
 	width: 95%;
 	}
-	#timeline ul {
-		margin-top: 2px;
-		border-top: 1px dotted silver;
-		}
-		#timeline ul li {
-			padding-bottom: .4em;
-			padding-right: .5em;
-			border-bottom: 1px dotted grey;
-			}
-			#timeline ul li a.avatar {
-				padding-top: .4em;
-				float: left;
-				margin-right: .5em;
-				}
-			#timeline ul li.me {
-				background-color: rgba(100, 200, 0, .15);
-				}
-			#timeline ul li p {
-				margin: 0;
-				padding-left: 55px;
-				}
-				#timeline ul li p.msg {
-					padding-top: .4em;
-					}
-	#timeline ul li:last-child {
-		border-bottom: 0px;
-		}

@@ -82,74 +82,24 @@
 
 	var buildList = function(info) {
 		var
-			frag = document.createDocumentFragment(),
-			prevUserId = -1,
-			lastLi,
-			lastCl,
 			id,
 			userName = info['account']['name'],
-			data = info['data'];
+			data     = info['data'];
 
 		var accountNameElement = page.querySelector('.toolbar p');
 		accountNameElement.innerHTML = '@' + userName;
 
 		for (id in data) {
 			var
-				item        = data[id],
-				useOld      = prevUserId === item['user']['id'],
-				li          = useOld && lastLi ? lastLi : document.createElement('li'),
-				messageEl   = document.createElement('p'),
-				clearEl     = document.createElement('div'),
-				profileLink = document.createElement('a'),
-				msgText     = twic.twitter.parseTweet(item['msg']);
-
-			if (!useOld) {
-				var
-					avatarEl  = document.createElement('img');
-
-				profileLink.title = '@' + item['user']['name'];
-				profileLink.className = 'avatar';
-				profileLink.href = '#profile#' + item['user']['name'];
-
-				avatarEl.src       = item['user']['avatar'];
-				avatarEl.className = 'avatar';
-
-				profileLink.appendChild(avatarEl);
-				li.appendChild(profileLink);
-
-				prevUserId = item['user']['id'];
-
-				if (prevUserId === userId) {
-					li.className = 'me';
-				}
-
-				lastLi = li;
-			}
-
-			messageEl.innerHTML = msgText;
-			messageEl.className = 'msg';
-			messageEl.id = id;
-
-			// highlight the message with mention
-			if (msgText.indexOf('>@' + userName + '<') >= 0) {
-				messageEl.className += ' mention';
-			}
-
-			li.appendChild(messageEl);
-
-			if (useOld) {
-				lastCl.parentNode.removeChild(lastCl);
-			}
-
-			clearEl.className = 'clearer';
-			lastCl = clearEl;
-
-			li.appendChild(clearEl);
-
-			frag.appendChild(li);
+				item  = data[id],
+				tweet = new twic.vcl.Tweet();
+				
+			tweet.setId(id);
+			tweet.setText(item['msg']);
+			tweet.setAuthorNick(item['user']['name']);
+			tweet.setAuthorAvatar(item['user']['avatar']);
+			timeline.addTweet(tweet);
 		}
-
-		list.appendChild(frag);
 	};
 
 	twic.router.handle('timeline', function(data) {
