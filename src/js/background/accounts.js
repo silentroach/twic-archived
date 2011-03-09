@@ -155,7 +155,7 @@ twic.Accounts.prototype.updateCounter = function() {
 	}
 
 	chrome.browserAction.setTitle( {
-		'title': badgeHint.length > 0 ? badgeHint.join("\n") : ''
+		'title': badgeHint.length > 0 ? badgeHint.join("\n") : twic.name
 	} );
 
 	chrome.browserAction.setBadgeText( {
