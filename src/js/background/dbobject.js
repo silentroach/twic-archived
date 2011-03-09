@@ -50,9 +50,10 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 /**
  * Load object from JSON
  * @param {Object} obj JSON object
+ * todo rewrite
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
-	var 
+	var
 		dbobject = this,
 		key;
 
@@ -70,7 +71,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 			if (dbobject.jsonMap[key]) {
 				if (typeof dbobject.jsonMap[key] === 'string') {
 					fld = dbobject.jsonMap[key];
-				} 
+				}
 			}
 
 			if (obj[fld]) {
@@ -139,7 +140,7 @@ twic.DBObject.prototype.save = function(callback) {
 	sql += dbobject.table + ' ';
 
 	if (dbobject.exists) {
-		var 
+		var
 			setters = [],
 			i;
 
@@ -156,7 +157,7 @@ twic.DBObject.prototype.save = function(callback) {
 		// reset flags
 		dbobject.exists = true;
 		dbobject.changed = [];
-	
+
 		if (callback) {
 			callback();
 		}
@@ -183,7 +184,7 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 			if (dbobject.changed.indexOf(fieldname) < 0) {
 				dbobject.changed.push(fieldname);
 			}
-		
+
 			dbobject.onFieldChanged(fieldname, value);
 		}
 	}
@@ -195,7 +196,7 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
  * @param {string} alias Alias
  */
 twic.DBObject.prototype.loadFromRow = function(row, alias) {
-	var 
+	var
 		obj = this,
 		al = (alias ? alias + '_' : ''),
 		fkey;
@@ -203,7 +204,7 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 	for (fkey in obj.fields) {
 		obj.setValue(fkey, row[al + fkey]);
 	}
-	
+
 	obj.exists = true;
 	obj.changed = [];
 };
@@ -213,15 +214,15 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
  * @param {string} alias Alias
  */
 twic.DBObject.prototype.getFieldString = function(alias) {
-	var 
+	var
 		obj = this,
 		result = '',
 		key;
-	
+
 	for(key in obj.fields) {
 		result += (alias ? alias + '.' : '') + key + (alias ? ' ' + alias + '_' + key : '') + ', ';
 	}
-	
+
 	return result.slice(0, result.length - 2);
 };
 
@@ -241,7 +242,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	for (key in obj.fields) {
 		fld.push(key);
 	}
-	
+
 	var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
 
 	twic.db.select(sql, [value], function() {

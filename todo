@@ -14,7 +14,7 @@ foreach($files as $file) {
 
 		foreach($matches[2] as $match) {
 			// shitcode? fuck you ;)
-			echo '  ' . str_pad('Line ' . (substr_count(substr($content, 0, $match[1]), "\n") + 1) . ':', 9, ' ') . $match[0] . "\n";
+			echo str_pad((substr_count(substr($content, 0, $match[1]), "\n") + 1), 5, ' ', STR_PAD_LEFT) . $match[0] . "\n";
 		}
 
 		echo "\n";

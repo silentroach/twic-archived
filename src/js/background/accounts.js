@@ -3,6 +3,8 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// todo make it static object
+
 /**
  * @constructor
  */
@@ -166,6 +168,7 @@ twic.Accounts.prototype.updateCounter = function() {
 /**
  * Update accounts info
  * @param {function()} callback Callback function
+ * todo think about more nice solution
  */
 twic.Accounts.prototype.update = function(callback) {
 	var
