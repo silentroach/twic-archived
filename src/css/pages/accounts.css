@@ -11,10 +11,11 @@
 			#accounts ul li a {
 				display: block;
 				text-decoration: none;
+				opacity: .7;
+				-webkit-transition: all 0.2s ease-in-out;
 				}
-				/* make it transparent when dragging */
-				#accounts ul li a.drag {
-					opacity: .5;
+				#accounts ul li a:hover {
+					opacity: 1;
 					}
 				/* unread tweets count */
 				#accounts ul li a .utweets {
