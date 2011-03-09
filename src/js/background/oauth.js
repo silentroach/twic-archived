@@ -5,8 +5,11 @@
 
 /**
  * @constructor
+ * @param {string} method Method (GET, POST)
+ * @param {string} url Url
  */
 twic.OAuthRequest = function(method, url) {
+	// call the parent constructor
 	twic.Request.call(this, method, url);
 };
 
@@ -58,13 +61,18 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		this.setData('oauth_token', token);
 	}
 
+	// encode the data
 	for (key in this.data) {
 		params.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
 	}
 
+	// tis important to sort params
 	baseString += this.encodeString(params.sort().join('&'));
 
 	this.setData('oauth_signature',
-		SHA1.encode(this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''), baseString)
+		SHA1.encode(
+			this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''),
+			baseString
+		)
 	);
 };
