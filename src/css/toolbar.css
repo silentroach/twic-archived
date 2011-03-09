@@ -22,3 +22,9 @@
 		float: right;
 		margin-right: .4em;
 		}
+
+.toolbar.bottom {
+	border-top: 1px dotted silver;
+	border-bottom: 0px;
+	margin-bottom: 0px;
+	}

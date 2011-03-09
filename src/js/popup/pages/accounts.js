@@ -65,6 +65,11 @@
 		var loading = false;
 
 		list = document.querySelector('#accounts ul');
+
+		list.oncontextmenu = function(e) {
+			console.dir(e);
+		};
+
 		firstAccountElement = document.querySelector('#accounts p');
 
 		document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
