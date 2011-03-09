@@ -5,8 +5,8 @@
 ( function() {
 
 	var
-		/** @type {HTMLUListElement} */ list = document.querySelector('#accounts ul'),
-		/** @type {HTMLElement}      */ firstAccountElement = document.querySelector('#accounts p');
+		/** @type {HTMLUListElement} */ list,
+		/** @type {HTMLElement}      */ firstAccountElement;
 
 	var clearList = function() {
 		list.innerHTML = '';
@@ -64,6 +64,12 @@
 	var initPage = function() {
 		var loading = false;
 
+		list = document.querySelector('#accounts ul');
+		firstAccountElement = document.querySelector('#accounts p');
+
+		document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
+		document.getElementById('button_about').title       = chrome.i18n.getMessage('hint_about');
+
 		/**
 		 * @this {HTMLElement}
 		 */
@@ -80,9 +86,6 @@
 			// TODO handle errors
 			twic.requests.send('accountAdd');
 		};
-
-		document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
-		document.getElementById('button_about').title = chrome.i18n.getMessage('hint_about');
 	};
 
 	twic.router.handle('accounts', function(data) {

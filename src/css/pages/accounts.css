@@ -12,6 +12,10 @@
 				display: block;
 				text-decoration: none;
 				}
+				/* make it transparent when dragging */
+				#accounts ul li a.drag {
+					opacity: .5;
+					}
 				/* unread tweets count */
 				#accounts ul li a .utweets {
 					color: black;
