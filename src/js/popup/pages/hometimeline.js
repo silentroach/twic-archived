@@ -9,6 +9,7 @@
 		/** @type {twic.vcl.Timeline}    */ timeline,
 		/** @type {HTMLElement}          */ page,
 		/** @type {HTMLUListElement}     */ list,
+		/** @type {HTMLElement}          */ accountNameElement,
 		/** @type {HTMLElement}          */ newTweet,
 		/** @type {twic.vcl.TweetEditor} */	tweetEditor,
 		/** @type {number}               */ userId,
@@ -57,6 +58,8 @@
 
 	var initPage = function() {
 		page = document.getElementById('timeline');
+		accountNameElement = page.querySelector('.toolbar p');
+
 		timeline = new twic.vcl.Timeline(page);
 
 		list = page.querySelector('ul');
@@ -86,7 +89,6 @@
 			userName = info['account']['name'],
 			data     = info['data'];
 
-		var accountNameElement = page.querySelector('.toolbar p');
 		accountNameElement.innerHTML = '@' + userName;
 
 		for (id in data) {
@@ -119,6 +121,7 @@
 		//	twic.dom(timeline).css('height', screen.height - window.screenY);
 		//}
 
+		accountNameElement.innerHTML = '';
 		list.innerHTML = '';
 
 		userId = parseInt(data[0], 10);
