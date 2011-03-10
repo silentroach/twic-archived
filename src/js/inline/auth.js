@@ -43,7 +43,7 @@
 	}, function(reply) {
 		if (
 			!reply['res']
-			|| twic.global.AUTH_FAILED === reply['res']
+			|| twic.global.FAILED === reply['res']
 		) {
 			changePinText('auth_failed');
 			return;
@@ -51,7 +51,7 @@
 
 		var res = reply['res'];
 
-		if (twic.global.AUTH_SUCCESS === res) {
+		if (twic.global.SUCCESS === res) {
 			// success
 			changePinText('auth_success');
 		} else

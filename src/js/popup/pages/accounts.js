@@ -7,7 +7,59 @@
 	var
 		/** @type {HTMLUListElement} */ list,
 		/** @type {HTMLElement}      */ bottomStatus,
+		/** @type {number}           */ removingAccountId,
 		/** @type {HTMLElement}      */ firstAccountElement;
+
+	var resetToolbar = function() {
+		bottomStatus.innerHTML = chrome.i18n.getMessage('hint_select_or_remove');
+		bottomStatus.classList.remove('alert');
+	};
+
+	var removeAccount = function() {
+		twic.requests.send('accountRemove', {
+			'id': removingAccountId
+		}, function() {
+			refresh();
+		} );
+	};
+
+	var accountContextClick = function(e) {
+		if (
+			e.srcElement
+			&& e.srcElement.tagName === 'IMG'
+			&& e.srcElement.className === 'avatar'
+		) {
+			var
+				link      = e.srcElement.parentNode,
+				container = document.createElement('div'),
+				bYes      = document.createElement('a'),
+				bNo       = document.createElement('a');
+
+			removingAccountId = link.id;
+
+			bottomStatus.innerHTML = chrome.i18n.getMessage('alert_remove_account', link.title);
+			container.className = 'container';
+
+			bYes.innerHTML = chrome.i18n.getMessage('button_yes');
+			bYes.className = 'button';
+			bYes.href      = '#';
+
+			bYes.onclick   = removeAccount;
+
+			bNo.innerHTML  = chrome.i18n.getMessage('button_no');
+			bNo.className  = 'button';
+			bNo.href       = '#';
+
+			bNo.onclick    = resetToolbar;
+
+			container.appendChild(bYes);
+			container.appendChild(bNo);
+
+			bottomStatus.appendChild(container);
+
+			bottomStatus.classList.add('alert');
+		}
+	};
 
 	var clearList = function() {
 		list.innerHTML = '';
@@ -18,6 +70,8 @@
 			if (firstAccountElement) {
 				firstAccountElement.innerText = chrome.i18n.getMessage('add_first_account');
 				firstAccountElement.style.display = 'block';
+
+				bottomStatus.style.display = 'none';
 			}
 
 			return;
@@ -41,6 +95,7 @@
 			var a = document.createElement('a');
 			a.title = '@' + element['screen_name'];
 			a.href = '#timeline#' + element['id'];
+			a.id = element['id'];
 
 			a.appendChild(avatar);
 
@@ -62,15 +117,20 @@
 		list.appendChild(frag);
 	};
 
+	var refresh = function() {
+		resetToolbar();
+
+		clearList();
+		twic.requests.send('accountList', {}, buildList);
+	};
+
 	var initPage = function() {
 		var loading = false;
 
 		list = document.querySelector('#accounts ul');
 		bottomStatus = document.getElementById('accounts_status');
 
-		list.oncontextmenu = function(e) {
-			console.dir(e);
-		};
+		list.oncontextmenu = accountContextClick;
 
 		firstAccountElement = document.querySelector('#accounts p');
 
@@ -100,10 +160,7 @@
 
 		this.initOnce(initPage);
 
-		bottomStatus.innerHTML = chrome.i18n.getMessage('hint_select_or_remove');
-
-		clearList();
-		twic.requests.send('accountList', {}, buildList);
+		refresh();
 	} );
 
 }());

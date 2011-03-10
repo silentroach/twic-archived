@@ -58,6 +58,11 @@ twic.requests = ( function() {
 				s[i](data, sendResponse);
 			}
 		} else {
+			twic.debug.groupCollapsed('request received');
+			twic.debug.error('failed or handler not found');
+			twic.debug.dir(request);
+			twic.debug.groupEnd();
+
 			sendResponse({});
 		}
 	} );

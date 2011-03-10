@@ -14,6 +14,45 @@ twic.Accounts = function() {
 
 	self.items = undefined;
 
+	twic.requests.subscribe('accountRemove', function(data, sendResponse) {
+		var
+			id = data['id'] || -1,
+			account;
+
+		var fail = function() {
+			sendResponse( {
+				'result': twic.global.FAILED
+			} );
+
+			return;
+		};
+
+		if (id < 0) {
+			fail();
+		}
+
+		account = self.getInfo(id);
+
+		if (!account) {
+			fail();
+		}
+
+		// fixme shitcode
+		twic.db.execute('delete from timeline where user_id = ?', [id], function() {
+			twic.db.execute('delete from tweets where user_id = ?', [id], function() {
+				twic.db.execute('delete from users where id = ?', [id], function() {
+					twic.db.execute('delete from accounts where id = ?', [id], function() {
+						self.update();
+
+						sendResponse( {
+							'result': twic.global.FAILED
+						} );
+					}, fail);
+				}, fail);
+			}, fail);
+		}, fail);
+	} );
+
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
 		sendResponse( { } );
 
@@ -47,7 +86,7 @@ twic.Accounts = function() {
 			|| !data['user_id']
 		) {
 			sendResponse( {
-				'res': twic.global.AUTH_FAILED
+				'res': twic.global.FAILED
 			} );
 
 			return;
@@ -98,7 +137,7 @@ twic.Accounts = function() {
 				account.save();
 
 				sendResponse( {
-					'res': twic.global.AUTH_SUCCESS
+					'res': twic.global.SUCCESS
 				} );
 
 				checkUser(account.fields['id']);

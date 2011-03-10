@@ -5,6 +5,7 @@
 
 twic.global = { };
 
-/** @const **/ twic.global.AUTH_FAILED = 0;
-/** @const **/ twic.global.AUTH_SUCCESS = 1;
+/** @const **/ twic.global.FAILED = 0;
+/** @const **/ twic.global.SUCCESS = 1;
+
 /** @const **/ twic.global.AUTH_ALREADY = 2;
