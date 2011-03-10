@@ -2,6 +2,7 @@ ul.timeline {
 	margin-top: 2px;
 	border-top: 1px dotted silver;
 	font-size: 9pt;
+	padding: 2px;
 	}
 	ul.timeline li.tweet {
 		padding-bottom: .1em;
