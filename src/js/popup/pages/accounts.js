@@ -6,6 +6,7 @@
 
 	var
 		/** @type {HTMLUListElement} */ list,
+		/** @type {HTMLElement}      */ bottomStatus,
 		/** @type {HTMLElement}      */ firstAccountElement;
 
 	var clearList = function() {
@@ -65,6 +66,7 @@
 		var loading = false;
 
 		list = document.querySelector('#accounts ul');
+		bottomStatus = document.getElementById('accounts_status');
 
 		list.oncontextmenu = function(e) {
 			console.dir(e);
@@ -97,6 +99,8 @@
 		this.remember();
 
 		this.initOnce(initPage);
+
+		bottomStatus.innerHTML = chrome.i18n.getMessage('hint_select_or_remove');
 
 		clearList();
 		twic.requests.send('accountList', {}, buildList);
