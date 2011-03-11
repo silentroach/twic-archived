@@ -17,6 +17,9 @@ twic.db.obj.User = function() {
 		'avatar': '',
 		'url': '',
 		'verified': '',
+		'followers_count': 0,
+		'friends_count': 0,
+		'regdate': twic.utils.date.getCurrentTimestamp(),
 		'dt': twic.utils.date.getCurrentTimestamp()
 	};
 
@@ -28,6 +31,9 @@ twic.db.obj.User = function() {
 		// make the screen_name lowercase to search it right
 		'screen_name': function(obj) {
 			return obj['screen_name'].toLowerCase();
+		},
+		'regdate': function(obj) {
+			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		}
 	};
 };

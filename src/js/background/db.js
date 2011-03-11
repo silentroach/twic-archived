@@ -19,6 +19,9 @@ twic.db = ( function() {
 					'avatar text not null, ' +
 					'url text null, ' +
 					'verified int not null, ' +
+					'followers_count int not null, ' +
+					'friends_count int not null, ' +
+					'regdate int not null, ' +
 					'dt int not null)');
 
 				// twic accounts

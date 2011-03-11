@@ -38,6 +38,7 @@
 
 		// fixme shitcode
 		elementAvatar.src = data['avatar'];
+		elementAvatar.title = '@' + data['screen_name'];
 		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
