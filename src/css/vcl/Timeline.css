@@ -2,11 +2,9 @@ ul.timeline {
 	margin-top: 2px;
 	border-top: 1px dotted silver;
 	font-size: 9pt;
-	padding: 2px;
 	}
 	ul.timeline li.tweet {
-		padding-bottom: .1em;
-		padding-right: .5em;
+		padding: 0 .5em .1em 3px;
 		border-bottom: 1px dotted grey;
 		}
 		ul.timeline li.tweet:last-child {

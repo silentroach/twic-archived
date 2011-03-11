@@ -6,7 +6,7 @@ li.tweet p {
 	margin: 0;
 	/** split long words **/
 	word-wrap: break-word;
-	padding: .3em 0 .5em 55px;
+	padding: .3em 0 .3em 55px;
 	}
 
 li.tweet a.avatar {
