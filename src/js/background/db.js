@@ -21,6 +21,7 @@ twic.db = ( function() {
 					'verified int not null, ' +
 					'followers_count int not null, ' +
 					'friends_count int not null, ' +
+					'statuses_count int not null, ' +
 					'regdate int not null, ' +
 					'dt int not null)');
 
