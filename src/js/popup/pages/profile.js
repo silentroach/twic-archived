@@ -10,11 +10,13 @@
 		elementName,
 		elementNick,
 		elementUrl,
+		loader,
 		toolbarTimeline;
 
 	var initPage = function() {
 		page            = document.getElementById('profile');
 
+		elementLoader   = page.querySelector('.loader');
 		elementAvatar   = page.querySelector('.avatar');
 		elementName     = page.querySelector('.name');
 		elementNick     = page.querySelector('.nick');
@@ -23,6 +25,7 @@
 	};
 
 	var clearProfileData = function() {
+		elementLoader.style.display = 'block';
 		elementAvatar.style.display = 'none';
 		elementAvatar.src = '';
 		elementName.innerHTML = '';
@@ -31,6 +34,8 @@
 	};
 
 	var showProfile = function(data) {
+		elementLoader.style.display = 'none';
+
 		// fixme shitcode
 		elementAvatar.src = data['avatar'];
 		elementAvatar.style.display = '';

@@ -17,3 +17,9 @@ a.nick, a.hash {
 .clearer {
 	clear: both;
 	}
+
+p.loader {
+	text-align: center;
+	height: 30px;
+	background: url('/img/loader.gif') no-repeat center center;
+	}
