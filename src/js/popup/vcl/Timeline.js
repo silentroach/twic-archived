@@ -10,7 +10,8 @@ twic.vcl.Timeline = function(parent) {
 
 	var
 		wrapper = document.createElement('ul'),
-		tweets  = [];
+		tweets  = [],
+		userId;
 
 	wrapper.className = 'timeline';
 
@@ -23,8 +24,26 @@ twic.vcl.Timeline = function(parent) {
 		wrapper.appendChild(tweet.getElement());
 	};
 
+	/**
+	 * @param {number} id User identifier
+	 */
+	var setUserId = function(id) {
+		userId = id;
+	};
+
+	/**
+	 * @return {number} User identifier
+	 */
+	var getUserId = function() {
+		return userId;
+	};
+
 	return {
-		addTweet: addTweet
+		addTweet: addTweet,
+
+		setUserId: setUserId,
+
+		getUserId: getUserId
 	};
 
 };

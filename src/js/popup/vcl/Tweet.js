@@ -5,8 +5,9 @@
 
 /**
  * @constructor
+ * @param {twic.vcl.Timeline} timeline Timeline
  */
-twic.vcl.Tweet = function() {
+twic.vcl.Tweet = function(timeline) {
 
 	var
 		/** @type {RegExp} */ urlPattern          = /^https?:\/\/(www\.)?([^\/]+)?/i,
@@ -14,6 +15,9 @@ twic.vcl.Tweet = function() {
 		/** @type {RegExp} */ nickSearchPattern   = /(@(\w*)(\/\w+)?)/i,
 		/** @type {RegExp} */ hashSearchPattern   = /(^|\s)#(\w+)/g,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
+
+		/** @type {number} */ authorId,
+		/** @type {number} */ timelineId = timeline.getUserId(),
 
 		wrapper      = document.createElement('li'),
 		avatarLink   = document.createElement('a'),
@@ -102,14 +106,29 @@ twic.vcl.Tweet = function() {
 		avatar.src = av;
 	};
 
+	/**
+	 * @param {!number} id Tweet identifier
+	 */
+	var setAuthorId = function(id) {
+		authorId = id;
+
+		if (authorId === timelineId) {
+			wrapper.classList.add('me');
+		}
+	};
+
 	return {
 		getElement: function() {
 			return wrapper;
+		},
+		getAuthorId: function() {
+			return authorId;
 		},
 
 		setId: setId,
 		setText: setText,
 		setAuthorNick: setAuthorNick,
+		setAuthorId: setAuthorId,
 		setAuthorAvatar: setAuthorAvatar
 	};
 
