@@ -17,7 +17,9 @@ twic.vcl.Tweet = function(timeline) {
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
 		/** @type {number} */ authorId,
+
 		/** @type {number} */ timelineId = timeline.getUserId(),
+		/** @type {string} */ timelineNick = timeline.getUserNick(),
 
 		wrapper      = document.createElement('li'),
 		avatarLink   = document.createElement('a'),
@@ -65,6 +67,11 @@ twic.vcl.Tweet = function(timeline) {
 			function(nick) {
 				var n = nick.substring(1);
 
+				if (timelineNick === n) {
+					// this tweet is with our mention
+					wrapper.classList.add('mention');
+				}
+
 				return '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
 			}
 		);
@@ -95,6 +102,8 @@ twic.vcl.Tweet = function(timeline) {
 	 * @param {!string} nick Tweet author nick
 	 */
 	var setAuthorNick = function(nick) {
+		authorNick = nick;
+
 		avatarLink.title = '@' + nick;
 		avatarLink.href = '#profile#' + nick;
 	};

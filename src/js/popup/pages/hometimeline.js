@@ -92,6 +92,7 @@
 		accountNameElement.innerHTML = '@' + userName;
 
 		timeline.setUserId(info['account']['id']);
+		timeline.setUserNick(userName);
 
 		for (id in data) {
 			var
@@ -99,10 +100,11 @@
 				tweet = new twic.vcl.Tweet(timeline);
 
 			tweet.setId(id);
-			tweet.setText(item['msg']);
 			tweet.setAuthorId(item['user']['id']);
 			tweet.setAuthorNick(item['user']['name']);
 			tweet.setAuthorAvatar(item['user']['avatar']);
+			// after all to check for mention
+			tweet.setText(item['msg']);
 			timeline.addTweet(tweet);
 		}
 	};

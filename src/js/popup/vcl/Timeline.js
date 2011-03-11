@@ -11,6 +11,7 @@ twic.vcl.Timeline = function(parent) {
 	var
 		wrapper = document.createElement('ul'),
 		tweets  = [],
+		userNick,
 		userId;
 
 	wrapper.className = 'timeline';
@@ -32,18 +33,34 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	/**
+	 * @param {string} nick User nick
+	 */
+	var setUserNick = function(nick) {
+		userNick = nick;
+	}
+
+	/**
 	 * @return {number} User identifier
 	 */
 	var getUserId = function() {
 		return userId;
 	};
 
+	/**
+	 * @return {string} User nick
+	 */
+	var getUserNick = function() {
+		return userNick;
+	};
+
 	return {
 		addTweet: addTweet,
 
 		setUserId: setUserId,
+		setUserNick: setUserNick,
 
-		getUserId: getUserId
+		getUserId: getUserId,
+		getUserNick: getUserNick
 	};
 
 };

@@ -2,6 +2,10 @@ li.tweet.me {
 	background-color: rgba(100, 200, 0, .15);
 	}
 
+li.tweet.mention {
+	background-color: rgba(0, 100, 200, .15);
+	}
+
 li.tweet p {
 	margin: 0;
 	/** split long words **/

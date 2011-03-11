@@ -13,10 +13,12 @@
 	.toolbar a.button {
 		text-decoration: none;
 		color: white;
-		background-color: rgba(0, 0, 0, .5);
-		padding: .1em .3em;
-		border-radius: 3px;
 		margin-right: .2em;
+		border-bottom: 1px solid rgba(0, 0, 0, .25);
+		border-radius: 5px;
+		padding: 0px 5px;
+		background-color: rgba(0, 0, 0, .5);
+		font-weight: bold;
 		}
 	.toolbar p {
 		display: inline;
@@ -36,5 +38,5 @@
 	}
 
 .toolbar.alert {
-	background-color: rgba(255, 0, 0, .2);
+	background-color: rgba(255, 0, 0, .1);
 	}
