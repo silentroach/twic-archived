@@ -17,7 +17,6 @@ twic.vcl.TweetEditor = function(parent) {
 	var
 		editor = this,
 		/** @type {HTMLDivElement}      **/ editorWrapper  = document.createElement('div'),
-		/** @type {twic.dom}            **/ $editorWrapper = twic.dom(editorWrapper),
 		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
 		/** @type {HTMLTextAreaElement} **/ editorSend     = document.createElement('input'),
 		/** @type {HTMLElement}         **/ editorCounter  = document.createElement('span'),
@@ -48,7 +47,7 @@ twic.vcl.TweetEditor = function(parent) {
 	}
 
 	var checkTweetArea = function() {
-		if ($editorWrapper.hasClass(sendingClass)) {
+		if (editorWrapper.classList.contains(sendingClass)) {
 			return;
 		}
 
@@ -62,9 +61,9 @@ twic.vcl.TweetEditor = function(parent) {
 		editorCounter.innerHTML = (140 - charCount).toString();
 
 		if (charCount > 140) {
-			$editorWrapper.addClass(overloadClass);
+			editorWrapper.classList.add(overloadClass);
 		} else {
-			$editorWrapper.removeClass(overloadClass);
+			editorWrapper.classList.remove(overloadClass);
 		}
 
 		editorSend.disabled = (charCount === 0 || charCount > 140);
@@ -83,7 +82,8 @@ twic.vcl.TweetEditor = function(parent) {
 
 		if (val.length > 0) {
 			// loading state
-			$editorWrapper.addClass(sendingClass);
+
+			editorWrapper.classList.add(sendingClass);
 			editorCounter.innerHTML = '&nbsp;';
 			editorSend.disabled = true;
 
@@ -107,7 +107,7 @@ twic.vcl.TweetEditor = function(parent) {
 	};
 
 	editorTextarea.onfocus = function() {
-		$editorWrapper.addClass(focusedClass);
+		editorWrapper.classList.add(focusedClass);
 		checkTweetArea();
 	};
 
@@ -133,8 +133,8 @@ twic.vcl.TweetEditor = function(parent) {
 
 		editorCounter.innerHTML = '140';
 
-		$editorWrapper.removeClass(focusedClass);
-		$editorWrapper.removeClass(sendingClass);
+		editorWrapper.classList.remove(focusedClass);
+		editorWrapper.classList.remove(sendingClass);
 	};
 
 	editor.reset();
