@@ -1,6 +1,7 @@
 .tweetEditor {
 	width: 97%;
 	text-align: right;
+	margin-left: 2px;
 	}
 	.tweetEditor textarea {
 		width: 100%;
@@ -14,6 +15,7 @@
 		float: left;
 		font-size: 8pt;
 		display: none;
+		margin-left: 0px;
 		}
 	/** char counter **/
 	.tweetEditor span {
@@ -21,6 +23,7 @@
 		font-size: 12pt;
 		padding-top: 2px;
 		display: none;
+		margin-right: -.4em;
 		}
 
 /** tweet editor is focused **/
