@@ -6,6 +6,7 @@
 twic.vcl = twic.vcl || { };
 
 // todo reorder this peace of shit
+// todo save textarea contents to localStorage to avoid data loss on popup close
 
 /**
  * @constructor
