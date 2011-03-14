@@ -37,7 +37,7 @@ twic.vcl.Timeline = function(parent) {
 	 */
 	var setUserNick = function(nick) {
 		userNick = nick;
-	}
+	};
 
 	/**
 	 * @return {number} User identifier
