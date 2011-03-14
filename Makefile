@@ -5,6 +5,11 @@ NODEJS = `which node`
  	NODEJS = `which nodejs`; \
 fi
 
+help:
+	@@echo "targets:"
+	@@echo "  lint - check js files"
+	@@echo "  todo - build todo list"
+
 lint:
 	@@if test ! -z ${NODEJS}; then \
 		${NODEJS} ${TOOLS_DIR}/lint.js \
