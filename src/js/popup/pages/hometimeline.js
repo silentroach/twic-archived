@@ -56,33 +56,6 @@
 		return true;
 	};
 
-	var initPage = function() {
-		page = document.getElementById('timeline');
-		accountNameElement = page.querySelector('.toolbar p');
-
-		timeline = new twic.vcl.Timeline(page);
-
-		list = page.querySelector('ul');
-		newTweet = page.querySelector('.newtweet');
-
-		page.addEventListener('mouseup', onTimeLineMouseUp);
-		page.addEventListener('mousedown', onTimeLineMouseDown);
-
-		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
-
-		tweetEditor = new twic.vcl.TweetEditor(newTweet);
-		tweetEditor.setPlaceholder('placeholder_newtweet');
-
-		tweetEditor.onTweetSend = function(tweetText) {
-			twic.requests.send('sendTweet', {
-				'id': userId,
-				'tweet': tweetText
-			}, function() {
-				tweetEditor.reset();
-			} );
-		};
-	};
-
 	var buildList = function(info) {
 		var
 			id,
@@ -109,6 +82,43 @@
 		}
 	};
 
+	var update = function() {
+		list.innerHTML = '';
+
+		// todo thank about smarter way to refresh the timeline
+		twic.requests.send('getTimeline', {
+			'id': userId
+		}, buildList);
+	};
+
+	var initPage = function() {
+		page = document.getElementById('timeline');
+		accountNameElement = page.querySelector('.toolbar p');
+
+		timeline = new twic.vcl.Timeline(page);
+
+		list = page.querySelector('ul');
+		newTweet = page.querySelector('.newtweet');
+
+		page.addEventListener('mouseup', onTimeLineMouseUp);
+		page.addEventListener('mousedown', onTimeLineMouseDown);
+
+		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+
+		tweetEditor = new twic.vcl.TweetEditor(newTweet);
+		tweetEditor.setPlaceholder('placeholder_newtweet');
+
+		tweetEditor.onTweetSend = function(tweetText) {
+			twic.requests.send('sendTweet', {
+				'id': userId,
+				'tweet': tweetText
+			}, function() {
+				tweetEditor.reset();
+				update();
+			} );
+		};
+	};
+
 	twic.router.handle('timeline', function(data) {
 		if (
 			!data.length
@@ -127,13 +137,10 @@
 		//}
 
 		accountNameElement.innerHTML = '';
-		list.innerHTML = '';
 
 		userId = parseInt(data[0], 10);
 
-		twic.requests.send('getTimeline', {
-			'id': userId
-		}, buildList);
+		update();
 	} );
 
 }() );

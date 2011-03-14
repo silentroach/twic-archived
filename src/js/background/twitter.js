@@ -92,11 +92,7 @@ twic.twitter = ( function() {
 
 				tweetObj.updateFromJSON(tweetId, tweet);
 
-				twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId);
-
-				if (callback) {
-					callback();
-				}
+				twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, callback);
 			}
 		);
 	};
