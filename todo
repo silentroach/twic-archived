@@ -1,22 +1,14 @@
-#!/usr/bin/env php
-<?php
+#!/bin/bash
 
-$files = explode("\n", trim(`find src -name '*.js'`));
+NODEJS=`which node`
 
-foreach($files as $file) {
-	$content = file_get_contents($file);
+if [ -z ${NODEJS} ]; then
+	NODEJS=`which nodejs`;
+fi
 
-	if (
-		preg_match_all('@[//|*] ?(fixme|todo)(.*?)$@Umi', $content, $matches, PREG_OFFSET_CAPTURE)
-		&& sizeof($matches) === 3
-	) {
-		echo "\033[1m" . $file . "\033[0m\n";
+if [ -z ${NODEJS} ]; then
+	echo 'NodeJS not found'
+	exit
+fi
 
-		foreach($matches[2] as $match) {
-			// shitcode? fuck you ;)
-			echo str_pad((substr_count(substr($content, 0, $match[1]), "\n") + 1), 5, ' ', STR_PAD_LEFT) . $match[0] . "\n";
-		}
-
-		echo "\n";
-	}
-}
+${NODEJS} tools/todo.js
