@@ -1,10 +1,6 @@
 SRC_DIR = src
 TOOLS_DIR = tools
-NODEJS = `which node`
-
-@@if test ! -z ${NODEJS} ]; then \
- 	NODEJS = `which nodejs`; \
-fi
+NODEJS = `which node || which nodejs`
 
 help:
 	@@echo "targets:"
