@@ -3,10 +3,14 @@ TOOLS_DIR = tools
 NODEJS = `which node || which nodejs`
 
 help:
-	@@echo "targets:"
-	@@echo "  build - build the extension"
-	@@echo "  lint - check js files"
-	@@echo "  todo - build todo list"
+	@@echo "Build targets:"
+	@@echo
+	@@echo "* lint    check js files"
+	@@echo "* build   build the extension"
+	@@echo
+	@@echo "  todo    build todo list"
+	@@echo
+	@@echo "  all     make targets marked with asterisk"
 
 lint:
 	@@if test ! -z ${NODEJS}; then \
