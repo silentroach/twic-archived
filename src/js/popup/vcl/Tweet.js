@@ -10,9 +10,9 @@
 twic.vcl.Tweet = function(timeline) {
 
 	var
-		/** @type {RegExp} */ urlPattern          = /^https?:\/\/(www\.)?([^\/]+)?/i,
+		/** @type {RegExp} */ urlPattern          = /^https?:\/\/(www\.)?([^\/]+)?/gi,
 		/** @type {RegExp} */ urlSearchPattern    = /[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
-		/** @type {RegExp} */ nickSearchPattern   = /(@(\w*)(\/\w+)?)/i,
+		/** @type {RegExp} */ nickSearchPattern   = /(@(\w*)(\/\w+)?)/gi,
 		/** @type {RegExp} */ hashSearchPattern   = /(^|\s)#(\w+)/g,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
