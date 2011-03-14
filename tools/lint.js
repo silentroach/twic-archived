@@ -10,8 +10,6 @@ var
 var testFile = function(path) {
 	var src = rf(path, 'utf8');
 
-	print('=== Checking ' + path + "\n");
-
 	JSLINT(src, {
 		forin: true,
 		sub: true,
@@ -25,7 +23,7 @@ var testFile = function(path) {
 		err;
 
 	if (e.length > 0) {
-		print("\n");
+		print("\033[1m" + path + "\033[0m\n");
 	}
 
 	for (var i = 0; i < e.length; ++i) {
