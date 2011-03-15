@@ -6,17 +6,19 @@
 twic.vcl = twic.vcl || { };
 
 // todo reorder this peace of shit
-// todo save textarea contents to localStorage to avoid data loss on popup close
 
 /**
  * @constructor
+ * @param {HTMLElement} parent Parent element
+ * @param {?number} replyTo Identifier of reply to tweet
  */
-twic.vcl.TweetEditor = function(parent) {
+twic.vcl.TweetEditor = function(parent, replyTo) {
 
 	// init
 
 	var
 		editor = this,
+		/** @type {LocalStorage}        **/ storage        = localStorage,
 		/** @type {HTMLDivElement}      **/ editorWrapper  = document.createElement('div'),
 		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
 		/** @type {HTMLTextAreaElement} **/ editorSend     = document.createElement('input'),
@@ -92,8 +94,30 @@ twic.vcl.TweetEditor = function(parent) {
 		}
 	};
 
+	/**
+	 * Function to get the path to localStorage element
+	 * @return {string}
+	 */
+	var getStoragePath = function() {
+		// todo append the tweet id if editor is for composing the reply
+		return 'tweetEditor' + (replyTo ? '_' + replyTo : '');
+	};
+
+	// store the textarea value on each keyup to avoid data loss on popup close
+	editorTextarea.addEventListener('keyup', function(e) {
+		var
+			val  = e.target.value,
+			path = getStoragePath();
+
+		if (val === '') {
+			storage.removeItem(path);
+		} else {
+			storage.setItem(path, e.target.value);
+		}
+	} );
+
 	// prevent user to press enter
-	editorTextarea.onkeydown = function(e) {
+	editorTextarea.addEventListener('keydown', function(e) {
 		if (e.keyCode === 13) {
 			e.preventDefault();
 
@@ -105,7 +129,7 @@ twic.vcl.TweetEditor = function(parent) {
 				tryToSend();
 			}
 		}
-	};
+	} );
 
 	editorTextarea.onfocus = function() {
 		editorWrapper.classList.add(focusedClass);
@@ -122,13 +146,7 @@ twic.vcl.TweetEditor = function(parent) {
 		tryToSend();
 	};
 
-	// functions
-
-	editor.setPlaceholder = function(alias) {
-		editorTextarea.placeholder = chrome.i18n.getMessage(alias);
-	};
-
-	editor.reset = function() {
+	var reset = function() {
 		editorTextarea.value = '';
 		editorTextarea.rows = 1;
 
@@ -138,7 +156,26 @@ twic.vcl.TweetEditor = function(parent) {
 		editorWrapper.classList.remove(sendingClass);
 	};
 
-	editor.reset();
+	// functions
+
+	editor.setPlaceholder = function(alias) {
+		editorTextarea.placeholder = chrome.i18n.getMessage(alias);
+	};
+
+	editor.reset = function() {
+		// empty the localstorage backup
+		storage.removeItem(getStoragePath());
+
+		reset();
+	};
+
+	reset();
+
+	var backupText = storage.getItem(getStoragePath());
+	if (backupText) {
+		editorTextarea.value = backupText;
+		checkTweetArea();
+	}
 
 	editor.onTweetSend = function(tweetText) { };
 };
