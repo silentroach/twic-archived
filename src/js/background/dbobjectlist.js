@@ -5,9 +5,14 @@
 
 /**
  * @constructor
+ * @param {string} cls DBObject constructor function name
  */
 twic.DBObjectList = function(cls) {
 	this.cls = cls;
+
+	/**
+	 * @type {Object.<number,twic.DBObject>}
+	 */
 	this.items = { };
 };
 
@@ -24,13 +29,13 @@ twic.DBObjectList.prototype.clear = function() {
  * @param {string} alias Alias
  */
 twic.DBObjectList.prototype.load = function(result, alias) {
-	var 
+	var
 		objList = this,
 		i;
 
 	for (i = 0; i < result.length; ++i) {
 		/**
-		 * @type {twic.DBObject} obj
+		 * @type {twic.DBObject}
 		 */
 		var obj = new objList.cls();
 		obj.loadFromRow(result.item(i), alias);
@@ -45,16 +50,16 @@ twic.DBObjectList.prototype.load = function(result, alias) {
  * @param {string} alias Alias for fields
  */
 twic.DBObjectList.prototype.pushUnique = function(row, alias) {
-	var 
+	var
 		objList = this,
 		id = row[(alias ? alias + '_' : '') + 'id'];
-	
+
 	if (objList.items[id]) {
 		return;
 	}
-	
+
 	var obj = new objList.cls();
 	obj.loadFromRow(row, alias);
-	
+
 	objList.items[id] = obj;
 };

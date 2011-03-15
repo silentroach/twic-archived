@@ -3,6 +3,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Something to work with Twitter API
+ */
 twic.api = ( function() {
 
 	var
@@ -189,6 +192,7 @@ twic.api = ( function() {
 		} );
 	};
 
+	// todo reorder, rename and comment
 	return {
 		getRequestToken: getRequestToken,
 		resetToken: resetToken,

@@ -5,6 +5,7 @@
 
 /**
  * @constructor
+ * @extends twic.DBObject
  */
 twic.db.obj.Account = function() {
 	twic.DBObject.call(this);
@@ -21,6 +22,7 @@ twic.db.obj.Account = function() {
 
 goog.inherits(twic.db.obj.Account, twic.DBObject);
 
+// todo is it right to declare handlers in this way?
 twic.db.obj.Account.prototype.onUnreadTweetsCountChanged = function(newCount) {
 
 };

@@ -5,6 +5,8 @@
 
 /**
  * @constructor
+ * @param {string} method Method (GET, POST)
+ * @param {string} url Url
  */
 twic.Request = function(method, url) {
 	this.method = method;
@@ -66,6 +68,7 @@ twic.Request.prototype.setHeader = function(key, value) {
  * Set request POST data
  * @param {!string} key Key
  * @param {!string} value Value
+ * todo maybe it will be great to get the object with params
  */
 twic.Request.prototype.setData = function(key, value) {
 	this.data[key] = value;
@@ -74,6 +77,7 @@ twic.Request.prototype.setData = function(key, value) {
 /**
  * Send the request
  * @param {function(XMLHttpRequest)} callback Callback
+ * todo failed callback or make the request returnable object
  */
 twic.Request.prototype.send = function(callback) {
 	var

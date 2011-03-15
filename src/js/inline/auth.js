@@ -6,6 +6,7 @@
 ( function() {
 
 	var
+		// todo write something for selectors
 		pinElement  = document.getElementById('oauth_pin'),
 		idElement   = document.querySelector('meta[name=session-userid]');
 

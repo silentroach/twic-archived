@@ -29,6 +29,7 @@
 					user  = users.items[tweet.fields['user_id']];
 
 				reply[tweet.fields['id']] = {
+					// todo add to DBObject method to extract only fields that we need
 					'msg': tweet.fields['msg'],
 					'user': {
 						'id': user.fields['id'],

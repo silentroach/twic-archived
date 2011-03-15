@@ -4,6 +4,7 @@
  */
 
 /**
+ * Tweet element
  * @constructor
  * @param {twic.vcl.Timeline} timeline Timeline
  */
@@ -127,6 +128,7 @@ twic.vcl.Tweet = function(timeline) {
 	};
 
 	return {
+		// todo where are annotations? ;)
 		getElement: function() {
 			return wrapper;
 		},

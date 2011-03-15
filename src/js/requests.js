@@ -3,6 +3,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Handle crosspage extension messaging
+ */
 twic.requests = ( function() {
 
 	var
@@ -40,6 +43,7 @@ twic.requests = ( function() {
 		subscriptions[event].push(callback);
 	};
 
+	// todo make sendRespons our own method to send it if it was not sent in callback?
 	chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
 		if (
 			request['method']

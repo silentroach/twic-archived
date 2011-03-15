@@ -3,6 +3,10 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Router object
+ * Handle page switching in popup
+ */
 twic.router = ( function() {
 
 	var
@@ -67,6 +71,7 @@ twic.router = ( function() {
 		}
 	};
 
+	// todo maybe it is better for closure compiler to split methods. need test it.
 	self = {
 		handle: function(frameName, callback) {
 			frames[frameName].callbacks.push(callback);

@@ -3,6 +3,8 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// todo oh my...
+
 // partially gotten from jQuery
 twic.dom = (function() {
 

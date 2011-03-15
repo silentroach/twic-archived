@@ -2,7 +2,11 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
- 
+
+/**
+ * Timeline database object
+ * todo rethink it
+ */
 twic.db.obj.Timeline = ( function() {
 
 	/**
@@ -19,21 +23,21 @@ twic.db.obj.Timeline = ( function() {
 			[userId, tweetId],
 			function() {
 				var rows = this;
-			
+
 				if (rows.length > 0) {
 					return;
 				}
-				
+
 				twic.db.execute(
 					'insert into timeline (user_id, tweet_id) ' +
 					'values (?, ?) ',
 					[userId, tweetId]
 				);
-				
+
 				if (addCallback) {
 					addCallback();
 				}
-			} 
+			}
 		);
 	};
 

@@ -5,6 +5,7 @@
 
 /**
  * @constructor
+ * @extends twic.DBObject
  */
 twic.db.obj.Tweet = function() {
 	twic.DBObject.call(this);

@@ -3,9 +3,10 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// todo make vcl namespace once
 twic.vcl = twic.vcl || { };
 
-// todo reorder this peace of shit
+// todo holy shit! reorder it
 
 /**
  * @constructor

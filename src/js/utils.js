@@ -3,6 +3,10 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Some utils
+ */
+
 twic.utils = { };
 
 twic.utils.date = { };

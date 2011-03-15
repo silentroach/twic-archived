@@ -5,6 +5,7 @@
 
 /**
  * @constructor
+ * @extends twic.Request
  * @param {string} method Method (GET, POST)
  * @param {string} url Url
  */

@@ -3,6 +3,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * About page implementation
+ */
 ( function() {
 
 	var initPage = function() {
@@ -10,10 +13,11 @@
 			req = new XMLHttpRequest(),
 			manifest;
 
-    req.open('GET', chrome.extension.getURL('manifest.json'), false);
-    req.send(null);
-    manifest = JSON.parse(req.responseText);
+		req.open('GET', chrome.extension.getURL('manifest.json'), false);
+		req.send(null);
+		manifest = JSON.parse(req.responseText);
 
+		// todo need to write something for translator
 		document.getElementById('aname').innerHTML = twic.name + ' ' + manifest['version'];
 		document.getElementById('awhat').innerHTML = chrome.i18n.getMessage('about_what');
 		document.getElementById('donate').value    = chrome.i18n.getMessage('button_donate');

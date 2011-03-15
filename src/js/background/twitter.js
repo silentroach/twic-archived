@@ -3,6 +3,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Something between application and "raw" api
+ */
 twic.twitter = ( function() {
 
 	/**
@@ -100,6 +103,7 @@ twic.twitter = ( function() {
 	/**
 	 * Update user home timeline
 	 * @param {number} userId User identifier
+	 * todo method is too big. maybe we need to refactor it.
 	 */
 	var updateHomeTimeline = function(userId) {
 		var account = twic.accounts.getInfo(userId);

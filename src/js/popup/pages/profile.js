@@ -2,6 +2,11 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
+
+/**
+ * Profile page implementation
+ * todo annotations
+ */
 ( function() {
 
 	var

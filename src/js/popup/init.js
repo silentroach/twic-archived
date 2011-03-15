@@ -3,6 +3,10 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Try to switch to the page we remember before popup was closed
+ */
+
 var lastLocation = localStorage.getItem('location');
 
 if (lastLocation) {

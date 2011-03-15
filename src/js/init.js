@@ -5,6 +5,7 @@
 
 var twic = {
 	/**
+	 * Extension name, used in many parts
 	 * @const
 	 * @type {string}
 	 */

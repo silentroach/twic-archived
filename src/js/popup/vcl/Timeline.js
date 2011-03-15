@@ -5,6 +5,7 @@
 
 /**
  * @constructor
+ * todo annotations?
  */
 twic.vcl.Timeline = function(parent) {
 

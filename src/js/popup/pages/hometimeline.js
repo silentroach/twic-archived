@@ -3,6 +3,10 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Home timeline implementation
+ * todo annotations missed
+ */
 ( function() {
 
 	var

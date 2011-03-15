@@ -32,7 +32,7 @@ twic.DBObject = function() {
 	this.exists = false;
 
 	/**
-	 * Record changed
+	 * Fields that was changed
 	 * @type {Array}
 	 */
 	this.changed = [];
@@ -50,7 +50,7 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 /**
  * Load object from JSON
  * @param {Object} obj JSON object
- * todo rewrite
+ * todo rewrite and add comments
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var
@@ -100,6 +100,7 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 /**
  * Save object to database
  * @param {function()} callback Callback function
+ * todo add comments
  */
 twic.DBObject.prototype.save = function(callback) {
 	var
@@ -232,6 +233,7 @@ twic.DBObject.prototype.getFieldString = function(alias) {
  * @param {number|string} value Value
  * @param {function()} callback Object found callback
  * @param {function()} nfcallback Object not found callback
+ * todo comments?
  */
 twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
 	var

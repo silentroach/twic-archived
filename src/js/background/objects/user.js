@@ -5,6 +5,7 @@
 
 /**
  * @constructor
+ * @extends twic.DBObject
  */
 twic.db.obj.User = function() {
 	twic.DBObject.call(this);
@@ -41,6 +42,7 @@ twic.db.obj.User = function() {
 
 goog.inherits(twic.db.obj.User, twic.DBObject);
 
+// todo annotation is missing
 twic.db.obj.User.prototype.save = function(callback) {
 	// update for 'dt' each save method call
 	this.fields['dt'] = twic.utils.date.getCurrentTimestamp();

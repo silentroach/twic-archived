@@ -3,13 +3,17 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+/**
+ * Object to work with database
+ */
 twic.db = ( function() {
 
 	var migrations = {
 		'0': {
 			version: '0.01',
 			callback: function(t) {
-				// TODO check the field sizes
+				// todo check the field sizes
+				// todo will it run parallel or query after query?
 
 				// users info
 				t.executeSql('create table users (' +
@@ -67,6 +71,7 @@ twic.db = ( function() {
 		if (migrations[version]) {
 			var migration = migrations[version];
 
+			// todo think about migration in more than one version, run it each after
 			db.changeVersion(ver, migration.version, function(t) {
 				migration.callback(t);
 			}, function() {
@@ -82,7 +87,7 @@ twic.db = ( function() {
 	 * @param {Database} db Database
 	 */
 	var cleanup = function(db) {
-
+		// todo ???
 	};
 
 	var database = null;
