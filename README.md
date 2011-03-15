@@ -7,19 +7,16 @@ Please don't forget to:
 
     git submodule update --init --recursive
 
-License
--------
-Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
-
-Credits
--------
+Copyright
+---------
 Kalashnikov Igor <igor.kalashnikov@gmail.com>
+Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 
 3rdparty
 --------
 
-[SHA1 crypt implementation](http://pajhome.org.uk/crypt/md5)
-[Iconza icons](http://www.iconza.com/)
+* [SHA1 crypt implementation](http://pajhome.org.uk/crypt/md5)
+* [Iconza icons](http://www.iconza.com/)
 
 Specific commands
 -----------------
