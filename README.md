@@ -27,12 +27,12 @@ You can use make command to do something:
 
 * lint all js files in project
 
-    make lint
+        make lint
 
 * search for FIXME and TODO annotations in js comments
 
-    make todo
+        make todo
 
 * build the extension (doesn't work yet)
 
-    make extension
+        make extension
