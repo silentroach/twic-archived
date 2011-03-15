@@ -9,7 +9,9 @@ Please don't forget to:
 
 Copyright
 ---------
-Kalashnikov Igor <igor.kalashnikov@gmail.com>
+
+[Kalashnikov Igor](mailto:igor.kalashnikov@gmail.com)
+
 Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 
 3rdparty
@@ -23,14 +25,14 @@ Specific commands
 
 You can use make command to do something:
 
-lint all js files in project
+* lint all js files in project
 
     make lint
 
-search for FIXME and TODO annotations in js comments
+* search for FIXME and TODO annotations in js comments
 
     make todo
 
-build the extension (doesn't work yet)
+* build the extension (doesn't work yet)
 
     make extension
