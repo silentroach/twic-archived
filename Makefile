@@ -5,12 +5,12 @@ NODEJS = `which node || which nodejs`
 help:
 	@@echo "Build targets:"
 	@@echo
-	@@echo "* lint    check js files"
-	@@echo "* build   build the extension"
+	@@echo "* lint        check js files"
+	@@echo "* extension   build the extension"
 	@@echo
-	@@echo "  todo    build todo list"
+	@@echo "  todo        build todo list"
 	@@echo
-	@@echo "  all     make targets marked with asterisk"
+	@@echo "  all         make targets marked with asterisk"
 
 lint:
 	@@if test ! -z ${NODEJS}; then \
@@ -26,12 +26,12 @@ todo:
 		echo "You must have NodeJS installed."; \
 	fi
 
-build:
+extension:
 	@@if test ! -z ${NODEJS}; then \
 		${NODEJS} ${TOOLS_DIR}/builder/builder.js --manifest ${SRC_DIR}/manifest.json \
 	else \
 		echp "You must have NodeJS installed."; \
 	fi
 
-all: lint build
+all: lint extension
 
