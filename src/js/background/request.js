@@ -5,6 +5,18 @@
 
 /**
  * @constructor
+ * @param {number} code Error code
+ */
+twic.ResponseError = function(code) {
+	this.code = code;
+};
+
+/** @const */ twic.ResponseError.UNKNOWN      = 0;
+/** @const */ twic.ResponseError.UNAUTHORIZED = 1;
+/** @const */ twic.ResponseError.TIMEOUT      = 2;
+
+/**
+ * @constructor
  * @param {string} method Method (GET, POST)
  * @param {string} url Url
  */
@@ -76,7 +88,7 @@ twic.Request.prototype.setData = function(key, value) {
 
 /**
  * Send the request
- * @param {function(XMLHttpRequest)} callback Callback
+ * @param {function(?twic.ResponseError, ?XMLHttpRequest)} callback Callback
  * todo failed callback or make the request returnable object
  */
 twic.Request.prototype.send = function(callback) {
@@ -105,20 +117,15 @@ twic.Request.prototype.send = function(callback) {
 				twic.debug.error('Unauthorized');
 				twic.debug.groupEnd();
 
-				// Unauthorized
-				// fixme handler
-				return;
-			}
-
+				callback(new twic.ResponseError(twic.ResponseError.UNAUTHORIZED));
+			} else
 			if (req.responseText === '') {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Empty reply');
 				twic.debug.groupEnd();
 
-				// timeout or something is wrong
-				return;
-			}
-
+				callback(new twic.ResponseError(twic.ResponseError.TIMEOUT));
+			} else
 			if (req.status === 200) {
 				twic.debug.groupCollapsed('http request to ' + self.url + ' finished');
 				try {
@@ -128,13 +135,15 @@ twic.Request.prototype.send = function(callback) {
 				}
 				twic.debug.groupEnd();
 
-				callback(req);
+				callback(null, req);
 			} else {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Unknown status');
 				twic.debug.log(req.status);
 				twic.debug.log(req.responseText);
 				twic.debug.groupEnd();
+
+				callback(new twic.ResponseError(twic.ResponseError.UNKNOWN));
 			}
 		}
 	};

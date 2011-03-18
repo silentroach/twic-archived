@@ -64,8 +64,9 @@ twic.api = ( function() {
 	/**
 	 * Get the app request token
 	 * @param {function(string, string)} callback Callback function
+	 * @param {?function(twic.RequestError)} failedCallback Failed callback function
 	 */
-	var getRequestToken = function(callback) {
+	var getRequestToken = function(callback, failedCallback) {
 		if (oauth_token) {
 			callback(oauth_token, oauth_token_secret);
 			return;
@@ -74,13 +75,18 @@ twic.api = ( function() {
 		var req = new twic.OAuthRequest('POST', authUrl + 'request_token');
 		req.sign();
 
-		req.send( function(r) {
-			var obj = twic.Request.queryStringToObject(r.responseText);
+		req.send( function(error, req) {
+			if (!error) {
+				var obj = twic.Request.queryStringToObject(req.responseText);
 
-			oauth_token        = obj['oauth_token'];
-			oauth_token_secret = obj['oauth_token_secret'];
+				oauth_token        = obj['oauth_token'];
+				oauth_token_secret = obj['oauth_token_secret'];
 
-			callback(oauth_token, oauth_token_secret);
+				callback(oauth_token, oauth_token_secret);
+			} else
+			if (failedCallback) {
+				failedCallback(error);
+			}
 		} );
 	};
 
@@ -88,16 +94,22 @@ twic.api = ( function() {
 	 * Get the user access token
 	 * @param {string} pin Pin code
 	 * @param {function(Object)} callback Callback function
+	 * @param {?function(twic.RequestError)} failedCallback Failed callback function
 	 */
-	var getAccessToken = function(pin, callback) {
+	var getAccessToken = function(pin, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', authUrl + 'access_token');
 		req.setData('oauth_verifier', pin);
 
 		getRequestToken( function(token, secret) {
 			req.sign(token, secret);
 
-			req.send( function(data) {
-				callback(twic.Request.queryStringToObject(data.responseText));
+			req.send( function(error, req) {
+				if (!error) {
+					callback(twic.Request.queryStringToObject(req.responseText));
+				} else
+				if (failedCallback) {
+					failedCallback(error);
+				}
 			} );
 		} );
 	};
@@ -116,16 +128,22 @@ twic.api = ( function() {
 	 * Get the user info
 	 * @param {number|string} id User identifier or screen name
 	 * @param {function()} callback Callback function
+	 * @param {?function(twic.RequestError)} failedCallback Failed callback function
 	 */
-	var getUserInfo = function(id, callback) {
+	var getUserInfo = function(id, callback, failedCallback) {
 		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
-		req.send( function(data) {
-			parseGlobalLimit(data);
+		req.send( function(error, req) {
+			if (!error) {
+				parseGlobalLimit(req);
 
-			var obj = JSON.parse(data.responseText);
+				var obj = JSON.parse(req.responseText);
 
-			if (obj) {
-				callback(obj);
+				if (obj) {
+					callback(obj);
+				} // todo else failedCallback
+			} else
+			if (failedCallback) {
+				failedCallback(error);
 			}
 		} );
 	};
@@ -137,8 +155,9 @@ twic.api = ( function() {
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
 	 * @param {function(Array.<Object>)} callback Callback function
+	 * @param {?function(twic.RequestError)} failedCallback Failed callback function
 	 */
-	var homeTimeline = function(id, since_id, token, token_secret, callback) {
+	var homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
 
 		if (since_id) {
@@ -149,14 +168,19 @@ twic.api = ( function() {
 
 		twic.debug.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
 
-		req.send( function(obj) {
-			var data = JSON.parse(obj.responseText);
+		req.send( function(error, req) {
+			if (!error) {
+				var data = JSON.parse(req.responseText);
 
-			if (
-				data
-				&& callback
-			) {
-				callback(data);
+				if (
+					data
+					&& callback
+				) {
+					callback(data);
+				}
+			} else
+			if (failedCallback) {
+				failedCallback(error);
 			}
 		} );
 	};
@@ -167,8 +191,9 @@ twic.api = ( function() {
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
 	 * @param {function(Array.<Object>)} callback Callback function
+	 * @param {?function(twic.RequestError)} failedCallback Failed callback function
 	 */
-	var updateStatus = function(status, token, token_secret, callback) {
+	var updateStatus = function(status, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');
 
 		req.setData('status', status);
@@ -180,14 +205,19 @@ twic.api = ( function() {
 
 		twic.debug.info('sending the new tweet: ' + status);
 
-		req.send( function(r) {
-			var data = JSON.parse(r.responseText);
+		req.send( function(error, req) {
+			if (!error) {
+				var data = JSON.parse(req.responseText);
 
-			if (
-				data
-				&& callback
-			) {
-				callback(data);
+				if (
+					data
+					&& callback
+				) {
+					callback(data);
+				} // todo else failedCallback
+			} else
+			if (failedCallback) {
+				failedCallback(error);
 			}
 		} );
 	};
