@@ -22,7 +22,8 @@ twic.db.obj.User = function() {
 		'friends_count': 0,
 		'statuses_count': 0,
 		'regdate': twic.utils.date.getCurrentTimestamp(),
-		'dt': twic.utils.date.getCurrentTimestamp()
+		'dt': twic.utils.date.getCurrentTimestamp(),
+		'scount': 0
 	};
 
 	this.jsonMap = {
