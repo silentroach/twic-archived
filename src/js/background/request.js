@@ -56,7 +56,7 @@ twic.Request.queryStringToObject = function(data) {
  * @return {string}
  */
 twic.Request.prototype.encodeString = function(str) {
-	result = encodeURIComponent(str);
+	var result = encodeURIComponent(str);
 
 	result = result.replace(/\!/g, '%21');
 	result = result.replace(/\*/g, '%2A');
