@@ -98,7 +98,7 @@ twic.api = ( function() {
 	 */
 	var getAccessToken = function(pin, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', authUrl + 'access_token');
-		req.setData('oauth_verifier', pin);
+		req.setRequestData('oauth_verifier', pin);
 
 		getRequestToken( function(token, secret) {
 			req.sign(token, secret);
@@ -161,7 +161,7 @@ twic.api = ( function() {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
 
 		if (since_id) {
-			req.setData('since_id', since_id);
+			req.setRequestData('since_id', since_id);
 		}
 
 		req.sign(token, token_secret);
@@ -196,10 +196,10 @@ twic.api = ( function() {
 	var updateStatus = function(status, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');
 
-		req.setData('status', status);
+		req.setRequestData('status', status);
 
 		// do not request additional user info cause it is about us
-		req.setData('trim_user', 1);
+		req.setRequestData('trim_user', 1);
 
 		req.sign(token, token_secret);
 

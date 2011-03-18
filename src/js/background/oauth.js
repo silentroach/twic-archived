@@ -52,14 +52,14 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		this.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	}
 
-	this.setData('oauth_consumer_key', twic.consumer_key);
-	this.setData('oauth_signature_method', 'HMAC-SHA1');
-	this.setData('oauth_version', '1.0');
-	this.setData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());
-	this.setData('oauth_nonce', this.getNonce());
+	this.setRequestData('oauth_consumer_key', twic.consumer_key);
+	this.setRequestData('oauth_signature_method', 'HMAC-SHA1');
+	this.setRequestData('oauth_version', '1.0');
+	this.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());
+	this.setRequestData('oauth_nonce', this.getNonce());
 
 	if (token) {
-		this.setData('oauth_token', token);
+		this.setRequestData('oauth_token', token);
 	}
 
 	// encode the data
@@ -70,7 +70,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	// tis important to sort params
 	baseString += this.encodeString(params.sort().join('&'));
 
-	this.setData('oauth_signature',
+	this.setRequestData('oauth_signature',
 		SHA1.encode(
 			this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''),
 			baseString

@@ -82,7 +82,7 @@ twic.Request.prototype.setHeader = function(key, value) {
  * @param {!string} value Value
  * todo maybe it will be great to get the object with params
  */
-twic.Request.prototype.setData = function(key, value) {
+twic.Request.prototype.setRequestData = function(key, value) {
 	this.data[key] = value;
 };
 
