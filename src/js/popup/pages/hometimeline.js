@@ -108,19 +108,6 @@
 		page.addEventListener('mousedown', onTimeLineMouseDown);
 
 		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
-
-		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
-		tweetEditor.setPlaceholder('placeholder_newtweet');
-
-		tweetEditor.onTweetSend = function(tweetText) {
-			twic.requests.send('sendTweet', {
-				'id': userId,
-				'tweet': tweetText
-			}, function() {
-				tweetEditor.reset();
-				update();
-			} );
-		};
 	};
 
 	twic.router.handle('timeline', function(data) {
@@ -143,6 +130,21 @@
 		accountNameElement.innerHTML = '';
 
 		userId = parseInt(data[0], 10);
+
+		newTweet.innerHTML = '';
+
+		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
+		tweetEditor.setPlaceholder('placeholder_newtweet');
+
+		tweetEditor.onTweetSend = function(tweetText) {
+			twic.requests.send('sendTweet', {
+				'id': userId,
+				'tweet': tweetText
+			}, function() {
+				tweetEditor.reset();
+				update();
+			} );
+		};
 
 		update();
 	} );
