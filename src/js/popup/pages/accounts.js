@@ -100,7 +100,8 @@
 			var a = document.createElement('a');
 			a.title = '@' + element['screen_name'];
 			a.href = '#timeline#' + element['id'];
-			a.id = element['id'];
+			// todo antilint (weird assignment) O.o think about it
+			a.setAttribute('id', element['id']);
 
 			a.appendChild(avatar);
 
