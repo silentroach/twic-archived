@@ -89,7 +89,7 @@ twic.Request.prototype.setRequestData = function(key, value) {
 /**
  * Send the request
  * @param {function(?twic.ResponseError, ?XMLHttpRequest)} callback Callback
- * todo failed callback or make the request returnable object
+ * todo send method can't be shortened by Closure Compiler, don't know why
  */
 twic.Request.prototype.send = function(callback) {
 	var
