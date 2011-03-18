@@ -27,8 +27,6 @@ twic.db = ( function() {
 					'friends_count int not null, ' +
 					'statuses_count int not null, ' +
 					'regdate int not null, ' +
-					// suggest use count for user
-					'scount int not null, ' +
 					'dt int not null)');
 
 				// twic accounts
