@@ -10,10 +10,11 @@ twic.vcl = twic.vcl || { };
 
 /**
  * @constructor
+ * @param {number} userId User identifier (used to store backup textarea value)
  * @param {HTMLElement} parent Parent element
  * @param {?number} replyTo Identifier of reply to tweet
  */
-twic.vcl.TweetEditor = function(parent, replyTo) {
+twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	// init
 
@@ -101,7 +102,7 @@ twic.vcl.TweetEditor = function(parent, replyTo) {
 	 */
 	var getStoragePath = function() {
 		// todo append the tweet id if editor is for composing the reply
-		return 'tweetEditor' + (replyTo ? '_' + replyTo : '');
+		return 'tweetEditor_' + userId + (replyTo ? '_' + replyTo : '');
 	};
 
 	// store the textarea value on each keyup to avoid data loss on popup close

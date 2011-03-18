@@ -109,7 +109,7 @@
 
 		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
 
-		tweetEditor = new twic.vcl.TweetEditor(newTweet);
+		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
 		tweetEditor.setPlaceholder('placeholder_newtweet');
 
 		tweetEditor.onTweetSend = function(tweetText) {
