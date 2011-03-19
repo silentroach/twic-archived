@@ -176,6 +176,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	var backupText = storage.getItem(getStoragePath());
 	if (backupText) {
 		editorTextarea.value = backupText;
+		// fixme textarea isn't resized if it is too big :(
 		checkTweetArea();
 	}
 
