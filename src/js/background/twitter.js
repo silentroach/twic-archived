@@ -145,37 +145,35 @@ twic.twitter = ( function() {
 							/** @type {Object} */ tweet   = data[i],
 							/** @type {number} */ tweetId = tweet['id'];
 
+						// sometimes tweet with since_id identifier is in response
+						// so we will skip it with no additional check
 						if (tweetId > (cachedLastId[userId] || 0)) {
 							cachedLastId[userId] = tweetId;
-						} else {
-							// sometimes tweet with since_id identifier is in response
-							// so we will skip it with no additional check
-							continue;
+
+							tweetUserId = tweet['user']['id'];
+
+							// add the user to check it after
+							if (!users[tweetUserId]) {
+								users[tweetUserId] = tweet['user'];
+							}
+
+							// the same thing for retweeted_status.user if it is retweet
+							if (
+								tweet['retweeted_status']
+								&& !users[tweet['retweeted_status']['user']['id']]
+							) {
+								users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
+							}
+
+							var tweetObj = new twic.db.obj.Tweet();
+							tweetObj.updateFromJSON(tweetId, tweet);
+
+							twic.db.obj.Timeline.pushUserTimelineTweet(
+								userId, tweetId,
+								// only increment the unread tweets count if tweet user id isn't me
+								tweetUserId !== userId ? incrementUnreadTweets : undefined
+							);
 						}
-
-						tweetUserId = tweet['user']['id'];
-
-						// add the user to check it after
-						if (!users[tweetUserId]) {
-							users[tweetUserId] = tweet['user'];
-						}
-
-						// the same thing for retweeted_status.user if it is retweet
-						if (
-							tweet['retweeted_status']
-							&& !users[tweet['retweeted_status']['user']['id']]
-						) {
-							users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
-						}
-
-						var tweetObj = new twic.db.obj.Tweet();
-						tweetObj.updateFromJSON(tweetId, tweet);
-
-						twic.db.obj.Timeline.pushUserTimelineTweet(
-							userId, tweetId,
-							// only increment the unread tweets count if tweet user id isn't me
-							tweetUserId !== userId ? incrementUnreadTweets : undefined
-						);
 					}
 
 					// trying to save all the new users
@@ -232,3 +230,4 @@ twic.twitter = ( function() {
 	};
 
 }() );
+

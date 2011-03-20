@@ -12,7 +12,7 @@ twic.db.obj.Tweet = function() {
 
 	this.table = 'tweets';
 	this.fields = {
-		'id': 0,
+		'id': 0,  // todo seems like id_str is a better source for this field
 		'user_id': 0,
 		'reply_to': '',
 		'dt': twic.utils.date.getCurrentTimestamp(),
