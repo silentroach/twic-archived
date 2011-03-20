@@ -3,9 +3,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo make vcl namespace once
-twic.vcl = twic.vcl || { };
-
 // todo holy shit! reorder it
 
 /**
@@ -182,3 +179,4 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	editor.onTweetSend = function(tweetText) { };
 };
+
