@@ -156,7 +156,6 @@
 			this.querySelector('img').src = 'img/loader.gif';
 			this.href = '#';
 
-			// TODO handle errors
 			twic.requests.send('accountAdd');
 		};
 	};
@@ -170,3 +169,4 @@
 	} );
 
 }());
+

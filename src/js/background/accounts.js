@@ -54,7 +54,8 @@ twic.Accounts = function() {
 	} );
 
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
-		sendResponse( { } );
+		// popup is already closed so send it now
+		sendResponse({});
 
 		twic.api.getRequestToken( function(token, secret) {
 			twic.api.tryGrantAccess(token);
@@ -105,7 +106,6 @@ twic.Accounts = function() {
 		}
 
 		twic.api.getAccessToken(data['pin'], function(data) {
-
 			var
 				account = new twic.db.obj.Account();
 
@@ -149,6 +149,10 @@ twic.Accounts = function() {
 			}, function() {
 				account.setValue('id', userid);
 				updateAccount(account);
+			} );
+		}, function(error) {
+			sendResponse( {
+				'res': twic.global.FAILED
 			} );
 		} );
 	} );
@@ -265,3 +269,4 @@ twic.Accounts.prototype.getInfo = function(id) {
 
 	return false;
 };
+

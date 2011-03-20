@@ -270,3 +270,4 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 twic.DBObject.prototype.loadById = function(id, callback, nfcallback) {
 	return this.loadByFieldValue('id', id, callback, nfcallback);
 };
+
