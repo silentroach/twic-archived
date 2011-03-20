@@ -51,9 +51,11 @@
 	};
 
 	twic.router.handle('profile', function(data) {
-		this.initOnce(initPage);
+		var
+			prev = this.previous(),
+			/** @type {string} **/ userName;
 
-		var prev = this.previous();
+		this.initOnce(initPage);
 
 		toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
 		toolbarTimeline.href = '#' + prev.join('#');
@@ -68,12 +70,13 @@
 			return;
 		}
 
-		var userName = data[0];
+		userName = data[0];
 
 		twic.requests.send('getProfileInfo', {
 			'name': userName
 		}, showProfile);
-		// fixme or what?
+		// todo or show an error
 	} );
 
 }() );
+
