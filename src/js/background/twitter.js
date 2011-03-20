@@ -147,6 +147,10 @@ twic.twitter = ( function() {
 
 						if (tweetId > (cachedLastId[userId] || 0)) {
 							cachedLastId[userId] = tweetId;
+						} else {
+							// sometimes tweet with since_id identifier is in response
+							// so we will skip it with no additional check
+							continue;
 						}
 
 						tweetUserId = tweet['user']['id'];
