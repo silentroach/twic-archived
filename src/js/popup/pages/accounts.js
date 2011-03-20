@@ -153,6 +153,7 @@
 
 			loading = true;
 
+			// @resource img/loader.gif
 			this.querySelector('img').src = 'img/loader.gif';
 			this.href = '#';
 
