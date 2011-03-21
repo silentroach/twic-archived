@@ -106,9 +106,16 @@ twic.api = ( function() {
 			req.send( function(error, req) {
 				if (!error) {
 					callback(twic.Request.queryStringToObject(req.responseText));
-				} else
-				if (failedCallback) {
-					failedCallback(error);
+				} else {
+					// reset the request_token if unauthorized reply is received
+					if (error.code === twic.ResponseError.UNAUTHORIZED) {
+						twic.debug.info('Unauthorized reply is received. Resetting request_token.');
+						resetToken();
+					}
+
+					if (failedCallback) {
+						failedCallback(error);
+					}
 				}
 			} );
 		} );

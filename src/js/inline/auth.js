@@ -26,6 +26,8 @@
 		return;
 	}
 
+	twic.debug.info('Pin code: ' + pin);
+
 	/**
 	 * Change the pinned text
 	 * @param {string} i18nKey Key for localization
