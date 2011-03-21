@@ -155,50 +155,54 @@ twic.db = ( function() {
 					 * users info
 					 */
 					'create table users (' +
-					'id int not null primary key, ' +
-					'name varchar(128) not null, ' +
-					'screen_name varchar(32) not null, ' +
-					'avatar text not null, ' +
-					'url text null, ' +
-					'verified int not null, ' +
-					'followers_count int not null, ' +
-					'friends_count int not null, ' +
-					'statuses_count int not null, ' +
-					'regdate int not null, ' +
-					'dt int not null)',
+						'id int not null primary key, ' +
+						'name varchar(128) not null, ' +
+						'screen_name varchar(32) not null, ' +
+						'avatar text not null, ' +
+						'url text null, ' +
+						'verified int not null, ' +
+						'followers_count int not null, ' +
+						'friends_count int not null, ' +
+						'statuses_count int not null, ' +
+						'regdate int not null, ' +
+						'dt int not null' +
+					')',
 
 					/**
 					 * twic accounts
 					 */
 					'create table accounts (' +
-					'id int not null primary key, ' +
-					'oauth_token text not null, ' +
-					'oauth_token_secret text not null, ' +
-					'unread_tweets_count int not null default 0, ' +
-					'unread_messages_count int not null default 0)',
+						'id int not null primary key, ' +
+						'oauth_token text not null, ' +
+						'oauth_token_secret text not null, ' +
+						'unread_tweets_count int not null default 0, ' +
+						'unread_messages_count int not null default 0' +
+					')',
 
 					/**
 					 * tweets storage
 					 */
 					'create table tweets (' +
-					// id is varchar cause of something wrong in javascript
-					// parseInt(49765561487458304) => 49765561487458300
-					'id varchar(32) primary key, ' +
-					'user_id int not null, ' +
-					// original author of retweet
-					'retweeted_user_id int null, ' +
-					'reply_to varchar(32) null, ' +
-					'dt int not null, ' +
-					// can be entity encoded
-					'msg text not null)',
+						// id is varchar cause of something wrong in javascript
+						// parseInt(49765561487458304) => 49765561487458300
+						'id varchar(32) primary key, ' +
+						'user_id int not null, ' +
+						// original author of retweet
+						'retweeted_user_id int null, ' +
+						'reply_to varchar(32) null, ' +
+						'dt int not null, ' +
+						// can be entity encoded
+						'msg text not null' +
+					')',
 
 					/**
 					 * timeline table for each account
 					 */
 					'create table timeline (' +
-					'user_id int not null, ' +
-					'tweet_id varchar(32) not null, ' +
-					'primary key (user_id asc, tweet_id desc))',
+						'user_id int not null, ' +
+						'tweet_id varchar(32) not null, ' +
+						'primary key (user_id asc, tweet_id desc)' +
+					')',
 
 					/**
 					 * Indexes
