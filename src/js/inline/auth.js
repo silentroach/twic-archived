@@ -26,8 +26,6 @@
 		return;
 	}
 
-	twic.debug.info('Pin code: ' + pin);
-
 	/**
 	 * Change the pinned text
 	 * @param {string} i18nKey Key for localization
@@ -36,32 +34,36 @@
 		pinElement.innerText = chrome.i18n.getMessage(i18nKey);
 	};
 
-	pinElement.classList.add('mini');
+	twic.debug.info('Pin code: ' + pin);
 
+	pinElement.classList.add('mini');
 	changePinText('auth_in_progress');
 
-	twic.requests.send('accountAuth', {
-		'pin':  pin,
-		'user_id': userId
-	}, function(reply) {
-		if (
-			!reply['res']
-			|| twic.global.FAILED === reply['res']
-		) {
-			changePinText('auth_failed');
-			return;
-		}
+	// wait a little
+	setTimeout( function() {
+		twic.requests.send('accountAuth', {
+			'pin':  pin,
+			'user_id': userId
+		}, function(reply) {
+			if (
+				!reply['res']
+				|| twic.global.FAILED === reply['res']
+			) {
+				changePinText('auth_failed');
+				return;
+			}
 
-		var res = reply['res'];
+			var res = reply['res'];
 
-		if (twic.global.SUCCESS === res) {
-			// success
-			changePinText('auth_success');
-		} else
-		if (twic.global.AUTH_ALREADY === res) {
-			// already authenticated
-			changePinText('auth_already');
-		}
-	} );
+			if (twic.global.SUCCESS === res) {
+				// success
+				changePinText('auth_success');
+			} else
+			if (twic.global.AUTH_ALREADY === res) {
+				// already authenticated
+				changePinText('auth_already');
+			}
+		} );
+	}, 1000 );
 
 }() );

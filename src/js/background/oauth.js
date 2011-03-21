@@ -44,35 +44,36 @@ twic.OAuthRequest.prototype.getNonce = function() {
  */
 twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	var
-		baseString = this.method + '&' + this.encodeString(this.url) + '&',
+		self = this,
+		baseString = self.method + '&' + self.encodeString(self.url) + '&',
 		params = [],
 		key;
 
-	if (this.method !== 'GET') {
-		this.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+	if (self.method !== 'GET') {
+		self.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	}
 
-	this.setRequestData('oauth_consumer_key', twic.consumer_key);
-	this.setRequestData('oauth_signature_method', 'HMAC-SHA1');
-	this.setRequestData('oauth_version', '1.0');
-	this.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());
-	this.setRequestData('oauth_nonce', this.getNonce());
+	self.setRequestData('oauth_consumer_key', twic.consumer_key);
+	self.setRequestData('oauth_signature_method', 'HMAC-SHA1');
+	self.setRequestData('oauth_version', '1.0');
+	self.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());
+	self.setRequestData('oauth_nonce', self.getNonce());
 
 	if (token) {
-		this.setRequestData('oauth_token', token);
+		self.setRequestData('oauth_token', token);
 	}
 
 	// encode the data
-	for (key in this.data) {
-		params.push(this.encodeString(key) + '=' + this.encodeString(this.data[key]));
+	for (key in self.data) {
+		params.push(self.encodeString(key) + '=' + self.encodeString(self.data[key]));
 	}
 
 	// tis important to sort params
-	baseString += this.encodeString(params.sort().join('&'));
+	baseString += self.encodeString(params.sort().join('&'));
 
-	this.setRequestData('oauth_signature',
+	self.setRequestData('oauth_signature',
 		SHA1.encode(
-			this.encodeString(twic.consumer_secret) + '&' + (token_secret ? this.encodeString(token_secret) : ''),
+			self.encodeString(twic.consumer_secret) + '&' + (token_secret ? self.encodeString(token_secret) : ''),
 			baseString
 		)
 	);

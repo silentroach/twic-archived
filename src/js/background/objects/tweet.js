@@ -12,7 +12,7 @@ twic.db.obj.Tweet = function() {
 
 	this.table = 'tweets';
 	this.fields = {
-		'id': 0,
+		'id': '',
 		'user_id': 0,
 		'reply_to': '',
 		'dt': twic.utils.date.getCurrentTimestamp(),
@@ -22,13 +22,12 @@ twic.db.obj.Tweet = function() {
 
 	this.jsonMap = {
 		'id': function(obj) {
-			// it is strange, but id_str is a better source than id field value
-			return parseInt(obj['id_str'], 10);
+			return obj['id_str'];
 		},
 		'msg': function(obj) {
 			return obj['retweeted_status'] ? obj['retweeted_status']['text'] : obj['text'];
 		},
-		'reply_to': 'in_reply_to_status_id',
+		'reply_to': 'in_reply_to_status_id', // fixme id_str?!
 		'dt': function(obj) {
 			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		},

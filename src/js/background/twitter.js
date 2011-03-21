@@ -9,6 +9,10 @@
 twic.twitter = ( function() {
 
 	var
+		/**
+		 * User identifier => last home timeline tweet identifier
+		 * @type {Object.<number,string>}
+		 */
 		cachedLastId = { };
 
 	/**
@@ -93,7 +97,7 @@ twic.twitter = ( function() {
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
 			function(tweet) {
 				var
-					tweetId = tweet['id'],
+					/** @type {string} **/ tweetId = tweet['id_str'],
 					tweetObj = new twic.db.obj.Tweet();
 
 				tweetObj.updateFromJSON(tweetId, tweet);
@@ -143,37 +147,34 @@ twic.twitter = ( function() {
 					for (i = 0; i < data.length; ++i) {
 						var
 							/** @type {Object} */ tweet   = data[i],
-							/** @type {number} */ tweetId = tweet['id'];
+							/** @type {string} */ tweetId = tweet['id_str'];
 
-						// sometimes tweet with since_id identifier is in response
-						// so we will skip it with no additional check
-						if (tweetId > (cachedLastId[userId] || 0)) {
-							cachedLastId[userId] = tweetId;
+						// todo check tweet direction
+						cachedLastId[userId] = tweetId;
 
-							tweetUserId = tweet['user']['id'];
+						tweetUserId = tweet['user']['id'];
 
-							// add the user to check it after
-							if (!users[tweetUserId]) {
-								users[tweetUserId] = tweet['user'];
-							}
-
-							// the same thing for retweeted_status.user if it is retweet
-							if (
-								tweet['retweeted_status']
-								&& !users[tweet['retweeted_status']['user']['id']]
-							) {
-								users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
-							}
-
-							var tweetObj = new twic.db.obj.Tweet();
-							tweetObj.updateFromJSON(tweetId, tweet);
-
-							twic.db.obj.Timeline.pushUserTimelineTweet(
-								userId, tweetId,
-								// only increment the unread tweets count if tweet user id isn't me
-								tweetUserId !== userId ? incrementUnreadTweets : undefined
-							);
+						// add the user to check it after
+						if (!users[tweetUserId]) {
+							users[tweetUserId] = tweet['user'];
 						}
+
+						// the same thing for retweeted_status.user if it is retweet
+						if (
+							tweet['retweeted_status']
+							&& !users[tweet['retweeted_status']['user']['id']]
+						) {
+							users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
+						}
+
+						var tweetObj = new twic.db.obj.Tweet();
+						tweetObj.updateFromJSON(tweetId, tweet);
+
+						twic.db.obj.Timeline.pushUserTimelineTweet(
+							userId, tweetId,
+							// only increment the unread tweets count if tweet user id isn't me
+							tweetUserId !== userId ? incrementUnreadTweets : undefined
+						);
 					}
 
 					// trying to save all the new users

@@ -12,7 +12,7 @@ twic.db.obj.Timeline = ( function() {
 	/**
 	 * Push the tweet into user home timeline
 	 * @param {number} userId User identifier
-	 * @param {number} tweetId Tweet identifier
+	 * @param {string} tweetId Tweet identifier
 	 * @param {function()} addCallback Callback function fired when item is saved
 	 */
 	var pushUserTimelineTweet = function(userId, tweetId, addCallback) {

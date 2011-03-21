@@ -39,18 +39,20 @@ twic.db = ( function() {
 
 				// tweets storage
 				t.executeSql('create table tweets (' +
-					'id int not null primary key, ' +
+					// id is varchar cause of something wrong in javascript
+					// parseInt(49765561487458304) => 49765561487458300
+					'id varchar(32) primary key, ' +
 					'user_id int not null, ' +
 					// original author of retweet
 					'retweeted_user_id int null, ' +
-					'reply_to int null, ' +
+					'reply_to varchar(32) null, ' +
 					'dt int not null, ' +
 					'msg text not null)'); // can be entity encoded
 
 				// timeline table for each account
 				t.executeSql('create table timeline (' +
 					'user_id int not null, ' +
-					'tweet_id int not null, ' +
+					'tweet_id varchar(32) not null, ' +
 					'primary key (user_id asc, tweet_id desc))');
 
 				t.executeSql('create index idx_tweets_user on tweets (user_id)');
