@@ -8,15 +8,156 @@
  */
 twic.db = ( function() {
 
+	var queueIterator = function(arr, iterator, callback) {
+		if (!arr.length) {
+			return callback();
+		}
+
+		var completed = 0;
+
+		var iterate = function () {
+			iterator(arr[completed], function (err) {
+				if (err) {
+					callback(err);
+					callback = function () {};
+				} else {
+					++completed;
+
+					if (completed === arr.length) {
+						callback();
+					} else {
+						iterate();
+					}
+				}
+			} );
+		};
+
+		iterate();
+	};
+
+	/**
+	 * Error logger
+	 * @param {SQLError} error SQL error
+	 * @param {!string} sqlText SQL query text
+	 * @param {Array} sqlParams SQL query params
+	 */
+	var logError = function(error, sqlText, sqlParams) {
+		twic.debug.groupCollapsed(sqlText, sqlParams);
+		twic.debug.error('sql error: ' + error.message);
+		twic.debug.groupEnd();
+	};
+
+	/**
+	 * Execute the select statement
+	 * @param {SQLTransaction} tr Read transaction
+	 * @param {!string} sqlText SQL query text
+	 * @param {Array} sqlParams SQL query params
+	 * @param {function()} successCallback Success callback
+	 * @param {function(string)} failedCallback Failed callback
+	 */
+	var selectTransaction = function(tr, sqlText, sqlParams, successCallback, failedCallback) {
+		tr.executeSql(
+			sqlText, sqlParams,
+			function(tr, res) {
+				twic.debug.info(sqlText, sqlParams);
+
+				if (successCallback) {
+					successCallback.apply(res.rows);
+				}
+			},
+			function(tr, error) {
+				logError(error, sqlText, sqlParams);
+
+				if (failedCallback) {
+					failedCallback(error.message);
+				}
+			}
+		);
+	};
+
+	/**
+	 * Execute the select statement
+	 * @param {Database} db Read transaction
+	 * @param {!string} sqlText SQL query text
+	 * @param {Array} sqlParams SQL query params
+	 * @param {function()} successCallback Success callback
+	 * @param {function(string)} failedCallback Failed callback
+	 */
+	var select = function(db, sqlText, sqlParams, successCallback, failedCallback) {
+		db.readTransaction( function(tr) {
+			selectTransaction(tr, sqlText, sqlParams, successCallback, failedCallback);
+		}, function(error) {
+			logError(error, sqlText, sqlParams);
+
+			if (failedCallback) {
+				failedCallback(error.message);
+			}
+		} );
+	};
+
+	/**
+	 * Execute the statement
+	 * @param {SQLTransaction} tr ReadWrite transaction
+	 * @param {!string} sqlText SQL query text
+	 * @param {Array} sqlParams SQL query params
+	 * @param {function()} successCallback Success callback
+	 * @param {function(string)} failedCallback Failed callback
+	 */
+	var executeTransaction = function(tr, sqlText, sqlParams, successCallback, failedCallback) {
+		tr.executeSql(
+			sqlText, sqlParams,
+			function(tr, res) {
+				twic.debug.info(sqlText, sqlParams);
+
+				if (successCallback) {
+					successCallback();
+				}
+			},
+			function(tr, error) {
+				logError(error, sqlText, sqlParams);
+
+				if (failedCallback) {
+					failedCallback(error.message);
+				}
+			}
+		);
+	};
+
+	/**
+	 * Execute the statement
+	 * @param {Database} db Database
+	 * @param {!string} sqlText SQL query text
+	 * @param {Array} sqlParams SQL query params
+	 * @param {function()} successCallback Success callback
+	 * @param {function(string)} failedCallback Failed callback
+	 */
+	var execute = function(db, sqlText, sqlParams, successCallback, failedCallback) {
+		db.transaction( function(tr) {
+			executeTransaction(tr, sqlText, sqlParams, successCallback, failedCallback);
+		}, function(error) {
+			logError(error, sqlText, sqlParams);
+
+			if (failedCallback) {
+				failedCallback(error.message);
+			}
+		} );
+	};
+
+	var executeSeries = function(tr, sqlText, callback) {
+		executeTransaction(tr, sqlText, [], callback, callback);
+	};
+
 	var migrations = {
 		'0': {
 			version: '0.01',
-			callback: function(t) {
+			runme: function(tr, callback) {
 				// todo check the field sizes
-				// todo will it run parallel or query after query?
 
-				// users info
-				t.executeSql('create table users (' +
+				queueIterator( [
+					/**
+					 * users info
+					 */
+					'create table users (' +
 					'id int not null primary key, ' +
 					'name varchar(128) not null, ' +
 					'screen_name varchar(32) not null, ' +
@@ -27,18 +168,22 @@ twic.db = ( function() {
 					'friends_count int not null, ' +
 					'statuses_count int not null, ' +
 					'regdate int not null, ' +
-					'dt int not null)');
+					'dt int not null)',
 
-				// twic accounts
-				t.executeSql('create table accounts (' +
+					/**
+					 * twic accounts
+					 */
+					'create table accounts (' +
 					'id int not null primary key, ' +
 					'oauth_token text not null, ' +
 					'oauth_token_secret text not null, ' +
 					'unread_tweets_count int not null default 0, ' +
-					'unread_messages_count int not null default 0)');
+					'unread_messages_count int not null default 0)',
 
-				// tweets storage
-				t.executeSql('create table tweets (' +
+					/**
+					 * tweets storage
+					 */
+					'create table tweets (' +
 					// id is varchar cause of something wrong in javascript
 					// parseInt(49765561487458304) => 49765561487458300
 					'id varchar(32) primary key, ' +
@@ -47,16 +192,25 @@ twic.db = ( function() {
 					'retweeted_user_id int null, ' +
 					'reply_to varchar(32) null, ' +
 					'dt int not null, ' +
-					'msg text not null)'); // can be entity encoded
+					// can be entity encoded
+					'msg text not null)',
 
-				// timeline table for each account
-				t.executeSql('create table timeline (' +
+					/**
+					 * timeline table for each account
+					 */
+					'create table timeline (' +
 					'user_id int not null, ' +
 					'tweet_id varchar(32) not null, ' +
-					'primary key (user_id asc, tweet_id desc))');
+					'primary key (user_id asc, tweet_id desc))',
 
-				t.executeSql('create index idx_tweets_user on tweets (user_id)');
-				t.executeSql('create index idx_users_name on users (screen_name)');
+					/**
+					 * Indexes
+					 */
+					'create index idx_tweets_user on tweets (user_id)',
+					'create index idx_users_name on users (screen_name)'
+				], function(sqlText, callback) {
+					executeSeries(tr, sqlText, callback);
+				}, callback);
 			}
 		}
 	};
@@ -73,11 +227,12 @@ twic.db = ( function() {
 		if (migrations[version]) {
 			var migration = migrations[version];
 
-			// todo think about migration in more than one version, run it each after
-			db.changeVersion(ver, migration.version, function(t) {
-				migration.callback(t);
+			db.changeVersion(ver, migration.version, function(tr) {
+				migration.runme(tr, function() {
+					migrate(db, migration.version, callback);
+				} );
 			}, function() {
-				migrate(db, migration.version);
+				console.error('Can\'t migrate :(');
 			} );
 		} else {
 			callback();
@@ -114,35 +269,7 @@ twic.db = ( function() {
 		 * @param {function(string)} failedCallback Failed callback
 		 */
 		select: function(sqlText, sqlParams, successCallback, failedCallback) {
-			getDatabase().readTransaction( function(tr) {
-				tr.executeSql(
-					sqlText, sqlParams,
-					function(tr, res) {
-						twic.debug.info(sqlText, sqlParams);
-
-						if (successCallback) {
-							successCallback.apply(res.rows);
-						}
-					},
-					function(tr, error) {
-						twic.debug.groupCollapsed(sqlText, sqlParams);
-						twic.debug.error('sql error: ' + error.message);
-						twic.debug.groupEnd();
-
-						if (failedCallback) {
-							failedCallback(error.message);
-						}
-					}
-				);
-			}, function(error) {
-				twic.debug.groupCollapsed(sqlText, sqlParams);
-				twic.debug.error('sql error: ' + error.message);
-				twic.debug.groupEnd();
-
-				if (failedCallback) {
-					failedCallback(error.message);
-				}
-			} );
+			select(getDatabase(), sqlText, sqlParams, successCallback, failedCallback);
 		},
 
 		/**
@@ -153,35 +280,7 @@ twic.db = ( function() {
 		 * @param {function(string)} failedCallback Failed callback
 		 */
 		execute: function(sqlText, sqlParams, successCallback, failedCallback) {
-			getDatabase().transaction( function(tr) {
-				tr.executeSql(
-					sqlText, sqlParams,
-					function(tr, res) {
-						twic.debug.info(sqlText, sqlParams);
-
-						if (successCallback) {
-							successCallback();
-						}
-					},
-					function(tr, error) {
-						twic.debug.groupCollapsed(sqlText, sqlParams);
-						twic.debug.error('sql error: ' + error.message);
-						twic.debug.groupEnd();
-
-						if (failedCallback) {
-							failedCallback(error.message);
-						}
-					}
-				);
-			}, function(error) {
-				twic.debug.groupCollapsed(sqlText, sqlParams);
-				twic.debug.error('sql error: ' + error.message);
-				twic.debug.groupEnd();
-
-				if (failedCallback) {
-					failedCallback(error.message);
-				}
-			} );
+			execute(getDatabase(), sqlText, sqlParams, successCallback, failedCallback);
 		},
 
 		// DBObject storage
