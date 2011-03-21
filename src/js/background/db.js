@@ -8,6 +8,7 @@
  */
 twic.db = ( function() {
 
+	// todo refactor me to utils module
 	var queueIterator = function(arr, iterator, callback) {
 		if (!arr.length) {
 			return callback();
@@ -228,7 +229,11 @@ twic.db = ( function() {
 			var migration = migrations[version];
 
 			db.changeVersion(ver, migration.version, function(tr) {
+				twic.debug.groupCollapsed('Database migration to the version ' + migration.version);
+
 				migration.runme(tr, function() {
+					twic.debug.groupEnd();
+
 					migrate(db, migration.version, callback);
 				} );
 			}, function() {
