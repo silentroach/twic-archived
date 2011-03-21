@@ -43,7 +43,7 @@ twic.db = ( function() {
 	 * @param {Array} sqlParams SQL query params
 	 */
 	var logError = function(error, sqlText, sqlParams) {
-		twic.debug.groupCollapsed(sqlText, sqlParams);
+		twic.debug.groupCollapsed(sqlText, (sqlParams.length > 0) ? sqlParams : '');
 		twic.debug.error('sql error: ' + error.message);
 		twic.debug.groupEnd();
 	};
@@ -60,7 +60,7 @@ twic.db = ( function() {
 		tr.executeSql(
 			sqlText, sqlParams,
 			function(tr, res) {
-				twic.debug.info(sqlText, sqlParams);
+				twic.debug.info(sqlText, (sqlParams.length > 0) ? sqlParams : '');
 
 				if (successCallback) {
 					successCallback.apply(res.rows);
@@ -108,7 +108,7 @@ twic.db = ( function() {
 		tr.executeSql(
 			sqlText, sqlParams,
 			function(tr, res) {
-				twic.debug.info(sqlText, sqlParams);
+				twic.debug.info(sqlText, (sqlParams.length > 0) ? sqlParams : '');
 
 				if (successCallback) {
 					successCallback();
@@ -142,10 +142,6 @@ twic.db = ( function() {
 				failedCallback(error.message);
 			}
 		} );
-	};
-
-	var executeSeries = function(tr, sqlText, callback) {
-		executeTransaction(tr, sqlText, [], callback, callback);
 	};
 
 	var migrations = {
@@ -210,7 +206,7 @@ twic.db = ( function() {
 					'create index idx_tweets_user on tweets (user_id)',
 					'create index idx_users_name on users (screen_name)'
 				], function(sqlText, callback) {
-					executeSeries(tr, sqlText, callback);
+					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
 		}
