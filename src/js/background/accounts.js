@@ -164,7 +164,8 @@ twic.Accounts = function() {
 		var i;
 
 		for (i in self.items) {
-			var account = self.items[i];
+			var
+				account = self.items[i];
 
 			twic.twitter.updateHomeTimeline(account.fields['id']);
 		}
@@ -172,6 +173,9 @@ twic.Accounts = function() {
 
 	// every minute check
 	setInterval(scheduler, 60 * 1000);
+
+	// first check in 5 seconds
+	setTimeout(scheduler, 5000);
 };
 
 /**
