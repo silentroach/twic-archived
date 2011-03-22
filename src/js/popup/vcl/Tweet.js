@@ -13,6 +13,8 @@ twic.vcl.Tweet = function(timeline) {
 	var
 		/** @type {RegExp} */ urlPattern          = /^https?:\/\/(www\.)?([^\/]+)?/gi,
 		/** @type {RegExp} */ urlSearchPattern    = /[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
+		                      // fixme @ nick (and remove an additional code to filter it in parser)
+		                      // fixme test@abc.ru
 		/** @type {RegExp} */ nickSearchPattern   = /(@(\w*)(\/\w+)?)/gi,
 		/** @type {RegExp} */ hashSearchPattern   = /(^|\s)#(\w+)/g,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
@@ -68,8 +70,6 @@ twic.vcl.Tweet = function(timeline) {
 			function(nick) {
 				var n = nick.substring(1);
 
-				// '@ nick' (with space)
-				// fixme fix the regexp
 				if (n.length === 0) {
 					return '@';
 				}
