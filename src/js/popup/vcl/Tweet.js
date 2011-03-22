@@ -68,6 +68,12 @@ twic.vcl.Tweet = function(timeline) {
 			function(nick) {
 				var n = nick.substring(1);
 
+				// '@ nick' (with space)
+				// fixme fix the regexp
+				if (n.length === 0) {
+					return '@';
+				}
+
 				if (timelineNick === n) {
 					// this tweet is with our mention
 					wrapper.classList.add('mention');
