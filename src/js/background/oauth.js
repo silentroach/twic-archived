@@ -16,6 +16,12 @@ twic.OAuthRequest = function(method, url) {
 	twic.Request.call(this, method, url);
 };
 
+/**
+ * Offset to correct the timestamp property
+ * @type {number}
+ */
+//twic.OAuthRequest.timestampOffset = 0;
+
 goog.inherits(twic.OAuthRequest, twic.Request);
 
 /**
@@ -58,8 +64,8 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	self.setRequestData('oauth_consumer_key', twic.consumer_key);
 	self.setRequestData('oauth_signature_method', 'HMAC-SHA1');
 	self.setRequestData('oauth_version', '1.0');
-	self.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());
 	self.setRequestData('oauth_nonce', self.getNonce());
+	self.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());// + twic.OAuthRequest.timestampOffset);
 
 	if (token) {
 		self.setRequestData('oauth_token', token);
@@ -80,4 +86,32 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		)
 	);
 };
+
+/**
+ * todo think about timestamp corrector
+ * Send the request
+ * @param {function(?twic.ResponseError, ?XMLHttpRequest)} callback Callback
+twic.OAuthRequest.prototype.send = function(callback) {
+	var checkOffsetAndCallback = function(error, req) {
+		if (req) {
+			var
+				checkHeader = req.getResponseHeader('X-Transaction');
+
+			if (typeof checkHeader === 'string') {
+				// fixme looks terrible
+				var tmp = parseInt(checkHeader.split('-')[0], 10) - twic.utils.date.getCurrentTimestamp() - 1;
+
+				twic.OAuthRequest.timestampOffset = tmp;
+
+				console.log(twic.OAuthRequest.timestampOffset);
+			}
+		}
+
+		callback(error, req);
+	};
+
+	// parent sender with own callback checker
+	twic.Request.prototype.send.call(this, checkOffsetAndCallback);
+};
+*/
 
