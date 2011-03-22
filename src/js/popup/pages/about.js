@@ -1,11 +1,10 @@
 /**
+ * About page implementation
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * About page implementation
- */
 ( function() {
 
 	var initPage = function() {
@@ -46,3 +45,4 @@
 	} );
 
 }() );
+

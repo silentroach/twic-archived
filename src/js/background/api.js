@@ -1,11 +1,10 @@
 /**
+ * Something to work with Twitter API
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Something to work with Twitter API
- */
 twic.api = ( function() {
 
 	var
@@ -241,3 +240,4 @@ twic.api = ( function() {
 	};
 
 }() );
+

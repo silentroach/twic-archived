@@ -1,11 +1,10 @@
 /**
+ * Object to work with database
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Object to work with database
- */
 twic.db = ( function() {
 
 	// todo refactor me to utils module
@@ -293,3 +292,4 @@ twic.db = ( function() {
 	};
 
 }() );
+

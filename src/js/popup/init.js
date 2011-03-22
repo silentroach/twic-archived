@@ -1,12 +1,11 @@
 /**
+ * Init script for popup
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Try to switch to the page we remember before popup was closed
- */
-
+// try to switch to the page we remember before popup was closed
 var lastLocation = localStorage.getItem('location');
 
 if (lastLocation) {
@@ -15,3 +14,4 @@ if (lastLocation) {
 }
 
 window.onhashchange();
+

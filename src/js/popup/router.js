@@ -1,12 +1,11 @@
 /**
+ * Router object
+ * Handle page switching in popup
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Router object
- * Handle page switching in popup
- */
 twic.router = ( function() {
 
 	var
@@ -106,3 +105,4 @@ twic.router = ( function() {
 	return self;
 
 }());
+

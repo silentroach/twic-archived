@@ -1,12 +1,11 @@
 /**
+ * Home timeline implementation
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Home timeline implementation
- * todo annotations missed
- */
+// todo annotations missed
 ( function() {
 
 	var
@@ -150,3 +149,4 @@
 	} );
 
 }() );
+

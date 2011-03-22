@@ -1,4 +1,6 @@
 /**
+ * HTTP Request
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
@@ -154,3 +156,4 @@ twic.Request.prototype.send = function(callback) {
 		req.send(data.join('&'));
 	}
 };
+

@@ -1,11 +1,10 @@
 /**
+ * Something between application and "raw" api
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Something between application and "raw" api
- */
 twic.twitter = ( function() {
 
 	var

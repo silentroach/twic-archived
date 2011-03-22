@@ -1,4 +1,6 @@
 /**
+ * Database objet list
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
@@ -63,3 +65,4 @@ twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 
 	objList.items[id] = obj;
 };
+

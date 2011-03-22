@@ -1,12 +1,11 @@
 /**
+ * Accounts page implementation
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Accounts page implementation
- * todo annotations
- */
+// todo annotations
 ( function() {
 
 	var
