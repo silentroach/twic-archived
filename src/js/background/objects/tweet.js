@@ -14,7 +14,7 @@ twic.db.obj.Tweet = function() {
 	this.fields = {
 		'id': '',
 		'user_id': 0,
-		'reply_to': '',
+		'reply_to': null,
 		'dt': twic.utils.date.getCurrentTimestamp(),
 		'retweeted_user_id': null,
 		'msg': ''
@@ -27,7 +27,7 @@ twic.db.obj.Tweet = function() {
 		'msg': function(obj) {
 			return obj['retweeted_status'] ? obj['retweeted_status']['text'] : obj['text'];
 		},
-		'reply_to': 'in_reply_to_status_id', // fixme id_str?!
+		'reply_to': 'in_reply_to_status_id_str',
 		'dt': function(obj) {
 			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		},
