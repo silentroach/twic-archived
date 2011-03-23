@@ -11,8 +11,6 @@
 twic.vcl.Tweet = function(timeline) {
 
 	var
-		                      // fixme can't handle urls with subdomains
-		/** @type {RegExp} */ urlPattern          = /^https?:\/\/(www\.)?([^\/]+)?/gi,
 		/** @type {RegExp} */ urlSearchPattern    = /[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
 		                      // fixme @ nick (and remove an additional code to filter it in parser)
 		                      // fixme test@abc.ru
@@ -48,20 +46,12 @@ twic.vcl.Tweet = function(timeline) {
 			urlSearchPattern,
 			function(url) {
 				var
-					stripped = url,
-					parsed = urlPattern.exec(url);
+					i = url.indexOf('//'),
+					cutted = i > 0 ? url.substring(i + 2) : url;
 
-				if (
-					parsed
-					&& parsed.length > 2
-				) {
-					stripped = parsed[2];
-				} else
-				if (stripped.length > 30) {
-					stripped = stripped.substring(0, 30) + '&hellip;';
-				}
-
-				return '<a target="_blank" href="' + url + '" title="' + url + '">' + stripped + '</a>';
+				return '<a target="_blank" href="' + url + '" title="' + url + '">' +
+					(cutted.length > 30 ? (cutted.substring(0, 30) + '&hellip;') : cutted) +
+					'</a>';
 			}
 		);
 
@@ -151,3 +141,4 @@ twic.vcl.Tweet = function(timeline) {
 	};
 
 };
+
