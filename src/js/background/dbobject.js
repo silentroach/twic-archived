@@ -52,7 +52,7 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 /**
  * Load object from JSON
  * @param {Object} obj JSON object
- * todo rewrite and add comments
+ * todo rewrite
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var
@@ -100,9 +100,8 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 };
 
 /**
- * Save object to database
+ * Save object to database, simple SQL generator for insert and update statements
  * @param {function()} callback Callback function
- * todo add comments
  */
 twic.DBObject.prototype.save = function(callback) {
 	var
@@ -230,24 +229,24 @@ twic.DBObject.prototype.getFieldString = function(alias) {
 };
 
 /**
- * Locate and load object by field value
+ * Locate and load object by field value, simple SQL select statement generator and executor
  * @param {string} fieldname Field name
  * @param {number|string} value Value
  * @param {function()} callback Object found callback
  * @param {function()} nfcallback Object not found callback
- * todo comments?
  */
 twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
 	var
 		obj = this,
 		fld = [],
-		key;
+		/** @type {string} **/ sql,
+		/** @type {string} **/ key;
 
 	for (key in obj.fields) {
 		fld.push(key);
 	}
 
-	var sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
+	sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
 
 	twic.db.select(sql, [value], function() {
 		if (this.length === 1) {
