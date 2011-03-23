@@ -55,7 +55,7 @@ twic.twitter = ( function() {
 				'inner join timeline tl on (t.id = tl.tweet_id) ' +
 				'inner join users u on (t.user_id = u.id) ' +
 			'where tl.user_id = ? ' +
-			'order by t.id desc limit 20 ',
+			'order by cast(t.id as integer) desc limit 20 ',
 			[id],
 			function() {
 				var
