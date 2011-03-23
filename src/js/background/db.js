@@ -248,6 +248,7 @@ twic.db = ( function() {
 	 * @param {Database} db Database
 	 */
 	var cleanup = function(db) {
+//		twic.debug.groupCollapsed('Cleanup');
 		// todo ???
 	};
 
