@@ -1,19 +1,19 @@
 /**
+ * Timeline visual object
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
 /**
  * @constructor
- * todo annotations?
  */
 twic.vcl.Timeline = function(parent) {
 
 	var
 		wrapper = document.createElement('ul'),
-		tweets  = [],
-		userNick,
-		userId;
+		/** @type {string} **/ userNick,
+		/** @type {number} **/ userId;
 
 	wrapper.className = 'timeline';
 
@@ -65,3 +65,4 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 };
+
