@@ -51,11 +51,12 @@
 
 	twic.router.handle('profile', function(data) {
 		var
-			prev = this.previous(),
+			router = this,
+			prev = router.previous(),
 			/** @type {string} **/ prevPage = prev.shift(),
 			/** @type {string} **/ userName;
 
-		this.initOnce(initPage);
+		router.initOnce(initPage);
 
 		toolbarTimeline.href = '#' + prevPage;
 

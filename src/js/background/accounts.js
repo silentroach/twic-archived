@@ -221,7 +221,7 @@ twic.Accounts.prototype.updateCounter = function() {
  */
 twic.Accounts.prototype.update = function(callback) {
 	var
-		accounts = this,
+		accounts   = this,
 		tmpAccount = new twic.db.obj.Account(),
 		tmpUser    = new twic.db.obj.User();
 
@@ -234,14 +234,18 @@ twic.Accounts.prototype.update = function(callback) {
 				'u.id = a.id ' +
 			') ' +
 		'order by u.screen_name ', [],
+		/**
+		 * @this {SQLResultSetRowList}
+		 */
 		function() {
 			var
+				rows = this,
 				accs = new twic.DBObjectList(twic.db.obj.Account),
 				usrs = new twic.DBObjectList(twic.db.obj.User),
 				id;
 
-			accs.load(this, 'a');
-			usrs.load(this, 'u');
+			accs.load(rows, 'a');
+			usrs.load(rows, 'u');
 
 			var updateMyCounter = function() {
 				accounts.updateCounter.apply(accounts);
