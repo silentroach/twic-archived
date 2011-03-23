@@ -17,7 +17,7 @@ twic.api = ( function() {
 		 * @const
 		 * @type {string}
 		 */
-		authUrl = 'https://twitter.com/oauth/',
+		authUrl = 'https://api.twitter.com/oauth/',
 		/**
 		 * @type {boolean|number}
 		 */
