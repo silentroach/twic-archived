@@ -10,6 +10,7 @@
 
 	var
 		page,
+		elementLoader,
 		elementAvatar,
 		elementName,
 		elementNick,

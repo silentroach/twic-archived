@@ -49,6 +49,7 @@ goog.inherits(twic.db.obj.User, twic.DBObject);
 /**
  * Overriden save method to update the dt fiels (user info last update time)
  * @param {function()} callback Callback function
+ * @override
  */
 twic.db.obj.User.prototype.save = function(callback) {
 	var

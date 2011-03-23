@@ -85,7 +85,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 
 /**
  * Update object from json
- * @param {number} id Object identifier
+ * @param {number|string} id Object identifier
  * @param {Object} obj Object
  */
 twic.DBObject.prototype.updateFromJSON = function(id, obj) {
@@ -264,7 +264,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 
 /**
  * Locate and load object by id
- * @param {number} id Identifier
+ * @param {number|string} id Identifier
  * @param {function()} callback Object found callback
  * @param {function()} nfcallback Object not found callback
  */

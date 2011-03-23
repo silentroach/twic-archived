@@ -98,7 +98,7 @@ twic.router = ( function() {
 
 		// remember the page to open it next time popup is open
 		remember: function() {
-			localStorage.setItem('location', location.join('#'));
+			window.localStorage.setItem('location', location.join('#'));
 		}
 	};
 

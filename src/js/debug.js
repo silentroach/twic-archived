@@ -80,9 +80,6 @@ twic.debug.dir = function(args) {
 	console.dir.apply(console, arguments);
 };
 
-/**
- * @param {...*} args
- */
 twic.debug.groupEnd = function() {
 	if (!twic.debug.ENABLED) {
 		return;

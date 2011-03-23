@@ -9,10 +9,10 @@
 ( function() {
 
 	var
-		/** @type {HTMLUListElement} */ list,
-		/** @type {HTMLElement}      */ bottomStatus,
-		/** @type {number}           */ removingAccountId,
-		/** @type {HTMLElement}      */ firstAccountElement;
+		/** @type {Element} */ list,
+		/** @type {Element} */ bottomStatus,
+		/** @type {number}  */ removingAccountId,
+		/** @type {Element} */ firstAccountElement;
 
 	var resetToolbar = function() {
 		bottomStatus.innerHTML = chrome.i18n.getMessage('title_select_or_remove');

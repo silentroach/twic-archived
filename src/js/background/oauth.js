@@ -47,8 +47,8 @@ twic.OAuthRequest.prototype.getNonce = function() {
 
 /**
  * Sign the request
- * @param {string} token OAuth token
- * @param {string} token_secret OAuth token secret
+ * @param {?string} token OAuth token
+ * @param {?string} token_secret OAuth token secret
  */
 twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	var

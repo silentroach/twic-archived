@@ -7,15 +7,18 @@
 
 /**
  * @constructor
- * @param {string} cls DBObject constructor function name
+ * @param {!twic.DBObject} cls DBObject constructor function name
  */
 twic.DBObjectList = function(cls) {
-	this.cls = cls;
+	var
+		self = this;
+
+	self.cls = cls;
 
 	/**
 	 * @type {Object.<number,twic.DBObject>}
 	 */
-	this.items = { };
+	self.items = { };
 };
 
 /**

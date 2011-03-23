@@ -17,13 +17,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	var
 		editor = this,
-		/** @type {LocalStorage}        **/ storage        = localStorage,
-		/** @type {HTMLDivElement}      **/ editorWrapper  = document.createElement('div'),
-		/** @type {HTMLTextAreaElement} **/ editorTextarea = document.createElement('textarea'),
-		/** @type {HTMLTextAreaElement} **/ editorSend     = document.createElement('input'),
-		/** @type {HTMLElement}         **/ editorCounter  = document.createElement('span'),
-		/** @type {HTMLElement}         **/ clearer        = document.createElement('div'),
-		/** @type {number}              **/ charCount      = 0,
+		/** @type {Storage} **/ storage        = window.localStorage,
+		/** @type {Element} **/ editorWrapper  = document.createElement('div'),
+		/** @type {Element} **/ editorTextarea = document.createElement('textarea'),
+		/** @type {Element} **/ editorSend     = document.createElement('input'),
+		/** @type {Element} **/ editorCounter  = document.createElement('span'),
+		/** @type {Element} **/ clearer        = document.createElement('div'),
+		/** @type {number}  **/ charCount      = 0,
 
 		/** @const **/ overloadClass = 'overload',
 		/** @const **/ focusedClass  = 'focused',

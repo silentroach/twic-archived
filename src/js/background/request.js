@@ -30,7 +30,7 @@ twic.Request = function(method, url) {
 };
 
 /**
- * @param {!string} data Data
+ * @param {string} data Data
  * @return {Object} Parsed object
  */
 twic.Request.queryStringToObject = function(data) {
@@ -54,7 +54,7 @@ twic.Request.queryStringToObject = function(data) {
 
 /**
  * Static function to encode the string
- * @param {!string} str String
+ * @param {string} str String
  * @return {string}
  */
 twic.Request.prototype.encodeString = function(str) {
@@ -71,8 +71,8 @@ twic.Request.prototype.encodeString = function(str) {
 
 /**
  * Set request custom header
- * @param {!string} key Key
- * @param {!string} value Value
+ * @param {string} key Key
+ * @param {string} value Value
  */
 twic.Request.prototype.setHeader = function(key, value) {
   this.headers[key] = value;
@@ -80,8 +80,8 @@ twic.Request.prototype.setHeader = function(key, value) {
 
 /**
  * Set request POST data
- * @param {!string} key Key
- * @param {!string} value Value
+ * @param {string} key Key
+ * @param {string|number} value Value
  * todo maybe it will be great to get the object with params
  */
 twic.Request.prototype.setRequestData = function(key, value) {
@@ -113,7 +113,7 @@ twic.Request.prototype.send = function(callback) {
 	req.onreadystatechange = function() {
 		var req = this;
 
-		if (req.readyState === XMLHttpRequest.DONE) {
+		if (req.readyState === 4) {
 			if (req.status === 401) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Unauthorized');

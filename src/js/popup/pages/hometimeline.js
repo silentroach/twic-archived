@@ -10,10 +10,10 @@
 
 	var
 		/** @type {twic.vcl.Timeline}    */ timeline,
-		/** @type {HTMLElement}          */ page,
-		/** @type {HTMLUListElement}     */ list,
-		/** @type {HTMLElement}          */ accountNameElement,
-		/** @type {HTMLElement}          */ newTweet,
+		/** @type {Element}              */ page,
+		/** @type {Element}              */ list,
+		/** @type {Element}              */ accountNameElement,
+		/** @type {Element}              */ newTweet,
 		/** @type {twic.vcl.TweetEditor} */	tweetEditor,
 		/** @type {number}               */ userId,
 		/** @type {Object}               */ mPos = {x: 0, y: 0};
@@ -114,7 +114,7 @@
 			!data.length
 			|| 1 !== data.length
 		) {
-			location.hash = '#accounts';
+			window.location.hash = '#accounts';
 			return;
 		}
 

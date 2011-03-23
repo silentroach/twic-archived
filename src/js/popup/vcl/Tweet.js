@@ -103,8 +103,6 @@ twic.vcl.Tweet = function(timeline) {
 	 * @param {!string} nick Tweet author nick
 	 */
 	var setAuthorNick = function(nick) {
-		authorNick = nick;
-
 		avatarLink.title = '@' + nick;
 		avatarLink.href = '#profile#' + nick;
 	};
@@ -130,13 +128,13 @@ twic.vcl.Tweet = function(timeline) {
 	return {
 		/**
 		 * Get the tweet element
-		 * @return {HTMLElement}
+		 * @return {!Element}
 		 */
 		getElement: function() {
 			return wrapper;
 		},
 		/**
-		 * @return {HTMLElement}
+		 * @return {number}
 		 */
 		getAuthorId: function() {
 			return authorId;
