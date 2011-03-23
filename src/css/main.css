@@ -4,6 +4,7 @@ body > div {
 
 img.avatar {
 	border-radius: 3px;
+	max-width: 48px;
 	}
 
 a.nick, a.hash {
@@ -23,3 +24,4 @@ p.loader {
 	height: 30px;
 	background: url('/img/loader.gif') no-repeat center center;
 	}
+
