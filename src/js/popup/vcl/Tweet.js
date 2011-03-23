@@ -43,6 +43,10 @@ twic.vcl.Tweet = function(timeline) {
 	wrapper.appendChild(tweetContent);
 	wrapper.appendChild(clearer);
 
+	/**
+	 * Set the tweet text
+	 * @param {string} text
+	 */
 	var setText = function(text) {
 		// preparing urls
 		var txt = text.replace(
@@ -124,10 +128,16 @@ twic.vcl.Tweet = function(timeline) {
 	};
 
 	return {
-		// todo where are annotations? ;)
+		/**
+		 * Get the tweet element
+		 * @return {HTMLElement}
+		 */
 		getElement: function() {
 			return wrapper;
 		},
+		/**
+		 * @return {HTMLElement}
+		 */
 		getAuthorId: function() {
 			return authorId;
 		},
