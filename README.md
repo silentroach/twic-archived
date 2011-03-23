@@ -7,6 +7,8 @@ Please don't forget to:
 
     git submodule update --init --recursive
 
+*Be carefull* to use the git master branch version - automatical database structure migrations are described *only betweet production versions*.
+
 Copyright
 ---------
 
