@@ -148,7 +148,6 @@ twic.twitter = ( function() {
 							/** @type {Object} */ tweet   = data[i],
 							/** @type {string} */ tweetId = tweet['id_str'];
 
-						// todo check tweet direction
 						cachedLastId[userId] = tweetId;
 
 						tweetUserId = tweet['user']['id'];

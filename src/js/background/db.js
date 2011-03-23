@@ -236,7 +236,7 @@ twic.db = ( function() {
 					migrate(db, migration.version, callback);
 				} );
 			}, function() {
-				console.error('Can\'t migrate :(');
+				twic.debug.error('Can\'t migrate :(');
 			} );
 		} else {
 			callback();
