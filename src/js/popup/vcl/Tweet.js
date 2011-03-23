@@ -11,11 +11,14 @@
 twic.vcl.Tweet = function(timeline) {
 
 	var
-		/** @type {RegExp} */ urlSearchPattern    = /[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
-		                      // fixme @ nick (and remove an additional code to filter it in parser)
-		                      // fixme test@abc.ru
-		/** @type {RegExp} */ nickSearchPattern   = /(@(\w*)(\/\w+)?)/gi,
-		/** @type {RegExp} */ hashSearchPattern   = /(^|\s)#(\w+)/g,
+		/**
+		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+		 * @type {RegExp}
+		 */
+		urlSearchPattern    = /\b((?:[a-z][\w-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,
+
+		/** @type {RegExp} */ nickSearchPattern   = /[\@]+(\w+)/gi,
+		/** @type {RegExp} */ hashSearchPattern   = /[\#]+(\w+)/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
 		/** @type {number} */ authorId,
@@ -55,15 +58,17 @@ twic.vcl.Tweet = function(timeline) {
 			}
 		);
 
+		// preparing hashtags
+		txt = txt.replace(
+			hashSearchPattern,
+			'<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$1">#$1</a>'
+		);
+
 		// preparing nicks
 		txt = txt.replace(
 			nickSearchPattern,
 			function(nick) {
 				var n = nick.substring(1);
-
-				if (n.length === 0) {
-					return '@';
-				}
 
 				if (timelineNick === n) {
 					// this tweet is with our mention
@@ -72,12 +77,6 @@ twic.vcl.Tweet = function(timeline) {
 
 				return '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
 			}
-		);
-
-		// preparing hashtags
-		txt = txt.replace(
-			hashSearchPattern,
-			'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$2">#$2</a>'
 		);
 
 		// preparing line breaks
