@@ -11,6 +11,7 @@
 twic.vcl.Tweet = function(timeline) {
 
 	var
+		                      // fixme can't handle urls with subdomains
 		/** @type {RegExp} */ urlPattern          = /^https?:\/\/(www\.)?([^\/]+)?/gi,
 		/** @type {RegExp} */ urlSearchPattern    = /[A-Za-z]+:\/\/[A-Za-z0-9-_]+\.[A-Za-z0-9-_:%&\?\/.=]+/g,
 		                      // fixme @ nick (and remove an additional code to filter it in parser)
