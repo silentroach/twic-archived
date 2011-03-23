@@ -60,8 +60,7 @@
 		toolbarTimeline.href = '#' + prevPage;
 
 		if (prevPage === 'about') {
-			// todo rename i18n message (also in accounts.js)
-			toolbarTimeline.innerHTML = chrome.i18n.getMessage('hint_about');
+			toolbarTimeline.innerHTML = chrome.i18n.getMessage('title_about');
 		} else {
 			toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
 			toolbarTimeline.href += '#' + prev.join('#');

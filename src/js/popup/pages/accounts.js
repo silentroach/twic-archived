@@ -15,7 +15,7 @@
 		/** @type {HTMLElement}      */ firstAccountElement;
 
 	var resetToolbar = function() {
-		bottomStatus.innerHTML = chrome.i18n.getMessage('hint_select_or_remove');
+		bottomStatus.innerHTML = chrome.i18n.getMessage('title_select_or_remove');
 		bottomStatus.classList.remove('alert');
 	};
 
@@ -139,8 +139,8 @@
 
 		firstAccountElement = document.querySelector('#accounts p');
 
-		document.getElementById('button_account_add').title = chrome.i18n.getMessage('hint_add_account');
-		document.getElementById('button_about').title       = chrome.i18n.getMessage('hint_about');
+		document.getElementById('button_account_add').title = chrome.i18n.getMessage('title_add_account');
+		document.getElementById('button_about').title       = chrome.i18n.getMessage('title_about');
 
 		/**
 		 * @this {HTMLElement}
