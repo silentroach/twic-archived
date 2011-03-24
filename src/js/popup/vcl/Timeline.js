@@ -11,9 +11,11 @@
 twic.vcl.Timeline = function(parent) {
 
 	var
-		wrapper = document.createElement('ul'),
-		/** @type {string} **/ userNick,
-		/** @type {number} **/ userId;
+		timeline = this,
+
+		/** @type {Element} **/ wrapper = document.createElement('ul'),
+		/** @type {string}  **/ userNick,
+		/** @type {number}  **/ userId;
 
 	wrapper.className = 'timeline';
 
@@ -22,46 +24,36 @@ twic.vcl.Timeline = function(parent) {
 	/**
 	 * @param {!twic.vcl.Tweet} tweet Tweet
 	 */
-	var addTweet = function(tweet) {
+	timeline.addTweet = function(tweet) {
 		wrapper.appendChild(tweet.getElement());
 	};
 
 	/**
 	 * @param {number} id User identifier
 	 */
-	var setUserId = function(id) {
+	timeline.setUserId = function(id) {
 		userId = id;
 	};
 
 	/**
 	 * @param {string} nick User nick
 	 */
-	var setUserNick = function(nick) {
+	timeline.setUserNick = function(nick) {
 		userNick = nick;
 	};
 
 	/**
 	 * @return {number} User identifier
 	 */
-	var getUserId = function() {
+	timeline.getUserId = function() {
 		return userId;
 	};
 
 	/**
 	 * @return {string} User nick
 	 */
-	var getUserNick = function() {
+	timeline.getUserNick = function() {
 		return userNick;
-	};
-
-	return {
-		addTweet: addTweet,
-
-		setUserId: setUserId,
-		setUserNick: setUserNick,
-
-		getUserId: getUserId,
-		getUserNick: getUserNick
 	};
 
 };

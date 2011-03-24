@@ -11,6 +11,8 @@
 twic.vcl.Tweet = function(timeline) {
 
 	var
+		tweet = this,
+
 		/**
 		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		 * @type {RegExp}
@@ -47,7 +49,7 @@ twic.vcl.Tweet = function(timeline) {
 	 * Set the tweet text
 	 * @param {string} text
 	 */
-	var setText = function(text) {
+	tweet.setText = function(text) {
 		// preparing urls
 		var txt = text.replace(
 			urlSearchPattern,
@@ -95,14 +97,14 @@ twic.vcl.Tweet = function(timeline) {
 	/**
 	 * @param {!number} id Tweet identifier
 	 */
-	var setId = function(id) {
+	tweet.setId = function(id) {
 		wrapper.id = id;
 	};
 
 	/**
 	 * @param {!string} nick Tweet author nick
 	 */
-	var setAuthorNick = function(nick) {
+	tweet.setAuthorNick = function(nick) {
 		avatarLink.title = '@' + nick;
 		avatarLink.href = '#profile#' + nick;
 	};
@@ -110,14 +112,14 @@ twic.vcl.Tweet = function(timeline) {
 	/**
 	 * @param {!string} av User avatar src
 	 */
-	var setAuthorAvatar = function(av) {
+	tweet.setAuthorAvatar = function(av) {
 		avatar.src = av;
 	};
 
 	/**
 	 * @param {!number} id Tweet identifier
 	 */
-	var setAuthorId = function(id) {
+	tweet.setAuthorId = function(id) {
 		authorId = id;
 
 		if (authorId === timelineId) {
@@ -125,26 +127,19 @@ twic.vcl.Tweet = function(timeline) {
 		}
 	};
 
-	return {
-		/**
-		 * Get the tweet element
-		 * @return {!Element}
-		 */
-		getElement: function() {
-			return wrapper;
-		},
-		/**
-		 * @return {number}
-		 */
-		getAuthorId: function() {
-			return authorId;
-		},
+	/**
+	 * Get the tweet element
+	 * @return {!Element}
+	 */
+	tweet.getElement = function() {
+		return wrapper;
+	};
 
-		setId: setId,
-		setText: setText,
-		setAuthorNick: setAuthorNick,
-		setAuthorId: setAuthorId,
-		setAuthorAvatar: setAuthorAvatar
+	/**
+	 * @return {number}
+	 */
+	tweet.getAuthorId = function() {
+		return authorId;
 	};
 
 };

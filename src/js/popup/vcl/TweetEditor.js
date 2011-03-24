@@ -155,6 +155,17 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorWrapper.classList.remove(sendingClass);
 	};
 
+	// init
+
+	reset();
+
+	var backupText = storage.getItem(getStoragePath());
+	if (backupText) {
+		editorTextarea.value = backupText;
+		// fixme textarea isn't resized if it is too big :(
+		checkTweetArea();
+	}
+
 	// functions
 
 	editor.setPlaceholder = function(alias) {
@@ -168,15 +179,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		reset();
 	};
 
-	reset();
-
-	var backupText = storage.getItem(getStoragePath());
-	if (backupText) {
-		editorTextarea.value = backupText;
-		// fixme textarea isn't resized if it is too big :(
-		checkTweetArea();
-	}
-
-	editor.onTweetSend = function(tweetText) { };
 };
 
+/**
+ * Handler for tweet send process
+ * @param {string} tweetText
+ */
+twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText) { };
