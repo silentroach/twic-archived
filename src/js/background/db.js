@@ -218,23 +218,57 @@ twic.db = ( function() {
 	/**
 	 * Cleanup the database
 	 * @param {Database} db Database
+	 * @param {function()} callback Callback
 	 */
-	var cleanup = function(db) {
-//		twic.debug.groupCollapsed('Cleanup');
-		// todo ???
-	};
+	var cleanup = function(db, callback) {
+		var
+			/** @const **/ cleanupMarkItem = 'lastCleanup',
+			dirtyDate  = (new Date()).toJSON().split('T')[0],
+			storedDate = window.localStorage.getItem(cleanupMarkItem);
 
-	var database = null;
-
-	var getDatabase = function() {
-		if (!database) {
-			database = openDatabase(twic.name, '', twic.name, 0);
-			migrate(database, database.version, function() {
-				cleanup(database);
-			} );
+		if (storedDate === dirtyDate) {
+			callback();
+			// running cleanup only once per day
+			return;
 		}
 
-		return database;
+		window.localStorage.setItem(cleanupMarkItem, dirtyDate);
+
+		var
+			// week is enough for data to store
+			cutDate = twic.utils.date.getCurrentTimestamp() - 60 * 60 * 24 * 7;
+
+		twic.debug.groupCollapsed('Cleanup');
+
+		twic.utils.queueIterator( [
+			'delete from timeline where tweet_id in (select id from tweets where dt < ?)',
+			'delete from tweets where dt < ?',
+			'delete from users where dt < ? and id not in (select id from accounts)'
+		], function(sqlText, callback) {
+			twic.db.execute(sqlText, [cutDate], callback);
+		}, function() {
+			twic.debug.groupEnd();
+			callback();
+		} );
+	};
+
+	/** @type {Database} **/ var database = null;
+
+	/**
+	 * @param {function(Database)} callback Callback with database
+	 */
+	var getDatabase = function(callback) {
+		if (!database) {
+			database = openDatabase(twic.name, '', twic.name, 0);
+
+			migrate(database, database.version, function() {
+				cleanup(database, function() {
+					callback(database);
+				} );
+			} );
+		} else {
+			callback(database);
+		}
 	};
 
 	return {
@@ -246,7 +280,9 @@ twic.db = ( function() {
 		 * @param {function(string)} failedCallback Failed callback
 		 */
 		select: function(sqlText, sqlParams, successCallback, failedCallback) {
-			select(getDatabase(), sqlText, sqlParams, successCallback, failedCallback);
+			getDatabase( function(db) {
+				select(db, sqlText, sqlParams, successCallback, failedCallback);
+			} );
 		},
 
 		/**
@@ -257,7 +293,9 @@ twic.db = ( function() {
 		 * @param {function(string)} failedCallback Failed callback
 		 */
 		execute: function(sqlText, sqlParams, successCallback, failedCallback) {
-			execute(getDatabase(), sqlText, sqlParams, successCallback, failedCallback);
+			getDatabase( function(db) {
+				execute(db, sqlText, sqlParams, successCallback, failedCallback);
+			} );
 		},
 
 		// DBObject storage
