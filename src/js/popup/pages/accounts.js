@@ -143,7 +143,7 @@
 		document.getElementById('button_about').title       = chrome.i18n.getMessage('title_about');
 
 		/**
-		 * @this {HTMLElement}
+		 * @this {Element}
 		 */
 		document.getElementById('button_account_add').onclick = function() {
 			if (loading) {
