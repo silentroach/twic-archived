@@ -39,20 +39,21 @@ twic.Accounts = function() {
 			fail();
 		}
 
-		// fixme shitcode
-		twic.db.execute('delete from timeline where user_id = ?', [id], function() {
-			twic.db.execute('delete from tweets where user_id = ?', [id], function() {
-				twic.db.execute('delete from users where id = ?', [id], function() {
-					twic.db.execute('delete from accounts where id = ?', [id], function() {
-						self.update();
+		twic.utils.queueIterator( [
+			'delete from timeline where user_id = ?',
+			'delete from tweets where user_id = ?',
+			'delete from users where id = ?',
+			'delete from accounts where id = ?'
+		],
+		function(sqlText, callback) {
+			twic.db.execute(sqlText, [id], callback, fail);
+		}, function() {
+			self.update();
 
-						sendResponse( {
-							'result': twic.global.FAILED
-						} );
-					}, fail);
-				}, fail);
-			}, fail);
-		}, fail);
+			sendResponse( {
+				'result': twic.global.FAILED
+			} );
+		} );
 	} );
 
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
