@@ -58,9 +58,15 @@ twic.vcl.Tweet = function(timeline) {
 					i = url.indexOf('//'),
 					cutted = i > 0 ? url.substring(i + 2) : url;
 
-				return '<a target="_blank" href="' + url + '" title="' + url + '">' +
-					(cutted.length > 30 ? (cutted.substring(0, 30) + '&hellip;') : cutted) +
-					'</a>';
+				if (cutted.length > 30) {
+					cutted = cutted.substring(0, 30) + '&hellip;';
+				} else
+				// stripping last slash
+				if (['/', '\\'].indexOf(cutted.substring(cutted.length - 1)) >= 0) {
+					cutted = cutted.substring(0, cutted.length - 1);
+				}
+
+				return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
 			}
 		);
 
