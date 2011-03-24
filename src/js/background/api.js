@@ -63,7 +63,7 @@ twic.api = ( function() {
 	/**
 	 * Get the app request token
 	 * @param {function(string, string)} callback Callback function
-	 * @param {?function(twic.ResponseError)} failedCallback Failed callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	var getRequestToken = function(callback, failedCallback) {
 		if (oauth_token) {
@@ -93,7 +93,7 @@ twic.api = ( function() {
 	 * Get the user access token
 	 * @param {string} pin Pin code
 	 * @param {function(Object)} callback Callback function
-	 * @param {?function(twic.ResponseError)} failedCallback Failed callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	var getAccessToken = function(pin, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', authUrl + 'access_token');
@@ -134,7 +134,7 @@ twic.api = ( function() {
 	 * Get the user info
 	 * @param {number|string} id User identifier or screen name
 	 * @param {function()} callback Callback function
-	 * @param {?function(twic.ResponseError)} failedCallback Failed callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	var getUserInfo = function(id, callback, failedCallback) {
 		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
@@ -161,7 +161,7 @@ twic.api = ( function() {
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
 	 * @param {function(Array.<Object>)} callback Callback function
-	 * @param {?function(twic.ResponseError)} failedCallback Failed callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	var homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
@@ -197,7 +197,7 @@ twic.api = ( function() {
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
 	 * @param {function(Array.<Object>)} callback Callback function
-	 * @param {?function(twic.ResponseError)} failedCallback Failed callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	var updateStatus = function(status, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');

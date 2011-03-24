@@ -256,7 +256,7 @@ twic.db = ( function() {
 
 	var getDatabase = function() {
 		if (!database) {
-			database = openDatabase(twic.name, '', twic.name, null);
+			database = openDatabase(twic.name, '', twic.name, 0);
 			migrate(database, database.version, function() {
 				cleanup(database);
 			} );

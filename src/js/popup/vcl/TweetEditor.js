@@ -8,8 +8,8 @@
 /**
  * @constructor
  * @param {number} userId User identifier (used to store backup textarea value)
- * @param {HTMLElement} parent Parent element
- * @param {?number} replyTo Identifier of reply to tweet
+ * @param {Element} parent Parent element
+ * @param {number=} replyTo Identifier of reply to tweet
  */
 twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
