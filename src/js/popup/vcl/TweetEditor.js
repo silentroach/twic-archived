@@ -113,7 +113,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		} else {
 			storage.setItem(path, e.target.value);
 		}
-	} );
+	}, false );
 
 	// prevent user to press enter
 	editorTextarea.addEventListener('keydown', function(e) {
@@ -128,7 +128,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 				tryToSend();
 			}
 		}
-	} );
+	}, false );
 
 	editorTextarea.onfocus = function() {
 		editorWrapper.classList.add(focusedClass);

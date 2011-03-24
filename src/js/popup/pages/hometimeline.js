@@ -103,8 +103,8 @@
 		list = page.querySelector('ul');
 		newTweet = page.querySelector('.newtweet');
 
-		page.addEventListener('mouseup', onTimeLineMouseUp);
-		page.addEventListener('mousedown', onTimeLineMouseDown);
+		page.addEventListener('mouseup', onTimeLineMouseUp, false);
+		page.addEventListener('mousedown', onTimeLineMouseDown, false);
 
 		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
 	};
