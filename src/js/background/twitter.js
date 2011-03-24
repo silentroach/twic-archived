@@ -57,6 +57,9 @@ twic.twitter = ( function() {
 			'where tl.user_id = ? ' +
 			'order by cast(t.id as integer) desc limit 20 ',
 			[id],
+			/**
+			 * @this {SQLResultSetRowList}
+			 */
 			function() {
 				var
 					rows = this,
@@ -120,6 +123,9 @@ twic.twitter = ( function() {
 			return false;
 		}
 
+		/**
+		 * @param {?string} since_id
+		 */
 		var updateSinceId = function(since_id) {
 			// try to get the home timeline from api
 			twic.api.homeTimeline(
@@ -200,10 +206,13 @@ twic.twitter = ( function() {
 				'select t.id ' +
 				'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
 				'where tl.user_id = ? order by cast(t.id as integer) desc limit 1 ', [userId],
+				/**
+				 * @this {SQLResultSetRowList}
+				 */
 				function() {
 					var
 						rows = this,
-						since_id = false;
+						/** @type {string} **/ since_id;
 
 					if (rows.length > 0) {
 						// nice to see you, since_id

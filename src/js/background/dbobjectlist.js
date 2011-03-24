@@ -51,7 +51,7 @@ twic.DBObjectList.prototype.load = function(result, alias) {
 
 /**
  * Push the unique object to list
- * @param {!Object} row DB row
+ * @param {Object} row DB row
  * @param {string} alias Alias for fields
  */
 twic.DBObjectList.prototype.pushUnique = function(row, alias) {

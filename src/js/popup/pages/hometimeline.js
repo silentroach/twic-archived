@@ -53,7 +53,7 @@
 			&& mPos.x === e.x
 			&& mPos.y === e.y
 		) {
-			console.dir(e);
+			twic.debug.dir(e);
 		}
 
 		return true;
