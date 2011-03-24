@@ -216,7 +216,7 @@ twic.Accounts.prototype.updateCounter = function() {
 
 /**
  * Update accounts info
- * @param {function()} callback Callback function
+ * @param {function()=} callback Callback function
  * todo think about more nice solution
  */
 twic.Accounts.prototype.update = function(callback) {
