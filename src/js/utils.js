@@ -9,6 +9,39 @@
 
 twic.utils = { };
 
+/**
+ * Iterate array in the iterator function in series
+ * @param {Array} arr Array of functions to execute
+ * @param {function(*, function())} iterator Iterator with callback
+ * @param {function()} callback Finished callback
+ */
+twic.utils.queueIterator = function(arr, iterator, callback) {
+	if (!arr.length) {
+		return callback();
+	}
+
+	var completed = 0;
+
+	var iterate = function () {
+		iterator(arr[completed], function (err) {
+			if (err) {
+				callback(err);
+				callback = function () {};
+			} else {
+				++completed;
+
+				if (completed === arr.length) {
+					callback();
+				} else {
+					iterate();
+				}
+			}
+		} );
+	};
+
+	iterate();
+};
+
 twic.utils.date = { };
 
 /**

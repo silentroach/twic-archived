@@ -7,34 +7,6 @@
 
 twic.db = ( function() {
 
-	// todo refactor me to utils module
-	var queueIterator = function(arr, iterator, callback) {
-		if (!arr.length) {
-			return callback();
-		}
-
-		var completed = 0;
-
-		var iterate = function () {
-			iterator(arr[completed], function (err) {
-				if (err) {
-					callback(err);
-					callback = function () {};
-				} else {
-					++completed;
-
-					if (completed === arr.length) {
-						callback();
-					} else {
-						iterate();
-					}
-				}
-			} );
-		};
-
-		iterate();
-	};
-
 	/**
 	 * Error logger
 	 * @param {SQLError} error SQL error
@@ -149,7 +121,7 @@ twic.db = ( function() {
 			runme: function(tr, callback) {
 				// todo check the field sizes
 
-				queueIterator( [
+				twic.utils.queueIterator( [
 					/**
 					 * users info
 					 */
