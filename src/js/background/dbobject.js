@@ -52,7 +52,6 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 /**
  * Load object from JSON
  * @param {Object} obj JSON object
- * todo rewrite
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var
@@ -62,18 +61,15 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 	dbobject.changed = [];
 
 	for (key in dbobject.fields) {
-		var fld = key;
+		var
+			fld = key,
+			mapped = dbobject.jsonMap[key];
 
-		if (
-			dbobject.jsonMap[key]
-			&& typeof dbobject.jsonMap[key] !== 'string'
-		) {
-			dbobject.setValue(key, dbobject.jsonMap[key](obj));
+		if (typeof mapped === 'function') {
+			dbobject.setValue(key, mapped(obj));
 		} else {
-			if (dbobject.jsonMap[key]) {
-				if (typeof dbobject.jsonMap[key] === 'string') {
-					fld = dbobject.jsonMap[key];
-				}
+			if (typeof mapped === 'string') {
+				fld = mapped;
 			}
 
 			if (obj[fld]) {
@@ -271,4 +267,3 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 twic.DBObject.prototype.loadById = function(id, callback, nfcallback) {
 	return this.loadByFieldValue('id', id, callback, nfcallback);
 };
-
