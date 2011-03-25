@@ -205,7 +205,7 @@ twic.twitter = ( function() {
 			twic.db.select(
 				'select t.id ' +
 				'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
-				'where tl.user_id = ? order by cast(t.id as integer) desc limit 1 ', [userId],
+				'where tl.user_id = ? order by t.dt desc, t.id desc limit 1 ', [userId],
 				/**
 				 * @this {SQLResultSetRowList}
 				 */

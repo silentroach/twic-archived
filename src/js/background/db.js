@@ -178,8 +178,8 @@ twic.db = ( function() {
 					/**
 					 * Indexes
 					 */
-					'create index idx_tweets_user on tweets (user_id)',
-					'create index idx_users_name on users (screen_name)'
+					'create index idx_users_name on users (screen_name)',
+					'create index idx_tweets on tweets (dt desc, id desc)'
 				], function(sqlText, callback) {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);

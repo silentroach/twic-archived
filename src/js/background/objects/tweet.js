@@ -21,13 +21,13 @@ twic.db.obj.Tweet = function() {
 	};
 
 	this.jsonMap = {
-		'id': function(obj) {
-			return obj['id_str'];
-		},
+		'id': 'id_str',
+		'reply_to': 'in_reply_to_status_id_str',
+
 		'msg': function(obj) {
 			return obj['retweeted_status'] ? obj['retweeted_status']['text'] : obj['text'];
 		},
-		'reply_to': 'in_reply_to_status_id_str',
+		},
 		'dt': function(obj) {
 			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		},
