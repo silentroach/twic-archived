@@ -127,20 +127,20 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		}
 	}, false );
 
-	editorTextarea.onfocus = function() {
+	editorTextarea.addEventListener('focus', function() {
 		editorWrapper.classList.add(focusedClass);
 		checkTweetArea();
-	};
+	}, false );
 
-	editorTextarea.onblur = function() {
+	editorTextarea.addEventListener('blur', function() {
 		if (editorTextarea.value.length === 0) {
 			editorTextarea.rows = 1;
 		}
-	};
+	}, false );
 
-	editorSend.onclick = function() {
+	editorSend.addEventListener('click', function() {
 		tryToSend();
-	};
+	}, false );
 
 	var reset = function() {
 		editorTextarea.value = '';
