@@ -71,11 +71,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorSend.disabled = (charCount === 0 || charCount > 140);
 	};
 
-	// check the textarea for chars count
-	editorTextarea.onkeyup = function(e) {
-		checkTweetArea();
-	};
-
 	/**
 	 * Try to send the tweet
 	 */
@@ -105,13 +100,15 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	// store the textarea value on each keyup to avoid data loss on popup close
 	editorTextarea.addEventListener('keyup', function(e) {
 		var
-			val  = e.target.value,
+			val  = editorTextarea.value,
 			path = getStoragePath();
+
+		checkTweetArea();
 
 		if (val === '') {
 			storage.removeItem(path);
 		} else {
-			storage.setItem(path, e.target.value);
+			storage.setItem(path, val);
 		}
 	}, false );
 
