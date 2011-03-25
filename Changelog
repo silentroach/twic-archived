@@ -1,4 +1,6 @@
-Development:
+In development
+
+0.0.3
 	* Don't load profile info when switching to the profile page if it is already loaded
 	+ OAuth timestamp autocorrection based on server reply
 	* Correct account list refresh after remove one
