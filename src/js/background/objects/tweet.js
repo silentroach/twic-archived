@@ -27,7 +27,6 @@ twic.db.obj.Tweet = function() {
 		'msg': function(obj) {
 			return obj['retweeted_status'] ? obj['retweeted_status']['text'] : obj['text'];
 		},
-		},
 		'dt': function(obj) {
 			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
 		},
