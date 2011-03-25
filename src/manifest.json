@@ -1,6 +1,7 @@
 {
 	"name": "Twic",
-	"description": "Twitter client for Google Chrome",
+	"description": "__MSG_about_what__",
+	"default_locale": "en",
 	"version": "0.1",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
@@ -23,7 +24,6 @@
 			"js/inline/auth.js"
 		]
 	} ],
-	"default_locale": "en",
 	"permissions": [
 		"unlimitedStorage",
 		"notifications",
