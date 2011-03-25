@@ -8,7 +8,7 @@
 twic.db.obj.Timeline = ( function() {
 
 	var
-		timeline = this;
+		timeline = { };
 
 	/**
 	 * Push the tweet into user home timeline
@@ -44,5 +44,7 @@ twic.db.obj.Timeline = ( function() {
 			}
 		);
 	};
+
+	return timeline;
 
 }() );

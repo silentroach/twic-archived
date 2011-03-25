@@ -60,9 +60,7 @@ twic.Accounts = function() {
 		// popup is already closed so send it now
 		sendResponse({});
 
-		twic.api.getRequestToken( function(token, secret) {
-			twic.api.tryGrantAccess(token);
-		} );
+		twic.api.accountAdd();
 	} );
 
 	twic.requests.subscribe('accountList', function(data, sendResponse) {

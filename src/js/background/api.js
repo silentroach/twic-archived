@@ -8,6 +8,7 @@
 twic.api = ( function() {
 
 	var
+		api = { },
 		/**
 		 * @const
 		 * @type {string}
@@ -55,7 +56,7 @@ twic.api = ( function() {
 	/**
 	 * Reset the request token after auth
 	 */
-	var resetToken = function() {
+	api.resetToken = function() {
 		oauth_token = null;
 		oauth_token_secret = null;
 	};
@@ -90,12 +91,23 @@ twic.api = ( function() {
 	};
 
 	/**
+	 * Open the access grant page to add accountAdd
+	 */
+	api.accountAdd = function() {
+		getRequestToken( function(token, secret) {
+			chrome.tabs.create( {
+				'url': authUrl + 'authorize?oauth_token=' + token
+			} );
+		} );
+	};
+
+	/**
 	 * Get the user access token
 	 * @param {string} pin Pin code
 	 * @param {function(Object)} callback Callback function
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
-	var getAccessToken = function(pin, callback, failedCallback) {
+	api.getAccessToken = function(pin, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', authUrl + 'access_token');
 		req.setRequestData('oauth_verifier', pin);
 
@@ -104,12 +116,14 @@ twic.api = ( function() {
 
 			req.send( function(error, req) {
 				if (!error) {
-					callback(twic.Request.queryStringToObject(req.responseText));
+					callback(
+						twic.Request.queryStringToObject(req.responseText)
+					);
 				} else {
 					// reset the request_token if unauthorized reply is received
 					if (error.code === twic.ResponseError.UNAUTHORIZED) {
 						twic.debug.info('Unauthorized reply is received. Resetting request_token.');
-						resetToken();
+						api.resetToken();
 					}
 
 					if (failedCallback) {
@@ -121,22 +135,12 @@ twic.api = ( function() {
 	};
 
 	/**
-	 * Open the new tab with user request to confirm the access
-	 * @param {string} token OAuth token
-	 */
-	var tryGrantAccess = function(token) {
-		chrome.tabs.create( {
-			'url': 'https://api.twitter.com/oauth/authorize?oauth_token=' + token
-		} );
-	};
-
-	/**
 	 * Get the user info
 	 * @param {number|string} id User identifier or screen name
 	 * @param {function(*)} callback Callback function
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
-	var getUserInfo = function(id, callback, failedCallback) {
+	api.getUserInfo = function(id, callback, failedCallback) {
 		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
 		req.send( function(error, req) {
 			if (!error) {
@@ -163,7 +167,7 @@ twic.api = ( function() {
 	 * @param {function(*)} callback Callback function
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
-	var homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
+	api.homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('GET', baseUrl + 'statuses/home_timeline/' + id + '.json');
 
 		if (since_id) {
@@ -199,7 +203,7 @@ twic.api = ( function() {
 	 * @param {function(*)} callback Callback function
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
-	var updateStatus = function(status, token, token_secret, callback, failedCallback) {
+	api.updateStatus = function(status, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');
 
 		req.setRequestData('status', status);
@@ -228,16 +232,6 @@ twic.api = ( function() {
 		} );
 	};
 
-	// todo reorder, rename and comment
-	return {
-		getRequestToken: getRequestToken,
-		resetToken: resetToken,
-		tryGrantAccess: tryGrantAccess,
-		getAccessToken: getAccessToken,
-		getUserInfo: getUserInfo,
-		homeTimeline: homeTimeline,
-		updateStatus: updateStatus
-	};
+	return api;
 
 }() );
-
