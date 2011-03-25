@@ -48,10 +48,10 @@ twic.Accounts = function() {
 		function(sqlText, callback) {
 			twic.db.execute(sqlText, [id], callback, fail);
 		}, function() {
-			self.update();
-
-			sendResponse( {
-				'result': twic.global.FAILED
+			self.update( function() {
+				sendResponse( {
+					'result': twic.global.FAILED
+				} );
 			} );
 		} );
 	} );
@@ -280,4 +280,3 @@ twic.Accounts.prototype.getInfo = function(id) {
 
 	return false;
 };
-

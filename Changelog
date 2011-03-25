@@ -1,5 +1,6 @@
 Development:
-  * Useless spellchecker is turned off in tweet editor
+	* Correct account list refresh after remove one
+	* Useless spellchecker is turned off in tweet editor
 
 0.0.2
-  * Initial production Alpha release
+	* Initial production Alpha release
