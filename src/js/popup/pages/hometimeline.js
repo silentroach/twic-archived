@@ -19,7 +19,7 @@
 		/** @type {Object}               */ mPos = {x: 0, y: 0};
 
 	// todo maybe it is not a great implementation of handling only a click (not a selection)?
-
+/*
 	var checkIsTweetClicked = function(e) {
 		if (
 			!e.srcElement
@@ -58,7 +58,7 @@
 
 		return true;
 	};
-
+*/
 	var buildList = function(info) {
 		var
 			id,
@@ -103,8 +103,8 @@
 		list = page.querySelector('ul');
 		newTweet = page.querySelector('.newtweet');
 
-		page.addEventListener('mouseup', onTimeLineMouseUp, false);
-		page.addEventListener('mousedown', onTimeLineMouseDown, false);
+//		page.addEventListener('mouseup', onTimeLineMouseUp, false);
+//		page.addEventListener('mousedown', onTimeLineMouseDown, false);
 
 		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
 	};
