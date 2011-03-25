@@ -149,12 +149,15 @@ twic.twitter = ( function() {
 						account.save();
 					};
 
+					if (data.length > 0) {
+						// updating the last tweet cache
+						cachedLastId[userId] = data[0]['id_str'];
+					}
+
 					for (i = 0; i < data.length; ++i) {
 						var
 							/** @type {Object} */ tweet   = data[i],
 							/** @type {string} */ tweetId = tweet['id_str'];
-
-						cachedLastId[userId] = tweetId;
 
 						tweetUserId = tweet['user']['id'];
 
