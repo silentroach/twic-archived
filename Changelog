@@ -1,4 +1,5 @@
 Development:
+	* Don't load profile info when switching to the profile page if it is already loaded
 	+ OAuth timestamp autocorrection based on server reply
 	* Correct account list refresh after remove one
 	- Useless spellchecker is turned off in tweet editor

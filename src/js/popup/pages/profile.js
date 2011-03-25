@@ -68,8 +68,6 @@
 			toolbarTimeline.href += '#' + prev.join('#');
 		}
 
-		clearProfileData();
-
 		if (
 			!data.length
 			|| 1 !== data.length
@@ -80,11 +78,18 @@
 
 		userName = data[0];
 
-		twic.requests.send('getProfileInfo', {
-			'name': userName
-		}, showProfile);
-		// todo or show an error
+		// update info if it is not loaded yet
+		var pageUserName = page.getAttribute('username');
+		if (pageUserName !== userName) {
+			clearProfileData();
+
+			page.setAttribute('username', userName);
+
+			twic.requests.send('getProfileInfo', {
+				'name': userName
+			}, showProfile);
+			// todo or show an error
+		}
 	} );
 
 }() );
-
