@@ -31,6 +31,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	editorWrapper.className = 'tweetEditor';
 
+	editorTextarea['spellcheck'] = false;
+
 	editorSend.type  = 'button';
 	editorSend.value = chrome.i18n.getMessage('button_send');
 	editorSend.title = chrome.i18n.getMessage('title_button_send');
