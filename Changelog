@@ -1,6 +1,7 @@
 Development:
+	+ OAuth timestamp autocorrection based on server reply
 	* Correct account list refresh after remove one
-	* Useless spellchecker is turned off in tweet editor
+	- Useless spellchecker is turned off in tweet editor
 
 0.0.2
 	* Initial production Alpha release

@@ -20,7 +20,7 @@ twic.OAuthRequest = function(method, url) {
  * Offset to correct the timestamp property
  * @type {number}
  */
-//twic.OAuthRequest.timestampOffset = 0;
+twic.OAuthRequest.timestampOffset = 0;
 
 goog.inherits(twic.OAuthRequest, twic.Request);
 
@@ -65,7 +65,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	self.setRequestData('oauth_signature_method', 'HMAC-SHA1');
 	self.setRequestData('oauth_version', '1.0');
 	self.setRequestData('oauth_nonce', self.getNonce());
-	self.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp());// + twic.OAuthRequest.timestampOffset);
+	self.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp() + twic.OAuthRequest.timestampOffset);
 
 	if (token) {
 		self.setRequestData('oauth_token', token);
@@ -88,9 +88,9 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 };
 
 /**
- * todo think about timestamp corrector
  * Send the request
  * @param {function(?twic.ResponseError, ?XMLHttpRequest)} callback Callback
+ */
 twic.OAuthRequest.prototype.send = function(callback) {
 	var checkOffsetAndCallback = function(error, req) {
 		if (req) {
@@ -98,12 +98,14 @@ twic.OAuthRequest.prototype.send = function(callback) {
 				checkHeader = req.getResponseHeader('X-Transaction');
 
 			if (typeof checkHeader === 'string') {
-				// fixme looks terrible
-				var tmp = parseInt(checkHeader.split('-')[0], 10) - twic.utils.date.getCurrentTimestamp() - 1;
+				var
+					firstPart = checkHeader.split('-')[0],
+					newOffset = parseInt(firstPart, 10) - twic.utils.date.getCurrentTimestamp();
 
-				twic.OAuthRequest.timestampOffset = tmp;
-
-				console.log(twic.OAuthRequest.timestampOffset);
+				if (twic.OAuthRequest.timestampOffset !== newOffset) {
+					twic.OAuthRequest.timestampOffset = newOffset;
+					twic.debug.log('OAuth timestamp offset is now ' + twic.OAuthRequest.timestampOffset);
+				}
 			}
 		}
 
@@ -113,5 +115,3 @@ twic.OAuthRequest.prototype.send = function(callback) {
 	// parent sender with own callback checker
 	twic.Request.prototype.send.call(this, checkOffsetAndCallback);
 };
-*/
-
