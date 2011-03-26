@@ -159,6 +159,46 @@ twic.api = ( function() {
 	};
 
 	/**
+	 * Follow user
+	 * @param {number} whom_id Whom to follow id
+	 * @param {string} token OAuth token
+	 * @param {string} token_secret OAuth token secret
+	 * @param {function()} callback Callback function
+	 */
+	api.follow = function(whom_id, token, token_secret, callback) {
+		var req = new twic.OAuthRequest('POST', baseUrl + 'friendships/create/' + whom_id + '.json');
+
+		req.sign(token, token_secret);
+
+		twic.debug.info('Following user ' + whom_id);
+
+		req.send( function(error, req) {
+			// todo what if it will fails?
+			callback();
+		} );
+	};
+
+	/**
+	 * Unfollow user
+	 * @param {number} whom_id Whom to unfollow id
+	 * @param {string} token OAuth token
+	 * @param {string} token_secret OAuth token secret
+	 * @param {function()} callback Callback function
+	 */
+	api.unfollow = function(whom_id, token, token_secret, callback) {
+		var req = new twic.OAuthRequest('POST', baseUrl + 'friendships/destroy/' + whom_id + '.json');
+
+		req.sign(token, token_secret);
+
+		twic.debug.info('Unfollowing user ' + whom_id);
+
+		req.send( function(error, req) {
+			// todo what if it will fails?
+			callback();
+		} );
+	};
+
+	/**
 	 * Get user timeline
 	 * @param {number} id User identifier
 	 * @param {?string} since_id Since id

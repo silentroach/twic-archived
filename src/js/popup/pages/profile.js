@@ -16,13 +16,19 @@
 		elementNick,
 		elementUrl,
 		elementFollowings,
+		elementFollowed,
+		elementFollowedSpan,
 		timelineUserId,
+		profileUserId,
 		loader,
 		toolbarTimeline;
 
 	var initPage = function() {
 		page              = document.getElementById('profile');
-		elementFollowings = document.getElementById('followings');
+
+		elementFollowings   = document.getElementById('followings');
+		elementFollowed     = elementFollowings.querySelector('p');
+		elementFollowedSpan = elementFollowings.querySelector('span');
 
 		elementLoader   = page.querySelector('.loader');
 		elementAvatar   = page.querySelector('.avatar');
@@ -33,20 +39,56 @@
 	};
 
 	var clearProfileData = function() {
+		elementFollowedSpan.className = '';
+		elementFollowed.className = '';
 		elementLoader.style.display = 'block';
 		elementAvatar.style.display = 'none';
-//		elementFollowings.style.display = 'none';
+		elementFollowings.style.display = 'none';
 		elementAvatar.src = '';
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';
 		elementUrl.innerHTML = '';
 	};
 
-	var showProfileFriendship = function(data) {
-		elementLoader.style.display = 'none';
+	var follow = function() {
+		elementFollowedSpan.className = 'loading';
+
+		twic.requests.send('follow', {
+			'id': timelineUserId,
+			'whom_id': profileUserId
+		}, function() {
+			showProfileFriendship(true);
+		} );
+	};
+
+	var unfollow = function() {
+		elementFollowedSpan.className = 'loading';
+
+		twic.requests.send('unfollow', {
+			'id': timelineUserId,
+			'whom_id': profileUserId
+		}, function() {
+			showProfileFriendship(false);
+		} );
+	};
+
+	var showProfileFriendship = function(following) {
+		elementFollowedSpan.className = '';
+
+		if (following) {
+			elementFollowed.className = 'following';
+			elementFollowed.onclick = unfollow;
+		} else {
+			elementFollowed.className = '';
+			elementFollowed.onclick = follow;
+		}
+
+		elementFollowings.style.display = 'block';
 	};
 
 	var showProfile = function(data) {
+		profileUserId = data['id'];
+
 		// fixme shitcode
 		elementAvatar.src = data['avatar'];
 		elementAvatar.title = '@' + data['screen_name'];
@@ -64,7 +106,11 @@
 			twic.requests.send('getProfileFriendshipInfo', {
 				'source_id': timelineUserId,
 				'target_id': data['id']
-			}, showProfileFriendship);
+			}, function(data) {
+				elementLoader.style.display = 'none';
+				showProfileFriendship(data['following']);
+				elementFollowings.style.display = 'block';
+			} );
 		}
 	};
 

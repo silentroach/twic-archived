@@ -1,4 +1,5 @@
 In development
+	+ Follow/unfollow users from the profile page
 
 0.0.3
 	* Don't load profile info when switching to the profile page if it is already loaded

@@ -25,3 +25,6 @@ p.loader {
 	background: url('/img/loader.gif') no-repeat center center;
 	}
 
+.loading {
+	background: url('/img/loader.gif') no-repeat left center !important;
+	}

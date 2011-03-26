@@ -121,6 +121,68 @@ twic.twitter = ( function() {
 	};
 
 	/**
+	 * Cleanup the friends cache links
+	 * @param {number} id First user
+	 * @param {number} id2 Second user
+	 * @param {function()} callback Callback function
+	 */
+	var cleanupFriends = function(id, id2, callback) {
+		twic.utils.queueIterator( [
+			'delete from friends where source_user_id = ? and target_user_id = ?',
+			'delete from friends where target_user_id = ? and source_user_id = ?'
+		], function(sqlText, callback) {
+			twic.db.execute(sqlText, [id, id2], callback);
+		}, callback);
+	};
+
+	/**
+	 * Follow user
+	 * @param {number} id User identifier
+	 * @param {number} whom_id Whom to follow
+	 * @param {function()} callback Callback function
+	 */
+	twitter.follow = function(id, whom_id, callback) {
+		var account = twic.accounts.getInfo(id);
+
+		if (!account) {
+			callback();
+			return;
+		}
+
+		twic.api.follow(
+			whom_id,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],
+			function() {
+				cleanupFriends(id, whom_id, callback);
+			}
+		);
+	};
+
+	/**
+	 * Unfollow user
+	 * @param {number} id User identifier
+	 * @param {number} whom_id Whom to unfollow
+	 * @param {function()} callback Callback function
+	 */
+	twitter.unfollow = function(id, whom_id, callback) {
+		var account = twic.accounts.getInfo(id);
+
+		if (!account) {
+			callback();
+			return;
+		}
+
+		twic.api.unfollow(
+			whom_id,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],
+			function() {
+				cleanupFriends(id, whom_id, callback);
+				// todo cleanup timeline
+			}
+		);
+	};
+
+	/**
 	 * Update the user status
 	 * @param {number} id User identifier
 	 * @param {string} status New status text
@@ -130,6 +192,7 @@ twic.twitter = ( function() {
 		var account = twic.accounts.getInfo(id);
 
 		if (!account) {
+			callback();
 			return;
 		}
 
@@ -154,6 +217,7 @@ twic.twitter = ( function() {
 	 * Update user home timeline
 	 * @param {number} userId User identifier
 	 * todo method is too big. maybe we need to refactor it.
+	 * todo add callback?
 	 */
 	twitter.updateHomeTimeline = function(userId) {
 		var account = twic.accounts.getInfo(userId);
