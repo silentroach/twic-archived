@@ -244,8 +244,8 @@ twic.DBObject.prototype.getPart = function(fields) {
 
 /**
  * Locate and load object by field value, simple SQL select statement generator and executor
- * @param {string} fieldname Field name
- * @param {number|string} value Value
+ * @param {string|Array.<string>} fieldname Field name
+ * @param {number|string|Array.<number|string>} value Value
  * @param {function()} callback Object found callback
  * @param {function()} nfcallback Object not found callback
  */
@@ -253,16 +253,27 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	var
 		obj = this,
 		fld = [],
+		whereClause = ' where ',
+		values = value.length ? value : [value],
 		/** @type {string} **/ sql,
+		/** @type {number} **/ i,
 		/** @type {string} **/ key;
+
+	if (fieldname.length) {
+		for (i = 0; i < fieldname.length; ++i) {
+			whereClause += ' ' + fieldname[i] + ' = ?';
+		}
+	} else {
+		whereClause = ' ' + fieldname + ' = ?';
+	}
 
 	for (key in obj.fields) {
 		fld.push(key);
 	}
 
-	sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + fieldname + ' = ? limit 1';
+	sql = 'select ' + fld.join(',') + ' from ' + obj.table + whereClause + ' limit 1';
 
-	twic.db.select(sql, [value], function() {
+	twic.db.select(sql, values, function() {
 		if (this.length === 1) {
 			obj.loadFromRow(this.item(0));
 

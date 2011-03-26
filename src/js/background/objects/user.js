@@ -21,7 +21,7 @@ twic.db.obj.User = function() {
 		'screen_name': '',
 		'avatar': '',
 		'url': '',
-		'verified': '',
+		'verified': 0,
 		'followers_count': 0,
 		'friends_count': 0,
 		'statuses_count': 0,
@@ -47,7 +47,7 @@ twic.db.obj.User = function() {
 goog.inherits(twic.db.obj.User, twic.DBObject);
 
 /**
- * Overriden save method to update the dt fiels (user info last update time)
+ * Overriden save method to update the dt field (user info last update time)
  * @param {function()} callback Callback function
  * @override
  */
@@ -59,4 +59,3 @@ twic.db.obj.User.prototype.save = function(callback) {
 
 	twic.DBObject.prototype.save.call(self, callback);
 };
-
