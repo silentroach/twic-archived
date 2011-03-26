@@ -119,8 +119,6 @@ twic.db = ( function() {
 		'0': {
 			version: '0.01',
 			runme: function(tr, callback) {
-				// todo check the field sizes
-
 				twic.utils.queueIterator( [
 					/**
 					 * users info
@@ -184,6 +182,26 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
+		},
+		'0.01': {
+			version: '0.03',
+			runme: function(tr, callback) {
+				twic.utils.queueIterator( [
+					/**
+					 * friends info cache
+					 */
+					'create table friends (' +
+						'source_user_id int not null, ' +
+						'target_user_id int not null, ' +
+						'following int not null, ' +
+						'followed int not null, ' +
+						'dt int not null, ' +
+						'primary key (source_user_id, target_user_id)' +
+					')'
+				], function(sqlText, callback) {
+					executeTransaction(tr, sqlText, [], callback, callback);
+				}, callback);
+			}
 		}
 	};
 
@@ -208,6 +226,7 @@ twic.db = ( function() {
 					migrate(db, migration.version, callback);
 				} );
 			}, function() {
+				// fixme holy shit, we need to warn the user and ask him to drop the database
 				twic.debug.error('Can\'t migrate :(');
 			}, null );
 		} else {
@@ -243,7 +262,8 @@ twic.db = ( function() {
 		twic.utils.queueIterator( [
 			'delete from timeline where tweet_id in (select id from tweets where dt < ?)',
 			'delete from tweets where dt < ?',
-			'delete from users where dt < ? and id not in (select id from accounts)'
+			'delete from users where dt < ? and id not in (select id from accounts)',
+			'delete from friends where dt < ?'
 		], function(sqlText, callback) {
 			twic.db.execute(sqlText, [cutDate], callback);
 		}, function() {
@@ -303,4 +323,3 @@ twic.db = ( function() {
 	};
 
 }() );
-
