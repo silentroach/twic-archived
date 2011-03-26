@@ -7,15 +7,16 @@
 	#profile p.followed {
 		margin-top: 1em;
 		text-align: center;
-		background-color: rgba(0, 128, 0, .3);
-		padding: .3em;
+		background-color: rgba(0, 128, 0, .15);
+		padding: .3em 0 .4em 0;
 		border-radius: 5px;
 		cursor: pointer;
+		border: 1px solid rgba(0, 0, 0, .1);
 		}
 		#profile p.followed span {
-			background: url('/img/buttons/following_not.png') no-repeat left 0px
+			background: url('/img/buttons/following_not.png') no-repeat left 0px;
 			padding-left: 24px;
 			}
 			#profile p.followed span.yes {
-				background: url('/img/buttons/following.png') no-repeat left 0px
+				background: url('/img/buttons/following.png') no-repeat left 0px;
 				}
