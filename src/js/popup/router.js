@@ -70,39 +70,45 @@ twic.router = ( function() {
 		}
 	};
 
-	// todo maybe it is better for closure compiler to split methods. need test it.
-	self = {
-		handle: function(frameName, callback) {
-			frames[frameName].callbacks.push(callback);
-		},
+	/**
+	 * @param {string} frameName Frame names
+	 * @param {function()} callback Callback function
+	 */
+	self.handle = function(frameName, callback) {
+		frames[frameName].callbacks.push(callback);
+	};
 
-		previous: function() {
-			return previousLocation;
-		},
+	/**
+	 * Get the previous frame names
+	 * @return {string}
+	 */
+	self.previous = function() {
+		return previousLocation;
+	};
 
-		/**
-		 * init the page for the first time
-		 * @param {function()} callback
-		 */
-		initOnce: function(callback) {
-			if (
-				!frames[currentFrame]
-				|| frames[currentFrame].init
-			) {
-				return;
-			}
-
-			frames[currentFrame].init = true;
-			callback();
-		},
-
-		// remember the page to open it next time popup is open
-		remember: function() {
-			window.localStorage.setItem('location', location.join('#'));
+	/**
+	 * init the page for the first time
+	 * @param {function()} callback
+	 */
+	self.initOnce = function(callback) {
+		if (
+			!frames[currentFrame]
+			|| frames[currentFrame].init
+		) {
+			return;
 		}
+
+		frames[currentFrame].init = true;
+		callback();
+	};
+
+	/**
+	 * Remember the page to open it next time popup is open
+	 */
+	self.remember = function() {
+		window.localStorage.setItem('location', location.join('#'));
 	};
 
 	return self;
 
 }());
-
