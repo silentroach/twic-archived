@@ -80,7 +80,7 @@ twic.router = ( function() {
 
 	/**
 	 * Get the previous frame names
-	 * @return {string}
+	 * @return {Array.<string>}
 	 */
 	self.previous = function() {
 		return previousLocation;
