@@ -58,15 +58,12 @@ twic.Request.queryStringToObject = function(data) {
  * @return {string}
  */
 twic.Request.prototype.encodeString = function(str) {
-	var result = encodeURIComponent(str);
-
-	result = result.replace(/\!/g, '%21');
-	result = result.replace(/\*/g, '%2A');
-	result = result.replace(/\'/g, '%27');
-	result = result.replace(/\(/g, '%28');
-	result = result.replace(/\)/g, '%29');
-
-	return result;
+	return encodeURIComponent(str)
+		.replace(/\!/g, '%21')
+		.replace(/\*/g, '%2A')
+		.replace(/\'/g, '%27')
+		.replace(/\(/g, '%28')
+		.replace(/\)/g, '%29');
 };
 
 /**
