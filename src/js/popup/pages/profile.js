@@ -15,12 +15,14 @@
 		elementName,
 		elementNick,
 		elementUrl,
+		elementFollowings,
 		timelineUserId,
 		loader,
 		toolbarTimeline;
 
 	var initPage = function() {
-		page            = document.getElementById('profile');
+		page              = document.getElementById('profile');
+		elementFollowings = document.getElementById('followings');
 
 		elementLoader   = page.querySelector('.loader');
 		elementAvatar   = page.querySelector('.avatar');
@@ -33,6 +35,7 @@
 	var clearProfileData = function() {
 		elementLoader.style.display = 'block';
 		elementAvatar.style.display = 'none';
+//		elementFollowings.style.display = 'none';
 		elementAvatar.src = '';
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';

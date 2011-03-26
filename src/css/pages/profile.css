@@ -4,3 +4,18 @@
 	#profile .info .avatar {
 		float: right;
 		}
+	#profile p.followed {
+		margin-top: 1em;
+		text-align: center;
+		background-color: rgba(0, 128, 0, .3);
+		padding: .3em;
+		border-radius: 5px;
+		cursor: pointer;
+		}
+		#profile p.followed span {
+			background: url('/img/buttons/following_not.png') no-repeat left 0px
+			padding-left: 24px;
+			}
+			#profile p.followed span.yes {
+				background: url('/img/buttons/following.png') no-repeat left 0px
+				}
