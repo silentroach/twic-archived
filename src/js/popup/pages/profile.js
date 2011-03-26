@@ -15,6 +15,7 @@
 		elementName,
 		elementNick,
 		elementUrl,
+		timelineUserId,
 		loader,
 		toolbarTimeline;
 
@@ -38,9 +39,11 @@
 		elementUrl.innerHTML = '';
 	};
 
-	var showProfile = function(data) {
+	var showProfileFriendship = function(data) {
 		elementLoader.style.display = 'none';
+	};
 
+	var showProfile = function(data) {
 		// fixme shitcode
 		elementAvatar.src = data['avatar'];
 		elementAvatar.title = '@' + data['screen_name'];
@@ -48,6 +51,18 @@
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
 		elementUrl.innerHTML = '<a href="' + data['url'] + '" target="_blank">' + data['url'] + '</a>';
+
+		if (
+			!timelineUserId
+			|| timelineUserId === data['id']
+		) {
+			elementLoader.style.display = 'none';
+		} else {
+			twic.requests.send('getProfileFriendshipInfo', {
+				'source_id': timelineUserId,
+				'target_id': data['id']
+			}, showProfileFriendship);
+		}
 	};
 
 	twic.router.handle('profile', function(data) {
@@ -63,9 +78,12 @@
 
 		if (prevPage === 'about') {
 			toolbarTimeline.innerHTML = twic.utils.lang.translate('title_about');
+			timelineUserId = null;
 		} else {
 			toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
 			toolbarTimeline.href += '#' + prev.join('#');
+			// fixme shitcode
+			timelineUserId = parseInt(prev[0], 10);
 		}
 
 		if (

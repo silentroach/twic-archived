@@ -89,6 +89,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 
 /**
  * Send the request
+ * @override
  * @param {function(?twic.ResponseError, ?XMLHttpRequest)} callback Callback
  */
 twic.OAuthRequest.prototype.send = function(callback) {

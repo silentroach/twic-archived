@@ -101,7 +101,8 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
  */
 twic.DBObject.prototype.save = function(callback) {
 	var
-		dbobject = this;
+		dbobject = this,
+		hasId = dbobject.fields['id'];
 
 	if (
 		dbobject.exists
@@ -132,7 +133,9 @@ twic.DBObject.prototype.save = function(callback) {
 		}
 	}
 
-	vals.push(dbobject.fields['id']);
+	if (hasId) {
+		vals.push(dbobject.fields['id']);
+	}
 
 	sql += dbobject.exists ? 'update ' : 'insert into ';
 	sql += dbobject.table + ' ';
@@ -148,7 +151,10 @@ twic.DBObject.prototype.save = function(callback) {
 
 		sql += 'set ' + setters.join(', ') + ' where id = ?';
 	} else {
-		sql += '(' + fld.join(', ') + ', id) values (' + params.join(', ') + ', ?)';
+		sql += '(' + fld.join(', ') +
+			(hasId ? ', id' : '') + ') values (' +
+			params.join(', ') +
+			(hasId ? ', ?' : '') + ')';
 	}
 
 	twic.db.execute(sql, vals, function() {
@@ -243,6 +249,19 @@ twic.DBObject.prototype.getPart = function(fields) {
 };
 
 /**
+ * Remove the item
+ * @param {function()} callback Callback function
+ */
+twic.DBObject.prototype.remove = function(callback) {
+	var
+		self = this;
+
+	twic.db.execute('delete from ' + self.table + ' where id = ?', [
+		self.fields['id']
+	], callback);
+};
+
+/**
  * Locate and load object by field value, simple SQL select statement generator and executor
  * @param {string|Array.<string>} fieldname Field name
  * @param {number|string|Array.<number|string>} value Value
@@ -253,25 +272,25 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 	var
 		obj = this,
 		fld = [],
-		whereClause = ' where ',
-		values = value.length ? value : [value],
+		whereClause = [],
+		values = typeof value === 'object' ? value : [value],
 		/** @type {string} **/ sql,
 		/** @type {number} **/ i,
 		/** @type {string} **/ key;
 
-	if (fieldname.length) {
-		for (i = 0; i < fieldname.length; ++i) {
-			whereClause += ' ' + fieldname[i] + ' = ?';
-		}
+	if (typeof fieldname === 'string') {
+		whereClause = [fieldname + ' = ?'];
 	} else {
-		whereClause = ' ' + fieldname + ' = ?';
+		for (i = 0; i < fieldname.length; ++i) {
+			whereClause.push(fieldname[i] + ' = ?');
+		}
 	}
 
 	for (key in obj.fields) {
 		fld.push(key);
 	}
 
-	sql = 'select ' + fld.join(',') + ' from ' + obj.table + whereClause + ' limit 1';
+	sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + whereClause.join(' and ') + ' limit 1';
 
 	twic.db.select(sql, values, function() {
 		if (this.length === 1) {

@@ -8,6 +8,7 @@
 twic.twitter = ( function() {
 
 	var
+		twitter = { },
 		/**
 		 * User identifier => last home timeline tweet identifier
 		 * @type {Object.<number,string>}
@@ -19,7 +20,7 @@ twic.twitter = ( function() {
 	 * @param {string} nick Nickname
 	 * @param {function(Object)} callback Callback function
 	 */
-	var getUserInfo = function(nick, callback) {
+	twitter.getUserInfo = function(nick, callback) {
 		var
 			tmpUser = new twic.db.obj.User();
 
@@ -40,11 +41,51 @@ twic.twitter = ( function() {
 	};
 
 	/**
+	 * Get friendship info
+	 * @param {number} source_id Source user identifier
+	 * @param {number} target_id Target user identifier
+	 * @param {function(Object)} callback Callback function
+	 */
+	twitter.getFriendshipInfo = function(source_id, target_id, callback) {
+		var
+			tmpFriend = new twic.db.obj.Friend();
+
+		var sendResult = function() {
+			callback(tmpFriend);
+		};
+
+		var getInfo = function() {
+			twic.api.getFriendshipInfo(
+				source_id, target_id,
+				function(obj) {
+					tmpFriend.loadFromJSON(obj);
+					tmpFriend.save();
+
+					callback(tmpFriend);
+				}
+			);
+		};
+
+		tmpFriend.loadByFieldValue(
+			['source_user_id', 'target_user_id'],
+			[source_id, target_id],
+			function() {
+				// 30 minutes cache
+				if (tmpFriend.fields['dt'] < twic.utils.date.getCurrentTimestamp() - 60 * 30) {
+					tmpFriend.remove( getInfo );
+				} else {
+					callback(tmpFriend);
+				}
+			}, getInfo
+		);
+	};
+
+	/**
 	 * Get user timeline
 	 * @param {number} id User identifier
 	 * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
 	 */
-	var getHomeTimeline = function(id, callback) {
+	twitter.getHomeTimeline = function(id, callback) {
 		var
 			tmpTweet = new twic.db.obj.Tweet(),
 			tmpUser  = new twic.db.obj.User();
@@ -85,7 +126,7 @@ twic.twitter = ( function() {
 	 * @param {string} status New status text
 	 * @param {function()} callback Callback function
 	 */
-	var updateStatus = function(id, status, callback) {
+	twitter.updateStatus = function(id, status, callback) {
 		var account = twic.accounts.getInfo(id);
 
 		if (!account) {
@@ -114,7 +155,7 @@ twic.twitter = ( function() {
 	 * @param {number} userId User identifier
 	 * todo method is too big. maybe we need to refactor it.
 	 */
-	var updateHomeTimeline = function(userId) {
+	twitter.updateHomeTimeline = function(userId) {
 		var account = twic.accounts.getInfo(userId);
 
 		if (!account) {
@@ -230,15 +271,6 @@ twic.twitter = ( function() {
 		}
 	};
 
-	return {
-		// getters
-		getUserInfo: getUserInfo,
-		getHomeTimeline: getHomeTimeline,
-
-		// updaters
-		updateHomeTimeline: updateHomeTimeline,
-		updateStatus: updateStatus
-	};
+	return twitter;
 
 }() );
-

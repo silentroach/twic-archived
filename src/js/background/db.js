@@ -184,7 +184,7 @@ twic.db = ( function() {
 			}
 		},
 		'0.01': {
-			version: '0.03',
+			version: '0.3',
 			runme: function(tr, callback) {
 				twic.utils.queueIterator( [
 					/**

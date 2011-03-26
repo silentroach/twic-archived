@@ -196,6 +196,39 @@ twic.api = ( function() {
 	};
 
 	/**
+	 * Get the friendship info
+	 * @param {number} source_id Source user identifier
+	 * @param {number} target_id Target user identifier
+	 * @param {function(*)} callback Callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
+	 */
+	api.getFriendshipInfo = function(source_id, target_id, callback, failedCallback) {
+		var req = new twic.Request('GET', baseUrl + 'friendships/show.json');
+		req.setRequestData('source_id', source_id);
+		req.setRequestData('target_id', target_id);
+
+		twic.debug.info('updating friendship status for ' + source_id + ' -> ' + target_id);
+
+		req.send( function(error, req) {
+			if (!error) {
+				var data = JSON.parse(req.responseText);
+
+				if (
+					data
+					&& data['relationship']
+					&& data['relationship']['source']
+					&& callback
+				) {
+					callback(data['relationship']);
+				}
+			} else
+			if (failedCallback) {
+				failedCallback(error);
+			}
+		} );
+	};
+
+	/**
 	 * Update user status
 	 * @param {string} status New user status
 	 * @param {string} token OAuth token
