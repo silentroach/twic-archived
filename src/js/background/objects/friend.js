@@ -16,7 +16,7 @@ twic.db.obj.Friend = function() {
 		'target_user_id': 0,
 		'following': 0,
 		'followed': 0,
-		'dt': twic.utils.date.getCurrentTimestamp(),
+		'dt': twic.utils.date.getCurrentTimestamp()
 	};
 
 	this.jsonMap = {
