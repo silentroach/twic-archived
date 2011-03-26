@@ -73,12 +73,13 @@
 		for (id in data) {
 			var
 				item  = data[id],
+				user  = item['user'],
 				tweet = new twic.vcl.Tweet(timeline);
 
 			tweet.setId(id);
-			tweet.setAuthorId(item['user']['id']);
-			tweet.setAuthorNick(item['user']['name']);
-			tweet.setAuthorAvatar(item['user']['avatar']);
+			tweet.setAuthorId(user['id']);
+			tweet.setAuthorNick(user['screen_name']);
+			tweet.setAuthorAvatar(user['avatar']);
 			// after all to check for mention
 			tweet.setText(item['msg']);
 			timeline.addTweet(tweet);
