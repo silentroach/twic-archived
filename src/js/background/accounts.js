@@ -201,7 +201,9 @@ twic.Accounts.prototype.updateCounter = function() {
 	}
 
 	if (unreadTweetsCount > 0) {
-		badgeHint.push(chrome.i18n.getMessage('badge_unread_tweets_count', [unreadTweetsCount]));
+		badgeHint.push(
+			twic.utils.lang.translate('badge_unread_tweets_count', [unreadTweetsCount])
+		);
 	}
 
 	chrome.browserAction.setTitle( {

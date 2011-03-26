@@ -106,7 +106,7 @@
 //		page.addEventListener('mouseup', onTimeLineMouseUp, false);
 //		page.addEventListener('mousedown', onTimeLineMouseDown, false);
 
-		page.querySelector('.toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+		page.querySelector('.toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
 	};
 
 	twic.router.handle('timeline', function(data) {
@@ -149,4 +149,3 @@
 	} );
 
 }() );
-

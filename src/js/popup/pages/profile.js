@@ -62,7 +62,7 @@
 		toolbarTimeline.href = '#' + prevPage;
 
 		if (prevPage === 'about') {
-			toolbarTimeline.innerHTML = chrome.i18n.getMessage('title_about');
+			toolbarTimeline.innerHTML = twic.utils.lang.translate('title_about');
 		} else {
 			toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
 			toolbarTimeline.href += '#' + prev.join('#');

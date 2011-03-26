@@ -60,3 +60,13 @@ twic.utils.date.getTimestamp = function(dt) {
 twic.utils.date.getCurrentTimestamp = function() {
 	return twic.utils.date.getTimestamp(new Date());
 };
+
+twic.utils.lang = { };
+
+/**
+ * Translate the message
+ * @param {...*} args
+ */
+twic.utils.lang.translate = function(args) {
+	return chrome.i18n.getMessage.apply(chrome, arguments);
+};

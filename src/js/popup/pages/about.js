@@ -16,24 +16,23 @@
 		req.send(null);
 		manifest = JSON.parse(req.responseText);
 
-		// todo need to write something for translator
 		document.getElementById('aname').innerHTML = twic.name + ' ' + manifest['version'];
-		document.getElementById('awhat').innerHTML = chrome.i18n.getMessage('about_what');
-		document.getElementById('donate').value    = chrome.i18n.getMessage('button_donate');
+		document.getElementById('awhat').innerHTML = twic.utils.lang.translate('about_what');
+		document.getElementById('donate').value    = twic.utils.lang.translate('button_donate');
 
-		document.querySelector('#about .toolbar p').innerHTML = chrome.i18n.getMessage('toolbar_about');
-		document.querySelector('#about .toolbar a').innerHTML = chrome.i18n.getMessage('toolbar_accounts');
+		document.querySelector('#about .toolbar p').innerHTML = twic.utils.lang.translate('toolbar_about');
+		document.querySelector('#about .toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
 
-		document.getElementById('athanks').innerHTML = chrome.i18n.getMessage('about_thanks');
+		document.getElementById('athanks').innerHTML = twic.utils.lang.translate('about_thanks');
 
-		document.getElementById('acollaborate').innerHTML = chrome.i18n.getMessage(
+		document.getElementById('acollaborate').innerHTML = twic.utils.lang.translate(
 			'about_collaborate', [
 				'<a href="https://github.com/silentroach/twic/issues" target="_blank">', '</a>',
 				'<a href="https://github.com/silentroach/twic" target="_blank">', '</a>'
 			]
 		);
 
-		document.getElementById('atranslate').innerHTML = chrome.i18n.getMessage(
+		document.getElementById('atranslate').innerHTML = twic.utils.lang.translate(
 			'about_translate', [
 				'<a href="https://github.com/silentroach/twic-i18n" target="_blank">', '</a>'
 			]
@@ -45,4 +44,3 @@
 	} );
 
 }() );
-

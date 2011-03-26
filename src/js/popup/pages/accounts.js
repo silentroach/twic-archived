@@ -15,7 +15,7 @@
 		/** @type {Element} */ firstAccountElement;
 
 	var resetToolbar = function() {
-		bottomStatus.innerHTML = chrome.i18n.getMessage('title_select_or_remove');
+		bottomStatus.innerHTML = twic.utils.lang.translate('title_select_or_remove');
 		bottomStatus.classList.remove('alert');
 	};
 
@@ -41,16 +41,16 @@
 
 			removingAccountId = link.id;
 
-			bottomStatus.innerHTML = chrome.i18n.getMessage('alert_remove_account', link.title);
+			bottomStatus.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
 			container.className = 'container';
 
-			bYes.innerHTML = chrome.i18n.getMessage('button_yes');
+			bYes.innerHTML = twic.utils.lang.translate('button_yes');
 			bYes.className = 'button';
 			bYes.href      = '#';
 
 			bYes.onclick   = removeAccount;
 
-			bNo.innerHTML  = chrome.i18n.getMessage('button_no');
+			bNo.innerHTML  = twic.utils.lang.translate('button_no');
 			bNo.className  = 'button';
 			bNo.href       = '#';
 
@@ -72,7 +72,7 @@
 	var buildList = function(elements) {
 		if (elements.length === 0) {
 			if (firstAccountElement) {
-				firstAccountElement.innerText = chrome.i18n.getMessage('add_first_account');
+				firstAccountElement.innerText = twic.utils.lang.translate('add_first_account');
 				firstAccountElement.style.display = 'block';
 
 				bottomStatus.style.display = 'none';
@@ -139,8 +139,8 @@
 
 		firstAccountElement = document.querySelector('#accounts p');
 
-		document.getElementById('button_account_add').title = chrome.i18n.getMessage('title_add_account');
-		document.getElementById('button_about').title       = chrome.i18n.getMessage('title_about');
+		document.getElementById('button_account_add').title = twic.utils.lang.translate('title_add_account');
+		document.getElementById('button_about').title       = twic.utils.lang.translate('title_about');
 
 		/**
 		 * @this {Element}
@@ -169,4 +169,3 @@
 	} );
 
 }());
-

@@ -34,8 +34,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorTextarea['spellcheck'] = false;
 
 	editorSend.type  = 'button';
-	editorSend.value = chrome.i18n.getMessage('button_send');
-	editorSend.title = chrome.i18n.getMessage('title_button_send');
+	editorSend.value = twic.utils.lang.translate('button_send');
+	editorSend.title = twic.utils.lang.translate('title_button_send');
 
 	clearer.className = 'clearer';
 
@@ -168,7 +168,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	// functions
 
 	editor.setPlaceholder = function(alias) {
-		editorTextarea.placeholder = chrome.i18n.getMessage(alias);
+		editorTextarea.placeholder = twic.utils.lang.translate(alias);
 	};
 
 	editor.reset = function() {
