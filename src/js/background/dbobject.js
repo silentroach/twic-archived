@@ -225,6 +225,24 @@ twic.DBObject.prototype.getFieldString = function(alias) {
 };
 
 /**
+ * Get the new object with fields
+ * @param {Array.<string>} fields Field listen
+ * @return {Object} New object
+ */
+twic.DBObject.prototype.getPart = function(fields) {
+	var
+		obj = this,
+		newObj = { },
+		key;
+
+	fields.forEach( function(key) {
+		newObj[key] = obj.fields[key];
+	} );
+
+	return newObj;
+};
+
+/**
  * Locate and load object by field value, simple SQL select statement generator and executor
  * @param {string} fieldname Field name
  * @param {number|string} value Value

@@ -31,13 +31,8 @@
 					user  = users.items[tweet.fields['user_id']];
 
 				reply[tweet.fields['id']] = {
-					// todo add to DBObject method to extract only fields that we need
 					'msg': tweet.fields['msg'],
-					'user': {
-						'id': user.fields['id'],
-						'name': user.fields['screen_name'],
-						'avatar': user.fields['avatar']
-					}
+					'user': user.getPart(['id', 'screen_name', 'avatar'])
 				};
 			}
 
@@ -76,4 +71,3 @@
 	} );
 
 }() );
-
