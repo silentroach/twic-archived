@@ -14,27 +14,18 @@
 		-webkit-transition: background-color 0.5s ease-in-out;
 		}
 		#profile #followings p span {
-				background: url('/img/buttons/add.png') no-repeat left;
-				padding-left: 24px;
+			background: url('/img/buttons/add.png') no-repeat left;
+			padding-left: 24px;
 			}
-			#profile #followings p span:after {
-					content: '__MSG_button_follow__';
-				}
 		#profile #followings p.following {
-				background-color: rgba(0, 128, 0, .15);
+			background-color: rgba(0, 128, 0, .15);
 			}
 			#profile #followings p.following span {
 				background: url('/img/buttons/following.png') no-repeat left;
 				}
-				#profile #followings p.following span:after {
-					content: '__MSG_button_following__';
-					}
 		#profile #followings p.following:hover {
 			background-color: rgba(255, 0, 0, .15);
 			}
 			#profile #followings p.following:hover span {
 				background: url('/img/buttons/following_not.png') no-repeat left;
 				}
-				#profile #followings p.following:hover span:after {
-						content: '__MSG_button_unfollow__';
-					}

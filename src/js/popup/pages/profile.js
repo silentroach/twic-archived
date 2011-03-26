@@ -48,6 +48,7 @@
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';
 		elementUrl.innerHTML = '';
+		elementFollowedSpan.innerHTML = '';
 	};
 
 	var follow = function() {
@@ -72,15 +73,37 @@
 		} );
 	};
 
+	var unfollowOver = false;
+
+	var onFollowedMouseOver = function() {
+		if (!unfollowOver) {
+			unfollowOver = true;
+			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_unfollow');
+		}
+	};
+
+	var onFollowedMouseOut = function() {
+		if (unfollowOver) {
+			unfollowOver = false;
+			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_following');
+		}
+	};
+
 	var showProfileFriendship = function(following) {
 		elementFollowedSpan.className = '';
 
 		if (following) {
 			elementFollowed.className = 'following';
 			elementFollowed.onclick = unfollow;
+			elementFollowed.onmouseover = onFollowedMouseOver;
+			elementFollowed.onmouseout = onFollowedMouseOut;
+			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_following');
 		} else {
 			elementFollowed.className = '';
 			elementFollowed.onclick = follow;
+			elementFollowed.onmouseover = null;
+			elementFollowed.onmouseout = null;
+			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_follow');
 		}
 
 		elementFollowings.style.display = 'block';
