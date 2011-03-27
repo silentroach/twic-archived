@@ -5,16 +5,11 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo make it static object
+twic.accounts = ( function() {
 
-/**
- * @constructor
- */
-twic.Accounts = function() {
-
-	var self = this;
-
-	self.items = undefined;
+	var
+		accounts = { },
+		items = [];
 
 	twic.requests.subscribe('accountRemove', function(data, sendResponse) {
 		var
@@ -33,7 +28,7 @@ twic.Accounts = function() {
 			fail();
 		}
 
-		account = self.getInfo(id);
+		account = accounts.getInfo(id);
 
 		if (!account) {
 			fail();
@@ -48,7 +43,7 @@ twic.Accounts = function() {
 		function(sqlText, callback) {
 			twic.db.execute(sqlText, [id], callback, fail);
 		}, function() {
-			self.update( function() {
+			accounts.update( function() {
 				sendResponse( {
 					'result': twic.global.FAILED
 				} );
@@ -68,8 +63,8 @@ twic.Accounts = function() {
 			accs = [],
 			id;
 
-		for (id in self.items) {
-			var item = self.items[id];
+		for (id in items) {
+			var item = items[id];
 
 			accs.push( {
 				'id': id,
@@ -96,7 +91,7 @@ twic.Accounts = function() {
 
 		var
 			userid = data['user_id'],
-			account = self.getInfo(userid);
+			account = accounts.getInfo(userid);
 
 		if (account) {
 			sendResponse( {
@@ -115,7 +110,7 @@ twic.Accounts = function() {
 				twic.api.resetToken();
 
 				// update the accounts information
-				self.update( function() {
+				accounts.update( function() {
 					// and update the home timeline for user
 					twic.twitter.updateHomeTimeline(account.fields['id']);
 				} );
@@ -158,125 +153,134 @@ twic.Accounts = function() {
 		} );
 	} );
 
+	// -----------------------------------------
+
 	/**
 	 * Schedule to update user home timeline
 	 */
 	var scheduler = function() {
 		var i;
 
-		for (i in self.items) {
+		for (i in items) {
 			var
-				account = self.items[i];
+				account = items[i];
 
 			twic.twitter.updateHomeTimeline(account.fields['id']);
 		}
 	};
 
-	// every minute check
-	setInterval(scheduler, 60 * 1000);
+	// ----------------------------------------
 
-	// first check in 5 seconds
-	setTimeout(scheduler, 5000);
-};
+	/**
+	 * Clear the accounts array
+	 */
+	accounts.clear = function() {
+		items = { };
+	};
 
-/**
- * Clear the accounts array
- */
-twic.Accounts.prototype.clear = function() {
-	this.items = { };
-};
+	/**
+	 * Update the unread messages counter
+	 */
+	accounts.updateCounter = function() {
+		var
+			unreadTweetsCount = 0,
+			badgeHint = [],
+			id;
 
-/**
- * Update the unread messages counter
- */
-twic.Accounts.prototype.updateCounter = function() {
-	var
-		accounts = this,
-		unreadTweetsCount = 0,
-		badgeHint = [],
-		id;
+		for (id in items) {
+			unreadTweetsCount += items[id].fields['unread_tweets_count'];
+		}
 
-	for (id in accounts.items) {
-		unreadTweetsCount += accounts.items[id].fields['unread_tweets_count'];
-	}
+		if (unreadTweetsCount > 0) {
+			badgeHint.push(
+				twic.utils.lang.translate('badge_unread_tweets_count', [unreadTweetsCount])
+			);
+		}
 
-	if (unreadTweetsCount > 0) {
-		badgeHint.push(
-			twic.utils.lang.translate('badge_unread_tweets_count', [unreadTweetsCount])
-		);
-	}
+		chrome.browserAction.setTitle( {
+			'title': badgeHint.length > 0 ? badgeHint.join("\n") : twic.name
+		} );
 
-	chrome.browserAction.setTitle( {
-		'title': badgeHint.length > 0 ? badgeHint.join("\n") : twic.name
+		chrome.browserAction.setBadgeText( {
+			'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
+		} );
+	};
+
+	/**
+	 * Update accounts info
+	 * @param {function()=} callback Callback function
+	 * todo think about more nice solution
+	 */
+	accounts.update = function(callback) {
+		var
+			tmpAccount = new twic.db.obj.Account(),
+			tmpUser    = new twic.db.obj.User();
+
+		accounts.clear();
+
+		twic.db.select(
+			'select ' + tmpAccount.getFieldString('a') + ', ' + tmpUser.getFieldString('u') + ' ' +
+			'from accounts a ' +
+				'inner join users u on ( ' +
+					'u.id = a.id ' +
+				') ' +
+			'order by u.screen_name ', [],
+			/**
+			 * @this {SQLResultSetRowList}
+			 */
+			function() {
+				var
+					rows = this,
+					accs = new twic.DBObjectList(twic.db.obj.Account),
+					usrs = new twic.DBObjectList(twic.db.obj.User),
+					id;
+
+				accs.load(rows, 'a');
+				usrs.load(rows, 'u');
+
+				var updateMyCounter = function() {
+					accounts.updateCounter.apply(accounts);
+				};
+
+				for (id in accs.items) {
+					var tmp = accs.items[id];
+					tmp.user = usrs.items[id];
+
+					items[id] = tmp;
+					items[id].onUnreadTweetsCountChanged = updateMyCounter;
+				}
+
+				accounts.updateCounter();
+
+				if (callback) {
+					callback.apply(accounts);
+				}
+		} );
+	};
+
+	/**
+	 * Get user info
+	 * @param {number} id User id
+	 * @return {Object|boolean} Account or false
+	 */
+	accounts.getInfo = function(id) {
+		if (items[id]) {
+			return items[id];
+		}
+
+		return false;
+	};
+
+	// ------------------------------------------
+
+	accounts.update( function() {
+		// every minute check
+		setInterval(scheduler, 60 * 1000);
+
+		// first check in 5 seconds
+		setTimeout(scheduler, 5000);
 	} );
 
-	chrome.browserAction.setBadgeText( {
-		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
-	} );
-};
+	return accounts;
 
-/**
- * Update accounts info
- * @param {function()=} callback Callback function
- * todo think about more nice solution
- */
-twic.Accounts.prototype.update = function(callback) {
-	var
-		accounts   = this,
-		tmpAccount = new twic.db.obj.Account(),
-		tmpUser    = new twic.db.obj.User();
-
-	accounts.clear();
-
-	twic.db.select(
-		'select ' + tmpAccount.getFieldString('a') + ', ' + tmpUser.getFieldString('u') + ' ' +
-		'from accounts a ' +
-			'inner join users u on ( ' +
-				'u.id = a.id ' +
-			') ' +
-		'order by u.screen_name ', [],
-		/**
-		 * @this {SQLResultSetRowList}
-		 */
-		function() {
-			var
-				rows = this,
-				accs = new twic.DBObjectList(twic.db.obj.Account),
-				usrs = new twic.DBObjectList(twic.db.obj.User),
-				id;
-
-			accs.load(rows, 'a');
-			usrs.load(rows, 'u');
-
-			var updateMyCounter = function() {
-				accounts.updateCounter.apply(accounts);
-			};
-
-			for (id in accs.items) {
-				var tmp = accs.items[id];
-				tmp.user = usrs.items[id];
-
-				accounts.items[id] = tmp;
-				accounts.items[id].onUnreadTweetsCountChanged = updateMyCounter;
-			}
-
-			accounts.updateCounter();
-
-			if (callback) {
-				callback.apply(accounts);
-			}
-	} );
-};
-
-/**
- * Get user info
- * @param {number} id User id
- * @return {Object|boolean} Account or false
- */
-twic.Accounts.prototype.getInfo = function(id) {
-	if (this.items[id]) {
-		return this.items[id];
-	}
-
-	return false;
-};
+}() );
