@@ -274,11 +274,13 @@ twic.accounts = ( function() {
 	// ------------------------------------------
 
 	accounts.update( function() {
-		// every minute check
-		setInterval(scheduler, 60 * 1000);
-
 		// first check in 5 seconds
-		setTimeout(scheduler, 5000);
+		setTimeout(function() {
+			scheduler();
+
+			// and then every minute check
+			setInterval(scheduler, 60 * 1000);
+		}, 5000);
 	} );
 
 	return accounts;
