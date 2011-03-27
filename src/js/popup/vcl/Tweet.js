@@ -6,9 +6,10 @@
 /**
  * Tweet element
  * @constructor
+ * @param {number} id Tweet identifier
  * @param {twic.vcl.Timeline} timeline Timeline
  */
-twic.vcl.Tweet = function(timeline) {
+twic.vcl.Tweet = function(id, timeline) {
 
 	var
 		tweet = this,
@@ -24,6 +25,7 @@ twic.vcl.Tweet = function(timeline) {
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
 		/** @type {number} */ authorId,
+		/** @type {number} */ retweetedById,
 
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
@@ -35,6 +37,8 @@ twic.vcl.Tweet = function(timeline) {
 		clearer      = document.createElement('div');
 
 	wrapper.className    = 'tweet';
+	wrapper.id = id;
+
 	clearer.className    = 'clearer';
 	avatarLink.className = 'avatar';
 	avatar.className     = 'avatar';
@@ -101,36 +105,29 @@ twic.vcl.Tweet = function(timeline) {
 	};
 
 	/**
-	 * @param {!number} id Tweet identifier
+	 * Set author info
+	 * @param {number} id Tweet identifier
+	 * @param {string} nick Tweet author nick
+	 * @param {string} av User avatar src
 	 */
-	tweet.setId = function(id) {
-		wrapper.id = id;
-	};
-
-	/**
-	 * @param {!string} nick Tweet author nick
-	 */
-	tweet.setAuthorNick = function(nick) {
-		avatarLink.title = '@' + nick;
-		avatarLink.href = '#profile#' + nick;
-	};
-
-	/**
-	 * @param {!string} av User avatar src
-	 */
-	tweet.setAuthorAvatar = function(av) {
-		avatar.src = av;
-	};
-
-	/**
-	 * @param {!number} id Tweet identifier
-	 */
-	tweet.setAuthorId = function(id) {
+	tweet.setAuthor = function(id, nick, av) {
 		authorId = id;
 
 		if (authorId === timelineId) {
 			wrapper.classList.add('me');
 		}
+
+		avatarLink.title = '@' + nick;
+		avatarLink.href = '#profile#' + nick;
+
+		avatar.src = av;
+	};
+
+	/**
+	 * @return {number}
+	 */
+	tweet.getAuthorId = function() {
+		return authorId;
 	};
 
 	/**
@@ -141,12 +138,4 @@ twic.vcl.Tweet = function(timeline) {
 		return wrapper;
 	};
 
-	/**
-	 * @return {number}
-	 */
-	tweet.getAuthorId = function() {
-		return authorId;
-	};
-
 };
-

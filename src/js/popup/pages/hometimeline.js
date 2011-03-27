@@ -74,14 +74,11 @@
 			var
 				item  = data[id],
 				user  = item['user'],
-				tweet = new twic.vcl.Tweet(timeline);
+				tweet = new twic.vcl.Tweet(id, timeline);
 
-			tweet.setId(id);
-			tweet.setAuthorId(user['id']);
-			tweet.setAuthorNick(user['screen_name']);
-			tweet.setAuthorAvatar(user['avatar']);
-			// after all to check for mention
+			tweet.setAuthor(user['id'], user['screen_name'], user['avatar']);
 			tweet.setText(item['msg']);
+
 			timeline.addTweet(tweet);
 		}
 	};
