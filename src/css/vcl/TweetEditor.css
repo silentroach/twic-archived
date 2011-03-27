@@ -18,12 +18,13 @@
 		font-size: 8pt;
 		display: none;
 		margin-left: 0px;
+		margin-bottom: 6px;
 		}
 	/** char counter **/
 	.tweetEditor span {
 		font-style: italic;
 		font-size: 12pt;
-		padding-top: 2px;
+		padding-top: 3px;
 		display: none;
 		margin-right: -.4em;
 		}
