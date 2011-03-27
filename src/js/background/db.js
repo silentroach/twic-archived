@@ -202,6 +202,16 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
+		},
+		'0.3': {
+			version: '0.4',
+			runme: function(tr, callback) {
+				twic.utils.queueIterator( [
+					'alter table users add description text varchar(255) not null default \'\''
+				], function(sqlText, callback) {
+					executeTransaction(tr, sqlText, [], callback, callback);
+				}, callback);
+			}
 		}
 	};
 

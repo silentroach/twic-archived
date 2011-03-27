@@ -4,6 +4,9 @@
 	#profile .info .avatar {
 		float: right;
 		}
+	#profile .info .bio {
+		padding-top: 1em;
+		}
 	#profile #followings p {
 		margin-top: 1em;
 		text-align: center;

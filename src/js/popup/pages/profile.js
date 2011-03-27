@@ -15,6 +15,7 @@
 		elementName,
 		elementNick,
 		elementUrl,
+		elementBio,
 		elementFollowings,
 		elementFollowed,
 		elementFollowedSpan,
@@ -35,6 +36,7 @@
 		elementName     = page.querySelector('.name');
 		elementNick     = page.querySelector('.nick');
 		elementUrl      = page.querySelector('.url');
+		elementBio      = page.querySelector('.bio');
 		toolbarTimeline = page.querySelector('.toolbar a');
 	};
 
@@ -48,6 +50,8 @@
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';
 		elementUrl.innerHTML = '';
+		elementBio.innerHTML = '';
+		elementBio.style.display = 'none';
 		elementFollowedSpan.innerHTML = '';
 	};
 
@@ -110,6 +114,9 @@
 	};
 
 	var showProfile = function(data) {
+		var
+			/** @type {string} **/ description = data['description'];
+
 		profileUserId = data['id'];
 
 		// fixme shitcode
@@ -119,6 +126,12 @@
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
 		elementUrl.innerHTML = '<a href="' + data['url'] + '" target="_blank">' + data['url'] + '</a>';
+
+		if (description.trim() !== '') {
+			// todo prepare the text as a tweet
+			elementBio.innerHTML = description;
+			elementBio.style.display = 'block';
+		}
 
 		if (
 			!timelineUserId
