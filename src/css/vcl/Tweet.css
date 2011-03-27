@@ -24,7 +24,7 @@ li.tweet a.avatar {
 	}
 
 li.tweet a.avatar.retweeter {
-	margin-left: -32px;
+	margin-left: -30px;
 	margin-top: 24px;
 	}
 	li.tweet a.avatar.retweeter img.avatar {
