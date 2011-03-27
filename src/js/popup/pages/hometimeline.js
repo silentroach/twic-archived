@@ -72,11 +72,18 @@
 
 		for (id in data) {
 			var
-				item  = data[id],
-				user  = item['user'],
-				tweet = new twic.vcl.Tweet(id, timeline);
+				item      = data[id],
+				user      = item['user'],
+				retweeted = item['retweeted'],
+				tweet     = new twic.vcl.Tweet(id, timeline);
 
-			tweet.setAuthor(user['id'], user['screen_name'], user['avatar']);
+			if (retweeted) {
+				tweet.setAuthor(retweeted['id'], retweeted['screen_name'], retweeted['avatar']);
+				tweet.setRetweeter(user['id'], user['screen_name'], user['avatar']);
+			} else {
+				tweet.setAuthor(user['id'], user['screen_name'], user['avatar']);
+			}
+
 			tweet.setText(item['msg']);
 
 			timeline.addTweet(tweet);

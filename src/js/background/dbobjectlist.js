@@ -59,7 +59,10 @@ twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 		objList = this,
 		id = row[(alias ? alias + '_' : '') + 'id'];
 
-	if (objList.items[id]) {
+	if (
+		!id
+		|| objList.items[id]
+	) {
 		return;
 	}
 
@@ -68,4 +71,3 @@ twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 
 	objList.items[id] = obj;
 };
-

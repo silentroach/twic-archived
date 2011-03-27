@@ -6,6 +6,10 @@ li.tweet.mention {
 	background-color: rgba(0, 100, 200, .15);
 	}
 
+li.tweet.retweet {
+	background-color: rgba(255, 255, 0, .15);
+	}
+
 li.tweet p {
 	margin: 0;
 	/** split long words **/
@@ -18,3 +22,13 @@ li.tweet a.avatar {
 	float: left;
 	margin-right: .5em;
 	}
+
+li.tweet a.avatar.retweeter {
+	margin-left: -32px;
+	margin-top: 24px;
+	}
+	li.tweet a.avatar.retweeter img.avatar {
+		max-width: 24px;
+		background-color: rgba(0, 0, 0, .1);
+		-webkit-box-shadow: -1px -1px 1px white;
+		}

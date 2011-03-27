@@ -27,12 +27,14 @@
 
 			for (tweetId in tweets.items) {
 				var
-					tweet = tweets.items[tweetId],
-					user  = users.items[tweet.fields['user_id']];
+					tweet     = tweets.items[tweetId],
+					user      = users.items[tweet.fields['user_id']],
+					retweeted = tweet.fields['retweeted_user_id'] ? users.items[tweet.fields['retweeted_user_id']] : null;
 
 				reply[tweet.fields['id']] = {
 					'msg': tweet.fields['msg'],
-					'user': user.getPart(['id', 'screen_name', 'avatar'])
+					'user': user.getPart(['id', 'screen_name', 'avatar']),
+					'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar']) : null
 				};
 			}
 

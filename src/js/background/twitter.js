@@ -91,10 +91,15 @@ twic.twitter = ( function() {
 			tmpUser  = new twic.db.obj.User();
 
 		twic.db.select(
-			'select ' + tmpTweet.getFieldString('t') + ', ' + tmpUser.getFieldString('u') + ' ' +
+			'select ' + [
+				tmpTweet.getFieldString('t'),
+				tmpUser.getFieldString('u'),
+				tmpUser.getFieldString('r')
+			].join(', ') + ' ' +
 			'from tweets t ' +
 				'inner join timeline tl on (t.id = tl.tweet_id) ' +
 				'inner join users u on (t.user_id = u.id) ' +
+				'left join users r on (t.retweeted_user_id = r.id) ' +
 			'where tl.user_id = ? ' +
 			'order by t.dt desc, t.id desc limit 20 ',
 			[id],
@@ -113,6 +118,7 @@ twic.twitter = ( function() {
 
 					tweetList.pushUnique(row, 't');
 					userList.pushUnique(row, 'u');
+					userList.pushUnique(row, 'r');
 				}
 
 				callback(tweetList, userList);

@@ -33,6 +33,8 @@ twic.vcl.Tweet = function(id, timeline) {
 		wrapper      = document.createElement('li'),
 		avatarLink   = document.createElement('a'),
 		avatar       = document.createElement('img'),
+		rtAvatarLink = document.createElement('a'),
+		rtAvatar     = document.createElement('img'),
 		tweetContent = document.createElement('p'),
 		clearer      = document.createElement('div');
 
@@ -42,10 +44,15 @@ twic.vcl.Tweet = function(id, timeline) {
 	clearer.className    = 'clearer';
 	avatarLink.className = 'avatar';
 	avatar.className     = 'avatar';
+	rtAvatar.className = 'avatar';
+	rtAvatarLink.className = 'avatar retweeter';
+	rtAvatarLink.style.display = 'none';
 
 	avatarLink.appendChild(avatar);
+	rtAvatarLink.appendChild(rtAvatar);
 
 	wrapper.appendChild(avatarLink);
+	wrapper.appendChild(rtAvatarLink);
 	wrapper.appendChild(tweetContent);
 	wrapper.appendChild(clearer);
 
@@ -106,7 +113,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	/**
 	 * Set author info
-	 * @param {number} id Tweet identifier
+	 * @param {number} id Author identifier
 	 * @param {string} nick Tweet author nick
 	 * @param {string} av User avatar src
 	 */
@@ -121,6 +128,29 @@ twic.vcl.Tweet = function(id, timeline) {
 		avatarLink.href = '#profile#' + nick;
 
 		avatar.src = av;
+	};
+
+	/**
+	 * Set retweeter info
+	 * @param {number} id Retweet author identifier
+	 * @param {string} nick Retweet author nick
+	 * @param {string} av User avatar src
+	 */
+	tweet.setRetweeter = function(id, nick, av) {
+		retweetedById = id;
+
+		if (retweetedById === timelineId) {
+			wrapper.classList.add('me');
+		}
+
+		rtAvatarLink.title = '@' + nick;
+		rtAvatarLink.href = '#profile#' + nick;
+
+		rtAvatar.src = av;
+
+		rtAvatarLink.style.display = 'block';
+
+		wrapper.classList.add('retweet');
 	};
 
 	/**
