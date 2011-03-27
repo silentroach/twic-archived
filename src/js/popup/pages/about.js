@@ -27,14 +27,15 @@
 
 		document.getElementById('acollaborate').innerHTML = twic.utils.lang.translate(
 			'about_collaborate', [
-				'<a href="https://github.com/silentroach/twic/issues" target="_blank">', '</a>',
-				'<a href="https://github.com/silentroach/twic" target="_blank">', '</a>'
+				'<a href="https://github.com/silentroach/twic/issues" title="github" target="_blank">', '</a>',
+				'<a href="http://groups.google.com/group/twicrome" title="google groups" target="_blank">', '</a>',
+				'<a href="https://github.com/silentroach/twic" title="github" target="_blank">', '</a>'
 			]
 		);
 
 		document.getElementById('atranslate').innerHTML = twic.utils.lang.translate(
 			'about_translate', [
-				'<a href="https://github.com/silentroach/twic-i18n" target="_blank">', '</a>'
+				'<a href="https://github.com/silentroach/twic-i18n" title="github" target="_blank">', '</a>'
 			]
 		);
 	};
