@@ -6,7 +6,7 @@
 /**
  * Tweet element
  * @constructor
- * @param {number} id Tweet identifier
+ * @param {string} id Tweet identifier
  * @param {twic.vcl.Timeline} timeline Timeline
  */
 twic.vcl.Tweet = function(id, timeline) {
