@@ -16,6 +16,7 @@
 		elementNick,
 		elementUrl,
 		elementBio,
+		elementLocation,
 		elementFollowings,
 		elementFollowed,
 		elementFollowedSpan,
@@ -37,6 +38,7 @@
 		elementNick     = page.querySelector('.nick');
 		elementUrl      = page.querySelector('.url');
 		elementBio      = page.querySelector('.bio');
+		elementLocation = page.querySelector('.location');
 		toolbarTimeline = page.querySelector('.toolbar a');
 	};
 
@@ -52,6 +54,8 @@
 		elementUrl.innerHTML = '';
 		elementBio.innerHTML = '';
 		elementBio.style.display = 'none';
+		elementLocation.innerHTML = '';
+		elementLocation.style.display = 'none';
 		elementFollowedSpan.innerHTML = '';
 	};
 
@@ -115,7 +119,8 @@
 
 	var showProfile = function(data) {
 		var
-			/** @type {string} **/ description = data['description'];
+			/** @type {string} **/ description = data['description'],
+			/** @type {string} **/ loc = data['location'];
 
 		profileUserId = data['id'];
 
@@ -131,6 +136,11 @@
 			// todo prepare the text as a tweet
 			elementBio.innerHTML = description;
 			elementBio.style.display = 'block';
+		}
+
+		if (loc.trim() !== '') {
+			elementLocation.innerHTML = loc;
+			elementLocation.style.display = 'block';
 		}
 
 		if (

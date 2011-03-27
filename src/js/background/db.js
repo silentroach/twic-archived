@@ -207,7 +207,8 @@ twic.db = ( function() {
 			version: '0.4',
 			runme: function(tr, callback) {
 				twic.utils.queueIterator( [
-					'alter table users add description text varchar(255) not null default \'\''
+					'alter table users add description varchar(255) not null default \'\'',
+					'alter table users add location varchar(255) not null default \'\''
 				], function(sqlText, callback) {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);

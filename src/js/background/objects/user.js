@@ -26,6 +26,7 @@ twic.db.obj.User = function() {
 		'friends_count': 0,
 		'statuses_count': 0,
 		'description': '',
+		'location': '',
 		'regdate': twic.utils.date.getCurrentTimestamp(),
 		'dt': twic.utils.date.getCurrentTimestamp()
 	};
