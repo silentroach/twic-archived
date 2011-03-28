@@ -34,15 +34,12 @@ twic.accounts = ( function() {
 			fail();
 		}
 
-		twic.utils.queueIterator( [
-			'delete from timeline where user_id = ?',
-			'delete from tweets where user_id = ?',
-			'delete from users where id = ?',
-			'delete from accounts where id = ?'
-		],
-		function(sqlText, callback) {
-			twic.db.execute(sqlText, [id], callback, fail);
-		}, function() {
+		twic.db.executeGroup( [
+			{ sql: 'delete from timeline where user_id = ?', params: [id] },
+			{ sql: 'delete from tweets where user_id = ?', params: [id] },
+			{ sql: 'delete from users where id = ?', params: [id] },
+			{ sql: 'delete from accounts where id = ?', params: [id] }
+		], function() {
 			accounts.update( function() {
 				sendResponse( {
 					'result': twic.global.FAILED

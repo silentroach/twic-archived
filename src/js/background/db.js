@@ -10,7 +10,7 @@ twic.db = ( function() {
 	/**
 	 * Error logger
 	 * @param {SQLError} error SQL error
-	 * @param {!string} sqlText SQL query text
+	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
 	 */
 	var logError = function(error, sqlText, sqlParams) {
@@ -22,7 +22,7 @@ twic.db = ( function() {
 	/**
 	 * Execute the select statement
 	 * @param {SQLTransaction} tr Read transaction
-	 * @param {!string} sqlText SQL query text
+	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
 	 * @param {function()} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
@@ -50,7 +50,7 @@ twic.db = ( function() {
 	/**
 	 * Execute the select statement
 	 * @param {Database} db Read transaction
-	 * @param {!string} sqlText SQL query text
+	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
 	 * @param {function()} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
@@ -70,7 +70,7 @@ twic.db = ( function() {
 	/**
 	 * Execute the statement
 	 * @param {SQLTransaction} tr ReadWrite transaction
-	 * @param {!string} sqlText SQL query text
+	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
 	 * @param {function()} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
@@ -98,7 +98,7 @@ twic.db = ( function() {
 	/**
 	 * Execute the statement
 	 * @param {Database} db Database
-	 * @param {!string} sqlText SQL query text
+	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
 	 * @param {function()} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
@@ -115,6 +115,28 @@ twic.db = ( function() {
 		} );
 	};
 
+	/**
+	 * Execute the group of statements in one transaction
+	 * @param {Database} db Database
+	 * @param {Array} sqlText SQL query text
+	 * @param {function()} successCallback Success callback
+	 * @param {function(string)} failedCallback Failed callback
+	 */
+	var executeGroup = function(db, sqlObjArray, successCallback, failedCallback) {
+		db.transaction( function(tr) {
+			twic.utils.queueIterator(sqlObjArray, function(obj, callback) {
+				executeTransaction(tr, obj.sql, obj.params, callback, failedCallback);
+			}, successCallback);
+		}, function(error) {
+			logError(error, sqlText, sqlParams);
+
+			if (failedCallback) {
+				failedCallback(error.message);
+			}
+		} );
+	};
+
+	// todo rewrite to use executeGroup
 	var migrations = {
 		'0': {
 			version: '0.01',
@@ -305,7 +327,7 @@ twic.db = ( function() {
 	return {
 		/**
 		 * Execute the select statement
-		 * @param {!string} sqlText SQL query text
+		 * @param {string} sqlText SQL query text
 		 * @param {Array} sqlParams SQL query params
 		 * @param {function()} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
@@ -318,7 +340,7 @@ twic.db = ( function() {
 
 		/**
 		 * Execute the statement
-		 * @param {!string} sqlText SQL query text
+		 * @param {string} sqlText SQL query text
 		 * @param {Array} sqlParams SQL query params
 		 * @param {function()} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
@@ -326,6 +348,18 @@ twic.db = ( function() {
 		execute: function(sqlText, sqlParams, successCallback, failedCallback) {
 			getDatabase( function(db) {
 				execute(db, sqlText, sqlParams, successCallback, failedCallback);
+			} );
+		},
+
+		/**
+		 * Execute the group of queries in one transaction
+		 * @param {Array} sqlObjArray Array of sql objects
+		 * @param {function()} successCallback Success callback
+		 * @param {function(string)} failedCallback Failed callback
+		 */
+		executeGroup: function(sqlObjArray, successCallback, failedCallback) {
+			getDatabase( function(db) {
+				executeGroup(db, sqlObjArray, successCallback, failedCallback);
 			} );
 		},
 
