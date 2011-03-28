@@ -40,7 +40,7 @@ twic.dom.expand = function(expr) {
 	
 	res = twic.dom.expExpr.exec(expr);
 
-	while (res) {
+	while (res && res[2]) {
 		if (res[2] === '') {
 			element = document.createElement(res[1]);
 		} else
