@@ -134,12 +134,9 @@ twic.twitter = ( function() {
 	 * @param {function()} callback Callback function
 	 */
 	var cleanupFriends = function(id, id2, callback) {
-		twic.utils.queueIterator( [
-			'delete from friends where source_user_id = ? and target_user_id = ?',
-			'delete from friends where target_user_id = ? and source_user_id = ?'
-		], function(sqlText, callback) {
-			twic.db.execute(sqlText, [id, id2], callback);
-		}, callback);
+		twic.db.execute('delete from friends where (source_user_id = ? and target_user_id = ?) or (source_user_id = ? and target_user_id = ?)', [
+			id, id2, id2, id
+		], callback);
 	};
 
 	/**
