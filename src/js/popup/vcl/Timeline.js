@@ -13,11 +13,9 @@ twic.vcl.Timeline = function(parent) {
 	var
 		timeline = this,
 
-		/** @type {Element} **/ wrapper = document.createElement('ul'),
+		/** @type {Element} **/ wrapper = twic.dom.expand('ul.timeline'),
 		/** @type {string}  **/ userNick,
 		/** @type {number}  **/ userId;
-
-	wrapper.className = 'timeline';
 
 	parent.appendChild(wrapper);
 

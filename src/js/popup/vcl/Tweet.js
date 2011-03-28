@@ -30,22 +30,14 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
 
-		wrapper      = document.createElement('li'),
-		avatarLink   = document.createElement('a'),
-		avatar       = document.createElement('img'),
-		rtAvatarLink = document.createElement('a'),
-		rtAvatar     = document.createElement('img'),
-		tweetContent = document.createElement('p'),
-		clearer      = document.createElement('div');
+		wrapper      = twic.dom.expand('li#' + id + '.tweet'),
+		avatarLink   = twic.dom.expand('a.avatar'),
+		avatar       = twic.dom.expand('img.avatar'),
+		rtAvatarLink = twic.dom.expand('a.avatar.retweeter'),
+		rtAvatar     = twic.dom.expand('img.avatar'),
+		tweetContent = twic.dom.expand('p'),
+		clearer      = twic.dom.expand('div.clearer');
 
-	wrapper.className    = 'tweet';
-	wrapper.id = id;
-
-	clearer.className    = 'clearer';
-	avatarLink.className = 'avatar';
-	avatar.className     = 'avatar';
-	rtAvatar.className = 'avatar';
-	rtAvatarLink.className = 'avatar retweeter';
 	rtAvatarLink.style.display = 'none';
 
 	avatarLink.appendChild(avatar);

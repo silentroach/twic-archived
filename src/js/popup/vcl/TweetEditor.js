@@ -18,26 +18,22 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	var
 		editor = this,
 		/** @type {Storage} **/ storage        = window.localStorage,
-		/** @type {Element} **/ editorWrapper  = document.createElement('div'),
-		/** @type {Element} **/ editorTextarea = document.createElement('textarea'),
-		/** @type {Element} **/ editorSend     = document.createElement('input'),
-		/** @type {Element} **/ editorCounter  = document.createElement('span'),
-		/** @type {Element} **/ clearer        = document.createElement('div'),
+		/** @type {Element} **/ editorWrapper  = twic.dom.expand('div.tweetEditor'),
+		/** @type {Element} **/ editorTextarea = twic.dom.expand('textarea'),
+		/** @type {Element} **/ editorSend     = twic.dom.expand('input'),
+		/** @type {Element} **/ editorCounter  = twic.dom.expand('span'),
+		/** @type {Element} **/ clearer        = twic.dom.expand('div.clearer'),
 		/** @type {number}  **/ charCount      = 0,
 
 		/** @const **/ overloadClass = 'overload',
 		/** @const **/ focusedClass  = 'focused',
 		/** @const **/ sendingClass  = 'sending';
 
-	editorWrapper.className = 'tweetEditor';
-
 	editorTextarea['spellcheck'] = false;
 
 	editorSend.type  = 'button';
 	editorSend.value = twic.utils.lang.translate('button_send');
 	editorSend.title = twic.utils.lang.translate('title_button_send');
-
-	clearer.className = 'clearer';
 
 	editorWrapper.appendChild(editorTextarea);
 	editorWrapper.appendChild(editorSend);

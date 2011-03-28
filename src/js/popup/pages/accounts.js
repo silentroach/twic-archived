@@ -35,23 +35,20 @@
 		) {
 			var
 				link      = e.srcElement.parentNode,
-				container = document.createElement('div'),
-				bYes      = document.createElement('a'),
-				bNo       = document.createElement('a');
+				container = twic.dom.expand('div.container'),
+				bYes      = twic.dom.expand('a.button'),
+				bNo       = twic.dom.expand('a.button');
 
 			removingAccountId = link.id;
 
 			bottomStatus.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
-			container.className = 'container';
 
 			bYes.innerHTML = twic.utils.lang.translate('button_yes');
-			bYes.className = 'button';
 			bYes.href      = '#';
 
 			bYes.onclick   = removeAccount;
 
 			bNo.innerHTML  = twic.utils.lang.translate('button_no');
-			bNo.className  = 'button';
 			bNo.href       = '#';
 
 			bNo.onclick    = resetToolbar;
@@ -92,28 +89,23 @@
 		for (i = 0; i < elements.length; ++i) {
 			var element = elements[i];
 
-			var avatar = document.createElement('img');
+			var avatar = twic.dom.expand('img.avatar');
 			avatar.src = element['avatar'];
-			avatar.className = 'avatar';
 
-			var a = document.createElement('a');
+			var a = twic.dom.expand('a#' + element['id']);
 			a.title = '@' + element['screen_name'];
 			a.href = '#timeline#' + element['id'];
-			// todo antilint (weird assignment) O.o think about it
-			a.setAttribute('id', element['id']);
 
 			a.appendChild(avatar);
 
 			var utweets = element['unread_tweets'];
 			if (utweets > 0) {
-				var utspan = document.createElement('span');
-				utspan.className = 'utweets';
+				var utspan = twic.dom.expand('span.utweets');
 				utspan.innerHTML = utweets;
 				a.appendChild(utspan);
 			}
 
-			var li = document.createElement('li');
-
+			var li = twic.dom.expand('li');
 			li.appendChild(a);
 
 			frag.appendChild(li);
