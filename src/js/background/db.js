@@ -118,7 +118,7 @@ twic.db = ( function() {
 	/**
 	 * Execute the group of statements in one transaction
 	 * @param {Database} db Database
-	 * @param {Array} sqlText SQL query text
+	 * @param {Array} sqlObjArray SQL query text
 	 * @param {function()} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
 	 */
@@ -128,7 +128,7 @@ twic.db = ( function() {
 				executeTransaction(tr, obj.sql, obj.params, callback, failedCallback);
 			}, successCallback);
 		}, function(error) {
-			logError(error, sqlText, sqlParams);
+			twic.debug.error('sql error: ' + error.message);
 
 			if (failedCallback) {
 				failedCallback(error.message);
