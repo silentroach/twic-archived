@@ -37,10 +37,13 @@ twic.dom.expand = function(expr) {
 		res;
 
 	// fixme it smells
-	
+
 	res = twic.dom.expExpr.exec(expr);
 
-	while (res && res[2]) {
+	while (
+		res
+		&& res.length > 2
+	) {
 		if (res[2] === '') {
 			element = document.createElement(res[1]);
 		} else
@@ -50,7 +53,7 @@ twic.dom.expand = function(expr) {
 		if (res[2] === '#') {
 			element.setAttribute('id', res[1].substring(1));
 		}
-		
+
 		res = twic.dom.expExpr.exec(expr);
 	}
 
