@@ -90,6 +90,7 @@ twic.twitter = ( function() {
 			tmpTweet = new twic.db.obj.Tweet(),
 			tmpUser  = new twic.db.obj.User();
 
+		// fixme holy shit
 		twic.db.select(
 			'select ' + [
 				tmpTweet.getFieldString('t'),
