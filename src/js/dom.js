@@ -9,7 +9,7 @@
 
 twic.dom = {
 	/** @const **/ idExpr: /^#([^ .>:]+)$/,
-	/** @const **/ expExpr: /((^|#|\.)\w+)/g,
+	/** @const **/ expExpr: /((^|#|\.)\w+)/g
 };
 
 /**
@@ -33,7 +33,7 @@ twic.dom.find = function(selector, context) {
  */
 twic.dom.expand = function(expr) {
 	var
-		element,
+		element = null,
 		res;
 
 	// fixme it smells

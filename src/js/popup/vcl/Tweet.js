@@ -154,7 +154,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	/**
 	 * Get the tweet element
-	 * @return {!Element}
+	 * @return {Element}
 	 */
 	tweet.getElement = function() {
 		return wrapper;
