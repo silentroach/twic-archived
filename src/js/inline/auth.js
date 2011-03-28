@@ -8,7 +8,6 @@
 ( function() {
 
 	var
-		// todo write something for selectors
 		pinElement  = twic.dom.find('#oauth_pin'),
 		idElement   = twic.dom.find('meta[name=session-userid]');
 
