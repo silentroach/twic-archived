@@ -9,8 +9,8 @@
 
 	var
 		// todo write something for selectors
-		pinElement  = document.getElementById('oauth_pin'),
-		idElement   = document.querySelector('meta[name=session-userid]');
+		pinElement  = twic.dom.find('#oauth_pin'),
+		idElement   = twic.dom.find('meta[name=session-userid]');
 
 	if (!pinElement) {
 		return;

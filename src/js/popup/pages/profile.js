@@ -26,20 +26,20 @@
 		toolbarTimeline;
 
 	var initPage = function() {
-		page              = document.getElementById('profile');
+		page = twic.dom.find('#profile');
 
-		elementFollowings   = document.getElementById('followings');
-		elementFollowed     = elementFollowings.querySelector('p');
-		elementFollowedSpan = elementFollowings.querySelector('span');
+		elementFollowings   = twic.dom.find('#followings');
+		elementFollowed     = twic.dom.find('p', elementFollowings);
+		elementFollowedSpan = twic.dom.find('span', elementFollowings);
 
-		elementLoader   = page.querySelector('.loader');
-		elementAvatar   = page.querySelector('.avatar');
-		elementName     = page.querySelector('.name');
-		elementNick     = page.querySelector('.nick');
-		elementUrl      = page.querySelector('.url');
-		elementBio      = page.querySelector('.bio');
-		elementLocation = page.querySelector('.location');
-		toolbarTimeline = page.querySelector('.toolbar a');
+		elementLoader   = twic.dom.find('.loader', page);
+		elementAvatar   = twic.dom.find('.avatar', page);
+		elementName     = twic.dom.find('.name', page);
+		elementNick     = twic.dom.find('.nick', page);
+		elementUrl      = twic.dom.find('.url', page);
+		elementBio      = twic.dom.find('.bio', page);
+		elementLocation = twic.dom.find('.location', page);
+		toolbarTimeline = twic.dom.find('.toolbar a', page);
 	};
 
 	var clearProfileData = function() {
@@ -175,7 +175,7 @@
 			toolbarTimeline.innerHTML = twic.utils.lang.translate('title_about');
 			timelineUserId = null;
 		} else {
-			toolbarTimeline.innerHTML = document.querySelector('#timeline .toolbar p').innerHTML;
+			toolbarTimeline.innerHTML = twic.dom.find('#timeline .toolbar p').innerHTML;
 			toolbarTimeline.href += '#' + prev.join('#');
 			// fixme shitcode
 			timelineUserId = parseInt(prev[0], 10);

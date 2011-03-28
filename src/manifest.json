@@ -27,6 +27,7 @@
 		"js" : [
 			"js/init.js",
 			"js/utils.js",
+			"js/dom.js",
 			"js/global.js",
 			"js/debug.js",
 			"js/requests.js",

@@ -100,18 +100,18 @@
 	};
 
 	var initPage = function() {
-		page = document.getElementById('timeline');
-		accountNameElement = page.querySelector('.toolbar p');
+		page = twic.dom.find('#timeline');
+		accountNameElement = twic.dom.find('.toolbar p', page);
 
 		timeline = new twic.vcl.Timeline(page);
 
-		list = page.querySelector('ul');
-		newTweet = page.querySelector('.newtweet');
+		list = twic.dom.find('ul', page);
+		newTweet = twic.dom.find('.newtweet', page);
 
 //		page.addEventListener('mouseup', onTimeLineMouseUp, false);
 //		page.addEventListener('mousedown', onTimeLineMouseDown, false);
 
-		page.querySelector('.toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
+		twic.dom.find('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
 	};
 
 	twic.router.handle('timeline', function(data) {

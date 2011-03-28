@@ -132,20 +132,20 @@
 	var initPage = function() {
 		var loading = false;
 
-		list = document.querySelector('#accounts ul');
-		bottomStatus = document.getElementById('accounts_status');
+		list = twic.dom.find('#accounts ul');
+		bottomStatus = twic.dom.find('#accounts_status');
 
 		list.oncontextmenu = accountContextClick;
 
-		firstAccountElement = document.querySelector('#accounts p');
+		firstAccountElement = twic.dom.find('#accounts p');
 
-		document.getElementById('button_account_add').title = twic.utils.lang.translate('title_add_account');
-		document.getElementById('button_about').title       = twic.utils.lang.translate('title_about');
+		twic.dom.find('#button_account_add').title = twic.utils.lang.translate('title_add_account');
+		twic.dom.find('#button_about').title       = twic.utils.lang.translate('title_about');
 
 		/**
 		 * @this {Element}
 		 */
-		document.getElementById('button_account_add').onclick = function() {
+		twic.dom.find('#button_account_add').onclick = function() {
 			if (loading) {
 				return false;
 			}
@@ -153,7 +153,7 @@
 			loading = true;
 
 			// @resource img/loader.gif
-			this.querySelector('img').src = 'img/loader.gif';
+			twic.dom.find('img', this).src = 'img/loader.gif';
 			this.href = '#';
 
 			twic.requests.send('accountAdd');

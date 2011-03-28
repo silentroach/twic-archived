@@ -16,7 +16,7 @@ twic.router = ( function() {
 		/** @type {Array.<string>} */ previousLocation = [],
 		i;
 
-	var tmp = document.querySelectorAll('body > div');
+	var tmp = document.querySelectorAll('div.page');
 	for (i = 0; i < tmp.length; ++i) {
 		var frame = tmp[i];
 		frames[frame.id] = {
