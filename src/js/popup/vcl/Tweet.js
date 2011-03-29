@@ -215,8 +215,4 @@ twic.vcl.Tweet = function(id, timeline) {
 		}
 	};
 
-	tweet.select = function() {
-		wrapper.classList.add('selected');
-	};
-
 };

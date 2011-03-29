@@ -21,55 +21,6 @@ twic.vcl.Timeline = function(parent) {
 	parent.appendChild(wrapper);
 
 	/**
-	 * Hide the tweet buttons
-	 * @param {string=} exceptId Except the tweet with id
-	 */
-	timeline.hideTweetButtons = function(exceptId) {
-		var
-			/** @type {string} **/ key;
-
-		for (key in tweets) {
-			if (key !== exceptId) {
-				tweets[key].hideButtons();
-			}
-		}
-	};
-
-	/**
-	 * @param {Element} element Element ;)
-	 * @return {string}
-	 */
-	var getTweetId = function(element) {
-		var
-			tmp = element,
-			/** @type {twic.vcl.Tweet} **/ tweet;
-
-		if (tmp.nodeName === 'P') {
-			tmp = tmp.parentNode;
-		}
-
-		if (
-			tmp.nodeName === 'LI'
-			&& tweets[tmp.id]
-		) {
-			return tmp.id;
-		}
-	};
-
-	var onTweetClick = function(e) {
-		var
-			id = getTweetId(e.target);
-
-		if (id) {
-			timeline.hideTweetButtons();
-
-			tweets[id].select();
-		}
-	};
-
-	wrapper.addEventListener('click', onTweetClick, false);
-
-	/**
 	 * Add tweet to timeline
 	 * @param {string} id Tweet identifier
 	 * @return {!twic.vcl.Tweet}
