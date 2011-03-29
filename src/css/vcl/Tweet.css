@@ -1,3 +1,11 @@
+li.tweet {
+	border-right: 3px solid transparent;
+	-webkit-transition: border-right-color 0.1s ease-in-out;
+	}
+	li.tweet:hover {
+		border-right-color: rgba(0, 128, 0, .3);
+		}
+
 li.tweet.me {
 	background-color: rgba(100, 200, 0, .15);
 	}
