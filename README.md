@@ -35,6 +35,6 @@ You can use make command to do something:
 
       make todo
 
-* build the extension (doesn't work yet)
+* build the extension
 
       make extension
