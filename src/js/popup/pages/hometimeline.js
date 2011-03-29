@@ -5,7 +5,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo annotations missed
 ( function() {
 
 	var
@@ -18,47 +17,6 @@
 		/** @type {number}               */ userId,
 		/** @type {Object}               */ mPos = {x: 0, y: 0};
 
-	// todo maybe it is not a great implementation of handling only a click (not a selection)?
-/*
-	var checkIsTweetClicked = function(e) {
-		if (
-			!e.srcElement
-			|| !e.srcElement.classList.contains('msg')
-		) {
-			mPos.x = 0;
-			mPos.y = 0;
-
-			return false;
-		}
-
-		return true;
-	};
-
-	var onTimeLineMouseDown = function(e) {
-		e.stopPropagation();
-
-		if (checkIsTweetClicked(e)) {
-			mPos.x = e.x;
-			mPos.y = e.y;
-		}
-
-		return true;
-	};
-
-	var onTimeLineMouseUp = function(e) {
-		e.stopPropagation();
-
-		if (
-			checkIsTweetClicked(e)
-			&& mPos.x === e.x
-			&& mPos.y === e.y
-		) {
-			twic.debug.dir(e);
-		}
-
-		return true;
-	};
-*/
 	var buildList = function(info) {
 		var
 			id,
@@ -75,7 +33,7 @@
 				item      = data[id],
 				user      = item['user'],
 				retweeted = item['retweeted'],
-				tweet     = new twic.vcl.Tweet(id, timeline);
+				tweet     = timeline.addTweet(id);
 
 			if (retweeted) {
 				tweet.setAuthor(retweeted['id'], retweeted['screen_name'], retweeted['avatar']);
@@ -85,8 +43,6 @@
 			}
 
 			tweet.setText(item['msg']);
-
-			timeline.addTweet(tweet);
 		}
 	};
 
@@ -107,9 +63,6 @@
 
 		list = twic.dom.find('ul', page);
 		newTweet = twic.dom.find('.newtweet', page);
-
-//		page.addEventListener('mouseup', onTimeLineMouseUp, false);
-//		page.addEventListener('mousedown', onTimeLineMouseDown, false);
 
 		twic.dom.find('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
 	};

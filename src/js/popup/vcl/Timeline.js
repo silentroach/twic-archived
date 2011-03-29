@@ -56,38 +56,32 @@ twic.vcl.Timeline = function(parent) {
 		}
 	};
 
-	var onTweetContext = function(e) {
-		var
-			id = getTweetId(e.target),
-			tweet;
-
-		if (id) {
-			tweet = tweets[id];
-
-			timeline.hideTweetButtons(id);
-			tweet.showButtons();
-		}
-	};
-
 	var onTweetClick = function(e) {
 		var
 			id = getTweetId(e.target);
 
 		if (id) {
 			timeline.hideTweetButtons();
+
+			tweets[id].select();
 		}
 	};
 
-	/**
-	 * @param {!twic.vcl.Tweet} tweet Tweet
-	 */
-	timeline.addTweet = function(tweet) {
-		tweets[tweet.getId()] = tweet;
+	wrapper.addEventListener('click', onTweetClick, false);
 
+	/**
+	 * Add tweet to timeline
+	 * @param {string} id Tweet identifier
+	 * @return {!twic.vcl.Tweet}
+	 */
+	timeline.addTweet = function(id) {
+		var
+			tweet = new twic.vcl.Tweet(id, timeline);
+
+		tweets[id] = tweet;
 		wrapper.appendChild(tweet.getElement());
 
-		wrapper.addEventListener('click', onTweetClick, false);
-		wrapper.addEventListener('contextmenu', onTweetContext, false);
+		return tweet;
 	};
 
 	/**
