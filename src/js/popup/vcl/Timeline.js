@@ -58,7 +58,8 @@ twic.vcl.Timeline = function(parent) {
 
 	var onTweetContext = function(e) {
 		var
-			id = getTweetId(e.target);
+			id = getTweetId(e.target),
+			tweet;
 
 		if (id) {
 			tweet = tweets[id];

@@ -186,6 +186,5 @@ twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText) { };
 
 /**
  * Handler for editor focus
- * @param {string} tweetText
  */
 twic.vcl.TweetEditor.prototype.onFocus = function() { };
