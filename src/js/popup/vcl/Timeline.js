@@ -15,15 +15,78 @@ twic.vcl.Timeline = function(parent) {
 
 		/** @type {Element} **/ wrapper = twic.dom.expand('ul.timeline'),
 		/** @type {string}  **/ userNick,
-		/** @type {number}  **/ userId;
+		/** @type {number}  **/ userId,
+		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
 	parent.appendChild(wrapper);
+
+	/**
+	 * Hide the tweet buttons
+	 * @param {string=} exceptId Except the tweet with id
+	 */
+	timeline.hideTweetButtons = function(exceptId) {
+		var
+			/** @type {string} **/ key;
+
+		for (key in tweets) {
+			if (key !== exceptId) {
+				tweets[key].hideButtons();
+			}
+		}
+	};
+
+	/**
+	 * @param {Element} element Element ;)
+	 * @return {string}
+	 */
+	var getTweetId = function(element) {
+		var
+			tmp = element,
+			/** @type {twic.vcl.Tweet} **/ tweet;
+
+		if (tmp.nodeName === 'P') {
+			tmp = tmp.parentNode;
+		}
+
+		if (
+			tmp.nodeName === 'LI'
+			&& tweets[tmp.id]
+		) {
+			return tmp.id;
+		}
+	};
+
+	var onTweetContext = function(e) {
+		var
+			id = getTweetId(e.target);
+
+		if (id) {
+			tweet = tweets[id];
+
+			timeline.hideTweetButtons(id);
+			tweet.showButtons();
+		}
+	};
+
+	var onTweetClick = function(e) {
+		var
+			id = getTweetId(e.target);
+
+		if (id) {
+			timeline.hideTweetButtons();
+		}
+	};
 
 	/**
 	 * @param {!twic.vcl.Tweet} tweet Tweet
 	 */
 	timeline.addTweet = function(tweet) {
+		tweets[tweet.getId()] = tweet;
+
 		wrapper.appendChild(tweet.getElement());
+
+		wrapper.addEventListener('click', onTweetClick, false);
+		wrapper.addEventListener('contextmenu', onTweetContext, false);
 	};
 
 	/**

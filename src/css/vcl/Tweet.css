@@ -51,3 +51,9 @@ li.tweet a.avatar.retweeter {
 		background-color: rgba(0, 0, 0, .1);
 		-webkit-box-shadow: -1px -1px 1px white;
 		}
+
+li.tweet .buttons {
+	display: none;
+	padding: .1em 0;
+	text-align: right;
+	}

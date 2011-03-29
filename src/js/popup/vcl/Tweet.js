@@ -36,8 +36,14 @@ twic.vcl.Tweet = function(id, timeline) {
 		rtAvatarLink = twic.dom.expand('a.avatar.retweeter'),
 		rtAvatar     = twic.dom.expand('img.avatar'),
 		tweetContent = twic.dom.expand('p'),
-		clearer      = twic.dom.expand('div.clearer');
+		clearer      = twic.dom.expand('div.clearer'),
+		buttonHolder = twic.dom.expand('div.buttons'),
 
+		isRetweet        = false,
+		isButtonsShown   = false,
+		isButtonsCreated = false;
+
+	buttonHolder.style.display = 'none';
 	rtAvatarLink.style.display = 'none';
 
 	avatarLink.appendChild(avatar);
@@ -47,6 +53,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	wrapper.appendChild(rtAvatarLink);
 	wrapper.appendChild(tweetContent);
 	wrapper.appendChild(clearer);
+	wrapper.appendChild(buttonHolder);
 
 	/**
 	 * Set the tweet text
@@ -129,6 +136,8 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @param {string} av User avatar src
 	 */
 	tweet.setRetweeter = function(id, nick, av) {
+		isRetweet = true;
+
 		retweetedById = id;
 
 		if (retweetedById === timelineId) {
@@ -158,6 +167,52 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.getElement = function() {
 		return wrapper;
+	};
+
+	/**
+	 * Tweet id
+	 * @return {string}
+	 */
+	tweet.getId = function() {
+		return id;
+	};
+
+	var buildTweetButtons = function() {
+		if (!isButtonsCreated) {
+			buttonHolder.innerHTML = 'ololo';
+
+			isButtonsCreated = true;
+		}
+	};
+
+	/**
+	 * Hide the control buttons
+	 */
+	tweet.hideButtons = function() {
+		if (isButtonsShown) {
+			buttonHolder.style.display = 'none';
+			isButtonsShown = false;
+		}
+	};
+
+	/**
+	 * Show the control buttons
+	 */
+	tweet.showButtons = function() {
+		if (!isButtonsShown) {
+			buildTweetButtons();
+
+			buttonHolder.style.display = 'block';
+			isButtonsShown = true;
+		}
+	};
+
+	tweet.toggleButtons = function() {
+		if (isButtonsShown) {
+			tweet.hideButtons();
+		} else {
+			tweet.showButtons();
+		}
 	};
 
 };

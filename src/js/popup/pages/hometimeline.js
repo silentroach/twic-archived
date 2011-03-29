@@ -150,6 +150,10 @@
 			} );
 		};
 
+		tweetEditor.onFocus = function() {
+			timeline.hideTweetButtons();
+		};
+
 		update();
 	} );
 
