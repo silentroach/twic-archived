@@ -9,6 +9,18 @@ li.tweet.mention {
 li.tweet.retweet {
 	background-color: rgba(255, 255, 0, .15);
 	}
+	li.tweet.retweet img.avatar {
+		max-width: 42px;
+		}
+		li.tweet.retweet a.avatar.retweeter {
+			margin-left: -24px;
+			margin-top: 24px;
+			}
+			li.tweet.retweet a.avatar.retweeter img.avatar {
+				max-width: 24px;
+				background-color: rgba(0, 0, 0, .1);
+				-webkit-box-shadow: -1px -1px 1px white;
+				}
 
 li.tweet p {
 	margin: 0;
@@ -33,20 +45,6 @@ li.tweet a.avatar {
 	float: left;
 	margin-right: .5em;
 	}
-
-li.tweet.retweet img.avatar {
-	max-width: 42px;
-	}
-
-li.tweet a.avatar.retweeter {
-	margin-left: -24px;
-	margin-top: 24px;
-	}
-	li.tweet a.avatar.retweeter img.avatar {
-		max-width: 24px;
-		background-color: rgba(0, 0, 0, .1);
-		-webkit-box-shadow: -1px -1px 1px white;
-		}
 
 li.tweet .buttons {
 	display: none;
