@@ -157,7 +157,7 @@ twic.DBObject.prototype.save = function(callback) {
 			(hasId ? ', ?' : '') + ')';
 	}
 
-	twic.db.execute(sql, vals, function() {
+	twic.db.execQuery(sql, vals, function() {
 		// reset flags
 		dbobject.exists = true;
 		dbobject.changed = [];
@@ -256,7 +256,7 @@ twic.DBObject.prototype.remove = function(callback) {
 	var
 		self = this;
 
-	twic.db.execute('delete from ' + self.table + ' where id = ?', [
+	twic.db.execQuery('delete from ' + self.table + ' where id = ?', [
 		self.fields['id']
 	], callback);
 };
@@ -292,7 +292,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 
 	sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + whereClause.join(' and ') + ' limit 1';
 
-	twic.db.select(sql, values, function() {
+	twic.db.openQuery(sql, values, function() {
 		if (this.length === 1) {
 			obj.loadFromRow(this.item(0));
 

@@ -17,7 +17,7 @@ twic.db.obj.Timeline = ( function() {
 	 * @param {function()=} addCallback Callback function fired when item is saved
 	 */
 	timeline.pushUserTimelineTweet = function(userId, tweetId, addCallback) {
-		twic.db.select(
+		twic.db.openQuery(
 			'select user_id from timeline ' +
 			'where user_id = ? and tweet_id = ? ' +
 			'limit 1 ',
@@ -32,7 +32,7 @@ twic.db.obj.Timeline = ( function() {
 					return;
 				}
 
-				twic.db.execute(
+				twic.db.execQuery(
 					'insert into timeline (user_id, tweet_id) ' +
 					'values (?, ?) ',
 					[userId, tweetId]

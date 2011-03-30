@@ -34,7 +34,7 @@ twic.accounts = ( function() {
 			fail();
 		}
 
-		twic.db.executeGroup( [
+		twic.db.execQueries( [
 			{ sql: 'delete from timeline where user_id = ?', params: [id] },
 			{ sql: 'delete from tweets where user_id = ?', params: [id] },
 			{ sql: 'delete from users where id = ?', params: [id] },
@@ -215,7 +215,7 @@ twic.accounts = ( function() {
 
 		accounts.clear();
 
-		twic.db.select(
+		twic.db.openQuery(
 			'select ' + tmpAccount.getFieldString('a') + ', ' + tmpUser.getFieldString('u') + ' ' +
 			'from accounts a ' +
 				'inner join users u on ( ' +

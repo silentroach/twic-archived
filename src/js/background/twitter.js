@@ -91,7 +91,7 @@ twic.twitter = ( function() {
 			tmpUser  = new twic.db.obj.User();
 
 		// fixme holy shit
-		twic.db.select(
+		twic.db.openQuery(
 			'select ' + [
 				tmpTweet.getFieldString('t'),
 				tmpUser.getFieldString('u'),
@@ -134,7 +134,7 @@ twic.twitter = ( function() {
 	 * @param {function()} callback Callback function
 	 */
 	var cleanupFriends = function(id, id2, callback) {
-		twic.db.execute('delete from friends where (source_user_id = ? and target_user_id = ?) or (source_user_id = ? and target_user_id = ?)', [
+		twic.db.execQuery('delete from friends where (source_user_id = ? and target_user_id = ?) or (source_user_id = ? and target_user_id = ?)', [
 			id, id2, id2, id
 		], callback);
 	};
@@ -314,7 +314,7 @@ twic.twitter = ( function() {
 			updateSinceId(cachedLastId[userId]);
 		} else {
 		// we need to find the last tweet id not to fetch the all timeline from api
-			twic.db.select(
+			twic.db.openQuery(
 				'select t.id ' +
 				'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
 				'where tl.user_id = ? order by t.dt desc, t.id desc limit 1 ', [userId],

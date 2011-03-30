@@ -292,13 +292,14 @@ twic.db = ( function() {
 
 		twic.debug.groupCollapsed('Cleanup');
 
+		// fixme -> execQueries
 		twic.utils.queueIterator( [
 			'delete from timeline where tweet_id in (select id from tweets where dt < ?)',
 			'delete from tweets where dt < ?',
 			'delete from users where dt < ? and id not in (select id from accounts)',
 			'delete from friends where dt < ?'
 		], function(sqlText, callback) {
-			twic.db.execute(sqlText, [cutDate], callback);
+			twic.db.execQuery(sqlText, [cutDate], callback);
 		}, function() {
 			twic.debug.groupEnd();
 			callback();
@@ -332,7 +333,7 @@ twic.db = ( function() {
 		 * @param {function()} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
 		 */
-		select: function(sqlText, sqlParams, successCallback, failedCallback) {
+		openQuery: function(sqlText, sqlParams, successCallback, failedCallback) {
 			getDatabase( function(db) {
 				select(db, sqlText, sqlParams, successCallback, failedCallback);
 			} );
@@ -345,7 +346,7 @@ twic.db = ( function() {
 		 * @param {function()} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
 		 */
-		execute: function(sqlText, sqlParams, successCallback, failedCallback) {
+		execQuery: function(sqlText, sqlParams, successCallback, failedCallback) {
 			getDatabase( function(db) {
 				execute(db, sqlText, sqlParams, successCallback, failedCallback);
 			} );
@@ -357,7 +358,7 @@ twic.db = ( function() {
 		 * @param {function()} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
 		 */
-		executeGroup: function(sqlObjArray, successCallback, failedCallback) {
+		execQueries: function(sqlObjArray, successCallback, failedCallback) {
 			getDatabase( function(db) {
 				executeGroup(db, sqlObjArray, successCallback, failedCallback);
 			} );
