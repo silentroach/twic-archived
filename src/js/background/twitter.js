@@ -58,6 +58,8 @@ twic.twitter = ( function() {
 			twic.api.getFriendshipInfo(
 				source_id, target_id,
 				function(obj) {
+					tmpFriend = new twic.db.obj.Friend();
+
 					tmpFriend.loadFromJSON(obj);
 					tmpFriend.save();
 

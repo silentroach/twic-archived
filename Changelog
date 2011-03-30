@@ -1,4 +1,5 @@
 In development
+	* Small bug with friendship cache updater fixed
 
 0.5
 	* Fixed bug with paste into the tweet editor
