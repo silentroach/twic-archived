@@ -9,6 +9,7 @@
 twic.requests = ( function() {
 
 	var
+		requests = { },
 		subscriptions = { };
 
 	/**
@@ -17,7 +18,7 @@ twic.requests = ( function() {
 	 * @param {Object} data Data to send
 	 * @param {function(Object)} callback Callback function
 	 */
-	var send = function(method, data, callback) {
+	requests.send = function(method, data, callback) {
 		chrome.extension.sendRequest( {
 			'method': method,
 			'data': data
@@ -33,7 +34,7 @@ twic.requests = ( function() {
 	 * @param {string} event Event
 	 * @param {function(Object, function(Object))} callback Callback function
 	 */
-	var subscribe = function(event, callback) {
+	requests.subscribe = function(event, callback) {
 		if (!subscriptions[event]) {
 			subscriptions[event] = [];
 		}
@@ -71,10 +72,7 @@ twic.requests = ( function() {
 		}
 	} );
 
-	return {
-		send: send,
-		subscribe: subscribe
-	};
+	return requests;
 
 }() );
 
