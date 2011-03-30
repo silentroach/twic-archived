@@ -16,17 +16,23 @@
 		border: 1px solid rgba(0, 0, 0, .1);
 		-webkit-transition: background-color 0.5s ease-in-out;
 		}
+		#profile #followings p:hover {
+			/* simple hover on "follow" button */
+			background-color: rgba(0, 0, 0, .05);
+			}
 		#profile #followings p span {
 			background: url('/img/buttons/add.png') no-repeat left;
 			padding-left: 24px;
 			}
 		#profile #followings p.following {
+			/* following status background */
 			background-color: rgba(0, 128, 0, .15);
 			}
 			#profile #followings p.following span {
 				background: url('/img/buttons/following.png') no-repeat left;
 				}
 		#profile #followings p.following:hover {
+			/* unfollow status background */
 			background-color: rgba(255, 0, 0, .15);
 			}
 			#profile #followings p.following:hover span {
