@@ -7,55 +7,60 @@
  * Some DOM utils
  */
 
-twic.dom = {
-	/** @const **/ idExpr: /^#([^ .>:]+)$/,
-	/** @const **/ expExpr: /((^|#|\.)\w+)/g
-};
-
-/**
- * Find element
- * @param {string} selector Selector
- * @param {Element=} context Context
- * @return {?Element}
- */
-twic.dom.find = function(selector, context) {
+twic.dom = ( function() {
 	var
-		matches               = twic.dom.idExpr.exec(selector),
-		doc                   = (matches || !context) ? document : context;
+		dom = { },
+		/** @const **/ idExpr  = /^#([^ .>:]+)$/,
+		/** @const **/ expExpr = /((^|#|\.)\w+)/g;
 
-	return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
-};
+	/**
+	 * Find element
+	 * @param {string} selector Selector
+	 * @param {Element=} context Context
+	 * @return {?Element}
+	 */
+	dom.find = function(selector, context) {
+		var
+			matches               = idExpr.exec(selector),
+			doc                   = (matches || !context) ? document : context;
 
-/**
- * Expand the expression
- * @param {string} expr Expression
- * @return {Element}
- */
-twic.dom.expand = function(expr) {
-	var
-		element = null,
-		res;
+		return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
+	};
 
-	// fixme it smells
+	/**
+	 * Expand the expression
+	 * @param {string} expr Expression
+	 * @return {Element}
+	 */
+	dom.expand = function(expr) {
+		var
+			element = null,
+			res;
 
-	res = twic.dom.expExpr.exec(expr);
+		// fixme it smells
 
-	while (
-		res
-		&& res.length > 2
-	) {
-		if (res[2] === '') {
-			element = document.createElement(res[1]);
-		} else
-		if (res[2] === '.') {
-			element.classList.add(res[1].substring(1));
-		} else
-		if (res[2] === '#') {
-			element.setAttribute('id', res[1].substring(1));
+		res = expExpr.exec(expr);
+
+		while (
+			res
+			&& res.length > 2
+		) {
+			if (res[2] === '') {
+				element = document.createElement(res[1]);
+			} else
+			if (res[2] === '.') {
+				element.classList.add(res[1].substring(1));
+			} else
+			if (res[2] === '#') {
+				element.setAttribute('id', res[1].substring(1));
+			}
+
+			res = expExpr.exec(expr);
 		}
 
-		res = twic.dom.expExpr.exec(expr);
-	}
+		return element;
+	};
 
-	return element;
-};
+	return dom;
+
+}() );
