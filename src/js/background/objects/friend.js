@@ -65,17 +65,22 @@ twic.db.obj.Friend.prototype.save = function(callback) {
 twic.db.obj.Friend.prototype.remove = function(callback) {
 	var
 		self = this;
-
-	// fixme -> execQueries
-	twic.utils.queueIterator( [
-		'delete from ' + self.table + ' where source_user_id = ? and target_user_id = ?',
-		'delete from ' + self.table + ' where target_user_id = ? and source_user_id = ?'
-	], function(sqlText, callback) {
-		twic.db.execQuery(sqlText, [
-			self.fields['source_user_id'],
-			self.fields['target_user_id']
-		], callback);
-	}, callback);
+		
+	twic.db.execQueries( [
+		{ 
+			sql: 'delete from ' + self.table + ' where source_user_id = ? and target_user_id = ?', 
+			params: [
+				self.fields['source_user_id'],
+				self.fields['target_user_id']
+			] 
+		}, { 
+			sql: 'delete from ' + self.table + ' where target_user_id = ? and source_user_id = ?', 
+			params: [
+				self.fields['source_user_id'],
+				self.fields['target_user_id']
+			] 
+		}
+	], callback);
 };
 
 /**

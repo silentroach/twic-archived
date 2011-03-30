@@ -21,8 +21,8 @@ twic.dom = ( function() {
 	 */
 	dom.find = function(selector, context) {
 		var
-			matches               = idExpr.exec(selector),
-			doc                   = (matches || !context) ? document : context;
+			matches = idExpr.exec(selector),
+			doc     = (matches || !context) ? document : context;
 
 		return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
 	};

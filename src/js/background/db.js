@@ -292,15 +292,12 @@ twic.db = ( function() {
 
 		twic.debug.groupCollapsed('Cleanup');
 
-		// fixme -> execQueries
-		twic.utils.queueIterator( [
-			'delete from timeline where tweet_id in (select id from tweets where dt < ?)',
-			'delete from tweets where dt < ?',
-			'delete from users where dt < ? and id not in (select id from accounts)',
-			'delete from friends where dt < ?'
-		], function(sqlText, callback) {
-			twic.db.execQuery(sqlText, [cutDate], callback);
-		}, function() {
+		twic.db.execQueries( [
+			{ sql: 'delete from timeline where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
+			{ sql: 'delete from tweets where dt < ?', params: [cutDate] },
+			{ sql: 'delete from users where dt < ? and id not in (select id from accounts)', params: [cutDate] },
+			{ sql: 'delete from friends where dt < ?', params: [cutDate] }
+		], function() {
 			twic.debug.groupEnd();
 			callback();
 		} );
