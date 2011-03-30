@@ -34,8 +34,12 @@ li.tweet a.avatar {
 	margin-right: .5em;
 	}
 
+li.tweet.retweet img.avatar {
+	max-width: 42px;
+	}
+
 li.tweet a.avatar.retweeter {
-	margin-left: -30px;
+	margin-left: -24px;
 	margin-top: 24px;
 	}
 	li.tweet a.avatar.retweeter img.avatar {
