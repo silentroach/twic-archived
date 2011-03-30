@@ -7,11 +7,14 @@
 
 /**
  * @constructor
+ * @extends twic.Error
  * @param {number} code Error code
  */
 twic.ResponseError = function(code) {
-	this.code = code;
+	twic.Error.call(this, code);
 };
+
+goog.inherits(twic.ResponseError, twic.Error);
 
 /** @const */ twic.ResponseError.UNKNOWN      = 0;
 /** @const */ twic.ResponseError.UNAUTHORIZED = 1;

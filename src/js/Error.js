@@ -8,9 +8,9 @@
 /**
  * @constructor
  * @param {number} code Code
- * @param {string} message Message
+ * @param {string=} message Message
  */
 twic.Error = function(code, message) {
 	this.code = code;
-	this.message = message;
+	this.message = message ? message : '';
 };
