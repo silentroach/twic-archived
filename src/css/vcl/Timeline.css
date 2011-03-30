@@ -9,3 +9,22 @@ ul.timeline {
 		ul.timeline li.tweet:last-child {
 			border-bottom: 0px;
 			}
+
+div.tweetButtons {
+	position: absolute;
+	left: 0px;
+	top: 50px;
+	width: 100%;
+	text-align: right;
+	}
+	div.tweetButtons ul {
+		display: inline;
+		padding: 0 5px 0 7px;
+		background-color: white;
+		opacity: .9;
+		border-bottom-left-radius: 6px;
+		-webkit-box-shadow: -1px 1px 1px rgba(0, 0, 0, .3);
+		}
+		div.tweetButtons ul li {
+			display: inline;
+			}

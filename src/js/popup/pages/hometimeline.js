@@ -10,10 +10,9 @@
 	var
 		/** @type {twic.vcl.Timeline}    */ timeline,
 		/** @type {Element}              */ page,
-		/** @type {Element}              */ list,
 		/** @type {Element}              */ accountNameElement,
 		/** @type {Element}              */ newTweet,
-		/** @type {twic.vcl.TweetEditor} */	tweetEditor,
+		/** @type {twic.vcl.TweetEditor} */ tweetEditor,
 		/** @type {number}               */ userId,
 		/** @type {Object}               */ mPos = {x: 0, y: 0};
 
@@ -47,7 +46,7 @@
 	};
 
 	var update = function() {
-		list.innerHTML = '';
+		// fixme clear the timeline
 
 		// todo thank about smarter way to refresh the timeline
 		twic.requests.send('getTimeline', {
@@ -61,7 +60,6 @@
 
 		timeline = new twic.vcl.Timeline(page);
 
-		list = twic.dom.find('ul', page);
 		newTweet = twic.dom.find('.newtweet', page);
 
 		twic.dom.find('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
