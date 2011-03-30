@@ -144,7 +144,7 @@ twic.vcl.Tweet = function(id, timeline) {
 			wrapper.classList.add('me');
 		}
 
-		rtAvatarLink.title = '@' + nick;
+		rtAvatarLink.title = twic.utils.lang.translate('title_retweeted_by', '@' + nick);
 		rtAvatarLink.href = '#profile#' + nick;
 
 		rtAvatar.src = av;
