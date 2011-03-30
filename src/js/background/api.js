@@ -77,7 +77,7 @@ twic.api = ( function() {
 
 		req.send( function(error, req) {
 			if (!error) {
-				var obj = twic.Request.queryStringToObject(req.responseText);
+				var obj = twic.HTTPRequest.queryStringToObject(req.responseText);
 
 				oauth_token        = obj['oauth_token'];
 				oauth_token_secret = obj['oauth_token_secret'];
@@ -117,7 +117,7 @@ twic.api = ( function() {
 			req.send( function(error, req) {
 				if (!error) {
 					callback(
-						twic.Request.queryStringToObject(req.responseText)
+						twic.HTTPRequest.queryStringToObject(req.responseText)
 					);
 				} else {
 					// reset the request_token if unauthorized reply is received
@@ -141,7 +141,7 @@ twic.api = ( function() {
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	api.getUserInfo = function(id, callback, failedCallback) {
-		var req = new twic.Request('GET', baseUrl + 'users/show/' + id + '.json');
+		var req = new twic.HTTPRequest('GET', baseUrl + 'users/show/' + id + '.json');
 		req.send( function(error, req) {
 			if (!error) {
 				parseGlobalLimit(req);
@@ -243,7 +243,7 @@ twic.api = ( function() {
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	api.getFriendshipInfo = function(source_id, target_id, callback, failedCallback) {
-		var req = new twic.Request('GET', baseUrl + 'friendships/show.json');
+		var req = new twic.HTTPRequest('GET', baseUrl + 'friendships/show.json');
 		req.setRequestData('source_id', source_id);
 		req.setRequestData('target_id', target_id);
 

@@ -7,13 +7,13 @@
 
 /**
  * @constructor
- * @extends twic.Request
+ * @extends twic.HTTPRequest
  * @param {string} method Method (GET, POST)
  * @param {string} url Url
  */
 twic.OAuthRequest = function(method, url) {
 	// call the parent constructor
-	twic.Request.call(this, method, url);
+	twic.HTTPRequest.call(this, method, url);
 };
 
 /**
@@ -22,7 +22,7 @@ twic.OAuthRequest = function(method, url) {
  */
 twic.OAuthRequest.timestampOffset = 0;
 
-goog.inherits(twic.OAuthRequest, twic.Request);
+goog.inherits(twic.OAuthRequest, twic.HTTPRequest);
 
 /**
  * Get the random OAuth nonce
@@ -114,5 +114,5 @@ twic.OAuthRequest.prototype.send = function(callback) {
 	};
 
 	// parent sender with own callback checker
-	twic.Request.prototype.send.call(this, checkOffsetAndCallback);
+	twic.HTTPRequest.prototype.send.call(this, checkOffsetAndCallback);
 };

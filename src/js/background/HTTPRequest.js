@@ -22,7 +22,7 @@ twic.ResponseError = function(code) {
  * @param {string} method Method (GET, POST)
  * @param {string} url Url
  */
-twic.Request = function(method, url) {
+twic.HTTPRequest = function(method, url) {
 	this.method = method;
 	this.url = url;
 	this.headers = {};
@@ -33,7 +33,7 @@ twic.Request = function(method, url) {
  * @param {string} data Data
  * @return {Object} Parsed object
  */
-twic.Request.queryStringToObject = function(data) {
+twic.HTTPRequest.queryStringToObject = function(data) {
 	var
 		result = { },
 		tmp,
@@ -57,7 +57,7 @@ twic.Request.queryStringToObject = function(data) {
  * @param {string} str String
  * @return {string}
  */
-twic.Request.prototype.encodeString = function(str) {
+twic.HTTPRequest.prototype.encodeString = function(str) {
 	return encodeURIComponent(str)
 		.replace(/\!/g, '%21')
 		.replace(/\*/g, '%2A')
@@ -71,7 +71,7 @@ twic.Request.prototype.encodeString = function(str) {
  * @param {string} key Key
  * @param {string} value Value
  */
-twic.Request.prototype.setHeader = function(key, value) {
+twic.HTTPRequest.prototype.setHeader = function(key, value) {
   this.headers[key] = value;
 };
 
@@ -81,7 +81,7 @@ twic.Request.prototype.setHeader = function(key, value) {
  * @param {string|number} value Value
  * todo maybe it will be great to get the object with params
  */
-twic.Request.prototype.setRequestData = function(key, value) {
+twic.HTTPRequest.prototype.setRequestData = function(key, value) {
 	this.data[key] = value;
 };
 
@@ -90,7 +90,7 @@ twic.Request.prototype.setRequestData = function(key, value) {
  * @param {function(?twic.ResponseError, XMLHttpRequest=)} callback Callback
  * todo send method can't be shortened by Closure Compiler, don't know why
  */
-twic.Request.prototype.send = function(callback) {
+twic.HTTPRequest.prototype.send = function(callback) {
 	var
 		self = this,
 		data = [],
