@@ -97,7 +97,7 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj) {
 
 /**
  * Save object to database, simple SQL generator for insert and update statements
- * @param {function()} callback Callback function
+ * @param {function()=} callback Callback function
  */
 twic.DBObject.prototype.save = function(callback) {
 	var

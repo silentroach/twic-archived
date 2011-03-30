@@ -36,7 +36,7 @@ goog.inherits(twic.db.obj.Friend, twic.DBObject);
 
 /**
  * Overriden save method to update the dt field (friend info last update time)
- * @param {function()} callback Callback function
+ * @param {function()=} callback Callback function
  * @override
  */
 twic.db.obj.Friend.prototype.save = function(callback) {
