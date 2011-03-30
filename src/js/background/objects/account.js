@@ -8,10 +8,12 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Account = function() {
-	twic.DBObject.call(this);
+	var self = this;
 
-	this.table = 'accounts';
-	this.fields = {
+	twic.DBObject.call(self);
+
+	/** @const **/ self.table = 'accounts';
+	self.fields = {
 		'id': 0,
 		'oauth_token': '',
 		'oauth_token_secret': '',

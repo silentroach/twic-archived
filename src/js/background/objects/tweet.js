@@ -8,10 +8,12 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Tweet = function() {
-	twic.DBObject.call(this);
+	var self = this;
 
-	this.table = 'tweets';
-	this.fields = {
+	twic.DBObject.call(self);
+
+	/** @const **/ self.table = 'tweets';
+	self.fields = {
 		'id': '',
 		'user_id': 0,
 		'reply_to': null,
@@ -20,7 +22,7 @@ twic.db.obj.Tweet = function() {
 		'msg': ''
 	};
 
-	this.jsonMap = {
+	self.jsonMap = {
 		'id': 'id_str',
 		'reply_to': 'in_reply_to_status_id_str',
 

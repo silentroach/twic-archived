@@ -25,7 +25,7 @@ twic.ResponseError = function(code) {
 twic.HTTPRequest = function(method, url) {
 	this.method = method;
 	this.url = url;
-	this.headers = {};
+	this.requestHeaders = {};
 	this.data = {};
 };
 
@@ -72,7 +72,7 @@ twic.HTTPRequest.prototype.encodeString = function(str) {
  * @param {string} value Value
  */
 twic.HTTPRequest.prototype.setHeader = function(key, value) {
-  this.headers[key] = value;
+  this.requestHeaders[key] = value;
 };
 
 /**
@@ -103,8 +103,8 @@ twic.HTTPRequest.prototype.send = function(callback) {
 	var req = new XMLHttpRequest();
 	req.open(self.method, self.url + (self.method === 'GET' ? '?' + data.join('&') : ''));
 
-	for (key in self.headers) {
-		req.setRequestHeader(key, self.headers[key]);
+	for (key in self.requestHeaders) {
+		req.setRequestHeader(key, self.requestHeaders[key]);
 	}
 
 	req.onreadystatechange = function() {

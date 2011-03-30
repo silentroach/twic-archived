@@ -40,7 +40,7 @@ twic.accounts = ( function() {
 			{ sql: 'delete from users where id = ?', params: [id] },
 			{ sql: 'delete from accounts where id = ?', params: [id] }
 		], function() {
-			accounts.update( function() {
+			accounts.updateList( function() {
 				sendResponse( {
 					'result': twic.global.FAILED
 				} );
@@ -107,7 +107,7 @@ twic.accounts = ( function() {
 				twic.api.resetToken();
 
 				// update the accounts information
-				accounts.update( function() {
+				accounts.updateList( function() {
 					// and update the home timeline for user
 					twic.twitter.updateHomeTimeline(account.fields['id']);
 				} );
@@ -208,7 +208,7 @@ twic.accounts = ( function() {
 	 * @param {function()=} callback Callback function
 	 * todo think about more nice solution
 	 */
-	accounts.update = function(callback) {
+	accounts.updateList = function(callback) {
 		var
 			tmpAccount = new twic.db.obj.Account(),
 			tmpUser    = new twic.db.obj.User();
@@ -270,7 +270,7 @@ twic.accounts = ( function() {
 
 	// ------------------------------------------
 
-	accounts.update( function() {
+	accounts.updateList( function() {
 		// first check in 5 seconds
 		setTimeout(function() {
 			scheduler();

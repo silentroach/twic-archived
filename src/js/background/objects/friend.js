@@ -8,10 +8,12 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Friend = function() {
-	twic.DBObject.call(this);
+	var self = this;
 
-	this.table = 'friends';
-	this.fields = {
+	twic.DBObject.call(self);
+
+	/** @const **/ self.table = 'friends';
+	self.fields = {
 		'source_user_id': 0,
 		'target_user_id': 0,
 		'following': 0,
@@ -19,7 +21,7 @@ twic.db.obj.Friend = function() {
 		'dt': twic.utils.date.getCurrentTimestamp()
 	};
 
-	this.jsonMap = {
+	self.jsonMap = {
 		'source_user_id': 'id',
 		'following': function(obj) {
 			return (obj['following']) ? 1 : 0;

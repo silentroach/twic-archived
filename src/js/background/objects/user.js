@@ -14,7 +14,7 @@ twic.db.obj.User = function() {
 
 	twic.DBObject.call(self);
 
-	self.table = 'users';
+	/** @const **/ self.table = 'users';
 	self.fields = {
 		'id': 0,
 		'name': '',
