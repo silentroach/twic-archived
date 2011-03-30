@@ -72,8 +72,8 @@ twic.twitter = ( function() {
 			['source_user_id', 'target_user_id'],
 			[source_id, target_id],
 			function() {
-				// 30 minutes cache
-				if (tmpFriend.fields['dt'] < twic.utils.date.getCurrentTimestamp() - 60 * 30) {
+				// cache for hour
+				if (tmpFriend.fields['dt'] < twic.utils.date.getCurrentTimestamp() - 60 * 60) {
 					tmpFriend.remove( getInfo );
 				} else {
 					callback(tmpFriend);
