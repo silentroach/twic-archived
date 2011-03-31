@@ -131,7 +131,10 @@
 		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
-		elementUrl.innerHTML = '<a href="' + data['url'] + '" target="_blank">' + data['url'] + '</a>';
+
+		if (data['url'] !== '') {
+			elementUrl.innerHTML = twic.utils.url.humanize(data['url']);
+		}
 
 		if (description.trim() !== '') {
 			// todo prepare the text as a tweet

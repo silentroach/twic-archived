@@ -70,3 +70,27 @@ twic.utils.lang = { };
 twic.utils.lang.translate = function(args) {
 	return chrome.i18n.getMessage.apply(chrome, arguments);
 };
+
+twic.utils.url = { };
+
+/**
+ * Humanize the link
+ * @param {string} url Url
+ * @return {string}
+ */
+twic.utils.url.humanize = function(url) {
+	var
+		// cut the protocol
+		cutted = url.replace(/^(.*?)\/\//, ''),
+		// cut the first 'www.'
+		cutted = cutted.replace(/^www\./, '');
+
+	if (cutted.length > 30) {
+		cutted = cutted.substring(0, 30) + '&hellip;';
+	} else
+	if (['/', '\\'].indexOf(cutted.substring(cutted.length - 1)) >= 0) {
+		cutted = cutted.substring(0, cutted.length - 1);
+	}
+
+	return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
+};

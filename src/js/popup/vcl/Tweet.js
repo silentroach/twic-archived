@@ -56,24 +56,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.setText = function(text) {
 		// preparing urls
-		var txt = text.replace(
-			urlSearchPattern,
-			function(url) {
-				var
-					i = url.indexOf('//'),
-					cutted = i > 0 ? url.substring(i + 2) : url;
-
-				if (cutted.length > 30) {
-					cutted = cutted.substring(0, 30) + '&hellip;';
-				} else
-				// stripping last slash
-				if (['/', '\\'].indexOf(cutted.substring(cutted.length - 1)) >= 0) {
-					cutted = cutted.substring(0, cutted.length - 1);
-				}
-
-				return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
-			}
-		);
+		var txt = text.replace(urlSearchPattern, twic.utils.url.humanize);
 
 		// preparing hashtags
 		txt = txt.replace(
