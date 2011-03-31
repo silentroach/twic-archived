@@ -45,9 +45,9 @@ twic.vcl.Timeline = function(parent) {
 	 */
 	timeline.beginUpdate = function(isBottom) {
 		if (isBottom) {
-			parent.insertAfter(list, loader);
-		} else {
 			wrapper.appendChild(loader);
+		} else {
+			wrapper.insertBefore(loader, list);
 		}
 
 		tweetBuffer = document.createDocumentFragment();
