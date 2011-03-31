@@ -19,7 +19,7 @@ twic.vcl.Timeline = function(parent) {
 
 		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
 		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
-		/** @type {Element} **/ tweetBuffer,
+		/** @type {DocumentFragment} **/ tweetBuffer,
 		/** @type {boolean} **/ isLoading    = false,
 		/** @type {Element} **/ tmp,
 

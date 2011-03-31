@@ -4,6 +4,7 @@
 	#profile .info .avatar {
 		float: right;
 		max-width: 96px;
+		margin-left: 1em;
 		}
 	#profile #followings p {
 		margin-top: 1em;

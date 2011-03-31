@@ -132,7 +132,7 @@
 		profileUserId = data['id'];
 
 		// fixme shitcode
-		elementAvatar.src = data['avatar'];
+		elementAvatar.src = data['avatar'].replace('_normal.', '.');
 		elementAvatar.title = '@' + data['screen_name'];
 		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
