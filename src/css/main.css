@@ -28,3 +28,11 @@ p.loader {
 .loading {
 	background: url('/img/loader.gif') no-repeat left center !important;
 	}
+
+a.direct {
+	opacity: .5;
+	-webkit-transition: opacity 0.2s ease-in-out;
+	}
+	a.direct:hover {
+		opacity: 1;
+		}
