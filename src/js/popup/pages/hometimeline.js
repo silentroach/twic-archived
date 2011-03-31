@@ -22,6 +22,8 @@
 			userName = info['account']['name'],
 			data     = info['data'];
 
+		timeline.endUpdate();
+
 		accountNameElement.innerHTML = '@' + userName;
 
 		timeline.setUserId(info['account']['id']);
@@ -47,6 +49,9 @@
 
 	var update = function() {
 		// fixme clear the timeline
+		timeline.clear();
+
+		timeline.beginUpdate();
 
 		// todo thank about smarter way to refresh the timeline
 		twic.requests.send('getTimeline', {

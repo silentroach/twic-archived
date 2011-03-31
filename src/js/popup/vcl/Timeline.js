@@ -15,9 +15,12 @@ twic.vcl.Timeline = function(parent) {
 
 		/** @type {Element} **/ wrapper      = twic.dom.expand('div.timeline'),
 		/** @type {Element} **/ list         = twic.dom.expand('ul'),
+		/** @type {Element} **/ loader       = twic.dom.expand('p.loader'),
 
 		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
 		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
+		/** @type {Element} **/ tweetBuffer,
+		/** @type {boolean} **/ isLoading    = false,
 		/** @type {Element} **/ tmp,
 
 		/** @type {string}  **/ userNick,
@@ -37,6 +40,44 @@ twic.vcl.Timeline = function(parent) {
 	parent.appendChild(wrapper);
 
 	/**
+	 * Start the update
+	 * @param {boolean=} isBottom Show animation at the bottom of timeline?
+	 */
+	timeline.beginUpdate = function(isBottom) {
+		if (isBottom) {
+			parent.insertAfter(list, loader);
+		} else {
+			wrapper.appendChild(loader);
+		}
+
+		tweetBuffer = document.createDocumentFragment();
+
+		isLoading = true;
+	};
+
+	/**
+	 * Stop the loading
+	 */
+	timeline.endUpdate = function() {
+		isLoading = false;
+
+		if (tweetBuffer.childElementCount > 0) {
+			list.appendChild(tweetBuffer);
+			tweetBuffer = null;
+		}
+
+		twic.dom.remove(loader);
+	};
+
+	/**
+	 * Clear the timeline
+	 */
+	timeline.clear = function() {
+		list.innerHTML = '';
+		tweets = { };
+	};
+
+	/**
 	 * Add tweet to timeline
 	 * @param {string} id Tweet identifier
 	 * @return {!twic.vcl.Tweet}
@@ -46,7 +87,12 @@ twic.vcl.Timeline = function(parent) {
 			tweet = new twic.vcl.Tweet(id, timeline);
 
 		tweets[id] = tweet;
-		list.appendChild(tweet.getElement());
+
+		if (isLoading) {
+			tweetBuffer.appendChild(tweet.getElement());
+		} else {
+			list.appendChild(tweet.getElement());
+		}
 
 		return tweet;
 	};

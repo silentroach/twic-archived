@@ -14,6 +14,14 @@ twic.dom = ( function() {
 		/** @const **/ expExpr = /((^|#|\.)\w+)/g;
 
 	/**
+	 * Remove the item from dom
+	 * @param {Element} element Element ;)
+	 */
+	dom.remove = function(element) {
+		element.parentNode.removeChild(element);
+	};
+
+	/**
 	 * Find element
 	 * @param {string} selector Selector
 	 * @param {Element=} context Context
