@@ -200,6 +200,6 @@ var SHA1 = ( function() {
 		encode: function(key, data) {
 			return binb2b64(core_hmac_sha1(key, data));
 		}
-	}
+	};
 
 }() );
