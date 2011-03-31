@@ -20,10 +20,12 @@
 		elementFollowings,
 		elementFollowed,
 		elementFollowedSpan,
+		elementDirect,
 		timelineUserId,
 		profileUserId,
 		loader,
-		toolbarTimeline;
+		toolbarTimeline,
+		directLinkBase;
 
 	var initPage = function() {
 		page = twic.dom.find('#profile');
@@ -31,6 +33,10 @@
 		elementFollowings   = twic.dom.find('#followings');
 		elementFollowed     = twic.dom.find('p', elementFollowings);
 		elementFollowedSpan = twic.dom.find('span', elementFollowings);
+
+		elementDirect   = twic.dom.find('.toolbar p a', page);
+		elementDirect.title = twic.utils.lang.translate('title_directly');
+		directLinkBase  = elementDirect.href;
 
 		elementLoader   = twic.dom.find('.loader', page);
 		elementAvatar   = twic.dom.find('.avatar', page);
@@ -131,6 +137,8 @@
 		elementAvatar.style.display = '';
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
+
+		elementDirect.href = directLinkBase + data['screen_name'];
 
 		if (data['url'] !== '') {
 			elementUrl.innerHTML = twic.utils.url.humanize(data['url']);
