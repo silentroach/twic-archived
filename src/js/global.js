@@ -1,12 +1,11 @@
 /**
+ * Constants used in different parts of extension
+ * For example in inline script and background page
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Constants used in different parts of extension
- * For example in inline script and background page
- */
 twic.global = { };
 
 /**

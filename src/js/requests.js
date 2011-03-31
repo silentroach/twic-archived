@@ -1,11 +1,10 @@
 /**
+ * Handle crosspage extension messaging
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * Handle crosspage extension messaging
- */
 twic.requests = ( function() {
 
 	var

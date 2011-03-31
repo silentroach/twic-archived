@@ -1,10 +1,8 @@
 /**
+ * Some utils
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
- */
-
-/**
- * Some utils
  */
 
 twic.utils = { };

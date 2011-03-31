@@ -1,10 +1,8 @@
 /**
+ * Some DOM utils
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
- */
-
-/**
- * Some DOM utils
  */
 
 twic.dom = ( function() {

@@ -1,12 +1,11 @@
 /**
+ * All work with console object is refactored to strip it
+ * while compiling (closure compiler with defines)
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-/**
- * All work with console object is refactored to strip it
- * while compiling (closure compiler with defines)
- */
 twic.debug = { };
 
 /**
