@@ -13,11 +13,27 @@ twic.vcl.Timeline = function(parent) {
 	var
 		timeline = this,
 
-		/** @type {Element} **/ wrapper = twic.dom.expand('ul.timeline'),
+		/** @type {Element} **/ wrapper      = twic.dom.expand('div.timeline'),
+		/** @type {Element} **/ list         = twic.dom.expand('ul'),
+
+		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
+		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
+		/** @type {Element} **/ tmp,
+
 		/** @type {string}  **/ userNick,
 		/** @type {number}  **/ userId,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
+	tmp = twic.dom.expand('div');
+
+	tbReply.src   = '/img/buttons/reply.png';
+	tbReply.title = twic.utils.lang.translate('title_reply');
+	tmp.appendChild(tbReply);
+
+	tweetButtons.appendChild(tmp);
+
+	wrapper.appendChild(list);
+	wrapper.appendChild(tweetButtons);
 	parent.appendChild(wrapper);
 
 	/**
@@ -30,7 +46,7 @@ twic.vcl.Timeline = function(parent) {
 			tweet = new twic.vcl.Tweet(id, timeline);
 
 		tweets[id] = tweet;
-		wrapper.appendChild(tweet.getElement());
+		list.appendChild(tweet.getElement());
 
 		return tweet;
 	};

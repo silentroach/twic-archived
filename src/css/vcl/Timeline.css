@@ -1,23 +1,26 @@
-ul.timeline {
+.timeline ul {
 	border-top: 1px dotted silver;
 	font-size: 9pt;
 	}
-	ul.timeline li.tweet {
+	.timeline ul li.tweet {
 		padding: 0 .5em .1em 3px;
 		border-bottom: 1px dotted grey;
 		}
-		ul.timeline li.tweet:last-child {
+		.timeline ul li.tweet:last-child {
 			border-bottom: 0px;
 			}
 
-div.tweetButtons {
+.timeline .tweetButtons {
 	position: absolute;
+	display: none;
 	left: 0px;
 	top: 50px;
 	right: 2px;
 	text-align: right;
+	/* don't change cursor to text selector */
+	cursor: default;
 	}
-	div.tweetButtons ul {
+	.timeline .tweetButtons div {
 		display: inline;
 		padding: 3px 5px 0 7px;
 		background-color: white;
@@ -25,6 +28,11 @@ div.tweetButtons {
 		border-bottom-left-radius: 6px;
 		-webkit-box-shadow: -1px 1px 1px rgba(0, 0, 0, .3);
 		}
-		div.tweetButtons ul li {
-			display: inline;
+		.timeline .tweetButtons div img {
+			cursor: pointer;
+			opacity: .5;
+			-webkit-transition: opacity 0.2s ease-in-out;
 			}
+			.timeline .tweetButtons div img:hover {
+				opacity: 1;
+				}
