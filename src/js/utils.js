@@ -81,9 +81,10 @@ twic.utils.url = { };
 twic.utils.url.humanize = function(url) {
 	var
 		// cut the protocol
-		cutted = url.replace(/^(.*?)\/\//, ''),
-		// cut the first 'www.'
-		cutted = cutted.replace(/^www\./, '');
+		cutted = url.replace(/^(.*?)\/\//, '');
+
+	// cut the first 'www.'
+	cutted = cutted.replace(/^www\./, '');
 
 	if (cutted.length > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
