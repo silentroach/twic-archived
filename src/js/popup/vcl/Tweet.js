@@ -14,12 +14,6 @@ twic.vcl.Tweet = function(id, timeline) {
 	var
 		tweet = this,
 
-		/**
-		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
-		 * @type {RegExp}
-		 */
-		urlSearchPattern    = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,
-
 		/** @type {RegExp} */ nickSearchPattern   = /[\@]+(\w+)/gi,
 		/** @type {RegExp} */ hashSearchPattern   = /[\#]+(\w+)/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
@@ -55,8 +49,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @param {string} text
 	 */
 	tweet.setText = function(text) {
-		// preparing urls
-		var txt = text.replace(urlSearchPattern, twic.utils.url.humanize);
+		var txt = twic.utils.url.processText(text);
 
 		// preparing hashtags
 		txt = txt.replace(

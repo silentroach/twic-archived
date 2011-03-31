@@ -5,6 +5,8 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// todo fat file, reorganize it
+
 twic.utils = { };
 
 /**
@@ -69,25 +71,43 @@ twic.utils.lang.translate = function(args) {
 	return chrome.i18n.getMessage.apply(chrome, arguments);
 };
 
-twic.utils.url = { };
+// fixme ugly idea to split only url parsing to different "class"
 
-/**
- * Humanize the link
- * @param {string} url Url
- * @return {string}
- */
-twic.utils.url.humanize = function(url) {
+twic.utils.url = ( function() {
+
 	var
-		cutted = url
-			.replace(/^(.*?)\/\//, '')  // cutting the protocol
-			.replace(/^www\./, '');     // cutting 'www.'
+		result = { },
+		/**
+		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+		 * @type {RegExp}
+		 */
+		urlSearchPattern    = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
 
-	if (cutted.length > 30) {
-		cutted = cutted.substring(0, 30) + '&hellip;';
-	} else
-	if (['/', '\\'].indexOf(cutted.substring(cutted.length - 1)) >= 0) {
-		cutted = cutted.substring(0, cutted.length - 1);
-	}
+	/**
+	 * Humanize the link
+	 * @param {string} url Url
+	 * @return {string}
+	 */
+	result.humanize = function(url) {
+		var
+			cutted = url
+				.replace(/^(.*?)\/\//, '')  // cutting the protocol
+				.replace(/^www\./, '');     // cutting 'www.'
 
-	return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
-};
+		if (cutted.length > 30) {
+			cutted = cutted.substring(0, 30) + '&hellip;';
+		}	else
+		if (['/', '\\'].indexOf(cutted.substring(cutted.length - 1)) >= 0) {
+			cutted = cutted.substring(0, cutted.length - 1);
+		}
+
+		return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
+	};
+
+	result.processText = function(text) {
+		return text.replace(urlSearchPattern, result.humanize);
+	};
+
+	return result;
+
+}() );

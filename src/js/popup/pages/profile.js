@@ -146,7 +146,7 @@
 
 		if (description.trim() !== '') {
 			// todo prepare the text as a tweet
-			elementBio.innerHTML = description;
+			elementBio.innerHTML = twic.utils.url.processText(description);
 			elementBio.style.display = 'block';
 			marginElement = elementBio;
 		}
