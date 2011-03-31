@@ -13,6 +13,7 @@
 		cursor: pointer;
 		border: 1px solid rgba(0, 0, 0, .1);
 		-webkit-transition: background-color 0.5s ease-in-out;
+		-webkit-user-select: none;
 		}
 		#profile #followings p:hover {
 			/* simple hover on "follow" button */
