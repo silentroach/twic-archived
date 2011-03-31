@@ -15,7 +15,6 @@ var SHA1 = ( function() {
 	 * the server-side, but the defaults work in most cases.
 	 */
 	var
-		result = { },
 		/** @const **/ chrsz = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode */
 
 	/**
@@ -191,16 +190,16 @@ var SHA1 = ( function() {
 		return str;
 	};
 
-	/**
-	 * Encode
-	 * @param {string} key Key
-	 * @param {string} data Data
-	 * @return {string}
-	 */
-	result.encode = function(key, data) {
-		return binb2b64(core_hmac_sha1(key, data));
-	};
-
-	return result;
+	return {
+		/**
+		 * Encode
+		 * @param {string} key Key
+		 * @param {string} data Data
+		 * @return {string}
+		 */
+		encode: function(key, data) {
+			return binb2b64(core_hmac_sha1(key, data));
+		}
+	}
 
 }() );
