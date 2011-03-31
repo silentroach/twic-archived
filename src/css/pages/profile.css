@@ -3,9 +3,7 @@
 	}
 	#profile .info .avatar {
 		float: right;
-		}
-	#profile .info .location {
-		padding-top: 1em;
+		max-width: 96px;
 		}
 	#profile #followings p {
 		margin-top: 1em;

@@ -119,8 +119,9 @@
 
 	var showProfile = function(data) {
 		var
-			/** @type {string} **/ description = data['description'],
-			/** @type {string} **/ loc = data['location'];
+			/** @type {Element} **/ marginElement,
+			/** @type {string} **/  description = data['description'],
+			/** @type {string} **/  loc = data['location'],
 
 		profileUserId = data['id'];
 
@@ -136,11 +137,17 @@
 			// todo prepare the text as a tweet
 			elementBio.innerHTML = description;
 			elementBio.style.display = 'block';
+			marginElement = elementBio;
 		}
 
 		if (loc.trim() !== '') {
 			elementLocation.innerHTML = loc;
 			elementLocation.style.display = 'block';
+			marginElement = elementLocation;
+		}
+
+		if (marginElement) {
+			marginElement.style.marginTop = '1em';
 		}
 
 		if (
