@@ -61,7 +61,7 @@ twic.vcl.Timeline = function(parent) {
 	timeline.endUpdate = function() {
 		isLoading = false;
 
-		if (tweetBuffer.childElementCount > 0) {
+		if (tweetBuffer.childNodes.length > 0) {
 			list.appendChild(tweetBuffer);
 			tweetBuffer = null;
 		}
