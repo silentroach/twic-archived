@@ -6,6 +6,7 @@ body {
 	background-color: rgba(0, 0, 0, .03);
 	line-height: 1.3;
 	overflow-x: hidden;
+	-webkit-user-select: none;
 	}
 
 body, input, textarea {
@@ -15,4 +16,8 @@ body, input, textarea {
 
 strong {
 	font-weight: bold;
+	}
+
+p {
+	-webkit-user-select: text;
 	}
