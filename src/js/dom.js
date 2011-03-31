@@ -43,9 +43,8 @@ twic.dom = ( function() {
 	dom.expand = function(expr) {
 		var
 			element = null,
-			res;
-
-		// fixme it smells
+			res,
+			/** @type {string} **/ part;
 
 		res = expExpr.exec(expr);
 
@@ -53,13 +52,15 @@ twic.dom = ( function() {
 			res
 			&& res.length > 2
 		) {
-			if (res[2] === '') {
+			part = res[2];
+
+			if (part === '') {
 				element = document.createElement(res[1]);
 			} else
-			if (res[2] === '.') {
+			if (part === '.') {
 				element.classList.add(res[1].substring(1));
 			} else
-			if (res[2] === '#') {
+			if (part === '#') {
 				element.setAttribute('id', res[1].substring(1));
 			}
 
