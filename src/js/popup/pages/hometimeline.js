@@ -13,8 +13,7 @@
 		/** @type {Element}              */ accountNameElement,
 		/** @type {Element}              */ newTweet,
 		/** @type {twic.vcl.TweetEditor} */ tweetEditor,
-		/** @type {number}               */ userId,
-		/** @type {Object}               */ mPos = {x: 0, y: 0};
+		/** @type {number}               */ userId;
 
 	var buildList = function(info) {
 		var

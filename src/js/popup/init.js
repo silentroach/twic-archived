@@ -14,4 +14,3 @@ if (lastLocation) {
 }
 
 window.onhashchange();
-

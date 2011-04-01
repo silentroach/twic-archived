@@ -23,6 +23,9 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {boolean} **/ isLoading    = false,
 		/** @type {Element} **/ tmp,
 
+		/** @type {string}  **/ firstId,
+		/** @type {string}  **/ lastId,
+
 		/** @type {string}  **/ userNick,
 		/** @type {number}  **/ userId,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
@@ -75,6 +78,9 @@ twic.vcl.Timeline = function(parent) {
 	timeline.clear = function() {
 		list.innerHTML = '';
 		tweets = { };
+
+		lastId = null;
+		firstId = null;
 	};
 
 	/**
@@ -87,6 +93,20 @@ twic.vcl.Timeline = function(parent) {
 			tweet = new twic.vcl.Tweet(id, timeline);
 
 		tweets[id] = tweet;
+
+		if (
+			!lastId
+			|| id > lastId
+		) {
+			lastId = id;
+		}
+
+		if (
+			!firstId
+			|| id < firstId
+		) {
+			firstId = id;
+		}
 
 		if (isLoading) {
 			tweetBuffer.appendChild(tweet.getElement());
@@ -125,5 +145,18 @@ twic.vcl.Timeline = function(parent) {
 		return userNick;
 	};
 
-};
+	/**
+	 * @return {string} Last tweet identifier
+	 */
+	timeline.getLastId = function() {
+		return lastId;
+	};
 
+	/**
+	 * @return {string} First tweet identifier
+	 */
+	timeline.getFirstId = function() {
+		return firstId;
+	};
+
+};
