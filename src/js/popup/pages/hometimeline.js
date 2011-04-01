@@ -22,8 +22,6 @@
 			userName = info['account']['name'],
 			data     = info['data'];
 
-		timeline.endUpdate();
-
 		accountNameElement.innerHTML = '@' + userName;
 
 		timeline.setUserId(info['account']['id']);
@@ -45,6 +43,8 @@
 
 			tweet.setText(item['msg']);
 		}
+
+		timeline.endUpdate();
 	};
 
 	var update = function() {
