@@ -183,9 +183,10 @@ twic.api = ( function() {
 	 * @param {string} id Tweet identifier
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
-	 * @param {function()} callback Callback function
+	 * @param {function(*)} callback Callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
-	api.retweet = function(id, token, token_secret, callback) {
+	api.retweet = function(id, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/retweet/' + id + '.json');
 
 		req.sign(token, token_secret);
@@ -193,8 +194,19 @@ twic.api = ( function() {
 		twic.debug.info('Retweeting the ' + id);
 
 		req.send( function(error, req) {
-			// todo what if it will fails?
-			callback();
+			if (!error) {
+				var data = JSON.parse(req.responseText);
+
+				if (
+					data
+					&& callback
+				) {
+					callback(data);
+				} // todo else failedCallback
+			} else
+			if (failedCallback) {
+				failedCallback(error);
+			}
 		} );
 	};
 

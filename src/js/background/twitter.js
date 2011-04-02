@@ -236,7 +236,15 @@ twic.twitter = ( function() {
 		twic.api.retweet(
 			tweetId,
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
-			callback
+			function(tweet) {
+				var
+					/** @type {string} **/ tweetId = tweet['id_str'],
+					tweetObj = new twic.db.obj.Tweet();
+
+				tweetObj.updateFromJSON(tweetId, tweet);
+
+				twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, callback);
+			}
 		);
 	};
 

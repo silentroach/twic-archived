@@ -15,6 +15,18 @@
 		/** @type {twic.vcl.TweetEditor} */ tweetEditor,
 		/** @type {number}               */ userId;
 
+	var doRetweet = function(userId, tweetId, callback) {
+		twic.requests.send('retweet', {
+			'userId': userId,
+			'tweetId': tweetId
+		}, function() {
+			callback();
+
+			tweetEditor.reset();
+			update();
+		} );
+	};
+
 	var buildList = function(info) {
 		var
 			id,
@@ -63,6 +75,7 @@
 		accountNameElement = twic.dom.find('.toolbar p', page);
 
 		timeline = new twic.vcl.Timeline(page);
+		timeline.onRetweet = doRetweet;
 
 		newTweet = twic.dom.find('.newtweet', page);
 

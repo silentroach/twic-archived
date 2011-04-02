@@ -32,19 +32,17 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {number}  **/ userId,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
-	// @resource img/buttons/reply.png
-	tbReply.src   = 'img/buttons/reply.png';
-	tbReply.title = twic.utils.lang.translate('title_reply');
-	tweetButtons.appendChild(tbReply);
+	var restoreButtonsSrc = function() {
+		// @resource img/buttons/retweet.png
+		tbRetweet.src   = 'img/buttons/retweet.png';
+		// @resource img/buttons/reply.png
+		tbReply.src   = 'img/buttons/reply.png';
+	};
 
-	// @resource img/buttons/retweet.png
-	tbRetweet.src   = 'img/buttons/retweet.png';
-	tbRetweet.title = twic.utils.lang.translate('title_retweet');
-	tweetButtons.appendChild(tbRetweet);
-
-	wrapper.appendChild(list);
-	wrapper.appendChild(tweetButtons);
-	parent.appendChild(wrapper);
+	var doButtonLoad = function(button) {
+		// @resource img/loader.gif
+		button.src = 'img/loader.gif';
+	};
 
 	/**
 	 * fixme -> dom
@@ -99,6 +97,8 @@ twic.vcl.Timeline = function(parent) {
 
 				hoveredTweet = find;
 
+				restoreButtonsSrc();
+
 				tweetButtons.style.display = 'none';
 				tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
 
@@ -133,10 +133,6 @@ twic.vcl.Timeline = function(parent) {
 		buttonPressed = false;
 	};
 
-	list.addEventListener('mousedown', timelineMouseDown, false);
-	list.addEventListener('mouseup', timelineMouseUp, false);
-	list.addEventListener('mousemove', timelineMouseMove, false);
-	list.addEventListener('mouseout', timelineMouseOut, false);
 
 	/**
 	 * Start the update
@@ -254,5 +250,35 @@ twic.vcl.Timeline = function(parent) {
 	timeline.getFirstId = function() {
 		return firstId;
 	};
+
+	timeline.onRetweet = function(userId, tweetId, callback) { };
+
+	var doRetweet = function() {
+		if (hoveredTweet) {
+			doButtonLoad(tbRetweet);
+
+			timeline.onRetweet(userId, hoveredTweet.id, restoreButtonsSrc);
+		}
+	};
+
+	// init
+
+	tbReply.title = twic.utils.lang.translate('title_reply');
+	tweetButtons.appendChild(tbReply);
+
+	tbRetweet.title = twic.utils.lang.translate('title_retweet');
+	tbRetweet.onclick = doRetweet;
+	tweetButtons.appendChild(tbRetweet);
+
+	wrapper.appendChild(list);
+	wrapper.appendChild(tweetButtons);
+	parent.appendChild(wrapper);
+
+	restoreButtonsSrc();
+
+	list.addEventListener('mousedown', timelineMouseDown, false);
+	list.addEventListener('mouseup', timelineMouseUp, false);
+	list.addEventListener('mousemove', timelineMouseMove, false);
+	list.addEventListener('mouseout', timelineMouseOut, false);
 
 };

@@ -149,7 +149,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.getCanRetweet = function() {
-		return authorId !== timelineId;
+		return authorId !== timelineId && retweetedById !== timelineId;
 	};
 
 	tweet.getCanReply = function() {
