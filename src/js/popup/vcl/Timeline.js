@@ -20,6 +20,7 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
 		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
 		/** @type {Element} **/ tbRetweet    = twic.dom.expand('img.tb_retweet'),
+		/** @type {Element} **/ tbUnRetweet  = twic.dom.expand('img.tb_retweet_undo'),
 		/** @type {Element} **/ hoveredTweet,
 		/** @type {DocumentFragment} **/ tweetBuffer,
 		/** @type {boolean} **/ isLoading    = false,
@@ -35,6 +36,8 @@ twic.vcl.Timeline = function(parent) {
 	var restoreButtonsSrc = function() {
 		// @resource img/buttons/retweet.png
 		tbRetweet.src   = 'img/buttons/retweet.png';
+		// @resource img/buttons/retweet_undo.png
+		tbUnRetweet.src = 'img/buttons/retweet_undo.png';
 		// @resource img/buttons/reply.png
 		tbReply.src   = 'img/buttons/reply.png';
 	};
@@ -103,10 +106,11 @@ twic.vcl.Timeline = function(parent) {
 				tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
 
 				var
-					vReply   = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
-					vRetweet = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet());
+					vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
+					vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
+					vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet());
 
-				if (vReply || vRetweet) {
+				if (vReply || vRetweet || vUnRetweet) {
 					tweetButtons.style.display = 'block';
 				}
 			}
@@ -269,6 +273,9 @@ twic.vcl.Timeline = function(parent) {
 	tbRetweet.title = twic.utils.lang.translate('title_retweet');
 	tbRetweet.onclick = doRetweet;
 	tweetButtons.appendChild(tbRetweet);
+
+	tbUnRetweet.title = twic.utils.lang.translate('title_retweet_undo');
+	tweetButtons.appendChild(tbUnRetweet);
 
 	wrapper.appendChild(list);
 	wrapper.appendChild(tweetButtons);

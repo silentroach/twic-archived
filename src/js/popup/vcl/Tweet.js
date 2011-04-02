@@ -152,6 +152,10 @@ twic.vcl.Tweet = function(id, timeline) {
 		return authorId !== timelineId && retweetedById !== timelineId;
 	};
 
+	tweet.getCanUnRetweet = function() {
+		return retweetedById === timelineId;
+	};
+
 	tweet.getCanReply = function() {
 		return false;
 	};
