@@ -78,7 +78,7 @@ twic.vcl.Tweet = function(id, timeline) {
 			'<br />'
 		);
 
-		tweetContent.innerHTML = txt;
+		tweetContent.innerHTML = txt + '<br />';
 	};
 
 	/**
