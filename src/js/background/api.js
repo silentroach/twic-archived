@@ -215,7 +215,7 @@ twic.api = ( function() {
 	 * @param {string} id Tweet identifier
 	 * @param {string} token OAuth token
 	 * @param {string} token_secret OAuth token secret
-	 * @param {function(*)} callback Callback function
+	 * @param {function()} callback Callback function
 	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
 	 */
 	api.deleteTweet = function(id, token, token_secret, callback, failedCallback) {
