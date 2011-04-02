@@ -211,6 +211,33 @@ twic.api = ( function() {
 	};
 
 	/**
+	 * Remove the tweet
+	 * @param {string} id Tweet identifier
+	 * @param {string} token OAuth token
+	 * @param {string} token_secret OAuth token secret
+	 * @param {function(*)} callback Callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
+	 */
+	api.deleteTweet = function(id, token, token_secret, callback, failedCallback) {
+		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/destroy/' + id + '.json');
+
+		// do not request additional user info cause it is about us
+		req.setRequestData('trim_user', 1);
+
+		req.sign(token, token_secret);
+
+		twic.debug.info('Removing the ' + id);
+
+		req.send( function(error, req) {
+			if (!error) {
+				callback();
+			} else {
+				failedCallback(error);
+			}
+		} );
+	};
+
+	/**
 	 * Unfollow user
 	 * @param {number} whom_id Whom to unfollow id
 	 * @param {string} token OAuth token

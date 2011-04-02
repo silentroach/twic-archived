@@ -27,6 +27,18 @@
 		} );
 	};
 
+	var doDelete = function(userId, tweetId, callback) {
+		twic.requests.send('delete', {
+			'userId': userId,
+			'tweetId': tweetId
+		}, function() {
+			callback();
+
+			tweetEditor.reset();
+			update();
+		} );
+	};
+
 	var buildList = function(info) {
 		var
 			id,
@@ -76,6 +88,7 @@
 
 		timeline = new twic.vcl.Timeline(page);
 		timeline.onRetweet = doRetweet;
+		timeline.onDelete  = doDelete;
 
 		newTweet = twic.dom.find('.newtweet', page);
 

@@ -88,4 +88,20 @@
 		} );
 	} );
 
+	twic.requests.subscribe('delete', function(data, sendResponse) {
+		// check for id in request data
+		if (!data['userId']) {
+			sendResponse({ });
+			return;
+		}
+
+		var
+			userId = data['userId'],
+			tweetId = data['tweetId'];
+
+		twic.twitter.deleteTweet(userId, tweetId, function() {
+			sendResponse({ });
+		} );
+	} );
+
 }() );

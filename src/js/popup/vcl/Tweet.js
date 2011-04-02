@@ -156,6 +156,10 @@ twic.vcl.Tweet = function(id, timeline) {
 		return retweetedById === timelineId;
 	};
 
+	tweet.getCanDelete = function() {
+		return authorId === timelineId;
+	};
+
 	tweet.getCanReply = function() {
 		return false;
 	};

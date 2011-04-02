@@ -21,6 +21,7 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
 		/** @type {Element} **/ tbRetweet    = twic.dom.expand('img.tb_retweet'),
 		/** @type {Element} **/ tbUnRetweet  = twic.dom.expand('img.tb_retweet_undo'),
+		/** @type {Element} **/ tbDelete     = twic.dom.expand('img.tb_delete'),
 		/** @type {Element} **/ hoveredTweet,
 		/** @type {DocumentFragment} **/ tweetBuffer,
 		/** @type {boolean} **/ isLoading    = false,
@@ -38,6 +39,8 @@ twic.vcl.Timeline = function(parent) {
 		tbRetweet.src   = 'img/buttons/retweet.png';
 		// @resource img/buttons/retweet_undo.png
 		tbUnRetweet.src = 'img/buttons/retweet_undo.png';
+		// @resource img/buttons/delete.png
+		tbDelete.src    = 'img/buttons/delete.png';
 		// @resource img/buttons/reply.png
 		tbReply.src   = 'img/buttons/reply.png';
 	};
@@ -108,9 +111,10 @@ twic.vcl.Timeline = function(parent) {
 				var
 					vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
 					vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
-					vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet());
+					vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet()),
+					vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
 
-				if (vReply || vRetweet || vUnRetweet) {
+				if (vReply || vRetweet || vUnRetweet || vDelete) {
 					tweetButtons.style.display = 'block';
 				}
 			}
@@ -265,6 +269,17 @@ twic.vcl.Timeline = function(parent) {
 		}
 	};
 
+	timeline.onDelete = function(userId, tweetId, callback) { };
+
+	var doDelete = function() {
+		if (hoveredTweet) {
+			doButtonLoad(tbDelete);
+			doButtonLoad(tbUnRetweet);
+
+			timeline.onDelete(userId, hoveredTweet.id, restoreButtonsSrc);
+		}
+	};
+
 	// init
 
 	tbReply.title = twic.utils.lang.translate('title_reply');
@@ -275,7 +290,12 @@ twic.vcl.Timeline = function(parent) {
 	tweetButtons.appendChild(tbRetweet);
 
 	tbUnRetweet.title = twic.utils.lang.translate('title_retweet_undo');
+	tbUnRetweet.onclick = doDelete; // the same handler is for delete
 	tweetButtons.appendChild(tbUnRetweet);
+
+	tbDelete.title = twic.utils.lang.translate('title_delete');
+	tbDelete.onclick = doDelete;
+	tweetButtons.appendChild(tbDelete);
 
 	wrapper.appendChild(list);
 	wrapper.appendChild(tweetButtons);

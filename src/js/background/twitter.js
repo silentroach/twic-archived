@@ -189,6 +189,38 @@ twic.twitter = ( function() {
 	};
 
 	/**
+	 * Remove user tweet
+	 * @param {number} userId User identifier
+	 * @param {string} tweetId Tweet identifier
+	 * @param {function()} callback Callback function
+	 */
+	twitter.deleteTweet = function(userId, tweetId, callback) {
+		var account = twic.accounts.getInfo(userId);
+
+		if (!account) {
+			callback();
+			return;
+		}
+
+		var innerCallback = function() {
+			var
+				tweetObj = new twic.db.obj.Tweet();
+
+			tweetObj.loadById(tweetId, function() {
+				// delete the tweet if it is exists in database
+				tweetObj.remove();
+				callback();
+			}, callback);
+		};
+
+		twic.api.deleteTweet(
+			tweetId,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],
+			innerCallback, innerCallback
+		);
+	};
+
+	/**
 	 * Update the user status
 	 * @param {number} id User identifier
 	 * @param {string} status New status text

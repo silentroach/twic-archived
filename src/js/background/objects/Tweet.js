@@ -42,3 +42,17 @@ twic.db.obj.Tweet = function() {
 };
 
 goog.inherits(twic.db.obj.Tweet, twic.DBObject);
+
+/**
+ * Overriden remove method to remove timeline items too
+ * @param {function()} callback Callback function
+ * @override
+ */
+twic.db.obj.Tweet.prototype.remove = function(callback) {
+	var
+		self = this;
+
+	twic.db.execQuery('delete from timeline where tweet_id = ?', [self.fields['id']], function() {
+		twic.DBObject.prototype.remove.call(self, callback);
+	} );
+};
