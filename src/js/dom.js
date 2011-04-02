@@ -35,11 +35,10 @@ twic.dom = ( function() {
 
 	/**
 	 * Expand the expression
-	 * fixme "expand" keyword can't be cutted O.o
 	 * @param {string} expr Expression
 	 * @return {Element}
 	 */
-	dom.expand = function(expr) {
+	dom.expandElement = function(expr) {
 		var
 			element = null,
 			res,

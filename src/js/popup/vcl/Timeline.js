@@ -13,15 +13,15 @@ twic.vcl.Timeline = function(parent) {
 	var
 		timeline = this,
 
-		/** @type {Element} **/ wrapper      = twic.dom.expand('div.timeline'),
-		/** @type {Element} **/ list         = twic.dom.expand('ul'),
-		/** @type {Element} **/ loader       = twic.dom.expand('p.loader'),
+		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
+		/** @type {Element} **/ list         = twic.dom.expandElement('ul'),
+		/** @type {Element} **/ loader       = twic.dom.expandElement('p.loader'),
 
-		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
-		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
-		/** @type {Element} **/ tbRetweet    = twic.dom.expand('img.tb_retweet'),
-		/** @type {Element} **/ tbUnRetweet  = twic.dom.expand('img.tb_retweet_undo'),
-		/** @type {Element} **/ tbDelete     = twic.dom.expand('img.tb_delete'),
+		/** @type {Element} **/ tweetButtons = twic.dom.expandElement('div.tweetButtons'),
+		/** @type {Element} **/ tbReply      = twic.dom.expandElement('img.tb_reply'),
+		/** @type {Element} **/ tbRetweet    = twic.dom.expandElement('img.tb_retweet'),
+		/** @type {Element} **/ tbUnRetweet  = twic.dom.expandElement('img.tb_retweet_undo'),
+		/** @type {Element} **/ tbDelete     = twic.dom.expandElement('img.tb_delete'),
 		/** @type {Element} **/ hoveredTweet,
 		/** @type {DocumentFragment} **/ tweetBuffer,
 		/** @type {boolean} **/ isLoading    = false,

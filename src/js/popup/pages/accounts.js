@@ -35,9 +35,9 @@
 		) {
 			var
 				link      = e.srcElement.parentNode,
-				container = twic.dom.expand('div.container'),
-				bYes      = twic.dom.expand('a.button'),
-				bNo       = twic.dom.expand('a.button');
+				container = twic.dom.expandElement('div.container'),
+				bYes      = twic.dom.expandElement('a.button'),
+				bNo       = twic.dom.expandElement('a.button');
 
 			removingAccountId = link.id;
 
@@ -87,25 +87,29 @@
 			i;
 
 		for (i = 0; i < elements.length; ++i) {
-			var element = elements[i];
+			var
+				element = elements[i],
+				avatar = twic.dom.expandElement('img.avatar'),
+				a = twic.dom.expandElement('a#' + element['id']),
+				utweets = element['unread_tweets'],
+				li = twic.dom.expandElement('li');
 
-			var avatar = twic.dom.expand('img.avatar');
 			avatar.src = element['avatar'];
 
-			var a = twic.dom.expand('a#' + element['id']);
 			a.title = '@' + element['screen_name'];
 			a.href = '#timeline#' + element['id'];
 
 			a.appendChild(avatar);
 
-			var utweets = element['unread_tweets'];
 			if (utweets > 0) {
-				var utspan = twic.dom.expand('span.utweets');
+				var
+					utspan = twic.dom.expandElement('span.utweets');
+
 				utspan.innerHTML = utweets;
+
 				a.appendChild(utspan);
 			}
 
-			var li = twic.dom.expand('li');
 			li.appendChild(a);
 
 			frag.appendChild(li);

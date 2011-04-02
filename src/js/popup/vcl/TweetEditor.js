@@ -18,11 +18,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	var
 		editor = this,
 		/** @type {Storage} **/ storage        = window.localStorage,
-		/** @type {Element} **/ editorWrapper  = twic.dom.expand('div.tweetEditor'),
-		/** @type {Element} **/ editorTextarea = twic.dom.expand('textarea'),
-		/** @type {Element} **/ editorSend     = twic.dom.expand('input'),
-		/** @type {Element} **/ editorCounter  = twic.dom.expand('span'),
-		/** @type {Element} **/ clearer        = twic.dom.expand('div.clearer'),
+		/** @type {Element} **/ editorWrapper  = twic.dom.expandElement('div.tweetEditor'),
+		/** @type {Element} **/ editorTextarea = twic.dom.expandElement('textarea'),
+		/** @type {Element} **/ editorSend     = twic.dom.expandElement('input'),
+		/** @type {Element} **/ editorCounter  = twic.dom.expandElement('span'),
+		/** @type {Element} **/ clearer        = twic.dom.expandElement('div.clearer'),
 		/** @type {number}  **/ charCount      = 0,
 
 		/** @type {string}  **/ constStartVal = '',

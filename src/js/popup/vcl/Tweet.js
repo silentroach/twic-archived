@@ -18,7 +18,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {RegExp} */ hashSearchPattern   = /[\#]+(\w+)/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
-		/** @type {Element} */ replyWrapper = twic.dom.expand('div'),
+		/** @type {Element} */ replyWrapper = twic.dom.expandElement('div'),
 		/** @type {twic.vcl.TweetEditor} */ replyer,
 
 		/** @type {number} */ authorId,
@@ -28,13 +28,13 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
 
-		wrapper      = twic.dom.expand('li#' + id + '.tweet'),
-		avatarLink   = twic.dom.expand('a.avatar'),
-		avatar       = twic.dom.expand('img.avatar'),
-		rtAvatarLink = twic.dom.expand('a.avatar.retweeter'),
-		rtAvatar     = twic.dom.expand('img.avatar'),
-		tweetContent = twic.dom.expand('p'),
-		clearer      = twic.dom.expand('div.clearer'),
+		wrapper      = twic.dom.expandElement('li#' + id + '.tweet'),
+		avatarLink   = twic.dom.expandElement('a.avatar'),
+		avatar       = twic.dom.expandElement('img.avatar'),
+		rtAvatarLink = twic.dom.expandElement('a.avatar.retweeter'),
+		rtAvatar     = twic.dom.expandElement('img.avatar'),
+		tweetContent = twic.dom.expandElement('p'),
+		clearer      = twic.dom.expandElement('div.clearer'),
 
 		isRetweet        = false;
 
