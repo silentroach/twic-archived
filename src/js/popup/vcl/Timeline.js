@@ -19,6 +19,7 @@ twic.vcl.Timeline = function(parent) {
 
 		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
 		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
+		/** @type {Element} **/ tbRetweet    = twic.dom.expand('img.tb_retweet'),
 		/** @type {DocumentFragment} **/ tweetBuffer,
 		/** @type {boolean} **/ isLoading    = false,
 		/** @type {Element} **/ tmp,
@@ -35,6 +36,10 @@ twic.vcl.Timeline = function(parent) {
 	tbReply.src   = '/img/buttons/reply.png';
 	tbReply.title = twic.utils.lang.translate('title_reply');
 	tmp.appendChild(tbReply);
+	
+	tbRetweet.src   = '/img/buttons/retweet.png';
+	tbRetweet.title = twic.utils.lang.translate('title_retweet');
+	tmp.appendChild(tbRetweet);
 
 	tweetButtons.appendChild(tmp);
 
