@@ -191,7 +191,16 @@
 
 		if (prevPage === 'about') {
 			toolbarTimeline.innerHTML = twic.utils.lang.translate('title_about');
-			timelineUserId = null;
+
+			// trying to find if we are using just one account
+			var
+				tmpList = document.querySelectorAll('#accounts ul li a');
+
+			if (tmpList.length === 1) {
+				timelineUserId = parseInt(tmpList[0].id, 10);
+			} else {
+				timelineUserId = null;
+			}
 		} else {
 			toolbarTimeline.innerHTML = twic.dom.find('#timeline .toolbar p').innerHTML;
 			toolbarTimeline.href += '#' + prev.join('#');
