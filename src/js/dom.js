@@ -16,7 +16,7 @@ twic.dom = ( function() {
 	 * fixme "remove" keyword can't be cutted
 	 * @param {Element} element Element ;)
 	 */
-	dom.remove = function(element) {
+	dom.removeElement = function(element) {
 		element.parentNode.removeChild(element);
 	};
 

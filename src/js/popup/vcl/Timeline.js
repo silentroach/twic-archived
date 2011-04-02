@@ -151,7 +151,7 @@ twic.vcl.Timeline = function(parent) {
 			tweetBuffer = null;
 		}
 
-		twic.dom.remove(loader);
+		twic.dom.removeElement(loader);
 	};
 
 	/**
