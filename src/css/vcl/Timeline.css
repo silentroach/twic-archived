@@ -13,26 +13,27 @@
 .timeline .tweetButtons {
 	position: absolute;
 	display: none;
-	left: 0px;
 	top: 50px;
 	right: 2px;
 	text-align: right;
+	background-color: white;
+	padding: 2px 5px 0px 2px;
+	border-top-left-radius: 5px;
+	-webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .3);
+	opacity: .5;
+	-webkit-transition: opacity 0.2s ease-in-out;
 	/* don't change cursor to text selector */
 	cursor: default;
 	}
-	.timeline .tweetButtons div {
-		display: inline;
-		padding: 3px 5px 0 7px;
-		background-color: white;
+	.timeline .tweetButtons:hover {
 		opacity: .9;
-		border-bottom-left-radius: 6px;
-		-webkit-box-shadow: -1px 1px 1px rgba(0, 0, 0, .3);
 		}
-		.timeline .tweetButtons div img {
-			cursor: pointer;
-			opacity: .5;
-			-webkit-transition: opacity 0.2s ease-in-out;
+	.timeline .tweetButtons img {
+		cursor: pointer;
+		opacity: .5;
+		margin-left: 2px;
+		-webkit-transition: opacity 0.2s ease-in-out;
+		}
+		.timeline .tweetButtons img:hover {
+			opacity: 1;
 			}
-			.timeline .tweetButtons div img:hover {
-				opacity: 1;
-				}

@@ -20,6 +20,7 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ tweetButtons = twic.dom.expand('div.tweetButtons'),
 		/** @type {Element} **/ tbReply      = twic.dom.expand('img.tb_reply'),
 		/** @type {Element} **/ tbRetweet    = twic.dom.expand('img.tb_retweet'),
+		/** @type {Element} **/ hoveredTweet,
 		/** @type {DocumentFragment} **/ tweetBuffer,
 		/** @type {boolean} **/ isLoading    = false,
 		/** @type {Element} **/ tmp,
@@ -31,21 +32,74 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {number}  **/ userId,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
-	tmp = twic.dom.expand('div');
-
 	tbReply.src   = '/img/buttons/reply.png';
 	tbReply.title = twic.utils.lang.translate('title_reply');
-	tmp.appendChild(tbReply);
-	
+	tweetButtons.appendChild(tbReply);
+
 	tbRetweet.src   = '/img/buttons/retweet.png';
 	tbRetweet.title = twic.utils.lang.translate('title_retweet');
-	tmp.appendChild(tbRetweet);
-
-	tweetButtons.appendChild(tmp);
+	tweetButtons.appendChild(tbRetweet);
 
 	wrapper.appendChild(list);
 	wrapper.appendChild(tweetButtons);
 	parent.appendChild(wrapper);
+
+	/**
+	 * fixme -> dom
+	 * @param {Element} element Element ;)
+	 * @param {Element} child Child ;)
+	 * @return {boolean}
+	 */
+	var isElementChildOf = function(element, child) {
+		if (child) {
+			while (child.parentNode) {
+				child = child.parentNode;
+
+				if (child === element) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	};
+
+	var hideButtons = function() {
+		tweetButtons.style.display = 'none';
+	};
+
+	var timelineMouseOut = function(e) {
+		if (
+			tweetButtons !== e.toElement
+			&& !isElementChildOf(tweetButtons, e.toElement)
+			&& !isElementChildOf(list, e.toElement)
+		) {
+			hideButtons();
+		}
+	};
+
+	var timelineMouseMove = function(e) {
+		var find = e.target;
+
+		while (
+			find
+			&& find.nodeName !== 'LI'
+			&& find.parentNode
+		) {
+			find = find.parentNode;
+		}
+
+		if (find && find !== hoveredTweet) {
+			hoveredTweet = find;
+
+			tweetButtons.style.display = 'none';
+			tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 19) + 'px'
+			tweetButtons.style.display = 'block';
+		}
+	};
+
+	list.addEventListener('mousemove', timelineMouseMove, false);
+	list.addEventListener('mouseout', timelineMouseOut, false);
 
 	/**
 	 * Start the update
