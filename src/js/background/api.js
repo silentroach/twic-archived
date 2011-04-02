@@ -179,6 +179,26 @@ twic.api = ( function() {
 	};
 
 	/**
+	 * Retweet the status
+	 * @param {string} id Tweet identifier
+	 * @param {string} token OAuth token
+	 * @param {string} token_secret OAuth token secret
+	 * @param {function()} callback Callback function
+	 */
+	api.retweet = function(id, token, token_secret, callback) {
+		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/retweet/' + id + '.json');
+
+		req.sign(token, token_secret);
+
+		twic.debug.info('Retweeting the ' + id);
+
+		req.send( function(error, req) {
+			// todo what if it will fails?
+			callback();
+		} );
+	};
+
+	/**
 	 * Unfollow user
 	 * @param {number} whom_id Whom to unfollow id
 	 * @param {string} token OAuth token

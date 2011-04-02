@@ -220,6 +220,27 @@ twic.twitter = ( function() {
 	};
 
 	/**
+	 * Retweet something
+	 * @param {number} id User identifier
+	 * @param {string} tweetId Tweet identifier
+	 * @param {function()} callback Callback function
+	 */
+	twitter.retweet = function(id, tweetId, callback) {
+		var account = twic.accounts.getInfo(id);
+
+		if (!account) {
+			callback();
+			return;
+		}
+
+		twic.api.retweet(
+			tweetId,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],
+			callback
+		);
+	};
+
+	/**
 	 * Update user home timeline
 	 * @param {number} userId User identifier
 	 * todo method is too big. maybe we need to refactor it.
