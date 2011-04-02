@@ -72,6 +72,26 @@ twic.dom = ( function() {
 	};
 
 	/**
+	 * Is element child of someone
+	 * @param {Element} element Element
+	 * @param {Element} parent Possible element parent
+	 * @return {boolean}
+	 */
+	dom.isChildOf = function(element, parent) {
+		if (element) {
+			while (element.parentNode) {
+				element = element.parentNode;
+
+				if (element === parent) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	};
+
+	/**
 	 * Change visibility for the element
 	 * @param {Element} element Element
 	 * @param {boolean} visible Is it visible?

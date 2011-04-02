@@ -50,26 +50,6 @@ twic.vcl.Timeline = function(parent) {
 		button.src = 'img/loader.gif';
 	};
 
-	/**
-	 * fixme -> dom
-	 * @param {Element} element Element ;)
-	 * @param {Element} child Child ;)
-	 * @return {boolean}
-	 */
-	var isElementChildOf = function(element, child) {
-		if (child) {
-			while (child.parentNode) {
-				child = child.parentNode;
-
-				if (child === element) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	};
-
 	var hideButtons = function() {
 		tweetButtons.style.display = 'none';
 		hoveredTweet = null;
@@ -78,8 +58,8 @@ twic.vcl.Timeline = function(parent) {
 	var timelineMouseOut = function(e) {
 		if (
 			tweetButtons !== e.toElement
-			&& !isElementChildOf(tweetButtons, e.toElement)
-			&& !isElementChildOf(list, e.toElement)
+			&& !twic.dom.isChildOf(e.toElement, tweetButtons)
+			&& !twic.dom.isChildOf(e.toElement, list)
 		) {
 			hideButtons();
 		}
