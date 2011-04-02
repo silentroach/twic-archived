@@ -13,6 +13,7 @@ twic.dom = ( function() {
 
 	/**
 	 * Remove the item from dom
+	 * fixme "remove" keyword can't be cutted
 	 * @param {Element} element Element ;)
 	 */
 	dom.remove = function(element) {
@@ -21,6 +22,7 @@ twic.dom = ( function() {
 
 	/**
 	 * Find element
+	 * fixme "find" keyword can't be cutted
 	 * @param {string} selector Selector
 	 * @param {Element=} context Context
 	 * @return {?Element}
@@ -35,6 +37,7 @@ twic.dom = ( function() {
 
 	/**
 	 * Expand the expression
+	 * fixme "expand" keyword can't be cutted O.o
 	 * @param {string} expr Expression
 	 * @return {Element}
 	 */
