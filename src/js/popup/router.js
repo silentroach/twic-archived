@@ -34,7 +34,7 @@ twic.router = ( function() {
 			i;
 
 		if (currentFrame) {
-			frames[currentFrame].frame.style.display = 'none';
+			twic.dom.setVisibility(frames[currentFrame].frame, false);
 		}
 
 		frame = frames[targetFrameName];
@@ -46,7 +46,7 @@ twic.router = ( function() {
 				frame.callbacks[i].call(self, data);
 			}
 
-			frame.frame.style.display = 'block';
+			twic.dom.setVisibility(frame.frame, true);
 		}
 	};
 
