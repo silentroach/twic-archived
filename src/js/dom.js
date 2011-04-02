@@ -68,6 +68,17 @@ twic.dom = ( function() {
 		return element;
 	};
 
+	/**
+	 * Change visibility for the element
+	 * @param {Element} element Element
+	 * @param {boolean} visible Is it visible?
+	 * @return {boolean} Is it visible?
+	 */
+	dom.setVisibility = function(element, visible) {
+		element.style.display = visible ? '' : 'none';
+		return visible;
+	};
+
 	return dom;
 
 }() );

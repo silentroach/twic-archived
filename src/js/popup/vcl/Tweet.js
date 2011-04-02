@@ -148,4 +148,12 @@ twic.vcl.Tweet = function(id, timeline) {
 		return id;
 	};
 
+	tweet.getCanRetweet = function() {
+		return authorId !== timelineId;
+	};
+
+	tweet.getCanReply = function() {
+		return false;
+	};
+
 };

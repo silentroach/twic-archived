@@ -25,18 +25,20 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {boolean} **/ isLoading    = false,
 		/** @type {Element} **/ tmp,
 
-		/** @type {string}  **/ firstId,
-		/** @type {string}  **/ lastId,
+		/** @type {?string} **/ firstId,
+		/** @type {?string} **/ lastId,
 
 		/** @type {string}  **/ userNick,
 		/** @type {number}  **/ userId,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
-	tbReply.src   = '/img/buttons/reply.png';
+	// @resource img/buttons/reply.png
+	tbReply.src   = 'img/buttons/reply.png';
 	tbReply.title = twic.utils.lang.translate('title_reply');
 	tweetButtons.appendChild(tbReply);
 
-	tbRetweet.src   = '/img/buttons/retweet.png';
+	// @resource img/buttons/retweet.png
+	tbRetweet.src   = 'img/buttons/retweet.png';
 	tbRetweet.title = twic.utils.lang.translate('title_retweet');
 	tweetButtons.appendChild(tbRetweet);
 
@@ -66,6 +68,7 @@ twic.vcl.Timeline = function(parent) {
 
 	var hideButtons = function() {
 		tweetButtons.style.display = 'none';
+		hoveredTweet = null;
 	};
 
 	var timelineMouseOut = function(e) {
@@ -78,26 +81,60 @@ twic.vcl.Timeline = function(parent) {
 		}
 	};
 
+	var buttonPressed = false;
 	var timelineMouseMove = function(e) {
 		var find = e.target;
 
-		while (
-			find
-			&& find.nodeName !== 'LI'
-			&& find.parentNode
-		) {
-			find = find.parentNode;
-		}
+		if (!buttonPressed) {
+			while (
+				find
+				&& find.nodeName !== 'LI'
+				&& find.parentNode
+			) {
+				find = find.parentNode;
+			}
 
-		if (find && find !== hoveredTweet) {
-			hoveredTweet = find;
+			if (find && find !== hoveredTweet) {
+				var tweet = tweets[find.id];
 
-			tweetButtons.style.display = 'none';
-			tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 19) + 'px'
-			tweetButtons.style.display = 'block';
+				hoveredTweet = find;
+
+				tweetButtons.style.display = 'none';
+				tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
+
+				var
+					vReply   = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
+					vRetweet = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet());
+
+				if (vReply || vRetweet) {
+					tweetButtons.style.display = 'block';
+				}
+			}
 		}
 	};
 
+	var clickTimer;
+	var timelineMouseDown = function(e) {
+		clickTimer = setTimeout( function() {
+			if (hoveredTweet) {
+				tweetButtons.style.display = 'none';
+				hoveredTweet = null;
+			}
+
+			buttonPressed = true;
+		}, 250 );
+	};
+
+	var timelineMouseUp = function(e) {
+		if (clickTimer) {
+			clearTimeout(clickTimer);
+		}
+
+		buttonPressed = false;
+	};
+
+	list.addEventListener('mousedown', timelineMouseDown, false);
+	list.addEventListener('mouseup', timelineMouseUp, false);
 	list.addEventListener('mousemove', timelineMouseMove, false);
 	list.addEventListener('mouseout', timelineMouseOut, false);
 
@@ -205,14 +242,14 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	/**
-	 * @return {string} Last tweet identifier
+	 * @return {?string} Last tweet identifier
 	 */
 	timeline.getLastId = function() {
 		return lastId;
 	};
 
 	/**
-	 * @return {string} First tweet identifier
+	 * @return {?string} First tweet identifier
 	 */
 	timeline.getFirstId = function() {
 		return firstId;

@@ -26,12 +26,12 @@
 	cursor: default;
 	}
 	.timeline .tweetButtons:hover {
-		opacity: .9;
+		opacity: .95;
 		}
 	.timeline .tweetButtons img {
 		cursor: pointer;
 		opacity: .5;
-		margin-left: 2px;
+		margin-left: 3px;
 		-webkit-transition: opacity 0.2s ease-in-out;
 		}
 		.timeline .tweetButtons img:hover {
