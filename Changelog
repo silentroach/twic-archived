@@ -1,4 +1,5 @@
 In development
+	* No full timeline repaint on new tweet post
 	+ Now you can undo your retweets and delete your own tweets
 	+ Now you can retweet others
 	* Now it is easy to select the tweet text from the end

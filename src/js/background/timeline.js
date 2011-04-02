@@ -17,6 +17,7 @@
 
 		var
 			id = data['id'],
+			afterId = data['after'],
 			account = twic.accounts.getInfo(id);
 
 		// prepare tweets data and send the response
@@ -49,7 +50,7 @@
 
 		if (account) {
 			// we need to get the homeTimeline if user is in out accounts
-			twic.twitter.getHomeTimeline(id, replyWithTimeline);
+			twic.twitter.getHomeTimeline(id, replyWithTimeline, afterId);
 
 			account.setValue('unread_tweets_count', 0);
 			account.save();

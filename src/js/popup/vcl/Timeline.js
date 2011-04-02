@@ -81,7 +81,10 @@ twic.vcl.Timeline = function(parent) {
 			if (find && find !== hoveredTweet) {
 				var tweet = tweets[find.id];
 
-				if (!tweet.isReplying()) {
+				if (
+					tweet
+					&& !tweet.isReplying()
+				) {
 					hoveredTweet = find;
 
 					restoreButtonsSrc();
@@ -127,31 +130,41 @@ twic.vcl.Timeline = function(parent) {
 	/**
 	 * Start the update
 	 * @param {boolean=} isBottom Show animation at the bottom of timeline?
+	 * @param {boolean=} noBuffer Don't use buffering
 	 */
-	timeline.beginUpdate = function(isBottom) {
-		if (isBottom) {
-			wrapper.appendChild(loader);
-		} else {
-			wrapper.insertBefore(loader, list);
+	timeline.beginUpdate = function(isBottom, noBuffer) {
+		if (!isLoading) {
+			if (isBottom) {
+				wrapper.appendChild(loader);
+			} else {
+				wrapper.insertBefore(loader, list);
+			}
+
+			if (!noBuffer) {
+				tweetBuffer = document.createDocumentFragment();
+			}
+
+			isLoading = true;
 		}
-
-		tweetBuffer = document.createDocumentFragment();
-
-		isLoading = true;
 	};
 
 	/**
 	 * Stop the loading
 	 */
 	timeline.endUpdate = function() {
-		isLoading = false;
+		if (isLoading) {
+			isLoading = false;
 
-		if (tweetBuffer.childNodes.length > 0) {
-			list.appendChild(tweetBuffer);
-			tweetBuffer = null;
+			if (
+				tweetBuffer
+				&& tweetBuffer.childNodes.length > 0
+			) {
+				list.appendChild(tweetBuffer);
+				tweetBuffer = null;
+			}
+
+			twic.dom.removeElement(loader);
 		}
-
-		twic.dom.removeElement(loader);
 	};
 
 	/**
@@ -177,6 +190,22 @@ twic.vcl.Timeline = function(parent) {
 		tweets[id] = tweet;
 
 		if (
+			isLoading
+			&& tweetBuffer
+		) {
+			tweetBuffer.appendChild(tweet.getElement());
+		} else {
+			if (
+				lastId
+				&& id > lastId
+			) {
+				list.insertBefore(tweet.getElement(), list.childNodes[0]);
+			} else {
+				list.appendChild(tweet.getElement());
+			}
+		}
+
+		if (
 			!lastId
 			|| id > lastId
 		) {
@@ -188,12 +217,6 @@ twic.vcl.Timeline = function(parent) {
 			|| id < firstId
 		) {
 			firstId = id;
-		}
-
-		if (isLoading) {
-			tweetBuffer.appendChild(tweet.getElement());
-		} else {
-			list.appendChild(tweet.getElement());
 		}
 
 		return tweet;

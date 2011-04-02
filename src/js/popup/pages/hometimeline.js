@@ -71,7 +71,6 @@
 	};
 
 	var update = function() {
-		// fixme clear the timeline
 		timeline.clear();
 
 		timeline.beginUpdate();
@@ -79,6 +78,15 @@
 		// todo thank about smarter way to refresh the timeline
 		twic.requests.send('getTimeline', {
 			'id': userId
+		}, buildList);
+	};
+
+	var updateTop = function() {
+		timeline.beginUpdate(false, true);
+
+		twic.requests.send('getTimeline', {
+			'id': userId,
+			'after': timeline.getLastId()
 		}, buildList);
 	};
 
@@ -126,7 +134,8 @@
 				'tweet': tweetText
 			}, function() {
 				tweetEditor.reset();
-				update();
+
+				updateTop();
 			} );
 		};
 

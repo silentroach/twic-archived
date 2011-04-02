@@ -46,7 +46,7 @@ twic.router = ( function() {
 				frame.callbacks[i].call(self, data);
 			}
 
-			twic.dom.setVisibility(frame.frame, true);
+			frame.frame.style.display = 'block';
 		}
 	};
 
