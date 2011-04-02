@@ -114,7 +114,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		checkTweetArea();
 
-		if (val === constStartVal) {
+		if (
+			val === ''
+			|| val === constStartVal
+		) {
 			storage.removeItem(path);
 		} else {
 			storage.setItem(path, val);
