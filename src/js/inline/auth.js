@@ -8,8 +8,8 @@
 ( function() {
 
 	var
-		pinElement  = twic.dom.find('#oauth_pin'),
-		idElement   = twic.dom.find('meta[name=session-userid]');
+		pinElement  = twic.dom.findElement('#oauth_pin'),
+		idElement   = twic.dom.findElement('meta[name=session-userid]');
 
 	if (!pinElement) {
 		return;

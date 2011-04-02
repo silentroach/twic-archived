@@ -83,16 +83,16 @@
 	};
 
 	var initPage = function() {
-		page = twic.dom.find('#timeline');
-		accountNameElement = twic.dom.find('.toolbar p', page);
+		page = twic.dom.findElement('#timeline');
+		accountNameElement = twic.dom.findElement('.toolbar p', page);
 
 		timeline = new twic.vcl.Timeline(page);
 		timeline.onRetweet = doRetweet;
 		timeline.onDelete  = doDelete;
 
-		newTweet = twic.dom.find('.newtweet', page);
+		newTweet = twic.dom.findElement('.newtweet', page);
 
-		twic.dom.find('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
+		twic.dom.findElement('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
 	};
 
 	twic.router.handle('timeline', function(data) {

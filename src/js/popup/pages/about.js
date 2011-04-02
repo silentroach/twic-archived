@@ -16,16 +16,16 @@
 		req.send(null);
 		manifest = JSON.parse(req.responseText);
 
-		twic.dom.find('#aname').innerHTML = twic.name + ' ' + manifest['version'];
-		twic.dom.find('#awhat').innerHTML = twic.utils.lang.translate('about_what');
-		twic.dom.find('#donate').value    = twic.utils.lang.translate('button_donate');
+		twic.dom.findElement('#aname').innerHTML = twic.name + ' ' + manifest['version'];
+		twic.dom.findElement('#awhat').innerHTML = twic.utils.lang.translate('about_what');
+		twic.dom.findElement('#donate').value    = twic.utils.lang.translate('button_donate');
 
-		twic.dom.find('#about .toolbar p').innerHTML = twic.utils.lang.translate('toolbar_about');
-		twic.dom.find('#about .toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
+		twic.dom.findElement('#about .toolbar p').innerHTML = twic.utils.lang.translate('toolbar_about');
+		twic.dom.findElement('#about .toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
 
-		twic.dom.find('#athanks').innerHTML = twic.utils.lang.translate('about_thanks');
+		twic.dom.findElement('#athanks').innerHTML = twic.utils.lang.translate('about_thanks');
 
-		twic.dom.find('#acollaborate').innerHTML = twic.utils.lang.translate(
+		twic.dom.findElement('#acollaborate').innerHTML = twic.utils.lang.translate(
 			'about_collaborate', [
 				'<a href="https://github.com/silentroach/twic/issues" title="github" target="_blank">', '</a>',
 				'<a href="http://groups.google.com/group/twicrome" title="google groups" target="_blank">', '</a>',
@@ -33,7 +33,7 @@
 			]
 		);
 
-		twic.dom.find('#atranslate').innerHTML = twic.utils.lang.translate(
+		twic.dom.findElement('#atranslate').innerHTML = twic.utils.lang.translate(
 			'about_translate', [
 				'<a href="https://github.com/silentroach/twic-i18n" title="github" target="_blank">', '</a>'
 			]

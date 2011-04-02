@@ -28,24 +28,24 @@
 		directLinkBase;
 
 	var initPage = function() {
-		page = twic.dom.find('#profile');
+		page = twic.dom.findElement('#profile');
 
-		elementFollowings   = twic.dom.find('#followings');
-		elementFollowed     = twic.dom.find('p', elementFollowings);
-		elementFollowedSpan = twic.dom.find('span', elementFollowings);
+		elementFollowings   = twic.dom.findElement('#followings');
+		elementFollowed     = twic.dom.findElement('p', elementFollowings);
+		elementFollowedSpan = twic.dom.findElement('span', elementFollowings);
 
-		elementDirect   = twic.dom.find('.toolbar p a', page);
+		elementDirect   = twic.dom.findElement('.toolbar p a', page);
 		elementDirect.title = twic.utils.lang.translate('title_directly');
 		directLinkBase  = elementDirect.href;
 
-		elementLoader   = twic.dom.find('.loader', page);
-		elementAvatar   = twic.dom.find('.avatar', page);
-		elementName     = twic.dom.find('.name', page);
-		elementNick     = twic.dom.find('.nick', page);
-		elementUrl      = twic.dom.find('.url', page);
-		elementBio      = twic.dom.find('.bio', page);
-		elementLocation = twic.dom.find('.location', page);
-		toolbarTimeline = twic.dom.find('.toolbar a', page);
+		elementLoader   = twic.dom.findElement('.loader', page);
+		elementAvatar   = twic.dom.findElement('.avatar', page);
+		elementName     = twic.dom.findElement('.name', page);
+		elementNick     = twic.dom.findElement('.nick', page);
+		elementUrl      = twic.dom.findElement('.url', page);
+		elementBio      = twic.dom.findElement('.bio', page);
+		elementLocation = twic.dom.findElement('.location', page);
+		toolbarTimeline = twic.dom.findElement('.toolbar a', page);
 	};
 
 	var clearProfileData = function() {
@@ -202,7 +202,7 @@
 				timelineUserId = null;
 			}
 		} else {
-			toolbarTimeline.innerHTML = twic.dom.find('#timeline .toolbar p').innerHTML;
+			toolbarTimeline.innerHTML = twic.dom.findElement('#timeline .toolbar p').innerHTML;
 			toolbarTimeline.href += '#' + prev.join('#');
 			// fixme shitcode
 			timelineUserId = parseInt(prev[0], 10);

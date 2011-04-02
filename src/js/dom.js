@@ -13,7 +13,6 @@ twic.dom = ( function() {
 
 	/**
 	 * Remove the item from dom
-	 * fixme "remove" keyword can't be cutted
 	 * @param {Element} element Element ;)
 	 */
 	dom.removeElement = function(element) {
@@ -22,12 +21,11 @@ twic.dom = ( function() {
 
 	/**
 	 * Find element
-	 * fixme "find" keyword can't be cutted
 	 * @param {string} selector Selector
 	 * @param {Element=} context Context
 	 * @return {?Element}
 	 */
-	dom.find = function(selector, context) {
+	dom.findElement = function(selector, context) {
 		var
 			matches = idExpr.exec(selector),
 			doc     = (matches || !context) ? document : context;
