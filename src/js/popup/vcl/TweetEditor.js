@@ -25,6 +25,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @type {Element} **/ clearer        = twic.dom.expand('div.clearer'),
 		/** @type {number}  **/ charCount      = 0,
 
+		/** @type {string}  **/ constStartVal = '',
+
 		/** @const **/ overloadClass = 'overload',
 		/** @const **/ focusedClass  = 'focused',
 		/** @const **/ sendingClass  = 'sending';
@@ -48,11 +50,19 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}
 
 	var checkTweetArea = function() {
+		var val = editorTextarea.value;
+
 		if (editorWrapper.classList.contains(sendingClass)) {
 			return;
 		}
 
-		charCount = editorTextarea.value.length;
+		if (val.substring(0, constStartVal.length) !== constStartVal) {
+			editorTextarea.value = constStartVal;
+			editorTextarea.selectionStart = editorTextarea.selectionEnd = constStartVal.length;
+			val = constStartVal;
+		}
+
+		charCount = val.length;
 
 		// todo think about rows count decrement when it is needed
 		while (editorTextarea.scrollTop > 0) {
@@ -104,7 +114,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		checkTweetArea();
 
-		if (val === '') {
+		if (val === constStartVal) {
 			storage.removeItem(path);
 		} else {
 			storage.setItem(path, val);
@@ -171,8 +181,16 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		reset();
 	};
 
-	editor.setTextIfEmpty = function(text) {
-		editorTextarea.value = text;
+	editor.setConstTextIfEmpty = function(text) {
+		if (editorTextarea.value === '') {
+			constStartVal = text;
+			editorTextarea.value = text;
+		}
+	};
+
+	editor.setFocus = function() {
+		editorTextarea.selectionStart = editorTextarea.selectionEnd = editorTextarea.value.length;
+		editorTextarea.focus();
 	};
 
 };
