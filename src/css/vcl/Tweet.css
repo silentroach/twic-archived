@@ -30,25 +30,13 @@ li.tweet p {
 	padding: .3em 0 .3em 55px;
 	}
 
-/* tweet date. maybe will use?
-li.tweet p.dt {
-	display: inline;
-	float: right;
-	padding: .4em 0 0 .8em !important;
-	font-size: 8pt;
-	color: rgba(0, 0, 0, .3);
-	margin-right: -3px;
-	}
-*/
-
 li.tweet a.avatar {
  	padding-top: .4em;
 	float: left;
 	margin-right: .5em;
 	}
 
-li.tweet .buttons {
-	display: none;
-	padding: .1em 0;
-	text-align: right;
+li.tweet .tweetEditor {
+	padding-left: 52px;
+	width: 267px;
 	}

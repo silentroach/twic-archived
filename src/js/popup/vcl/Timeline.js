@@ -101,21 +101,23 @@ twic.vcl.Timeline = function(parent) {
 			if (find && find !== hoveredTweet) {
 				var tweet = tweets[find.id];
 
-				hoveredTweet = find;
+				if (!tweet.isReplying()) {
+					hoveredTweet = find;
 
-				restoreButtonsSrc();
+					restoreButtonsSrc();
 
-				tweetButtons.style.display = 'none';
-				tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
+					tweetButtons.style.display = 'none';
+					tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
 
-				var
-					vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
-					vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
-					vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet()),
-					vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
+					var
+						vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
+						vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
+						vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet()),
+						vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
 
-				if (vReply || vRetweet || vUnRetweet || vDelete) {
-					tweetButtons.style.display = 'block';
+					if (vReply || vRetweet || vUnRetweet || vDelete) {
+						tweetButtons.style.display = 'block';
+					}
 				}
 			}
 		}
@@ -280,9 +282,17 @@ twic.vcl.Timeline = function(parent) {
 		}
 	};
 
+	var doReply = function() {
+		if (hoveredTweet) {
+			tweets[hoveredTweet.id].reply();
+			hideButtons();
+		}
+	};
+
 	// init
 
 	tbReply.title = twic.utils.lang.translate('title_reply');
+	tbReply.onclick = doReply;
 	tweetButtons.appendChild(tbReply);
 
 	tbRetweet.title = twic.utils.lang.translate('title_retweet');

@@ -30,9 +30,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @const **/ sendingClass  = 'sending';
 
 	editorTextarea['spellcheck'] = false;
+	editorTextarea.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
 
 	editorSend.type  = 'button';
-	editorSend.value = twic.utils.lang.translate('button_send');
+	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
 	editorSend.title = twic.utils.lang.translate('title_button_send');
 
 	editorWrapper.appendChild(editorTextarea);
@@ -163,15 +164,15 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	// functions
 
-	editor.setPlaceholder = function(alias) {
-		editorTextarea.placeholder = twic.utils.lang.translate(alias);
-	};
-
 	editor.reset = function() {
 		// empty the localstorage backup
 		storage.removeItem(getStoragePath());
 
 		reset();
+	};
+
+	editor.setTextIfEmpty = function(text) {
+		editorTextarea.value = text;
 	};
 
 };

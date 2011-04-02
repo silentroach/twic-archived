@@ -119,7 +119,6 @@
 		newTweet.innerHTML = '';
 
 		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
-		tweetEditor.setPlaceholder('placeholder_tweet_new');
 
 		tweetEditor.onTweetSend = function(tweetText) {
 			twic.requests.send('sendTweet', {

@@ -18,7 +18,11 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {RegExp} */ hashSearchPattern   = /[\#]+(\w+)/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
+		/** @type {Element} */ replyWrapper = twic.dom.expand('div'),
+		/** @type {twic.vcl.TweetEditor} */ replyer,
+
 		/** @type {number} */ authorId,
+		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
 
 		/** @type {number} */ timelineId = timeline.getUserId(),
@@ -43,6 +47,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	wrapper.appendChild(rtAvatarLink);
 	wrapper.appendChild(tweetContent);
 	wrapper.appendChild(clearer);
+	wrapper.appendChild(replyWrapper);
 
 	/**
 	 * Set the tweet text
@@ -89,6 +94,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.setAuthor = function(id, nick, av) {
 		authorId = id;
+		authorNick = nick;
 
 		if (authorId === timelineId) {
 			wrapper.classList.add('me');
@@ -148,6 +154,16 @@ twic.vcl.Tweet = function(id, timeline) {
 		return id;
 	};
 
+	tweet.isReplying = function() {
+		return replyer;
+	};
+
+	tweet.resetEditor = function() {
+		if (replyer) {
+			replyer = null;
+		}
+	};
+
 	tweet.getCanRetweet = function() {
 		return authorId !== timelineId && retweetedById !== timelineId;
 	};
@@ -161,7 +177,12 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.getCanReply = function() {
-		return false;
+		return true;
+	};
+
+	tweet.reply = function() {
+		replyer = new twic.vcl.TweetEditor(timelineId, replyWrapper, id);
+		replyer.setTextIfEmpty('@' + authorNick + ' ');
 	};
 
 };
