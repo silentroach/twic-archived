@@ -30,14 +30,12 @@ twic.router = ( function() {
 
 	var changeFrame = function(targetFrameName, data) {
 		var
-			frame,
+			frame = frames[targetFrameName],
 			i;
 
 		if (currentFrame) {
 			twic.dom.setVisibility(frames[currentFrame].frame, false);
 		}
-
-		frame = frames[targetFrameName];
 
 		if (frame) {
 			currentFrame = targetFrameName;
