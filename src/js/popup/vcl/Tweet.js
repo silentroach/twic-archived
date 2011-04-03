@@ -15,7 +15,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		tweet = this,
 
 		/** @type {RegExp} */ nickSearchPattern   = /[\@]+(\w+)/gi,
-		/** @type {RegExp} */ hashSearchPattern   = /[\#]+(\w+)/gi,
+		/** @type {RegExp} */ hashSearchPattern   = /([^&\w]|^)(#([\w\u0080-\uffff]*))/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
 		/** @type {Element} */ replyWrapper = twic.dom.expandElement('div'),
@@ -59,7 +59,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		// preparing hashtags
 		txt = txt.replace(
 			hashSearchPattern,
-			'<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$1">#$1</a>'
+			'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$3">$2</a>'
 		);
 
 		// preparing nicks
