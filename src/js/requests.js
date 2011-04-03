@@ -45,33 +45,33 @@ twic.requests = ( function() {
 
 	// todo make sendResponse our own method to send it if it was not sent in callback?
 	chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
-		if (
-			request['method']
-			&& subscriptions[request['method']]
-		) {
-			var
-				data = request['data'] || {},
-				s = subscriptions[request['method']],
-				i;
+		var
+			method = request['method'],
+			subscription = subscriptions[method],
+			data = request['data'] || {},
+			i;
 
-			twic.debug.groupCollapsed('request ' + request['method'] + ' received');
+		if (
+			method
+			&& subscription
+		) {
+			twic.debug.groupCollapsed('request ' + method + ' received');
 			twic.debug.dir(data);
 			twic.debug.groupEnd();
 
-			for (i = 0; i < s.length; ++i) {
-				s[i](data, sendResponse);
+			for (i = 0; i < subscription.length; ++i) {
+				subscription[i](data, sendResponse);
 			}
 		} else {
+			sendResponse({});
+
 			twic.debug.groupCollapsed('request received');
 			twic.debug.error('failed or handler not found');
 			twic.debug.dir(request);
 			twic.debug.groupEnd();
-
-			sendResponse({});
 		}
 	} );
 
 	return requests;
 
 }() );
-
