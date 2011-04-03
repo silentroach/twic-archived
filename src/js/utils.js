@@ -20,7 +20,9 @@ twic.utils.queueIterator = function(arr, iterator, callback) {
 		return callback();
 	}
 
-	var completed = 0;
+	var
+		aLen = arr.length,
+		completed = 0;
 
 	var iterate = function () {
 		iterator(arr[completed], function (err) {
@@ -30,7 +32,7 @@ twic.utils.queueIterator = function(arr, iterator, callback) {
 			} else {
 				++completed;
 
-				if (completed === arr.length) {
+				if (completed === aLen) {
 					callback();
 				} else {
 					iterate();
