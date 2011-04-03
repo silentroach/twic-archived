@@ -55,6 +55,11 @@ twic.vcl.Timeline = function(parent) {
 		hoveredTweet = null;
 	};
 
+	var hideAndRestoreButtons = function() {
+		hideButtons();
+		restoreButtonsSrc();
+	};
+
 	var timelineMouseOut = function(e) {
 		if (
 			tweetButtons !== e.toElement
@@ -270,7 +275,7 @@ twic.vcl.Timeline = function(parent) {
 		if (hoveredTweet) {
 			doButtonLoad(tbRetweet);
 
-			timeline.onRetweet(userId, hoveredTweet.id, restoreButtonsSrc);
+			timeline.onRetweet(userId, hoveredTweet.id, hideAndRestoreButtons);
 		}
 	};
 
@@ -281,7 +286,7 @@ twic.vcl.Timeline = function(parent) {
 			doButtonLoad(tbDelete);
 			doButtonLoad(tbUnRetweet);
 
-			timeline.onDelete(userId, hoveredTweet.id, restoreButtonsSrc);
+			timeline.onDelete(userId, hoveredTweet.id, hideAndRestoreButtons);
 		}
 	};
 
