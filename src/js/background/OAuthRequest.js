@@ -98,7 +98,7 @@ twic.OAuthRequest.prototype.send = function(callback) {
 			var
 				checkHeader = req.getResponseHeader('X-Transaction');
 
-			if (typeof checkHeader === 'string') {
+			if (goog.isString(checkHeader)) {
 				var
 					firstPart = checkHeader.split('-')[0],
 					newOffset = parseInt(firstPart, 10) - twic.utils.date.getCurrentTimestamp();

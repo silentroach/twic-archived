@@ -65,10 +65,10 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 			fld = key,
 			mapped = dbobject.jsonMap[key];
 
-		if (typeof mapped === 'function') {
+		if (goog.isString(mapped)) {
 			dbobject.setValue(key, mapped(obj));
 		} else {
-			if (typeof mapped === 'string') {
+			if (goog.isString(mapped)) {
 				fld = mapped;
 			}
 
@@ -273,12 +273,12 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 		obj = this,
 		fld = [],
 		whereClause = [],
-		values = typeof value === 'object' ? value : [value],
+		values = goog.isObject(value) ? value : [value],
 		/** @type {string} **/ sql,
 		/** @type {number} **/ i,
 		/** @type {string} **/ key;
 
-	if (typeof fieldname === 'string') {
+	if (goog.isString(fieldname)) {
 		whereClause = [fieldname + ' = ?'];
 	} else {
 		for (i = 0; i < fieldname.length; ++i) {
