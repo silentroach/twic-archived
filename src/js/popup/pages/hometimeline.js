@@ -15,6 +15,15 @@
 		/** @type {twic.vcl.TweetEditor} */ tweetEditor,
 		/** @type {number}               */ userId;
 
+	var updateTop = function() {
+		timeline.beginUpdate(false, true);
+
+		twic.requests.send('getTimeline', {
+			'id': userId,
+			'after': timeline.getLastId()
+		}, buildList);
+	};
+
 	var doRetweet = function(userId, tweetId, callback) {
 		twic.requests.send('retweet', {
 			'userId': userId,
@@ -23,7 +32,7 @@
 			callback();
 
 			tweetEditor.reset();
-			update();
+			updateTop();
 		} );
 	};
 
@@ -78,15 +87,6 @@
 		// todo thank about smarter way to refresh the timeline
 		twic.requests.send('getTimeline', {
 			'id': userId
-		}, buildList);
-	};
-
-	var updateTop = function() {
-		timeline.beginUpdate(false, true);
-
-		twic.requests.send('getTimeline', {
-			'id': userId,
-			'after': timeline.getLastId()
 		}, buildList);
 	};
 
