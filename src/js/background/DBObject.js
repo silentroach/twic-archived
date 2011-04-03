@@ -65,7 +65,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 			fld = key,
 			mapped = dbobject.jsonMap[key];
 
-		if (goog.isString(mapped)) {
+		if (goog.isFunction(mapped)) {
 			dbobject.setValue(key, mapped(obj));
 		} else {
 			if (goog.isString(mapped)) {
