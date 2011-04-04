@@ -5,100 +5,94 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-twic.dom = ( function() {
+twic.dom = { };
+
+/**
+ * Remove the item from dom
+ * @param {Element} element Element ;)
+ */
+twic.dom.removeElement = function(element) {
+	element.parentNode.removeChild(element);
+};
+
+/**
+ * Find element
+ * @param {string} selector Selector
+ * @param {Element=} context Context
+ * @return {?Element}
+ */
+twic.dom.findElement = function(selector, context) {
 	var
-		dom = { },
 		/** @const **/ idExpr  = /^#([^ .>:]+)$/,
-		/** @const **/ expExpr = /((^|#|\.)\w+)/g;
+		matches = idExpr.exec(selector),
+		doc     = (matches || !context) ? document : context;
 
-	/**
-	 * Remove the item from dom
-	 * @param {Element} element Element ;)
-	 */
-	dom.removeElement = function(element) {
-		element.parentNode.removeChild(element);
-	};
+	return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
+};
 
-	/**
-	 * Find element
-	 * @param {string} selector Selector
-	 * @param {Element=} context Context
-	 * @return {?Element}
-	 */
-	dom.findElement = function(selector, context) {
-		var
-			matches = idExpr.exec(selector),
-			doc     = (matches || !context) ? document : context;
+/**
+ * Expand the expression
+ * @param {string} expr Expression
+ * @return {Element}
+ */
+twic.dom.expandElement = function(expr) {
+	var
+		/** @const **/ expExpr = /((^|#|\.)\w+)/g,
+		/** @type {string} **/ part,
+		element = null,
+		res;
 
-		return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
-	};
+	res = expExpr.exec(expr);
 
-	/**
-	 * Expand the expression
-	 * @param {string} expr Expression
-	 * @return {Element}
-	 */
-	dom.expandElement = function(expr) {
-		var
-			element = null,
-			res,
-			/** @type {string} **/ part;
+	while (
+		res
+		&& res.length > 2
+	) {
+		part = res[2];
+
+		if (part === '') {
+			element = document.createElement(res[1]);
+		} else
+		if (part === '.') {
+			element.classList.add(res[1].substring(1));
+		} else
+		if (part === '#') {
+			element.setAttribute('id', res[1].substring(1));
+		}
 
 		res = expExpr.exec(expr);
+	}
 
-		while (
-			res
-			&& res.length > 2
-		) {
-			part = res[2];
+	return element;
+};
 
-			if (part === '') {
-				element = document.createElement(res[1]);
-			} else
-			if (part === '.') {
-				element.classList.add(res[1].substring(1));
-			} else
-			if (part === '#') {
-				element.setAttribute('id', res[1].substring(1));
-			}
+/**
+ * Is element child of someone
+ * @param {Element} element Element
+ * @param {Element} parent Possible element parent
+ * @return {boolean}
+ */
+twic.dom.isChildOf = function(element, parent) {
+	if (element) {
+		while (element.parentNode) {
+			element = element.parentNode;
 
-			res = expExpr.exec(expr);
-		}
-
-		return element;
-	};
-
-	/**
-	 * Is element child of someone
-	 * @param {Element} element Element
-	 * @param {Element} parent Possible element parent
-	 * @return {boolean}
-	 */
-	dom.isChildOf = function(element, parent) {
-		if (element) {
-			while (element.parentNode) {
-				element = element.parentNode;
-
-				if (element === parent) {
-					return true;
-				}
+			if (element === parent) {
+				return true;
 			}
 		}
+	}
 
-		return false;
-	};
+	return false;
+};
 
-	/**
-	 * Change visibility for the element
-	 * @param {Element} element Element
-	 * @param {boolean} visible Is it visible?
-	 * @return {boolean} Is it visible?
-	 */
-	dom.setVisibility = function(element, visible) {
-		element.style.display = visible ? '' : 'none';
-		return visible;
-	};
-
-	return dom;
-
-}() );
+/**
+ * Change visibility for the element
+ * @param {Element} element Element
+ * @param {boolean} visible Is it visible?
+ * @return {boolean} Is it visible?
+ */
+twic.dom.setVisibility = function(element, visible) {
+	element.style.display = visible ? '' : 'none';
+	return visible;
+};
