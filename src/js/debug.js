@@ -65,8 +65,8 @@ twic.debug.error = function(args) {
 		return;
 	}
 
-	// print the trace to track the error source
-	console.trace();
+	// don't know what have to be in parameters, so it is 0 ;)
+	console.trace(0);
 	console.error.apply(console, arguments);
 };
 
