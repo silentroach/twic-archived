@@ -68,7 +68,7 @@
 	var follow = function() {
 		elementFollowedSpan.className = 'loading';
 
-		twic.requests.send('follow', {
+		twic.requests.makeRequest('follow', {
 			'id': timelineUserId,
 			'whom_id': profileUserId
 		}, function() {
@@ -79,7 +79,7 @@
 	var unfollow = function() {
 		elementFollowedSpan.className = 'loading';
 
-		twic.requests.send('unfollow', {
+		twic.requests.makeRequest('unfollow', {
 			'id': timelineUserId,
 			'whom_id': profileUserId
 		}, function() {
@@ -167,7 +167,7 @@
 		) {
 			elementLoader.style.display = 'none';
 		} else {
-			twic.requests.send('getProfileFriendshipInfo', {
+			twic.requests.makeRequest('getProfileFriendshipInfo', {
 				'source_id': timelineUserId,
 				'target_id': data['id']
 			}, function(data) {
@@ -225,7 +225,7 @@
 
 			page.setAttribute('username', userName);
 
-			twic.requests.send('getProfileInfo', {
+			twic.requests.makeRequest('getProfileInfo', {
 				'name': userName
 			}, showProfile);
 			// todo or show an error

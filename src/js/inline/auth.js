@@ -40,7 +40,7 @@
 	pinElement.classList.add('mini');
 	changePinText('auth_in_progress');
 
-	twic.requests.send('accountAuth', {
+	twic.requests.makeRequest('accountAuth', {
 		'pin':  pin,
 		'user_id': userId
 	}, function(reply) {

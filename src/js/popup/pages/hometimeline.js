@@ -18,14 +18,14 @@
 	var updateTop = function() {
 		timeline.beginUpdate(false, true);
 
-		twic.requests.send('getTimeline', {
+		twic.requests.makeRequest('getTimeline', {
 			'id': userId,
 			'after': timeline.getLastId()
 		}, buildList);
 	};
 
 	var doRetweet = function(userId, tweetId, callback) {
-		twic.requests.send('retweet', {
+		twic.requests.makeRequest('retweet', {
 			'userId': userId,
 			'tweetId': tweetId
 		}, function() {
@@ -37,7 +37,7 @@
 	};
 
 	var doDelete = function(userId, tweetId, callback) {
-		twic.requests.send('delete', {
+		twic.requests.makeRequest('delete', {
 			'userId': userId,
 			'tweetId': tweetId
 		}, function() {
@@ -85,7 +85,7 @@
 		timeline.beginUpdate();
 
 		// todo thank about smarter way to refresh the timeline
-		twic.requests.send('getTimeline', {
+		twic.requests.makeRequest('getTimeline', {
 			'id': userId
 		}, buildList);
 	};
@@ -129,7 +129,7 @@
 		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
 
 		tweetEditor.onTweetSend = function(tweetText) {
-			twic.requests.send('sendTweet', {
+			twic.requests.makeRequest('sendTweet', {
 				'id': userId,
 				'tweet': tweetText
 			}, function() {

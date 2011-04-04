@@ -20,7 +20,7 @@
 	};
 
 	var removeAccount = function() {
-		twic.requests.send('accountRemove', {
+		twic.requests.makeRequest('accountRemove', {
 			'id': removingAccountId
 		}, function() {
 			refresh();
@@ -122,7 +122,7 @@
 		resetToolbar();
 
 		clearList();
-		twic.requests.send('accountList', {}, buildList);
+		twic.requests.makeRequest('accountList', {}, buildList);
 	};
 
 	var initPage = function() {
@@ -152,7 +152,7 @@
 			twic.dom.findElement('img', this).src = 'img/loader.gif';
 			this.href = '#';
 
-			twic.requests.send('accountAdd');
+			twic.requests.makeRequest('accountAdd');
 		};
 	};
 
