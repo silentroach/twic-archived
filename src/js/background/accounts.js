@@ -159,10 +159,7 @@ twic.accounts = ( function() {
 		var i;
 
 		for (i in items) {
-			var
-				account = items[i];
-
-			twic.twitter.updateHomeTimeline(account.fields['id']);
+			twic.twitter.updateHomeTimeline(items[i].fields['id']);
 		}
 	};
 
