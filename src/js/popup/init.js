@@ -9,6 +9,8 @@
 var lastLocation = window.localStorage.getItem('location');
 
 if (lastLocation) {
+	twic.debug.info('Last stored location:', lastLocation);
+
 	// go to the previous remembered location
 	window.location = window.location.pathname + '#' + lastLocation;
 }

@@ -28,6 +28,11 @@ twic.router = ( function() {
 
 	// ----------------------------------------------------
 
+	/**
+	 * Change the frame
+	 * @param {string} targetFrameName Target frame names
+	 * @param {Array.<string>} data Data from url
+	 */
 	var changeFrame = function(targetFrameName, data) {
 		var
 			frame = frames[targetFrameName],
@@ -45,6 +50,8 @@ twic.router = ( function() {
 			}
 
 			frame.frame.style.display = 'block';
+		} else {
+			console.error('Frame ' + targetFrameName + ' not found');
 		}
 	};
 
