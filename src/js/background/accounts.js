@@ -168,7 +168,7 @@ twic.accounts = ( function() {
 	/**
 	 * Clear the accounts array
 	 */
-	accounts.clear = function() {
+	var clear = function() {
 		items = { };
 	};
 
@@ -210,7 +210,7 @@ twic.accounts = ( function() {
 			tmpAccount = new twic.db.obj.Account(),
 			tmpUser    = new twic.db.obj.User();
 
-		accounts.clear();
+		clear();
 
 		twic.db.openQuery(
 			'select ' + tmpAccount.getFieldString('a') + ', ' + tmpUser.getFieldString('u') + ' ' +

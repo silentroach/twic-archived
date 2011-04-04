@@ -80,7 +80,7 @@ twic.utils.url = { };
  * @param {string} url Url
  * @return {string}
  */
-twic.utils.url.result.humanize = function(url) {
+twic.utils.url.humanize = function(url) {
 	var
 		cutted = url
 			.replace(/^(.*?)\/\//, '')  // cutting the protocol
@@ -96,7 +96,7 @@ twic.utils.url.result.humanize = function(url) {
 	return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
 };
 
-twic.utils.url.result.processText = function(text) {
+twic.utils.url.processText = function(text) {
 	var
 		/**
 		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
@@ -104,5 +104,5 @@ twic.utils.url.result.processText = function(text) {
 		 */
 		urlSearchPattern    = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
 
-	return text.replace(urlSearchPattern, result.humanize);
+	return text.replace(urlSearchPattern, twic.utils.url.humanize);
 };
