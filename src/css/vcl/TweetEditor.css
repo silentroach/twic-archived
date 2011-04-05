@@ -27,6 +27,7 @@
 		font-size: 12pt;
 		padding-top: 3px;
 		display: none;
+		min-width: 24px; /* for animation to exists when it is empty */
 		opacity: .3;
 		-webkit-transition: opacity 0.2s ease-in-out;
 		-webkit-transition: color 0.2s ease-in-out;
@@ -52,5 +53,6 @@
 
 /** sending state **/
 .tweetEditor.sending span {
-	background: url('/img/loader.gif') no-repeat right;
+	background: url('/img/loader.gif') no-repeat 2px;
+	color: transparent;
 	}

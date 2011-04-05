@@ -364,6 +364,45 @@ twic.api = ( function() {
 		} );
 	};
 
+	/**
+	 * Update user status
+	 * @param {string} status New user status
+	 * @param {string} replyTo Reply to tweet identifier
+	 * @param {string} token OAuth token
+	 * @param {string} token_secret OAuth token secret
+	 * @param {function(*)} callback Callback function
+	 * @param {function(twic.ResponseError)=} failedCallback Failed callback function
+	 */
+	api.replyStatus = function(status, replyTo, token, token_secret, callback, failedCallback) {
+		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/update.json');
+
+		req.setRequestData('in_reply_to_status_id', replyTo);
+		req.setRequestData('status', status);
+
+		// do not request additional user info cause it is about us
+		req.setRequestData('trim_user', 1);
+
+		req.sign(token, token_secret);
+
+		twic.debug.info('sending the reply tweet: ' + status);
+
+		req.send( function(error, req) {
+			if (!error) {
+				var data = JSON.parse(req.responseText);
+
+				if (
+					data
+					&& callback
+				) {
+					callback(data);
+				} // todo else failedCallback
+			} else
+			if (failedCallback) {
+				failedCallback(error);
+			}
+		} );
+	};
+
 	return api;
 
 }() );

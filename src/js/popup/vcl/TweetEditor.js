@@ -93,7 +93,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			editorCounter.innerHTML = '&nbsp;';
 			editorSend.disabled = true;
 
-			editor.onTweetSend(val);
+			editor.onTweetSend(val, replyTo);
 		}
 	};
 
@@ -200,6 +200,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 /**
  * Handler for tweet send process
- * @param {string} tweetText
+ * @param {string} tweetText Tweet text
+ * @param {string=} replyTo Reply to tweet
  */
-twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText) { };
+twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText, replyTo) { };

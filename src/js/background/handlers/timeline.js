@@ -62,11 +62,19 @@ twic.requests.subscribe('sendTweet', function(data, sendResponse) {
 		return;
 	}
 
-	var
-		id = data['id'],
-		tweet = data['tweet'];
+	twic.twitter.updateStatus(data['id'], data['tweet'], function() {
+		sendResponse({ });
+	} );
+} );
 
-	twic.twitter.updateStatus(id, tweet, function() {
+twic.requests.subscribe('replyTweet', function(data, sendResponse) {
+	// check for id in request data
+	if (!data['id']) {
+		sendResponse({ });
+		return;
+	}
+
+	twic.twitter.replyStatus(data['id'], data['tweet'], data['replyTo'], function() {
 		sendResponse({ });
 	} );
 } );
@@ -78,11 +86,7 @@ twic.requests.subscribe('retweet', function(data, sendResponse) {
 		return;
 	}
 
-	var
-		userId = data['userId'],
-		tweetId = data['tweetId'];
-
-	twic.twitter.retweet(userId, tweetId, function() {
+	twic.twitter.retweet(data['userId'], data['tweetId'], function() {
 		sendResponse({ });
 	} );
 } );
@@ -94,11 +98,7 @@ twic.requests.subscribe('delete', function(data, sendResponse) {
 		return;
 	}
 
-	var
-		userId = data['userId'],
-		tweetId = data['tweetId'];
-
-	twic.twitter.deleteTweet(userId, tweetId, function() {
+	twic.twitter.deleteTweet(data['userId'], data['tweetId'], function() {
 		sendResponse({ });
 	} );
 } );

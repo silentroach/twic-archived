@@ -13,6 +13,9 @@ twic.vcl.Timeline = function(parent) {
 	var
 		timeline = this,
 
+		/** @const **/ ACTION_RETWEET        = 0,
+		/** @const **/ ACTION_DELETE         = 1,
+
 		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
 		/** @type {Element} **/ list         = twic.dom.expandElement('ul'),
 		/** @type {Element} **/ loader       = twic.dom.expandElement('p.loader'),
@@ -22,9 +25,11 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ tbRetweet    = twic.dom.expandElement('img.tb_retweet'),
 		/** @type {Element} **/ tbUnRetweet  = twic.dom.expandElement('img.tb_retweet_undo'),
 		/** @type {Element} **/ tbDelete     = twic.dom.expandElement('img.tb_delete'),
-		/** @type {Element} **/ hoveredTweet,
-		/** @type {DocumentFragment} **/ tweetBuffer,
+		/** @type {Element} **/ buttonHolder = twic.dom.expandElement('div.holder'),
+		/** @type {Element} **/ confirmer    = twic.dom.expandElement('div.confirm'),
 		/** @type {boolean} **/ isLoading    = false,
+
+		/** @type {Element} **/ hoveredTweet,
 		/** @type {Element} **/ tmp,
 
 		/** @type {?string} **/ firstId,
@@ -32,6 +37,8 @@ twic.vcl.Timeline = function(parent) {
 
 		/** @type {string}  **/ userNick,
 		/** @type {number}  **/ userId,
+
+		/** @type {DocumentFragment}                **/ tweetBuffer,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
 	var restoreButtonsSrc = function() {
@@ -52,6 +59,7 @@ twic.vcl.Timeline = function(parent) {
 
 	var hideButtons = function() {
 		tweetButtons.style.display = 'none';
+		confirmer.style.display = 'none';
 		hoveredTweet = null;
 	};
 
@@ -133,7 +141,6 @@ twic.vcl.Timeline = function(parent) {
 		buttonPressed = false;
 	};
 
-
 	/**
 	 * Start the update
 	 * @param {boolean=} isBottom Show animation at the bottom of timeline?
@@ -195,6 +202,8 @@ twic.vcl.Timeline = function(parent) {
 			tweet = new twic.vcl.Tweet(id, timeline);
 
 		tweets[id] = tweet;
+
+		tweet.onReplySend = timeline.onReplySend;
 
 		if (
 			isLoading
@@ -303,19 +312,24 @@ twic.vcl.Timeline = function(parent) {
 
 	tbReply.title = twic.utils.lang.translate('title_reply');
 	tbReply.onclick = doReply;
-	tweetButtons.appendChild(tbReply);
+	buttonHolder.appendChild(tbReply);
 
 	tbRetweet.title = twic.utils.lang.translate('title_retweet');
 	tbRetweet.onclick = doRetweet;
-	tweetButtons.appendChild(tbRetweet);
+	buttonHolder.appendChild(tbRetweet);
 
 	tbUnRetweet.title = twic.utils.lang.translate('title_retweet_undo');
 	tbUnRetweet.onclick = doDelete; // the same handler is for delete
-	tweetButtons.appendChild(tbUnRetweet);
+	buttonHolder.appendChild(tbUnRetweet);
 
 	tbDelete.title = twic.utils.lang.translate('title_delete');
 	tbDelete.onclick = doDelete;
-	tweetButtons.appendChild(tbDelete);
+	buttonHolder.appendChild(tbDelete);
+
+	tweetButtons.appendChild(buttonHolder);
+
+	confirmer.innerHTML = 'sure?';
+	tweetButtons.appendChild(confirmer);
 
 	wrapper.appendChild(list);
 	wrapper.appendChild(tweetButtons);
@@ -329,3 +343,10 @@ twic.vcl.Timeline = function(parent) {
 	list.addEventListener('mouseout', timelineMouseOut, false);
 
 };
+
+/**
+ * Handler for tweet send process
+ * @param {string} tweetText Tweet text
+ * @param {string=} replyTo Reply to tweet
+ */
+twic.vcl.Timeline.prototype.onReplySend = function(tweetText, replyTo) { };

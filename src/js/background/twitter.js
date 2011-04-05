@@ -240,6 +240,39 @@ twic.twitter = ( function() {
 
 		twic.api.updateStatus(
 			status,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],  // fixme send just account ;)
+			function(tweet) {
+				var
+					/** @type {string} **/ tweetId = tweet['id_str'],
+					tweetObj = new twic.db.obj.Tweet();
+
+				tweetObj.updateFromJSON(tweetId, tweet);
+
+				twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, callback);
+			}
+		);
+	};
+
+	/**
+	 * Update the user status
+	 * @param {number} id User identifier
+	 * @param {string} status New status text
+	 * @param {string} replyTo Reply to tweet identifier
+	 * @param {function()} callback Callback function
+	 */
+	twitter.replyStatus = function(id, status, replyTo, callback) {
+		var account = twic.accounts.getInfo(id);
+
+		if (!account) {
+			callback();
+			return;
+		}
+
+		// FIXME get all the new messages before send
+
+		twic.api.replyStatus(
+			status,
+			replyTo,
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
 			function(tweet) {
 				var

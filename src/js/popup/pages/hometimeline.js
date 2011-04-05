@@ -90,11 +90,32 @@
 		}, buildList);
 	};
 
+	var tweetHandler = function(tweetText, replyId) {
+		var finish = function() {
+			tweetEditor.reset();
+			updateTop();
+		};
+
+		if (replyId) {
+			twic.requests.makeRequest('replyTweet', {
+				'id': userId,
+				'tweet': tweetText,
+				'replyTo': replyId
+			}, finish);
+		} else {
+			twic.requests.makeRequest('sendTweet', {
+				'id': userId,
+				'tweet': tweetText
+			}, finish);
+		}
+	};
+
 	var initPage = function() {
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
 
 		timeline = new twic.vcl.Timeline(page);
+		timeline.onReplySend = tweetHandler;
 		timeline.onRetweet = doRetweet;
 		timeline.onDelete  = doDelete;
 
@@ -128,16 +149,7 @@
 
 		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
 
-		tweetEditor.onTweetSend = function(tweetText) {
-			twic.requests.makeRequest('sendTweet', {
-				'id': userId,
-				'tweet': tweetText
-			}, function() {
-				tweetEditor.reset();
-
-				updateTop();
-			} );
-		};
+		tweetEditor.onTweetSend = tweetHandler;
 
 		update();
 	} );

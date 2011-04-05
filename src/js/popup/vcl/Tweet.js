@@ -182,8 +182,16 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	tweet.reply = function() {
 		replyer = new twic.vcl.TweetEditor(timelineId, replyWrapper, id);
+		replyer.onTweetSend = tweet.onReplySend;
 		replyer.setConstTextIfEmpty('@' + authorNick + ' ');
 		replyer.setFocus();
 	};
 
 };
+
+/**
+ * Handler for tweet send process
+ * @param {string} tweetText Tweet text
+ * @param {string=} replyTo Reply to tweet
+ */
+twic.vcl.Tweet.prototype.onReplySend = function(tweetText, replyTo) { };
