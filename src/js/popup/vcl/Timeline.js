@@ -84,27 +84,29 @@ twic.vcl.Timeline = function(parent) {
 			}
 
 			if (find && find !== hoveredTweet) {
-				var tweet = tweets[find.id];
+				var
+					tweet = tweets[find.id];
 
-				if (
-					tweet
-					&& !tweet.isReplying()
-				) {
-					hoveredTweet = find;
+				if (tweet) {
+					if (tweet.isReplying()) {
+						hideButtons();
+					} else {
+						hoveredTweet = find;
 
-					restoreButtonsSrc();
+						restoreButtonsSrc();
 
-					tweetButtons.style.display = 'none';
-					tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
+						tweetButtons.style.display = 'none';
+						tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
 
-					var
-						vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
-						vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
-						vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet()),
-						vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
+						var
+							vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
+							vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
+							vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet()),
+							vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
 
-					if (vReply || vRetweet || vUnRetweet || vDelete) {
-						tweetButtons.style.display = 'block';
+						if (vReply || vRetweet || vUnRetweet || vDelete) {
+							tweetButtons.style.display = 'block';
+						}
 					}
 				}
 			}
