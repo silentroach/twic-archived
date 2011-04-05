@@ -39,8 +39,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorSend.title = twic.utils.lang.translate('title_button_send');
 
 	editorWrapper.appendChild(editorTextarea);
-	editorWrapper.appendChild(editorSend);
 	editorWrapper.appendChild(editorCounter);
+	editorWrapper.appendChild(editorSend);
 	editorWrapper.appendChild(clearer);
 
 	if (parent.childElementCount > 0) {

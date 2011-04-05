@@ -1,6 +1,5 @@
 .tweetEditor {
-	width: 97%;
-	text-align: right;
+	width: 320px;
 	margin-left: 2px;
 	}
 	.tweetEditor textarea {
@@ -14,19 +13,23 @@
 		}
 	/** button to send tweet **/
 	.tweetEditor input {
-		float: left;
+		float: right;
 		font-size: 8pt;
 		display: none;
 		margin-left: 0px;
 		margin-bottom: 6px;
+		margin-right: -8px;
 		}
 	/** char counter **/
 	.tweetEditor span {
+		float: left;
 		font-style: italic;
 		font-size: 12pt;
 		padding-top: 3px;
 		display: none;
-		margin-right: -.4em;
+		opacity: .3;
+		-webkit-transition: opacity 0.2s ease-in-out;
+		-webkit-transition: color 0.2s ease-in-out;
 		}
 
 /** tweet editor is focused **/
@@ -39,8 +42,9 @@
 
 /** too much characters in the textarea **/
 .tweetEditor.overload span {
-	color: rgba(255, 0, 0, 1);
+	color: red;
 	font-weight: bold;
+	opacity: 1;
 	}
 .tweetEditor.overload textarea {
 	background-color: rgba(255, 0, 0, .1);
