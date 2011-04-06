@@ -94,7 +94,7 @@ twic.vcl.Timeline = function(parent) {
 
 	/**
 	 * Remove tweet
-	 * @param {boolean=} confirmed Is it confirmed?
+	 * @param {Event|boolean|null} confirmed Is it confirmed?
 	 */
 	var doDelete = function(confirmed) {
 		if (hoveredTweet) {
@@ -112,7 +112,7 @@ twic.vcl.Timeline = function(parent) {
 
 	/**
 	 * Remove tweet
-	 * @param {boolean=} confirmed Is it confirmed?
+	 * @param {Event|boolean|null} confirmed Is it confirmed?
 	 */
 	var doUnRetweet = function(confirmed) {
 		if (hoveredTweet) {
@@ -127,7 +127,7 @@ twic.vcl.Timeline = function(parent) {
 
 	/**
 	 * Retweet
-	 * @param {boolean=} confirmed Is it confirmed?
+	 * @param {Event|boolean|null} confirmed Is it confirmed?
 	 */
 	var doRetweet = function(confirmed) {
 		if (hoveredTweet) {
@@ -145,7 +145,7 @@ twic.vcl.Timeline = function(parent) {
 	var doReallyConfirm = function() {
 		if (
 			confirmerAction === confirmAction.ACTION_DELETE
-			|| confirmAction === confirmAction.ACTION_UNDO_RETWEET
+			|| confirmerAction === confirmAction.ACTION_UNDO_RETWEET
 		) {
 			doDelete(true);
 		} else
