@@ -419,7 +419,9 @@ twic.vcl.Timeline = function(parent) {
 
 /**
  * Handler for tweet send process
+ * @param {twic.vcl.TweetEditor} editor Editor
  * @param {string} tweetText Tweet text
  * @param {string=} replyTo Reply to tweet
+ * @param {function()=} callback Callback
  */
-twic.vcl.Timeline.prototype.onReplySend = function(tweetText, replyTo) { };
+twic.vcl.Timeline.prototype.onReplySend = function(editor, tweetText, replyTo, callback) { };

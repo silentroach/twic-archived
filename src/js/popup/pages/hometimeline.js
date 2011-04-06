@@ -90,9 +90,9 @@
 		}, buildList);
 	};
 
-	var tweetHandler = function(tweetText, replyId) {
+	var tweetHandler = function(editor, tweetText, replyId, callback) {
 		var finish = function() {
-			tweetEditor.reset();
+			callback();
 			updateTop();
 		};
 

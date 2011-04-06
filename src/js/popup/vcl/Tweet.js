@@ -19,7 +19,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
 		/** @type {Element} */ replyWrapper = twic.dom.expandElement('div'),
-		/** @type {twic.vcl.TweetEditor} */ replyer,
+		/** @type {twic.vcl.TweetEditor} */ replier,
 
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
@@ -155,13 +155,13 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.isReplying = function() {
-		return replyer;
+		return replier;
 	};
 
 	tweet.resetEditor = function() {
-		if (replyer) {
-			replyer.close();
-			replyer = null;
+		if (replier) {
+			replier.close();
+			replier = null;
 		}
 	};
 
@@ -182,17 +182,20 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.reply = function() {
-		replyer = new twic.vcl.TweetEditor(timelineId, replyWrapper, id);
-		replyer.onTweetSend = tweet.onReplySend;
-		replyer.setConstTextIfEmpty('@' + authorNick + ' ');
-		replyer.setFocus();
+		replier = new twic.vcl.TweetEditor(timelineId, replyWrapper, id);
+		replier.autoRemovable = true;
+		replier.onTweetSend = tweet.onReplySend;
+		replier.setConstTextIfEmpty('@' + authorNick + ' ');
+		replier.setFocus();
 	};
 
 };
 
 /**
  * Handler for tweet send process
+ * @param {twic.vcl.TweetEditor} editor Editor
  * @param {string} tweetText Tweet text
  * @param {string=} replyTo Reply to tweet
+ * @param {function()=} callback Callback
  */
-twic.vcl.Tweet.prototype.onReplySend = function(tweetText, replyTo) { };
+twic.vcl.Tweet.prototype.onReplySend = function(editor, tweetText, replyTo, callback) { };

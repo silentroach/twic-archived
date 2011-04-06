@@ -31,6 +31,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @const **/ focusedClass  = 'focused',
 		/** @const **/ sendingClass  = 'sending';
 
+	/** @type {boolean} **/ editor.autoRemovable = false;
+
 	editorTextarea['spellcheck'] = false;
 	editorTextarea.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
 
@@ -93,7 +95,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			editorCounter.innerHTML = '&nbsp;';
 			editorSend.disabled = true;
 
-			editor.onTweetSend(val, replyTo);
+			editor.onTweetSend(editor, val, replyTo, function() {
+				editor.reset();
+
+				if (editor.autoRemovable) {
+					editor.close();
+				}
+			} );
 		}
 	};
 
@@ -206,12 +214,12 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 /**
  * Handler for tweet send process
+ * @param {twic.vcl.TweetEditor} editor Editor
  * @param {string} tweetText Tweet text
  * @param {string=} replyTo Reply to tweet
- * todo send the editor object in params
- * todo return the result and then reset by the editor
+ * @param {function()=} callback Callback for reset
  */
-twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText, replyTo) { };
+twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweetText, replyTo, callback) { };
 
 /**
  * Handler for the focus event

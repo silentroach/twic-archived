@@ -1,8 +1,9 @@
 In development
+	+ Reply
 	* No full timeline repaint on new tweet post
-	+ Now you can undo your retweets and delete your own tweets
-	+ Now you can retweet others
-	* Now it is easy to select the tweet text from the end
+	+ Tweets delete and undo retweets
+	+ Retweet
+	* Fix for the tweet text selection from the end
 
 0.6
 	* Links in profile bio are now clickable
