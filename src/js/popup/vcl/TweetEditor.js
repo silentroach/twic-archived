@@ -208,6 +208,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
  * Handler for tweet send process
  * @param {string} tweetText Tweet text
  * @param {string=} replyTo Reply to tweet
+ * todo send the editor object in params
+ * todo return the result and then reset by the editor
  */
 twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText, replyTo) { };
 

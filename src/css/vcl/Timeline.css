@@ -30,10 +30,12 @@
 
 	.timeline .tweetButtons .confirm {
 		float: right;
-		display: inline;
 		font-size: 9pt;
 		margin-left: 10px;
 		display: none;
+		}
+	.timeline .tweetButtons.bconfirm .confirm {
+		display: inline;
 		}
 	.timeline .tweetButtons .holder {
 		float: left;

@@ -10,11 +10,17 @@
  */
 twic.vcl.Timeline = function(parent) {
 
+	/**
+	 * Confirm actions
+	 * @enum {number}
+	 */
+	var confirmAction = {
+		ACTION_RETWEET: 0,
+		ACTION_DELETE: 1
+	};
+
 	var
 		timeline = this,
-
-		/** @const **/ ACTION_RETWEET        = 0,
-		/** @const **/ ACTION_DELETE         = 1,
 
 		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
 		/** @type {Element} **/ list         = twic.dom.expandElement('ul'),
@@ -29,6 +35,7 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ confirmer    = twic.dom.expandElement('div.confirm'),
 		/** @type {boolean} **/ isLoading    = false,
 
+		/** @type {confirmAction} **/ confirmerAction,
 		/** @type {twic.vcl.Tweet} **/ replyTweet,
 
 		/** @type {Element} **/ hoveredTweet,
@@ -43,7 +50,24 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {DocumentFragment}                **/ tweetBuffer,
 		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
 
-	var restoreButtonsSrc = function() {
+	/**
+	 * Open the confirm dialog in the tweetButtons
+	 * @param {confirmAction} what
+	 */
+	var doConfirm = function(what) {
+		confirmerAction = what;
+
+		tweetButtons.classList.add('bconfirm');
+	};
+
+	var resetConfirm = function() {
+		confirmerAction = null;
+		tweetButtons.classList.remove('bconfirm');
+	};
+
+	var resetButtons = function() {
+		resetConfirm();
+
 		// @resource img/buttons/retweet.png
 		tbRetweet.src   = 'img/buttons/retweet.png';
 		// @resource img/buttons/retweet_undo.png
@@ -51,7 +75,57 @@ twic.vcl.Timeline = function(parent) {
 		// @resource img/buttons/delete.png
 		tbDelete.src    = 'img/buttons/delete.png';
 		// @resource img/buttons/reply.png
-		tbReply.src   = 'img/buttons/reply.png';
+		tbReply.src     = 'img/buttons/reply.png';
+	};
+
+	/**
+	 * Remove tweet
+	 * @param {boolean=} confirmed Is it confirmed?
+	 */
+	var doDelete = function(confirmed) {
+		if (hoveredTweet) {
+			if (!confirmed || !goog.isBoolean(confirmed)) {
+				doConfirm(confirmAction.ACTION_DELETE);
+				return;
+			};
+
+			doButtonLoad(tbDelete);
+			doButtonLoad(tbUnRetweet);
+
+			timeline.onDelete(userId, hoveredTweet.id, hideAndRestoreButtons);
+		}
+	};
+
+	/**
+	 * Retweet
+	 * @param {boolean=} confirmed Is it confirmed?
+	 */
+	var doRetweet = function(confirmed) {
+		if (hoveredTweet) {
+			if (!confirmed || !goog.isBoolean(confirmed)) {
+				doConfirm(confirmAction.ACTION_RETWEET);
+				return;
+			};
+
+			doButtonLoad(tbRetweet);
+
+			timeline.onRetweet(userId, hoveredTweet.id, hideAndRestoreButtons);
+		}
+	};
+
+	var doReallyConfirm = function() {
+		if (confirmerAction === confirmAction.ACTION_DELETE) {
+			doDelete(true);
+		} else
+		if (confirmerAction === confirmAction.ACTION_RETWEET) {
+			doRetweet(true);
+		}
+
+		resetConfirm();
+	};
+
+	var doReallyNotConfirm = function() {
+		resetConfirm();
 	};
 
 	var doButtonLoad = function(button) {
@@ -61,13 +135,12 @@ twic.vcl.Timeline = function(parent) {
 
 	var hideButtons = function() {
 		tweetButtons.style.display = 'none';
-		confirmer.style.display = 'none';
 		hoveredTweet = null;
 	};
 
 	var hideAndRestoreButtons = function() {
 		hideButtons();
-		restoreButtonsSrc();
+		resetButtons();
 	};
 
 	var timelineMouseOut = function(e) {
@@ -103,7 +176,7 @@ twic.vcl.Timeline = function(parent) {
 					} else {
 						hoveredTweet = find;
 
-						restoreButtonsSrc();
+						resetButtons();
 
 						tweetButtons.style.display = 'none';
 						tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
@@ -295,24 +368,7 @@ twic.vcl.Timeline = function(parent) {
 
 	timeline.onRetweet = function(userId, tweetId, callback) { };
 
-	var doRetweet = function() {
-		if (hoveredTweet) {
-			doButtonLoad(tbRetweet);
-
-			timeline.onRetweet(userId, hoveredTweet.id, hideAndRestoreButtons);
-		}
-	};
-
 	timeline.onDelete = function(userId, tweetId, callback) { };
-
-	var doDelete = function() {
-		if (hoveredTweet) {
-			doButtonLoad(tbDelete);
-			doButtonLoad(tbUnRetweet);
-
-			timeline.onDelete(userId, hoveredTweet.id, hideAndRestoreButtons);
-		}
-	};
 
 	var doReply = function() {
 		if (hoveredTweet) {
@@ -336,7 +392,7 @@ twic.vcl.Timeline = function(parent) {
 	buttonHolder.appendChild(tbRetweet);
 
 	tbUnRetweet.title = twic.utils.lang.translate('title_retweet_undo');
-	tbUnRetweet.onclick = doDelete; // the same handler is for delete
+	tbUnRetweet.onclick = doDelete; // the same handler as for delete
 	buttonHolder.appendChild(tbUnRetweet);
 
 	tbDelete.title = twic.utils.lang.translate('title_delete');
@@ -352,12 +408,12 @@ twic.vcl.Timeline = function(parent) {
 	wrapper.appendChild(tweetButtons);
 	parent.appendChild(wrapper);
 
-	restoreButtonsSrc();
+	resetButtons();
 
 	list.addEventListener('mousedown', timelineMouseDown, false);
-	list.addEventListener('mouseup', timelineMouseUp, false);
+	list.addEventListener('mouseup',   timelineMouseUp, false);
 	list.addEventListener('mousemove', timelineMouseMove, false);
-	list.addEventListener('mouseout', timelineMouseOut, false);
+	list.addEventListener('mouseout',  timelineMouseOut, false);
 
 };
 
