@@ -110,6 +110,10 @@
 		}
 	};
 
+	var timelineResetEditor = function() {
+		timeline.resetEditor();
+	};
+
 	var initPage = function() {
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
@@ -148,7 +152,7 @@
 		newTweet.innerHTML = '';
 
 		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
-
+		tweetEditor.onFocus     = timelineResetEditor;
 		tweetEditor.onTweetSend = tweetHandler;
 
 		update();

@@ -287,6 +287,12 @@ twic.vcl.Timeline = function(parent) {
 		return firstId;
 	};
 
+	timeline.resetEditor = function() {
+		if (replyTweet) {
+			replyTweet.resetEditor();
+		}
+	};
+
 	timeline.onRetweet = function(userId, tweetId, callback) { };
 
 	var doRetweet = function() {
@@ -310,9 +316,7 @@ twic.vcl.Timeline = function(parent) {
 
 	var doReply = function() {
 		if (hoveredTweet) {
-			if (replyTweet) {
-				replyTweet.resetEditor();
-			}
+			timeline.resetEditor();
 
 			replyTweet = tweets[hoveredTweet.id];
 			replyTweet.reply();

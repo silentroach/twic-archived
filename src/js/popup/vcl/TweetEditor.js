@@ -142,6 +142,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorTextarea.addEventListener('focus', function() {
 		editorWrapper.classList.add(focusedClass);
 		checkTweetArea();
+
+		editor.onFocus();
 	}, false );
 
 	editorTextarea.addEventListener('blur', function() {
@@ -208,3 +210,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
  * @param {string=} replyTo Reply to tweet
  */
 twic.vcl.TweetEditor.prototype.onTweetSend = function(tweetText, replyTo) { };
+
+/**
+ * Handler for the focus event
+ */
+twic.vcl.TweetEditor.prototype.onFocus = function() { };
