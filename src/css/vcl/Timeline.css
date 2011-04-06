@@ -55,14 +55,10 @@
 				opacity: 1;
 				}
 	.timeline .tweetButtons.bconfirm .holder img {
-		opacity: .2;
+		opacity: .15;
 		}
-		.timeline .tweetButtons.bconfirm.bdel .holder img.tb_delete {
-			opacity: 1;
-			}
-		.timeline .tweetButtons.bconfirm.bret .holder img.tb_retweet {
-			opacity: 1;
-			}
+		.timeline .tweetButtons.bconfirm.bdel .holder img.tb_delete,
+		.timeline .tweetButtons.bconfirm.bret .holder img.tb_retweet,
 		.timeline .tweetButtons.bconfirm.bunret .holder img.tb_retweet_undo {
 			opacity: 1;
 			}
