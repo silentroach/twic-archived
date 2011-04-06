@@ -21,6 +21,7 @@
 	-webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .3);
 	opacity: .5;
 	-webkit-transition: opacity 0.2s ease-in-out;
+	-webkit-transition: background-color 0.2s ease-in-out;
 	/* don't change cursor to text selector */
 	cursor: default;
 	}
@@ -34,9 +35,12 @@
 		margin-left: 10px;
 		display: none;
 		}
-	.timeline .tweetButtons.bconfirm .confirm {
-		display: inline;
+	.timeline .tweetButtons.bconfirm {
+		background-color: rgba(255, 0, 0, .1); /* toolbar.css -> .alert **/
 		}
+		.timeline .tweetButtons.bconfirm .confirm {
+			display: inline;
+			}
 	.timeline .tweetButtons .holder {
 		float: left;
 		display: inline;
@@ -50,3 +54,15 @@
 			.timeline .tweetButtons img:hover {
 				opacity: 1;
 				}
+	.timeline .tweetButtons.bconfirm .holder img {
+		opacity: .2;
+		}
+		.timeline .tweetButtons.bconfirm.bdel .holder img.tb_delete {
+			opacity: 1;
+			}
+		.timeline .tweetButtons.bconfirm.bret .holder img.tb_retweet {
+			opacity: 1;
+			}
+		.timeline .tweetButtons.bconfirm.bunret .holder img.tb_retweet_undo {
+			opacity: 1;
+			}

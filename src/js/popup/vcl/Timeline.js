@@ -16,7 +16,8 @@ twic.vcl.Timeline = function(parent) {
 	 */
 	var confirmAction = {
 		ACTION_RETWEET: 0,
-		ACTION_DELETE: 1
+		ACTION_UNDO_RETWEET: 1,
+		ACTION_DELETE: 2
 	};
 
 	var
@@ -58,11 +59,24 @@ twic.vcl.Timeline = function(parent) {
 		confirmerAction = what;
 
 		tweetButtons.classList.add('bconfirm');
+
+		if (what === confirmAction.ACTION_DELETE) {
+			tweetButtons.classList.add('bdel');
+		} else
+		if (what === confirmAction.ACTION_UNDO_RETWEET) {
+			tweetButtons.classList.add('bunret');
+		} else
+		if (what === confirmAction.ACTION_RETWEET) {
+			tweetButtons.classList.add('bret');
+		}
 	};
 
 	var resetConfirm = function() {
 		confirmerAction = null;
 		tweetButtons.classList.remove('bconfirm');
+		tweetButtons.classList.remove('bdel');
+		tweetButtons.classList.remove('bret');
+		tweetButtons.classList.remove('bunret');
 	};
 
 	var resetButtons = function() {
@@ -97,6 +111,21 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	/**
+	 * Remove tweet
+	 * @param {boolean=} confirmed Is it confirmed?
+	 */
+	var doUnRetweet = function(confirmed) {
+		if (hoveredTweet) {
+			if (!confirmed || !goog.isBoolean(confirmed)) {
+				doConfirm(confirmAction.ACTION_UNDO_RETWEET);
+				return;
+			};
+
+			doDelete(true);
+		}
+	};
+
+	/**
 	 * Retweet
 	 * @param {boolean=} confirmed Is it confirmed?
 	 */
@@ -114,7 +143,10 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	var doReallyConfirm = function() {
-		if (confirmerAction === confirmAction.ACTION_DELETE) {
+		if (
+			confirmerAction === confirmAction.ACTION_DELETE
+			|| confirmAction === confirmAction.ACTION_UNDO_RETWEET
+		) {
 			doDelete(true);
 		} else
 		if (confirmerAction === confirmAction.ACTION_RETWEET) {
@@ -392,7 +424,7 @@ twic.vcl.Timeline = function(parent) {
 	buttonHolder.appendChild(tbRetweet);
 
 	tbUnRetweet.title = twic.utils.lang.translate('title_retweet_undo');
-	tbUnRetweet.onclick = doDelete; // the same handler as for delete
+	tbUnRetweet.onclick = doUnRetweet;
 	buttonHolder.appendChild(tbUnRetweet);
 
 	tbDelete.title = twic.utils.lang.translate('title_delete');
