@@ -1,9 +1,9 @@
-li.tweet.me {
-	background-color: rgba(100, 200, 0, .10);
-	}
-
 li.tweet.mention {
 	background-color: rgba(0, 100, 200, .10);
+	}
+
+li.tweet.me {
+	background-color: rgba(100, 200, 0, .10);
 	}
 
 li.tweet.retweet {
