@@ -401,7 +401,7 @@ twic.vcl.Timeline = function(parent) {
 
 	tweetButtons.appendChild(buttonHolder);
 
-	confirmer.innerHTML = 'sure?';
+	confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
 	tweetButtons.appendChild(confirmer);
 
 	wrapper.appendChild(list);
