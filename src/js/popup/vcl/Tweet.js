@@ -160,6 +160,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	tweet.resetEditor = function() {
 		if (replyer) {
+			replyer.close();
 			replyer = null;
 		}
 	};

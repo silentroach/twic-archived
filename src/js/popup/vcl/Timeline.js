@@ -29,6 +29,8 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ confirmer    = twic.dom.expandElement('div.confirm'),
 		/** @type {boolean} **/ isLoading    = false,
 
+		/** @type {twic.vcl.Tweet} **/ replyTweet,
+
 		/** @type {Element} **/ hoveredTweet,
 		/** @type {Element} **/ tmp,
 
@@ -136,6 +138,11 @@ twic.vcl.Timeline = function(parent) {
 	var timelineMouseUp = function(e) {
 		if (clickTimer) {
 			clearTimeout(clickTimer);
+			clickTimer = null;
+
+			if (!buttonPressed && hoveredTweet && replyTweet) {
+				replyTweet.resetEditor();
+			}
 		}
 
 		buttonPressed = false;
@@ -303,7 +310,13 @@ twic.vcl.Timeline = function(parent) {
 
 	var doReply = function() {
 		if (hoveredTweet) {
-			tweets[hoveredTweet.id].reply();
+			if (replyTweet) {
+				replyTweet.resetEditor();
+			}
+
+			replyTweet = tweets[hoveredTweet.id];
+			replyTweet.reply();
+
 			hideButtons();
 		}
 	};

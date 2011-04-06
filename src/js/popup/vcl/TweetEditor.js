@@ -196,6 +196,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorTextarea.focus();
 	};
 
+	editor.close = function() {
+		twic.dom.removeElement(editorWrapper);
+	};
+
 };
 
 /**
