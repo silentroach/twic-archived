@@ -79,7 +79,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			editorWrapper.classList.remove(overloadClass);
 		}
 
-		editorSend.disabled = (charCount === 0 || charCount > 140);
+		editorSend.disabled = (
+			charCount === 0
+			|| charCount > 140
+			|| val === constStartVal
+		);
 	};
 
 	/**
