@@ -67,7 +67,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		charCount = val.length;
 
 		// todo think about rows count decrement when it is needed
-		while (editorTextarea.scrollTop > 0) {
+		while (editorTextarea.scrollHeight > editorTextarea.offsetHeight) {
 			++editorTextarea.rows;
 		}
 
@@ -181,8 +181,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	var backupText = storage.getItem(getStoragePath());
 	if (backupText) {
 		editorTextarea.value = backupText;
-		// fixme textarea isn't resized if it is too big :(
-		checkTweetArea();
+		// fixme ugly timeout to resize textarea after ui is loaded
+		setTimeout( function() {
+			checkTweetArea();
+		}, 200);
 	}
 
 	// functions
