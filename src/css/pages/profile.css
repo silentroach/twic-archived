@@ -6,6 +6,9 @@
 		max-width: 96px;
 		margin-left: 1em;
 		}
+	#profile .info .bio {
+		word-wrap: break-word;
+		}
 	#profile #followings p {
 		margin-top: 1em;
 		text-align: center;
