@@ -28,7 +28,6 @@
 	.timeline .tweetButtons:hover {
 		opacity: .95;
 		}
-
 	.timeline .tweetButtons .confirm {
 		float: right;
 		font-size: 9pt;
@@ -36,7 +35,7 @@
 		display: none;
 		}
 	.timeline .tweetButtons.bconfirm {
-		background-color: rgba(255, 0, 0, .1); /* toolbar.css -> .alert **/
+		background-color: #ffe0e8;
 		}
 		.timeline .tweetButtons.bconfirm .confirm {
 			display: inline;
@@ -51,6 +50,10 @@
 			margin-left: 3px;
 			-webkit-transition: opacity 0.2s ease-in-out;
 			}
+			.timeline .tweetButtons.bconfirm img {
+				/* reset the cursor to default in confirmation dialog */
+				cursor: default;
+				}
 			.timeline .tweetButtons img:hover {
 				opacity: 1;
 				}
