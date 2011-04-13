@@ -403,7 +403,10 @@ twic.vcl.Timeline = function(parent) {
 	timeline.onDelete = function(userId, tweetId, callback) { };
 
 	var doReply = function() {
-		if (hoveredTweet) {
+		if (
+			null === confirmerAction
+			&& hoveredTweet
+		) {
 			timeline.resetEditor();
 
 			replyTweet = tweets[hoveredTweet.id];
