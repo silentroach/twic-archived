@@ -127,7 +127,7 @@
 		var
 			/** @type {Element} **/ marginElement,
 			/** @type {string} **/  description = data['description'],
-			/** @type {string} **/  loc = data['location'],
+			/** @type {string} **/  loc = data['location'];
 
 		profileUserId = data['id'];
 
