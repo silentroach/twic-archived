@@ -28,7 +28,7 @@
 	.timeline .tweetButtons:hover {
 		opacity: .95;
 		}
-	.timeline .tweetButtons .confirm {
+	.timeline .tweetButtons a.confirm {
 		float: right;
 		font-size: 9pt;
 		margin-left: 10px;

@@ -33,7 +33,7 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ tbUnRetweet  = twic.dom.expandElement('img.tb_retweet_undo'),
 		/** @type {Element} **/ tbDelete     = twic.dom.expandElement('img.tb_delete'),
 		/** @type {Element} **/ buttonHolder = twic.dom.expandElement('div.holder'),
-		/** @type {Element} **/ confirmer    = twic.dom.expandElement('div.confirm'),
+		/** @type {Element} **/ confirmer    = twic.dom.expandElement('a.confirm'),
 		/** @type {boolean} **/ isLoading    = false,
 
 		/** @type {confirmAction} **/ confirmerAction,
@@ -437,6 +437,7 @@ twic.vcl.Timeline = function(parent) {
 	tweetButtons.appendChild(buttonHolder);
 
 	confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
+	confirmer.href = '#';
 	tweetButtons.appendChild(confirmer);
 
 	wrapper.appendChild(list);
