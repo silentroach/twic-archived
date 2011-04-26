@@ -211,7 +211,7 @@ twic.vcl.Timeline = function(parent) {
 						resetButtons();
 
 						tweetButtons.style.display = 'none';
-						tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 22) + 'px';
+						tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 21) + 'px';
 
 						var
 							vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
