@@ -101,7 +101,7 @@ twic.vcl.Timeline = function(parent) {
 			if (!confirmed || !goog.isBoolean(confirmed)) {
 				doConfirm(confirmAction.ACTION_DELETE);
 				return;
-			};
+			}
 
 			doButtonLoad(tbDelete);
 			doButtonLoad(tbUnRetweet);
@@ -119,7 +119,7 @@ twic.vcl.Timeline = function(parent) {
 			if (!confirmed || !goog.isBoolean(confirmed)) {
 				doConfirm(confirmAction.ACTION_UNDO_RETWEET);
 				return;
-			};
+			}
 
 			doDelete(true);
 		}
@@ -134,7 +134,7 @@ twic.vcl.Timeline = function(parent) {
 			if (!confirmed || !goog.isBoolean(confirmed)) {
 				doConfirm(confirmAction.ACTION_RETWEET);
 				return;
-			};
+			}
 
 			doButtonLoad(tbRetweet);
 
