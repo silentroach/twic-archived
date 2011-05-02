@@ -190,7 +190,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 		replier.onClose = function() {
 			replier = null;
-		}
+		};
 	};
 
 };
