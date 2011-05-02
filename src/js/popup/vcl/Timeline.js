@@ -156,10 +156,6 @@ twic.vcl.Timeline = function(parent) {
 		resetConfirm();
 	};
 
-	var doReallyNotConfirm = function() {
-		resetConfirm();
-	};
-
 	var doButtonLoad = function(button) {
 		// @resource img/loader.gif
 		button.src = 'img/loader.gif';
@@ -438,6 +434,7 @@ twic.vcl.Timeline = function(parent) {
 
 	confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
 	confirmer.href = '#';
+	confirmer.onclick = doReallyConfirm;
 	tweetButtons.appendChild(confirmer);
 
 	wrapper.appendChild(list);

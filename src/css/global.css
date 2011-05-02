@@ -47,3 +47,7 @@ strong {
 p {
 	-webkit-user-select: text;
 	}
+
+a {
+	cursor: pointer;
+	}

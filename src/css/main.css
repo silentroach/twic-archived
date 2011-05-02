@@ -13,7 +13,6 @@ a.nick, a.hash {
 	background-color: rgba(0, 120, 55, .1);
 	padding: 0 3px;
 	border-radius: 3px;
-	cursor: pointer;
 	}
 
 .clearer {
