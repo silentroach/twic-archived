@@ -215,6 +215,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	editor.close = function() {
 		twic.dom.removeElement(editorWrapper);
+
+		editor.onClose();
 	};
 
 };
@@ -232,3 +234,8 @@ twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweetText, replyTo
  * Handler for the focus event
  */
 twic.vcl.TweetEditor.prototype.onFocus = function() { };
+
+/**
+ * Close handler for tweet editor
+ */
+twic.vcl.TweetEditor.prototype.onClose = function() { };

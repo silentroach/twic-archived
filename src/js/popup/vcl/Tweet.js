@@ -187,6 +187,10 @@ twic.vcl.Tweet = function(id, timeline) {
 		replier.onTweetSend = tweet.onReplySend;
 		replier.setConstTextIfEmpty('@' + authorNick + ' ');
 		replier.setFocus();
+
+		replier.onClose = function() {
+			replier = null;
+		}
 	};
 
 };
