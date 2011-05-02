@@ -77,7 +77,7 @@ twic.accounts = ( function() {
 	twic.requests.subscribe('accountAuth', function(data, sendResponse) {
 		if (
 			!data['pin']
-			|| !data['user_id']
+			|| !data['user_nick']
 		) {
 			sendResponse( {
 				'res': twic.global.FAILED
@@ -87,8 +87,8 @@ twic.accounts = ( function() {
 		}
 
 		var
-			userid = data['user_id'],
-			account = accounts.getInfo(userid);
+			userNick = data['user_nick'],
+			account = accounts.getInfoByNick(userNick);
 
 		if (account) {
 			sendResponse( {
@@ -136,11 +136,8 @@ twic.accounts = ( function() {
 				checkUser(account.fields['id']);
 			};
 
-			account.loadById(userid, function() {
-				// found? great, let's modify oauth data
-				updateAccount(account);
-			}, function() {
-				account.setValue('id', userid);
+			twic.twitter.getUserInfo(userNick, function(obj) {
+				account.setValue('id', obj.fields['id']);
 				updateAccount(account);
 			} );
 		}, function(error) {
@@ -260,6 +257,23 @@ twic.accounts = ( function() {
 	accounts.getInfo = function(id) {
 		if (items[id]) {
 			return items[id];
+		}
+
+		return false;
+	};
+
+	/**
+	 * Get user info by nick
+	 * @param {string} nick User nick
+	 * @return {Object|boolean} Account or false
+	 */
+	accounts.getInfoByNick = function(nick) {
+		var id;
+
+		for (id in items) {
+			if (items[id].user.fields['screen_name'] === nick) {
+				return items[id];
+			}
 		}
 
 		return false;

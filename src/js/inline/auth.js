@@ -8,20 +8,20 @@
 ( function() {
 
 	var
-		pinElement  = twic.dom.findElement('#oauth_pin'),
-		idElement   = twic.dom.findElement('meta[name=session-userid]');
+		pinElement  = twic.dom.findElement('kbd'),
+		nickElement = twic.dom.findElement('#screen-name');
 
 	if (!pinElement) {
 		return;
 	}
 
 	var
-		pin = parseInt(pinElement.innerText, 10),
-		userId = parseInt(idElement['content'], 10);
+		pin = parseInt(pinElement.innerText.trim(), 10),
+		userNick = nickElement.innerText.trim();
 
 	if (
 		!pin
-		|| !userId
+		|| !userNick
 	) {
 		// parse int from the page failed
 		return;
@@ -42,7 +42,7 @@
 
 	twic.requests.makeRequest('accountAuth', {
 		'pin':  pin,
-		'user_id': userId
+		'user_nick': userNick
 	}, function(reply) {
 		if (
 			!reply['res']
