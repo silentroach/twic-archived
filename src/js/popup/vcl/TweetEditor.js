@@ -129,6 +129,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		if (
 			val === ''
 			|| val === constStartVal
+			|| val.length < constStartVal.length
 		) {
 			storage.removeItem(path);
 		} else {
