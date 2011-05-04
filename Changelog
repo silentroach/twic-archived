@@ -1,4 +1,11 @@
-In development
+In development:
+	* Fixing cursor for tweet buttons in Mac OS
+	* Extension popup now can't be larger than screen height
+
+0.8
+	* Critical fix for reply button
+
+0.7
 	+ Reply
 	* No full timeline repaint on new tweet post
 	+ Tweets delete and undo retweets
