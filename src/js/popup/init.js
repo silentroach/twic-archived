@@ -5,14 +5,18 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// try to switch to the page we remember before popup was closed
-var lastLocation = window.localStorage.getItem('location');
+setTimeout( function() {
 
-if (lastLocation) {
-	twic.debug.info('Last stored location:', lastLocation);
+	// try to switch to the page we remember before popup was closed
+	var lastLocation = window.localStorage.getItem('location');
 
-	// go to the previous remembered location
-	window.location = window.location.pathname + '#' + lastLocation;
-}
+	if (lastLocation) {
+		twic.debug.info('Last stored location:', lastLocation);
 
-window.onhashchange();
+		// go to the previous remembered location
+		window.location = window.location.pathname + '#' + lastLocation;
+	}
+
+	window.onhashchange();
+
+}, 100 );

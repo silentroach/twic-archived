@@ -207,7 +207,13 @@ twic.vcl.Timeline = function(parent) {
 						resetButtons();
 
 						tweetButtons.style.display = 'none';
-						tweetButtons.style.top = (hoveredTweet.offsetTop + hoveredTweet.offsetHeight - tweetButtons.offsetHeight - 21) + 'px';
+
+						var
+							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight;
+
+						if (hackTop > parent.clientHeight) {
+							return;
+						}
 
 						var
 							vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
@@ -216,7 +222,12 @@ twic.vcl.Timeline = function(parent) {
 							vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
 
 						if (vReply || vRetweet || vUnRetweet || vDelete) {
+							// some magic not to be over the scrollbar
+							tweetButtons.style.right = (350 - wrapper.clientWidth) + 'px';
+
 							tweetButtons.style.display = 'block';
+
+							tweetButtons.style.top = (hackTop - tweetButtons.clientHeight) + 'px';
 						}
 					}
 				}
@@ -350,6 +361,7 @@ twic.vcl.Timeline = function(parent) {
 	 * @param {number} id User identifier
 	 */
 	timeline.setUserId = function(id) {
+
 		userId = id;
 	};
 
