@@ -118,7 +118,7 @@
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
 
-		page.style.maxHeight = (screen.height - window.screenY - 50) + 'px';
+		page.style.maxHeight = (screen.height - window.screenY - 100) + 'px';
 
 		timeline = new twic.vcl.Timeline(page);
 		timeline.onReplySend = tweetHandler;
