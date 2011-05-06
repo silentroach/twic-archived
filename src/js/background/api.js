@@ -94,6 +94,10 @@ twic.api = ( function() {
 	 * Open the access grant page to add accountAdd
 	 */
 	api.accountAdd = function() {
+		// we need to reset token to avoid an error when user closed a tab
+		// and trying to authenticate the extension again
+		api.resetToken();
+
 		getRequestToken( function(token, secret) {
 			chrome.tabs.create( {
 				'url': authUrl + 'authorize?oauth_token=' + token
