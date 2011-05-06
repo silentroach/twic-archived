@@ -25,7 +25,7 @@ twic.twitter = ( function() {
 			tmpUser = new twic.db.obj.User();
 
 		tmpUser.loadByFieldValue(
-			'screen_name', nick,
+			'screen_name_lower', nick.toLowerCase(),
 			function() {
 				callback(tmpUser);
 			},

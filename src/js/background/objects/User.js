@@ -19,6 +19,7 @@ twic.db.obj.User = function() {
 		'id': 0,
 		'name': '',
 		'screen_name': '',
+		'screen_name_lower': '',
 		'avatar': '',
 		'url': '',
 		'verified': 0,
@@ -37,7 +38,7 @@ twic.db.obj.User = function() {
 			return (obj['verified']) ? 1 : 0;
 		},
 		// make the screen_name lowercase to search it right
-		'screen_name': function(obj) {
+		'screen_name_lower': function(obj) {
 			return obj['screen_name'].toLowerCase();
 		},
 		'regdate': function(obj) {

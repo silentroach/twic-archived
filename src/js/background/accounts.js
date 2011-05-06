@@ -215,7 +215,7 @@ twic.accounts = ( function() {
 				'inner join users u on ( ' +
 					'u.id = a.id ' +
 				') ' +
-			'order by u.screen_name ', [],
+			'order by u.screen_name_lower ', [],
 			/**
 			 * @this {SQLResultSetRowList}
 			 */
@@ -268,10 +268,12 @@ twic.accounts = ( function() {
 	 * @return {Object|boolean} Account or false
 	 */
 	accounts.getInfoByNick = function(nick) {
-		var id;
+		var
+			nickLowered = nick.toLowerCase(),
+			id;
 
 		for (id in items) {
-			if (items[id].user.fields['screen_name'] === nick) {
+			if (items[id].user.fields['screen_name_lower'] === nickLowered) {
 				return items[id];
 			}
 		}

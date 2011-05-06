@@ -235,6 +235,19 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
+		},
+		'0.4': {
+			version: '0.5',
+			runme: function(tr, callback) {
+				twic.utils.queueIterator( [
+					'alter table users add screen_name_lower varchar(32) not null default \'\'',
+					'update users set screen_name_lower = screen_name',
+					'drop index idx_users_name',
+					'create index idx_users_name on users (screen_name_lower)'
+				], function(sqlText, callback) {
+					executeTransaction(tr, sqlText, [], callback, callback);
+				}, callback);
+			}
 		}
 	};
 
