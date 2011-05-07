@@ -9,6 +9,7 @@
 ( function() {
 
 	var
+		coordsRegExp = /(-?\d+\.\d+),(-?\d+\.\d+)/,
 		page,
 		elementLoader,
 		elementAvatar,
@@ -144,17 +145,34 @@
 			elementUrl.innerHTML = twic.utils.url.humanize(data['url']);
 		}
 
+		if (loc.trim() !== '') {
+			elementLocation.style.display = 'block';
+			marginElement = elementLocation;
+
+			// trying to find the coordinates
+			var coords = coordsRegExp.exec(loc);
+			if (
+				coords
+				&& 3 === coords.length
+			) {
+				var coordsData = coords.shift();
+
+				loc += '<br /><br /><center>' +
+					'<img src="http://maps.google.com/maps/api/staticmap?center=' +
+					coordsData +
+					'&zoom=15&size=330x150&markers=color:blue|' +
+					coordsData +
+					'&sensor=false" /></center>';
+			}
+
+			elementLocation.innerHTML = loc;
+		}
+
 		if (description.trim() !== '') {
 			// todo prepare the text as a tweet
 			elementBio.innerHTML = twic.utils.url.processText(description);
 			elementBio.style.display = 'block';
 			marginElement = elementBio;
-		}
-
-		if (loc.trim() !== '') {
-			elementLocation.innerHTML = loc;
-			elementLocation.style.display = 'block';
-			marginElement = elementLocation;
 		}
 
 		if (marginElement) {

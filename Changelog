@@ -1,6 +1,8 @@
 In development:
 	* Fixing cursor for tweet buttons in Mac OS
 	* Extension popup now can't be larger than screen height
+	* No more lowercased usernames
+	* Fixing small authentication bug with retry
 
 0.8
 	* Critical fix for reply button
