@@ -160,7 +160,7 @@
 				loc += '<br /><br /><center>' +
 					'<img src="http://maps.google.com/maps/api/staticmap?center=' +
 					coordsData +
-					'&zoom=15&size=330x150&markers=color:blue|' +
+					'&zoom=14&size=330x150&markers=color:blue|' +
 					coordsData +
 					'&sensor=false" /></center>';
 			}
