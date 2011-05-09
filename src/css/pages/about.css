@@ -3,6 +3,11 @@
 	padding: 1em;
 	}
 
+#about hr {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	}
+
 #athanks, #aname {
 	font-weight: bold;
 	}
