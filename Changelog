@@ -1,4 +1,4 @@
-In development:
+0.9
 	* Fixing cursor for tweet buttons in Mac OS
 	* Extension popup now can't be larger than screen height
 	* No more lowercased usernames
