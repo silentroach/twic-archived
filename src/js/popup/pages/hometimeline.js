@@ -77,14 +77,16 @@
 		}
 
 		timeline.endUpdate();
-
+		
 		// fixme ugly bugfix to recalculate the max page height
-		setTimeout( function() {
-			page.style.maxHeight = Math.min(
-				screen.availHeight - window.screenTop - 100,
-				window.outerHeight > 100 ? window.outerHeight : 65536
-			) + 'px';
-		}, 100 );
+		//setTimeout( function() {
+			page.style.maxHeight = //Math.min(
+				screen.availHeight - window.screenTop - 100
+				//,
+				//window.outerHeight > 100 ? window.outerHeight : 65536
+			//)
+			 + 'px';
+		//}, 100 );
 	};
 
 	var update = function() {
