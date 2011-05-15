@@ -123,9 +123,14 @@
 		timeline.onRetweet = doRetweet;
 		timeline.onDelete  = doDelete;
 
-		newTweet = twic.dom.findElement('.newtweet', page);
+		timeline.onAfterUpdate = function() {
+			page.style.maxHeight = Math.min(
+				screen.availHeight - window.screenTop - 100,
+				window.outerHeight
+			) + 'px';
+		};
 
-		page.style.maxHeight = Math.min(screen.availHeight - window.screenTop - 100, window.outerHeight) + 'px';
+		newTweet = twic.dom.findElement('.newtweet', page);
 
 		twic.dom.findElement('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
 	};
