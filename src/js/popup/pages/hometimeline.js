@@ -118,14 +118,14 @@
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
 
-		page.style.maxHeight = (screen.height - window.screenY - 100) + 'px';
-
 		timeline = new twic.vcl.Timeline(page);
 		timeline.onReplySend = tweetHandler;
 		timeline.onRetweet = doRetweet;
 		timeline.onDelete  = doDelete;
 
 		newTweet = twic.dom.findElement('.newtweet', page);
+
+		page.style.maxHeight = Math.min(screen.availHeight - window.screenTop - 100, window.outerHeight) + 'px';
 
 		twic.dom.findElement('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
 	};
