@@ -354,8 +354,6 @@ twic.vcl.Timeline = function(parent) {
 			firstId = id;
 		}
 
-		timeline.onAfterUpdate();
-
 		return tweet;
 	};
 
@@ -474,8 +472,3 @@ twic.vcl.Timeline = function(parent) {
  * @param {function()=} callback Callback
  */
 twic.vcl.Timeline.prototype.onReplySend = function(editor, tweetText, replyTo, callback) { };
-
-/**
- * Handler for the timeline update
- */
-twic.vcl.Timeline.prototype.onAfterUpdate = function() { };

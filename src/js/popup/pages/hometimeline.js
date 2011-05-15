@@ -77,6 +77,11 @@
 		}
 
 		timeline.endUpdate();
+
+		page.style.maxHeight = Math.min(
+			screen.availHeight - window.screenTop - 100,
+			window.outerHeight
+		) + 'px';
 	};
 
 	var update = function() {
@@ -123,13 +128,6 @@
 		timeline.onRetweet = doRetweet;
 		timeline.onDelete  = doDelete;
 
-		timeline.onAfterUpdate = function() {
-			page.style.maxHeight = Math.min(
-				screen.availHeight - window.screenTop - 100,
-				window.outerHeight
-			) + 'px';
-		};
-
 		newTweet = twic.dom.findElement('.newtweet', page);
 
 		twic.dom.findElement('.toolbar a', page).innerHTML = twic.utils.lang.translate('toolbar_accounts');
@@ -146,11 +144,6 @@
 
 		this.remember();
 		this.initOnce(initPage);
-
-		// todo check if popup is out of screen
-		//if (window.screenY + window.outerHeight > screen.height) {
-		//	twic.dom(timeline).css('height', screen.height - window.screenY);
-		//}
 
 		accountNameElement.innerHTML = '';
 
