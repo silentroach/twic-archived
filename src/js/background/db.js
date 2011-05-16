@@ -248,6 +248,20 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
+		},
+		'0.5': {
+			version: '0.6',
+			runme: function(tr, callback) {
+				twic.utils.queueIterator( [
+					'create table options (' +
+						'key varchar(32) not null, ' +
+						'val varchar(32) not null, ' +
+						'primary key (key)' +
+					')'
+				], function(sqlText, callback) {
+					executeTransaction(tr, sqlText, [], callback, callback);
+				}, callback);
+			}
 		}
 	};
 
