@@ -82,7 +82,7 @@
 		setTimeout( function() {
 			page.style.maxHeight = Math.min(
 				screen.availHeight - window.screenTop - 100,
-				window.outerHeight > 100 ? window.outerHeight : 65536
+				window.outerHeight > screen.availHeight / 2 ? window.outerHeight : 65536
 			) + 'px';
 		}, 100 );
 	};
