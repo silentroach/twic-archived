@@ -8,6 +8,7 @@
 		"popup": "popup.html#accounts",
 		"default_icon": "img/icons/toolbar.png"
 	},
+	"options_page": "options.html",
 	"icons": {
 		"128": "img/icons/128.png",
 		 "64": "img/icons/64.png",
