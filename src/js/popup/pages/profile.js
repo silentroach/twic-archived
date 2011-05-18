@@ -158,11 +158,13 @@
 				var coordsData = coords.shift();
 
 				loc += '<br /><br /><center>' +
+					'<a href="http://maps.google.com/?ll=' + coordsData + '&z=16" title="' 
+					+ twic.utils.lang.translate('title_open_map') + '" target="_blank">' + 
 					'<img src="http://maps.google.com/maps/api/staticmap?center=' +
 					coordsData +
 					'&zoom=14&size=330x150&markers=color:blue|' +
 					coordsData +
-					'&sensor=false" /></center>';
+					'&sensor=false" /></a></center>';
 			}
 
 			elementLocation.innerHTML = loc;
