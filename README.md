@@ -27,10 +27,6 @@ Specific commands
 
 You can use make command to do something:
 
-* lint all js files in project
-
-      make lint
-
 * search for FIXME and TODO annotations in js comments
 
       make todo
