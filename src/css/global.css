@@ -39,6 +39,10 @@ body, input, textarea {
 	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
 	font-size: 10pt;
 	}
+	
+input {
+    -webkit-user-select: none;
+    }
 
 strong {
 	font-weight: bold;
