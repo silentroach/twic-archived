@@ -2,13 +2,12 @@
 	"name": "Twic",
 	"description": "__MSG_about_what__",
 	"default_locale": "en",
-	"version": "0.11",
+	"version": "0.12",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
 		"popup": "popup.html#accounts",
 		"default_icon": "img/icons/toolbar.png"
 	},
-	"options_page": "options.html",
 	"icons": {
 		"128": "img/icons/128.png",
 		 "64": "img/icons/64.png",

@@ -1,6 +1,7 @@
-In development
+0.12
 	+ Link from static map image in profile to the google maps in new tab
 	* "About" page icon changed
+	* Bug with new Twitter authorization page is fixed
 
 0.10 - 0.11
 	* Home timeline max height bug is fixed (thanks @chakrygin)

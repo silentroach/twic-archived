@@ -9,7 +9,7 @@
 
 	var
 		pinElement  = twic.dom.findElement('kbd'),
-		nickElement = twic.dom.findElement('#screen-name');
+		nickElement = twic.dom.findElement('.current-user .name');
 
 	if (!pinElement) {
 		return;
