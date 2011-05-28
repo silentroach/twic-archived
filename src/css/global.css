@@ -25,21 +25,20 @@ ol, ul {
 
 body {
 	width: 350px;
-	height: auto;
 	margin: 0px;
 	padding: 0px;
 	background-color: rgba(0, 0, 0, .03);
 	line-height: 1.3;
 	overflow: hidden;
 	-webkit-user-select: none;
-	-webkit-transition-property: height;
+	-webkit-transition-property: height 1s ease-in-out;
 	}
 
 body, input, textarea {
 	font-family: "Trebuchet MS", Ubuntu, "Droid Sans";
 	font-size: 10pt;
 	}
-	
+
 input {
     -webkit-user-select: none;
     }

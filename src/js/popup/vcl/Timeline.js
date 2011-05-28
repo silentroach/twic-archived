@@ -8,7 +8,7 @@
 /**
  * @constructor
  */
-twic.vcl.Timeline = function(parent) {
+twic.vcl.Timeline = function(parent, scrollElement) {
 
 	/**
 	 * Confirm actions
@@ -21,6 +21,7 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	var
+		scrollElement = scrollElement || parent,
 		timeline = this,
 
 		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
@@ -209,9 +210,9 @@ twic.vcl.Timeline = function(parent) {
 						tweetButtons.style.display = 'none';
 
 						var
-							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight;
+							hackTop = hoveredTweet.offsetTop - scrollElement.scrollTop + hoveredTweet.clientHeight;
 
-						if (hackTop > parent.clientHeight) {
+						if (hackTop > scrollElement.clientHeight) {
 							return;
 						}
 
