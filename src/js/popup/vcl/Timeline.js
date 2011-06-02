@@ -8,7 +8,7 @@
 /**
  * @constructor
  */
-twic.vcl.Timeline = function(parent, scrollElement) {
+twic.vcl.Timeline = function(parent, scrollEl) {
 
 	/**
 	 * Confirm actions
@@ -21,7 +21,7 @@ twic.vcl.Timeline = function(parent, scrollElement) {
 	};
 
 	var
-		scrollElement = scrollElement || parent,
+		scrollElement = scrollEl || parent,
 		timeline = this,
 
 		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
@@ -128,7 +128,7 @@ twic.vcl.Timeline = function(parent, scrollElement) {
 
 	/**
 	 * Retweet
-	 * @param {MouseEvent|boolean|null} confirmed Is it confirmed?
+	 * @param {Event|boolean|null} confirmed Is it confirmed?
 	 */
 	var doRetweet = function(confirmed) {
 		if (hoveredTweet) {

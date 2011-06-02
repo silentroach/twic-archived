@@ -27,7 +27,6 @@
 	var doOldRetweet = function(text) {
 		tweetEditor.setText(text);
 		tweetEditor.setFocus(true);
-		window.scrollTop();
 	};
 
 	var doRetweet = function(userId, tweetId, callback) {
