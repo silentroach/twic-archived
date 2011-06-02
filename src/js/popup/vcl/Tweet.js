@@ -21,6 +21,8 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {Element} */ replyWrapper = twic.dom.expandElement('div'),
 		/** @type {twic.vcl.TweetEditor} */ replier,
 
+		/** @type {Object} */ mentioned = { },
+
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
@@ -75,6 +77,8 @@ twic.vcl.Tweet = function(id, timeline) {
 					// this tweet is with our mention
 					wrapper.classList.add('mention');
 				}
+				
+				mentioned[n.toLowerCase()] = '@' + n;
 
 				return '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
 			}
@@ -199,10 +203,23 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.reply = function() {
+		var
+			/** @var {string} **/ nick,
+			/** @var {string} **/ nickList = '@' + authorNick + ' ',
+			nicks = mentioned;
+			
+		if (authorNick.toLowerCase() in nicks) {
+			delete nicks[authorNick.toLowerCase()];
+		}
+		
+		for (nick in nicks) {
+			nickList += nicks[nick] + ' ';
+		}
+	
 		replier = new twic.vcl.TweetEditor(timelineId, replyWrapper, id);
 		replier.autoRemovable = true;
 		replier.onTweetSend = tweet.onReplySend;
-		replier.setConstTextIfEmpty('@' + authorNick + ' ');
+		replier.setConstTextIfEmpty(nickList);
 		replier.setFocus();
 
 		replier.onClose = function() {
