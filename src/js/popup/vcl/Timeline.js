@@ -422,7 +422,10 @@ twic.vcl.Timeline = function(parent, scrollEl) {
 	// todo move to the bottom
 	timeline.onDelete = function(userId, tweetId, callback) { };
 
-	var doReply = function() {
+	/**
+	 * @param {Event=} e Mouse event
+	 */
+	var doReply = function(e) {
 		if (
 			null === confirmerAction
 			&& hoveredTweet
@@ -430,7 +433,7 @@ twic.vcl.Timeline = function(parent, scrollEl) {
 			timeline.resetEditor();
 
 			replyTweet = tweets[hoveredTweet.id];
-			replyTweet.reply();
+			replyTweet.reply(e && e.ctrlKey);
 
 			hideButtons();
 		}
