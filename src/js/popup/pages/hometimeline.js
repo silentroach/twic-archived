@@ -24,6 +24,12 @@
 		}, buildList);
 	};
 
+	var doOldRetweet = function(text) {
+		tweetEditor.setText(text);
+		tweetEditor.setFocus(true);
+		window.scrollTop();
+	};
+
 	var doRetweet = function(userId, tweetId, callback) {
 		twic.requests.makeRequest('retweet', {
 			'userId': userId,
@@ -116,13 +122,14 @@
 
 	var initPage = function() {
 		var wrapper = twic.dom.findElement('#wrapper');
-	
+
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
 
 		timeline = new twic.vcl.Timeline(page, wrapper);
 		timeline.onReplySend = tweetHandler;
 		timeline.onRetweet = doRetweet;
+		timeline.onOldRetweet = doOldRetweet;
 		timeline.onDelete  = doDelete;
 
 		newTweet = twic.dom.findElement('.newtweet', page);

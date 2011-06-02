@@ -128,11 +128,21 @@ twic.vcl.Timeline = function(parent, scrollElement) {
 
 	/**
 	 * Retweet
-	 * @param {Event|boolean|null} confirmed Is it confirmed?
+	 * @param {MouseEvent|boolean|null} confirmed Is it confirmed?
 	 */
 	var doRetweet = function(confirmed) {
 		if (hoveredTweet) {
 			if (!confirmed || !goog.isBoolean(confirmed)) {
+				if (confirmed && confirmed.ctrlKey) {
+					// oldstyle retweet
+					var
+						tweet = tweets[hoveredTweet.id];
+
+					timeline.onOldRetweet('RT @' + tweet.getAuthorNick() + ' ' + tweet.getRawText());
+					hideAndRestoreButtons();
+					return;
+				}
+
 				doConfirm(confirmAction.ACTION_RETWEET);
 				return;
 			}
@@ -473,3 +483,9 @@ twic.vcl.Timeline = function(parent, scrollElement) {
  * @param {function()=} callback Callback
  */
 twic.vcl.Timeline.prototype.onReplySend = function(editor, tweetText, replyTo, callback) { };
+
+/**
+ * Handler for the oldstyle retweet
+ * @param {string} tweetText Tweet text
+ */
+twic.vcl.Timeline.prototype.onOldRetweet = function(tweetText) { };

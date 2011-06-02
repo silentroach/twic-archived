@@ -201,6 +201,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		reset();
 	};
 
+	editor.setText = function(text) {
+		constStartVal = '';
+		editorTextarea.value = text;
+	};
+
 	editor.setConstTextIfEmpty = function(text) {
 		if (editorTextarea.value === '') {
 			constStartVal = text;
@@ -208,8 +213,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		}
 	};
 
-	editor.setFocus = function() {
-		editorTextarea.selectionStart = editorTextarea.selectionEnd = editorTextarea.value.length;
+	/**
+	 * @param {boolean=} setstart Set the cursor to the start
+	 */
+	editor.setFocus = function(setstart) {
+		editorTextarea.selectionStart = setstart ? 0 : editorTextarea.selectionEnd = editorTextarea.value.length;
 		editorTextarea.focus();
 	};
 

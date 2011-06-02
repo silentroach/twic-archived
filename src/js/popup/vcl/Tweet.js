@@ -24,6 +24,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
+		/** @type {string} */ rawText,
 
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
@@ -55,6 +56,8 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.setText = function(text) {
 		var txt = twic.utils.url.processText(text);
+
+		rawText = text;
 
 		// preparing hashtags
 		txt = txt.replace(
@@ -136,6 +139,20 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.getAuthorId = function() {
 		return authorId;
+	};
+
+	/**
+	 * @return {string}
+	 */
+	tweet.getRawText = function() {
+		return rawText;
+	};
+
+	/**
+	 * @return {string}
+	 */
+	tweet.getAuthorNick = function() {
+		return authorNick;
 	};
 
 	/**
