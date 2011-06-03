@@ -16,13 +16,14 @@
 		 "24": "img/icons/24.png",
 		 "16": "img/icons/16.png"
 	},
+	"options_page": "options.html",
 	"background_page": "background.html",
 	"content_scripts": [ {
 		"matches" : [
 			"https://api.twitter.com/oauth/authorize"
 		],
 		"css": [
-			"css/inline.css"
+			"css/inline/inline.css"
 		],
 		"js" : [
 			"js/init.js",
