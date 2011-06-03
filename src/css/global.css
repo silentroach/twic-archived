@@ -31,7 +31,6 @@ body {
 	line-height: 1.3;
 	overflow: hidden;
 	-webkit-user-select: none;
-	-webkit-transition-property: height 1s ease-in-out;
 	}
 
 body, input, textarea {
