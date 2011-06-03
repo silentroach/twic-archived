@@ -142,6 +142,10 @@
 		 * @this {Element}
 		 */
 		twic.dom.findElement('#button_account_add').onclick = function() {
+			var
+				buttonElement = twic.dom.findElement('img', this),
+				oldSource = buttonElement.src;
+		
 			if (loading) {
 				return false;
 			}
@@ -149,10 +153,17 @@
 			loading = true;
 
 			// @resource img/loader.gif
-			twic.dom.findElement('img', this).src = 'img/loader.gif';
+			buttonElement.src = 'img/loader.gif';
 			this.href = '#';
 
-			twic.requests.makeRequest('accountAdd');
+			twic.requests.makeRequest('accountAdd', { }, function(reply) {
+				if (twic.global.SUCCESS === reply['result']) {
+					window.close();
+				} else {
+					// TODO error message
+					buttonElement.src = oldSource;
+				}
+			} );
 		};
 	};
 

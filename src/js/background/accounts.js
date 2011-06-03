@@ -42,17 +42,22 @@ twic.accounts = ( function() {
 		], function() {
 			accounts.updateList( function() {
 				sendResponse( {
-					'result': twic.global.FAILED
+					'result': twic.global.SUCCESS
 				} );
 			} );
 		} );
 	} );
 
 	twic.requests.subscribe('accountAdd', function(data, sendResponse) {
-		// popup is already closed so send it now
-		sendResponse({});
-
-		twic.api.accountAdd();
+		twic.api.accountAdd(function() {
+			sendResponse( {
+				'result': twic.global.SUCCESS
+			} );
+		}, function() {
+			sendResponse( {
+				'result': twic.global.FAILED
+			} );
+		} );
 	} );
 
 	twic.requests.subscribe('accountList', function(data, sendResponse) {

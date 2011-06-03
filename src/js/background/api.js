@@ -92,8 +92,10 @@ twic.api = ( function() {
 
 	/**
 	 * Open the access grant page to add accountAdd
+	 * @param {function()} callback Callback function for new tab is opened
+	 * @param {function()} failedCallback Callback function for fail
 	 */
-	api.accountAdd = function() {
+	api.accountAdd = function(callback, failedCallback) {
 		// we need to reset token to avoid an error when user closed a tab
 		// and trying to authenticate the extension again
 		api.resetToken();
@@ -102,6 +104,14 @@ twic.api = ( function() {
 			chrome.tabs.create( {
 				'url': authUrl + 'authorize?oauth_token=' + token
 			} );
+			
+			if (callback) {
+				callback();
+			}
+		}, function() {
+			if (failedCallback) {
+				failedCallback();
+			}
 		} );
 	};
 
