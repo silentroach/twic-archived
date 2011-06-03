@@ -1,6 +1,9 @@
 In development:
+
+0.13:
 	+ Reply to all with ctrl+click on reply button
 	+ Old-style retweets with ctrl+click on retweet button
+	- Reverted the popup autoheight function, for now I can't find the solution for this problem
 
 0.12
 	+ Link from static map image in profile to the google maps in new tab
