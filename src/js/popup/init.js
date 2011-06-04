@@ -41,6 +41,11 @@ document.addEventListener('click', function(e) {
 				// only select the new tab if left button is pressed
 				'selected': 0 === e.button
 			} );
+			
+			if (0 === e.button) {
+				// left button click, closing the window, special for macos
+				window.close();				
+			}
 		}
 	}
 }, false);
