@@ -93,7 +93,7 @@ twic.utils.url.humanize = function(url) {
 		cutted = cutted.substring(0, cutted.length - 1);
 	}
 
-	return '<a target="_blank" href="' + url + '" title="' + url + '">' + cutted + '</a>';
+	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + url + '">' + cutted + '</a>';
 };
 
 twic.utils.url.processText = function(text) {
@@ -102,7 +102,7 @@ twic.utils.url.processText = function(text) {
 		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		 * @type {RegExp}
 		 */
-		urlSearchPattern    = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
+		urlSearchPattern = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
 
 	return text.replace(urlSearchPattern, twic.utils.url.humanize);
 };
