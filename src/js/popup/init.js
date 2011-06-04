@@ -31,7 +31,10 @@ document.addEventListener('click', function(e) {
 			attr = e.target.attributes.getNamedItem('data-url');
 			
 		if (attr) {
-			if (1 === e.button) {
+			if (
+				1 === e.button
+				|| e.ctrlKey
+			) {
 				// middle button click
 				e.preventDefault();
 			}
@@ -42,7 +45,10 @@ document.addEventListener('click', function(e) {
 				'selected': 0 === e.button
 			} );
 			
-			if (0 === e.button) {
+			if (
+				0 === e.button
+				&& !e.ctrlKey
+			) {
 				// left button click, closing the window, special for macos
 				window.close();				
 			}
