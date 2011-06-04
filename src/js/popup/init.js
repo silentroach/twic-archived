@@ -33,7 +33,7 @@ document.addEventListener('click', function(e) {
 		if (attr) {
 			if (
 				1 === e.button
-				|| e.ctrlKey
+				|| e.metaKey
 			) {
 				// middle button click
 				e.preventDefault();
@@ -47,7 +47,7 @@ document.addEventListener('click', function(e) {
 			
 			if (
 				0 === e.button
-				&& !e.ctrlKey
+				&& !e.metaKey
 			) {
 				// left button click, closing the window, special for macos
 				window.close();				
