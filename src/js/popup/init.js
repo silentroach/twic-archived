@@ -21,6 +21,9 @@ setTimeout( function() {
 
 }, 100 );
 
+// handling clicks on links with "data-url" property
+// special hack to allow users to open links in
+// background with middle mouse click (or with metaKey + click in MacOS)
 document.addEventListener('click', function(e) {
 	if (
 		// only for left and middle mouse buttons
@@ -55,7 +58,6 @@ document.addEventListener('click', function(e) {
 		}
 	}
 }, false);
-
 
 /*
 ( function() {
