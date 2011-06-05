@@ -232,8 +232,8 @@ twic.vcl.Timeline = function(parent) {
 							vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
 
 						if (vReply || vRetweet || vUnRetweet || vDelete) {
-							tweetButtons.style.top = (hackTop - tweetButtons.clientHeight) + 'px';
 							tweetButtons.style.display = 'block';
+							tweetButtons.style.top = (hackTop - tweetButtons.clientHeight - 1) + 'px';
 						}
 					}
 				}
