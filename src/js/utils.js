@@ -84,8 +84,16 @@ twic.utils.url.humanize = function(url) {
 	var
 		cutted = url
 			.replace(/^(.*?)\/\//, '')  // cutting the protocol
-			.replace(/^www\./, '');     // cutting 'www.'
+			.replace(/^www\./, ''),     // cutting 'www.'
+		title = url;
 
+	if (
+		cutted.length > 6
+		&& '4sq.com' === cutted.substr(0, 7)
+	) {
+		title = 'foursquare - ' + url;
+		cutted = '<img src="https://foursquare.com/favicon.ico" class="aicon" />';
+	} else
 	if (cutted.length > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
 	}	else
@@ -93,7 +101,7 @@ twic.utils.url.humanize = function(url) {
 		cutted = cutted.substring(0, cutted.length - 1);
 	}
 
-	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + url + '">' + cutted + '</a>';
+	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
 twic.utils.url.processText = function(text) {

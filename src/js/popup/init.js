@@ -25,14 +25,21 @@ setTimeout( function() {
 // special hack to allow users to open links in
 // background with middle mouse click (or with metaKey + click in MacOS)
 document.addEventListener('click', function(e) {
+	var
+		link = 'A' === e.target.nodeName
+			? e.target
+			: e.target.parentElement && 'A' === e.target.parentElement.nodeName
+				? e.target.parentElement
+				: null;
+
 	if (
+		link
 		// only for left and middle mouse buttons
-		e.button < 2
-		&& 'A' === e.target.nodeName
+		&& e.button < 2
 	) {
 		var
-			attr = e.target.attributes.getNamedItem('data-url');
-			
+			attr = link.attributes.getNamedItem('data-url');
+
 		if (attr) {
 			if (
 				1 === e.button
@@ -41,19 +48,19 @@ document.addEventListener('click', function(e) {
 				// middle button click
 				e.preventDefault();
 			}
-		
+
 			chrome.tabs.create( {
 				'url': attr.value,
 				// only select the new tab if left button is pressed
 				'selected': 0 === e.button
 			} );
-			
+
 			if (
 				0 === e.button
 				&& !e.metaKey
 			) {
 				// left button click, closing the window, special for macos
-				window.close();				
+				window.close();
 			}
 		}
 	}
