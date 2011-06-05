@@ -1,5 +1,4 @@
-Twic
-================================================================
+# Twic
 
 The [opensource twitter client](https://chrome.google.com/webstore/detail/hglcekhnfbahipbmdceknefmpncbpikg) for Chromium based browsers
 
@@ -9,15 +8,13 @@ Please don't forget to:
 
 **Be carefull** to use the git master branch version - automatical database structure migrations are described **only between production versions**.
 
-Copyright
----------
+## Copyright
 
 [Kalashnikov Igor](mailto:igor.kalashnikov@gmail.com)
 
 Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 
-3rdparty
---------
+## 3rdparty
 
 * [SHA1 crypt implementation](http://pajhome.org.uk/crypt/md5)
 * [Iconza icons](http://www.iconza.com/)
