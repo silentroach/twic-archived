@@ -145,7 +145,7 @@
 			var
 				buttonElement = twic.dom.findElement('img', this),
 				oldSource = buttonElement.src;
-		
+
 			if (loading) {
 				return false;
 			}
@@ -162,12 +162,14 @@
 				} else {
 					// TODO error message
 					buttonElement.src = oldSource;
-					
+
 					bottomStatus.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
 					bottomStatus.classList.add('alert');
 				}
 			} );
 		};
+
+		refresh();
 	};
 
 	// --------------------------------------------------------------------------------------------------
@@ -177,7 +179,7 @@
 
 		this.initOnce(initPage);
 
-		refresh();
+		resetToolbar();
 	} );
 
 }());
