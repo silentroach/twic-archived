@@ -43,8 +43,7 @@ twic.requests = ( function() {
 		subscriptions[event].push(callback);
 	};
 
-	// todo make sendResponse our own method to send it if it was not sent in callback?
-	chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
+	self.handle = function(request, sender, sendResponse) {
 		var
 			method = request['method'],
 			subscription = subscriptions[method],
@@ -70,7 +69,7 @@ twic.requests = ( function() {
 			twic.debug.dir(request);
 			twic.debug.groupEnd();
 		}
-	} );
+	};
 
 	return self;
 
