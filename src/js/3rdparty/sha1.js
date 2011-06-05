@@ -21,7 +21,7 @@ var SHA1 = ( function() {
 	 * Determine the appropriate additive constant for the current iteration
 	 */
 	var sha1_kt = function(t) {
-		return (t < 20) ?  1518500249 : (t < 40) ? 1859775393 : (t < 60) ? -1894007588 : -899497514;
+		return (t < 20) ? 1518500249 : (t < 40) ? 1859775393 : (t < 60) ? -1894007588 : -899497514;
 	};
 
 	/**
