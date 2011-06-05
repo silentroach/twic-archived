@@ -29,7 +29,8 @@ body {
 	padding: 0px;
 	background-color: rgba(0, 0, 0, .03);
 	line-height: 1.3;
-	overflow: hidden;
+	overflow-x: hidden;
+	max-height: 600px;
 	-webkit-user-select: none;
 	}
 

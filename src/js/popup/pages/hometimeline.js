@@ -120,12 +120,10 @@
 	};
 
 	var initPage = function() {
-		var wrapper = twic.dom.findElement('#wrapper');
-
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
 
-		timeline = new twic.vcl.Timeline(page, wrapper);
+		timeline = new twic.vcl.Timeline(page);
 		timeline.onReplySend = tweetHandler;
 		timeline.onRetweet = doRetweet;
 		timeline.onOldRetweet = doOldRetweet;

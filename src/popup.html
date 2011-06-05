@@ -14,105 +14,101 @@
 	</head>
 	<body>
 
-		<div id="wrapper">
+		<!-- accounts page !-->
+		<div id="accounts" class="page">
+			<div class="toolbar">
+				<a href="#" id="button_account_add" class="icon"><img src="img/buttons/add.png" /></a>
+				<a href="#about" id="button_about" class="icon"><img src="img/buttons/about.png" /></a>
+			</div>
 
-			<!-- accounts page !-->
-			<div id="accounts" class="page">
-				<div class="toolbar">
-					<a href="#" id="button_account_add" class="icon"><img src="img/buttons/add.png" /></a>
-					<a href="#about" id="button_about" class="icon"><img src="img/buttons/about.png" /></a>
-				</div>
+			<p></p>
+			<ul></ul>
 
+			<div class="toolbar bottom" id="accounts_status"></div>
+		</div>
+
+		<!-- timeline page !-->
+		<div id="timeline" class="page">
+			<div class="toolbar">
+				<a href="#accounts" class="button"></a>
 				<p></p>
-				<ul></ul>
 
-				<div class="toolbar bottom" id="accounts_status"></div>
+				<div class="clearer"></div>
+			</div>
+			<div class="newtweet"></div>
+		</div>
+
+		<!-- about page !-->
+		<div id="about" class="page">
+			<div class="toolbar">
+				<a href="#accounts" class="button"></a>
+				<p></p>
+
+				<div class="clearer"></div>
 			</div>
 
-			<!-- timeline page !-->
-			<div id="timeline" class="page">
-				<div class="toolbar">
-					<a href="#accounts" class="button"></a>
-					<p></p>
+			<div class="info">
+				<p id="aname"></p>
+				<p id="awhat"></p>
+				<p>
+					<a href="#profile#silentroach">@silentroach</a>
+				</p>
+				<br />
 
-					<div class="clearer"></div>
-				</div>
-				<div class="newtweet"></div>
+				<p id="acollaborate"></p>
+				<br />
+				<p id="atranslate"></p>
+
+				<br />
+
+				<p id="athanks"></p>
+				<p><a href="#profile#twitter">@twitter</a>, <a href="#profile#iconza">@iconza</a></p>
+				<p><a href="http://pajhome.org.uk/" target="_blank">Paul Johnston</a> - <a href="http://pajhome.org.uk/crypt/md5/sha1.html" target="_blank">SHA1</a></p>
+				<br />
+
+				<p>
+					<a href="#profile#Chakrygin">@Chakrygin</a>,
+					<a href="#profile#coloristka">@coloristka</a>,
+					<a href="#profile#Stammru">@Stammru</a>
+				</p>
+
+				<hr />
+
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+					<input type="hidden" name="cmd" value="_s-xclick">
+					<input type="hidden" name="hosted_button_id" value="9EMWGPTMYTZXS">
+					<input type="submit" id="donate" value="" />
+				</form>
+			</div>
+		</div>
+
+		<!-- profile page !-->
+		<div id="profile" class="page">
+			<div class="toolbar">
+				<a href="" class="button"></a>
+				<p><a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a></p>
+
+				<div class="clearer"></div>
 			</div>
 
-			<!-- about page !-->
-			<div id="about" class="page">
-				<div class="toolbar">
-					<a href="#accounts" class="button"></a>
-					<p></p>
+			<div class="info">
+				<img class="avatar" />
 
-					<div class="clearer"></div>
-				</div>
+				<p class="name"></p>
+				<p class="nick"></p>
+				<p class="url"></p>
 
-				<div class="info">
-					<p id="aname"></p>
-					<p id="awhat"></p>
-					<p>
-						<a href="#profile#silentroach">@silentroach</a>
-					</p>
-					<br />
+				<p class="bio"></p>
+				<p class="location"></p>
 
-					<p id="acollaborate"></p>
-					<br />
-					<p id="atranslate"></p>
+				<div class="clearer"></div>
 
-					<br />
+				<p class="loader"></p>
 
-					<p id="athanks"></p>
-					<p><a href="#profile#twitter">@twitter</a>, <a href="#profile#iconza">@iconza</a></p>
-					<p><a href="http://pajhome.org.uk/" target="_blank">Paul Johnston</a> - <a href="http://pajhome.org.uk/crypt/md5/sha1.html" target="_blank">SHA1</a></p>
-					<br />
-
-					<p>
-						<a href="#profile#Chakrygin">@Chakrygin</a>,
-						<a href="#profile#coloristka">@coloristka</a>,
-						<a href="#profile#Stammru">@Stammru</a>
-					</p>
-
-					<hr />
-
-					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="9EMWGPTMYTZXS">
-						<input type="submit" id="donate" value="" />
-					</form>
+				<div id="followings">
+					<p><span></span></p>
 				</div>
 			</div>
-
-			<!-- profile page !-->
-			<div id="profile" class="page">
-				<div class="toolbar">
-					<a href="" class="button"></a>
-					<p><a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a></p>
-
-					<div class="clearer"></div>
-				</div>
-
-				<div class="info">
-					<img class="avatar" />
-
-					<p class="name"></p>
-					<p class="nick"></p>
-					<p class="url"></p>
-
-					<p class="bio"></p>
-					<p class="location"></p>
-
-					<div class="clearer"></div>
-
-					<p class="loader"></p>
-
-					<div id="followings">
-						<p><span></span></p>
-					</div>
-				</div>
-			</div>
-
 		</div>
 
 		<script src="js/init.js"></script>

@@ -8,7 +8,7 @@
 /**
  * @constructor
  */
-twic.vcl.Timeline = function(parent, scrollEl) {
+twic.vcl.Timeline = function(parent) {
 
 	/**
 	 * Confirm actions
@@ -21,7 +21,6 @@ twic.vcl.Timeline = function(parent, scrollEl) {
 	};
 
 	var
-		scrollElement = scrollEl || parent,
 		timeline = this,
 
 		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
@@ -220,9 +219,9 @@ twic.vcl.Timeline = function(parent, scrollEl) {
 						tweetButtons.style.display = 'none';
 
 						var
-							hackTop = hoveredTweet.offsetTop - scrollElement.scrollTop + hoveredTweet.clientHeight;
+							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight;
 
-						if (hackTop > scrollElement.clientHeight) {
+						if (hackTop > parent.clientHeight) {
 							return;
 						}
 
@@ -233,12 +232,8 @@ twic.vcl.Timeline = function(parent, scrollEl) {
 							vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
 
 						if (vReply || vRetweet || vUnRetweet || vDelete) {
-							// some magic not to be over the scrollbar
-							tweetButtons.style.right = (350 - wrapper.clientWidth) + 'px';
-
-							tweetButtons.style.display = 'block';
-
 							tweetButtons.style.top = (hackTop - tweetButtons.clientHeight) + 'px';
+							tweetButtons.style.display = 'block';
 						}
 					}
 				}
