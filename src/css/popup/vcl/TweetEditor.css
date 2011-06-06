@@ -2,12 +2,22 @@
 	width: 372px;
 	margin-left: 2px;
 	}
-	.tweetEditor .attach {
+	.tweetEditor .rb {
 		float: right;
 		display: none;
-		margin-top: 4px;
-		margin-right: 6px;
+		margin-bottom: 4px;
+		margin-right: -10px;
+		}
+		.tweetEditor .rb > * {
+			vertical-align: middle;
+			margin-left: 10px;
+			}
+	.tweetEditor .attach {
 		cursor: pointer;
+		}
+	/** button to send tweet **/
+	.tweetEditor input {
+		font-size: 8pt;
 		}
 	.tweetEditor textarea {
 		width: 100%;
@@ -17,15 +27,6 @@
 		background-color: rgba(255, 255, 255, .7);
 		/** do not allow textarea resize **/
 		resize: none;
-		}
-	/** button to send tweet **/
-	.tweetEditor input {
-		float: right;
-		font-size: 8pt;
-		display: none;
-		margin-left: 0px;
-		margin-bottom: 6px;
-		margin-right: -8px;
 		}
 	/** char counter **/
 	.tweetEditor span {
@@ -42,8 +43,7 @@
 
 /** tweet editor is focused **/
 .tweetEditor.focused span,
-.tweetEditor.focused input,
-.tweetEditor.focused .attach {
+.tweetEditor.focused .rb {
 	display: block;
 	}
 

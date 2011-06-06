@@ -22,6 +22,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @type {Element} **/ editorTextarea = twic.dom.expandElement('textarea'),
 		/** @type {Element} **/ editorSend     = twic.dom.expandElement('input'),
 		/** @type {Element} **/ editorAttach   = twic.dom.expandElement('img'),
+		/** @type {Element} **/ rightButtons   = twic.dom.expandElement('div.rb'),
 		/** @type {Element} **/ editorCounter  = twic.dom.expandElement('span'),
 		/** @type {Element} **/ clearer        = twic.dom.expandElement('div.clearer'),
 		/** @type {number}  **/ charCount      = 0,
@@ -37,19 +38,21 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorTextarea['spellcheck'] = false;
 	editorTextarea.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
 
-	editorSend.type  = 'button';
-	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
-	editorSend.title = twic.utils.lang.translate('title_button_send');
-
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
 	editorAttach.title = twic.utils.lang.translate('title_attach_link');
 	editorAttach.classList.add('attach');
 
+	editorSend.type  = 'button';
+	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
+	editorSend.title = twic.utils.lang.translate('title_button_send');
+
+	rightButtons.appendChild(editorAttach);
+	rightButtons.appendChild(editorSend);
+
 	editorWrapper.appendChild(editorTextarea);
 	editorWrapper.appendChild(editorCounter);
-	editorWrapper.appendChild(editorSend);
-	editorWrapper.appendChild(editorAttach);
+	editorWrapper.appendChild(rightButtons);
 	editorWrapper.appendChild(clearer);
 
 	if (parent.childElementCount > 0) {
