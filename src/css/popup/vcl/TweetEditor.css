@@ -2,6 +2,12 @@
 	width: 372px;
 	margin-left: 2px;
 	}
+	.tweetEditor .attach {
+		float: right;
+		display: none;
+		margin-top: 5px;
+		margin-right: 6px;
+		}
 	.tweetEditor textarea {
 		width: 100%;
 		max-width: 100%;
@@ -34,10 +40,9 @@
 		}
 
 /** tweet editor is focused **/
-.tweetEditor.focused span {
-	display: block;
-	}
-.tweetEditor.focused input {
+.tweetEditor.focused span,
+.tweetEditor.focused input,
+.tweetEditor.focused .attach {
 	display: block;
 	}
 

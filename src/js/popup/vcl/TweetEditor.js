@@ -21,6 +21,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @type {Element} **/ editorWrapper  = twic.dom.expandElement('div.tweetEditor'),
 		/** @type {Element} **/ editorTextarea = twic.dom.expandElement('textarea'),
 		/** @type {Element} **/ editorSend     = twic.dom.expandElement('input'),
+		/** @type {Element} **/ editorAttach   = twic.dom.expandElement('img'),
 		/** @type {Element} **/ editorCounter  = twic.dom.expandElement('span'),
 		/** @type {Element} **/ clearer        = twic.dom.expandElement('div.clearer'),
 		/** @type {number}  **/ charCount      = 0,
@@ -40,9 +41,14 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
 	editorSend.title = twic.utils.lang.translate('title_button_send');
 
+	// @resource img/buttons/attach.png
+	editorAttach.src = 'img/buttons/attach.png';
+	editorAttach.classList.add('attach');
+
 	editorWrapper.appendChild(editorTextarea);
 	editorWrapper.appendChild(editorCounter);
 	editorWrapper.appendChild(editorSend);
+	editorWrapper.appendChild(editorAttach);
 	editorWrapper.appendChild(clearer);
 
 	if (parent.childElementCount > 0) {
