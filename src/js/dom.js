@@ -30,6 +30,13 @@ twic.dom.findElement = function(selector, context) {
 	return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
 };
 
+twic.dom.findElements = function(selector, context) {
+	var
+		doc = !context ? document : context;
+
+	return doc.querySelectorAll(selector);
+};
+
 /**
  * Expand the expression
  * @param {string} expr Expression
