@@ -234,7 +234,7 @@ twic.vcl.Timeline = function(parent) {
 						if (vReply || vRetweet || vUnRetweet || vDelete) {
 							tweetButtons.style.display = 'block';
 							tweetButtons.style.top = (hackTop - tweetButtons.clientHeight - 1) + 'px';
-							tweetButtons.style.left = (hoveredTweet.clientWidth - tweetButtons.clientWidth) + 'px';
+							tweetButtons.style.right = (document.body.clientWidth - hoveredTweet.clientWidth) + 'px';
 						}
 					}
 				}
