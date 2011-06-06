@@ -43,6 +43,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
+	editorAttach.title = twic.utils.lang.translate('title_attach_link');
 	editorAttach.classList.add('attach');
 
 	editorWrapper.appendChild(editorTextarea);
@@ -56,6 +57,49 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	} else {
 		parent.appendChild(editorWrapper);
 	}
+
+	editorAttach.addEventListener('click', function() {
+		chrome.tabs.getSelected( null, function(tab) {
+			if (tab) {
+				var
+					url = tab.url,
+					selStart = editorTextarea.selectionStart,
+					selEnd = editorTextarea.selectionEnd,
+					valLen = editorTextarea.value.length,
+					newVal = editorTextarea.value.substr(0, selStart);
+
+				if (
+					url.length > 4
+					&& 'http' === url.substr(0, 4)
+				) {
+					if (
+						newVal.length > 0
+						&& ' ' !== newVal.substr(-1)
+					) {
+						newVal += ' ';
+					}
+
+					newVal += url;
+
+					if (' ' !== editorTextarea.value.substr(selEnd - valLen).substr(0, 1)) {
+						newVal += ' ';
+					}
+
+					selStart = newVal.length;
+
+					newVal += editorTextarea.value.substr(selEnd - valLen);
+
+					editorTextarea.value = newVal;
+
+					editorTextarea.selectionStart = selStart;
+					editorTextarea.selectionEnd = selStart;
+
+					editorTextarea.focus();
+				}
+			}
+		} );
+		//	editorTextarea
+	}, false);
 
 	var checkTweetArea = function() {
 		var val = editorTextarea.value;
