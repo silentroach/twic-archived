@@ -242,7 +242,7 @@ twic.vcl.Timeline = function(parent) {
 						tweetButtons.style.display = 'none';
 
 						var
-							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight;
+							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight + 1;
 
 						if (hackTop > parent.clientHeight) {
 							return;
