@@ -37,9 +37,13 @@ body, input, textarea {
 	font-size: 10pt;
 	}
 
+textarea {
+	overflow: hidden;
+	}
+
 input {
-    -webkit-user-select: none;
-    }
+	-webkit-user-select: none;
+	}
 
 strong {
 	font-weight: bold;
