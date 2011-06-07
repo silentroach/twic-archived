@@ -4,6 +4,7 @@ In development:
 	* Popup resized from 350px to 400px in width
 	+ Foursquare links are looks like an icon now
 	* Hope bug with horizontal scroll on Windows with bigger fonts is fixed
+	+ Button to insert the current page link into the tweet
 
 0.13:
 	+ Reply to all with ctrl+click on reply button
