@@ -492,7 +492,6 @@ twic.vcl.Timeline = function(parent) {
 	list.addEventListener('mousedown',  timelineMouseDown, false);
 	list.addEventListener('mouseup',    timelineMouseUp, false);
 	list.addEventListener('mousemove',  timelineMouseMove, false);
-	list.addEventListener('mousewheel', timelineMouseMove, false);
 	list.addEventListener('mouseout',   timelineMouseOut, false);
 
 };
