@@ -1,0 +1,25 @@
+.timeline .avatar {
+	max-width: 32px;
+	}
+
+.timeline li.tweet p {
+	padding-left: 39px;
+	};
+
+.timeline li.tweet.retweet img.avatar {
+	max-width: 26px;
+	}
+
+.timeline li.tweet.retweet a.avatar.retweeter img.avatar {
+	max-width: 16px;
+	}
+
+.timeline li.tweet.retweet a.avatar.retweeter {
+	margin-left: -16px;
+	margin-top: 16px;
+	}
+
+.timeline li.tweet .tweetEditor {
+	padding-left: 33px;
+	width: 335px;
+	}

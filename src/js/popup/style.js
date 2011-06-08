@@ -8,31 +8,29 @@
 twic.style = ( function() {
 
 	var
-		styleElement,
-		style = { };
+		headElement,
+		self = { },
+		injected = { };
 
-	var getStyleElement = function() {
-		if (styleElement) {
-			return styleElement;
+	self.inject = function(file) {
+		if (file in injected) {
+			return false;
+		} else {
+			injected[file] = 1;
 		}
 
-		var
+		if (!headElement) {
 			headElement = twic.dom.findElement('head');
+		}
 
-		styleElement = twic.dom.expandElement('style#injected');
+		var styleElement = twic.dom.expandElement('link');
+		styleElement.setAttribute('rel', 'stylesheet');
+		styleElement.setAttribute('type', 'text/css');
+		styleElement.setAttribute('href', file);
 
 		headElement.appendChild(styleElement);
-
-		return styleElement;
 	};
 
-	style.inject = function(text) {
-		var
-			element = getStyleElement();
-
-		element.innerText += text;
-	};
-
-	return style;
+	return self;
 
 }() );

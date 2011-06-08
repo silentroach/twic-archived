@@ -10,29 +10,6 @@
  */
 twic.vcl.Timeline = function(parent) {
 
-	// TODO make Timeline isolated
-	if (!twic.vcl.Timeline.isPrepared) {
-		twic.options.get('avatar_size', function(tmpVal) {
-			var
-				avSize = parseInt(tmpVal, 10);
-
-			if (48 != avSize) {
-				var
-					style = '.timeline .avatar { max-width: ' + avSize + 'px }';
-
-				style += '.timeline li.tweet p { padding-left: ' + (avSize + 7) + 'px }';
-				style += '.timeline li.tweet.retweet img.avatar { max-width: ' + (avSize - 6) + 'px }';
-				style += '.timeline li.tweet.retweet a.avatar.retweeter img.avatar { max-width: ' + (avSize / 2) + 'px }';
-				style += '.timeline li.tweet.retweet a.avatar.retweeter { margin-left: -' + (avSize / 2) + 'px; margin-top: ' + (avSize / 2) + 'px }';
-				style += '.timeline li.tweet .tweetEditor { padding-left: ' + (avSize + 1) + 'px; width: ' + (399 - avSize * 2) + 'px }';
-
-				twic.style.inject(style);
-			}
-		} );
-
-		twic.vcl.Timeline.isPrepared = true;
-	}
-
 	/**
 	 * Confirm actions
 	 * @enum {number}
@@ -495,8 +472,6 @@ twic.vcl.Timeline = function(parent) {
 	list.addEventListener('mouseout',   timelineMouseOut, false);
 
 };
-
-twic.vcl.Timeline.isPrepared = false;
 
 /**
  * Handler for tweet send process
