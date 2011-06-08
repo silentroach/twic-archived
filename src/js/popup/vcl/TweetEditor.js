@@ -84,13 +84,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 					newVal += url;
 
-					if (' ' !== editorTextarea.value.substr(selEnd - valLen).substr(0, 1)) {
+					if (' ' !== editorTextarea.value.substr(selEnd).substr(0, 1)) {
 						newVal += ' ';
 					}
 
 					selStart = newVal.length;
 
-					newVal += editorTextarea.value.substr(selEnd - valLen);
+					newVal += editorTextarea.value.substr(selEnd);
 
 					editorTextarea.value = newVal;
 
