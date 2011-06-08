@@ -1,10 +1,12 @@
-In development:
+0.14:
 	+ Error message if extension can't add a new account
 	+ Open the new not focused tab with middle button mouse click (or with metaKey + click in MacOS)
 	* Popup resized from 350px to 400px in width
 	+ Foursquare links are looks like an icon now
 	* Hope bug with horizontal scroll on Windows with bigger fonts is fixed
 	+ Button to insert the current page link into the tweet
+	+ Options page
+	+ Ability to change the avatar size in the home timeline
 
 0.13:
 	+ Reply to all with ctrl+click on reply button
