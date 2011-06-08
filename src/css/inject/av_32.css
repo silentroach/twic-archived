@@ -4,9 +4,9 @@
 
 .timeline li.tweet p {
 	padding-left: 39px;
-	};
+	}
 
-.timeline li.tweet.retweet img.avatar {
+.timeline li.tweet.retweet a.avatar img.avatar {
 	max-width: 26px;
 	}
 
