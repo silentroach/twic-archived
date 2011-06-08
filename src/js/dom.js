@@ -30,6 +30,12 @@ twic.dom.findElement = function(selector, context) {
 	return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
 };
 
+/**
+ * Find elements
+ * @param {string} selector Selector
+ * @param {Element=} context Context
+ * @return {?NodeList}
+ */
 twic.dom.findElements = function(selector, context) {
 	var
 		doc = !context ? document : context;
