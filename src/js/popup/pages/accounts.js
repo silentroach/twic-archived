@@ -165,6 +165,7 @@
 
 					bottomStatus.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
 					bottomStatus.classList.add('alert');
+					bottomStatus.style.display = 'block';
 				}
 			} );
 		};

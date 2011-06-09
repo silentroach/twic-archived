@@ -104,7 +104,7 @@ twic.api = ( function() {
 			chrome.tabs.create( {
 				'url': authUrl + 'authorize?oauth_token=' + token
 			} );
-			
+
 			if (callback) {
 				callback();
 			}
