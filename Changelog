@@ -1,3 +1,6 @@
+0.15:
+	* Fix for the error message is not showing
+
 0.14:
 	+ Error message if extension can't add a new account
 	+ Open the new not focused tab with middle button mouse click (or with metaKey + click in MacOS)
