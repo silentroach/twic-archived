@@ -1,6 +1,11 @@
 #profile .info {
 	padding: .5em;
 	}
+	#profile iframe.map {
+		width: 380px;
+		height: 200px;
+		border: 1px solid silver;
+		}
 	#profile .info .avatar {
 		float: right;
 		max-width: 96px;

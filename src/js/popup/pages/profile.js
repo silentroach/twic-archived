@@ -158,13 +158,9 @@
 				var coordsData = coords.shift();
 
 				loc += '<br /><br /><center>' +
-					'<a href="http://maps.google.com/?ll=' + coordsData + '&z=16" title="'
-					+ twic.utils.lang.translate('title_open_map') + '" target="_blank">' +
-					'<img src="http://maps.google.com/maps/api/staticmap?center=' +
-					coordsData +
-					'&zoom=14&size=380x170&markers=color:blue|' +
-					coordsData +
-					'&sensor=false" /></a></center>';
+					'<iframe class="map" src="http://www.google.com/uds/modules/elements/mapselement/iframe.html?maptype=roadmap' +
+					'&latlng=' + encodeURIComponent(coordsData) +
+					'&zoom=16&element=true"></iframe></center>';
 			}
 
 			elementLocation.innerHTML = loc;
