@@ -101,6 +101,12 @@ twic.utils.url.humanize = function(url) {
 		cutted = cutted.substring(0, cutted.length - 1);
 	}
 
+	//fix url without schema
+	if (url.indexOf('://') == -1)
+	{
+		url = 'http://' + url;
+	}
+
 	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
