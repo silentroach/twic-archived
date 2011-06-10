@@ -94,6 +94,13 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	/**
+	 * Add a separator
+	 */
+	tweet.setSeparator = function() {
+		wrapper.classList.add('separator');
+	};
+
+	/**
 	 * Set author info
 	 * @param {number} id Author identifier
 	 * @param {string} nick Tweet author nick

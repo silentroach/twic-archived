@@ -69,6 +69,7 @@
 				item      = data[id],
 				user      = item['user'],
 				retweeted = item['retweeted'],
+				separator = item['separator'],
 				tweet     = timeline.addTweet(id);
 
 			if (retweeted) {
@@ -76,6 +77,10 @@
 				tweet.setRetweeter(user['id'], user['screen_name'], user['avatar']);
 			} else {
 				tweet.setAuthor(user['id'], user['screen_name'], user['avatar']);
+			}
+
+			if (separator) {
+				tweet.setSeparator();
 			}
 
 			tweet.setText(item['msg']);

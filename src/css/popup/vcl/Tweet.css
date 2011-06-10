@@ -6,6 +6,10 @@ li.tweet.me {
 	background-color: rgba(100, 200, 0, .10);
 	}
 
+li.tweet.separator {
+	border-bottom: 3px solid rgba(0, 0, 0, .3) !important;
+	}
+
 li.tweet.retweet {
 	background-color: rgba(255, 255, 0, .10);
 	}
