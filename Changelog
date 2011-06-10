@@ -1,4 +1,4 @@
-Development:
+0.16:
 	* Fix for the urls without protocol (thanks @Stammru)
 	+ Separator between unread and old tweets
 
