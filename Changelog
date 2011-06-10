@@ -1,3 +1,6 @@
+Development:
+	* Fix for the urls without protocol (thanks @Stammru)
+
 0.15:
 	* Fix for the error message is not showing
 

@@ -101,9 +101,8 @@ twic.utils.url.humanize = function(url) {
 		cutted = cutted.substring(0, cutted.length - 1);
 	}
 
-	//fix url without schema
-	if (url.indexOf('://') == -1)
-	{
+	// fix url without schema
+	if (-1 === url.indexOf('://')) {
 		url = 'http://' + url;
 	}
 
