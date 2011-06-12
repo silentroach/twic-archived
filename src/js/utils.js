@@ -5,8 +5,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo fat file, reorganize it
-
 twic.utils = { };
 
 /**

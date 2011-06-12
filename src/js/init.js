@@ -3,8 +3,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo add the context menu to all the pages selected text to tweet it
-
 var twic = {
 	/**
 	 * Extension name, used in many parts

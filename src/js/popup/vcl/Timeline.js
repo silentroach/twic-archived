@@ -412,12 +412,6 @@ twic.vcl.Timeline = function(parent) {
 		}
 	};
 
-	// todo move to the bottom
-	timeline.onRetweet = function(userId, tweetId, callback) { };
-
-	// todo move to the bottom
-	timeline.onDelete = function(userId, tweetId, callback) { };
-
 	/**
 	 * @param {Event=} e Mouse event
 	 */
@@ -481,6 +475,22 @@ twic.vcl.Timeline = function(parent) {
  * @param {function()=} callback Callback
  */
 twic.vcl.Timeline.prototype.onReplySend = function(editor, tweetText, replyTo, callback) { };
+
+/**
+ * Handler for the retweet
+ * @param {number} userId User id
+ * @param {string} tweetId Tweet id
+ * @param {function()=} callback Callback
+ */
+twic.vcl.Timeline.prototype.onRetweet = function(userId, tweetId, callback) { };
+
+/**
+ * Handler for the delete
+ * @param {number} userId User id
+ * @param {string} tweetId Tweet id
+ * @param {function()=} callback Callback
+ */
+twic.vcl.Timeline.prototype.onDelete = function(userId, tweetId, callback) { };
 
 /**
  * Handler for the oldstyle retweet

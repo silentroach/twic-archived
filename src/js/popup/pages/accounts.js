@@ -160,7 +160,6 @@
 				if (twic.global.SUCCESS === reply['result']) {
 					window.close();
 				} else {
-					// TODO error message
 					buttonElement.src = oldSource;
 
 					bottomStatus.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
