@@ -119,7 +119,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		charCount = val.length;
 
-		// todo think about rows count decrement when it is needed
+		while (
+			editorTextarea.rows > 1
+			&& editorTextarea.scrollHeight <= editorTextarea.offsetHeight
+		) {
+			--editorTextarea.rows;
+		}
+
 		while (editorTextarea.scrollHeight > editorTextarea.offsetHeight) {
 			++editorTextarea.rows;
 		}
