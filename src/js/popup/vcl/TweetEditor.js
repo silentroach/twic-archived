@@ -38,8 +38,15 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
-	editorAttach.title = twic.utils.lang.translate('title_attach_link');
 	editorAttach.classList.add('attach');
+	
+	if (!twic.vcl.TweetEditor.currentURL) {
+		editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
+	
+		editorAttach.classList.add('disabled');
+	} else {
+		editorAttach.title = twic.utils.lang.translate('title_attach_link');
+	}
 
 	editorSend.type  = 'button';
 	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
@@ -59,48 +66,40 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		parent.appendChild(editorWrapper);
 	}
 
-	editorAttach.addEventListener('click', function() {
-		chrome.tabs.getSelected( null, function(tab) {
-			if (tab) {
-				var
-					url = tab.url,
-					selStart = editorTextarea.selectionStart,
-					selEnd = editorTextarea.selectionEnd,
-					valLen = editorTextarea.value.length,
-					newVal = editorTextarea.value.substr(0, selStart);
+	if (twic.vcl.TweetEditor.currentURL) {
+		editorAttach.addEventListener('click', function() {
+			var
+				url = twic.vcl.TweetEditor.currentURL,
+				selStart = editorTextarea.selectionStart,
+				selEnd = editorTextarea.selectionEnd,
+				valLen = editorTextarea.value.length,
+				newVal = editorTextarea.value.substr(0, selStart);
 
-				if (
-					url.length > 4
-					&& 'http' === url.substr(0, 4)
-				) {
-					if (
-						newVal.length > 0
-						&& ' ' !== newVal.substr(-1)
-					) {
-						newVal += ' ';
-					}
-
-					newVal += url;
-
-					if (' ' !== editorTextarea.value.substr(selEnd).substr(0, 1)) {
-						newVal += ' ';
-					}
-
-					selStart = newVal.length;
-
-					newVal += editorTextarea.value.substr(selEnd);
-
-					editorTextarea.value = newVal;
-
-					editorTextarea.selectionStart = selStart;
-					editorTextarea.selectionEnd = selStart;
-
-					editorTextarea.focus();
-				}
+			if (
+				newVal.length > 0
+				&& ' ' !== newVal.substr(-1)
+			) {
+				newVal += ' ';
 			}
-		} );
-		//	editorTextarea
-	}, false);
+
+			newVal += url;
+
+			if (' ' !== editorTextarea.value.substr(selEnd).substr(0, 1)) {
+				newVal += ' ';
+			}
+
+			selStart = newVal.length;
+
+			newVal += editorTextarea.value.substr(selEnd);
+
+			editorTextarea.value = newVal;
+
+			editorTextarea.selectionStart = selStart;
+			editorTextarea.selectionEnd = selStart;
+
+			editorTextarea.focus();
+		}, false );
+	};
 
 	var checkTweetArea = function() {
 		var val = editorTextarea.value;
@@ -292,6 +291,25 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	};
 
 };
+
+// --------------------------------------
+// current url to paste it into the tweet
+// --------------------------------------
+twic.vcl.TweetEditor.currentURL = false;
+
+chrome.tabs.getSelected( null, function(tab) {
+	if (tab) {
+		var
+			url = tab.url
+
+		if (
+			url.length > 4
+			&& 'http' === url.substr(0, 4)
+		) {
+			twic.vcl.TweetEditor.currentURL = url;
+		}
+	}
+} );
 
 /**
  * Handler for tweet send process

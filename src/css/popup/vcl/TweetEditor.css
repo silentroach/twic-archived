@@ -15,6 +15,10 @@
 	.tweetEditor .attach {
 		cursor: pointer;
 		}
+	.tweetEditor .attach.disabled {
+		opacity: .5;
+		cursor: default;
+		}
 	/** button to send tweet **/
 	.tweetEditor input {
 		font-size: 8pt;
