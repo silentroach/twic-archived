@@ -218,12 +218,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editor.onFocus();
 	}, false );
 
-	editorTextarea.addEventListener('blur', function() {
-		if (editorTextarea.value.length === 0) {
-			editorTextarea.rows = 1;
-		}
-	}, false );
-
 	editorSend.addEventListener('click', function() {
 		tryToSend();
 	}, false );
@@ -279,8 +273,21 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorTextarea.selectionStart = setstart ? 0 : editorTextarea.selectionEnd = editorTextarea.value.length;
 		editorTextarea.focus();
 	};
+	
+	var handleOutClick = function(e) {
+		if (
+			editorWrapper.classList.contains(focusedClass)
+			&& !twic.dom.isChildOf(e.target, editorWrapper)
+		) {
+			editorWrapper.classList.remove(focusedClass);
+		}
+	};
+
+	document.addEventListener('click', handleOutClick, false);
 
 	editor.close = function() {
+		document.removeEventListener('click', handleOutClick, false);
+	
 		twic.dom.removeElement(editorWrapper);
 
 		editor.onClose();
