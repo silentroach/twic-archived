@@ -1,4 +1,5 @@
 In development:
+	* New tweet editor is now smaller on blur
 
 0.16:
 	* Fix for the urls without protocol (thanks @Stammru)
