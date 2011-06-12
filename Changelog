@@ -1,5 +1,6 @@
 In development:
 	* New tweet editor is now smaller on blur
+	* "Insert link" button is now disabled if we can't do it
 
 0.16:
 	* Fix for the urls without protocol (thanks @Stammru)
