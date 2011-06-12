@@ -209,7 +209,18 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		}
 	}, false );
 
-	editorTextarea.addEventListener('focus', function() {
+	var handleOutClick = function(e) {
+		if (
+			editorWrapper.classList.contains(focusedClass)
+			&& !twic.dom.isChildOf(e.target, editorWrapper)
+		) {
+			editorWrapper.classList.remove(focusedClass);
+		}
+	};
+
+	document.addEventListener('click', handleOutClick, false);
+
+	editorTextarea.addEventListener('focus', function(e) {
 		editorWrapper.classList.add(focusedClass);
 		checkTweetArea();
 
@@ -271,21 +282,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorTextarea.selectionStart = setstart ? 0 : editorTextarea.selectionEnd = editorTextarea.value.length;
 		editorTextarea.focus();
 	};
-	
-	var handleOutClick = function(e) {
-		if (
-			editorWrapper.classList.contains(focusedClass)
-			&& !twic.dom.isChildOf(e.target, editorWrapper)
-		) {
-			editorWrapper.classList.remove(focusedClass);
-		}
-	};
-
-	document.addEventListener('click', handleOutClick, false);
 
 	editor.close = function() {
 		document.removeEventListener('click', handleOutClick, false);
-	
+
 		twic.dom.removeElement(editorWrapper);
 
 		editor.onClose();

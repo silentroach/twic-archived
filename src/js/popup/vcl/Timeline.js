@@ -137,6 +137,9 @@ twic.vcl.Timeline = function(parent) {
 					var
 						tweet = tweets[hoveredTweet.id];
 
+					// wow, so ugly (it is Event here)
+					confirmed.stopPropagation();
+
 					timeline.onOldRetweet('RT @' + tweet.getAuthorNick() + ' ' + tweet.getRawText());
 					hideAndRestoreButtons();
 					return;
@@ -421,6 +424,8 @@ twic.vcl.Timeline = function(parent) {
 			null === confirmerAction
 			&& hoveredTweet
 		) {
+			e.stopPropagation();
+
 			timeline.resetEditor();
 
 			replyTweet = tweets[hoveredTweet.id];
