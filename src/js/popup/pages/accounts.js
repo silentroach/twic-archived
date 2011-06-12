@@ -72,7 +72,7 @@
 				firstAccountElement.innerText = twic.utils.lang.translate('add_first_account');
 				firstAccountElement.style.display = 'block';
 
-				bottomStatus.style.display = 'none';
+				twic.dom.setVisibility(bottomStatus, false);
 			}
 
 			return;
