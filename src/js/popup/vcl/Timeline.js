@@ -261,6 +261,7 @@ twic.vcl.Timeline = function(parent) {
 
 			if (!buttonPressed && hoveredTweet && replyTweet) {
 				replyTweet.resetEditor();
+				hideButtons();
 			}
 		}
 
