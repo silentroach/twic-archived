@@ -172,7 +172,7 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	var hideButtons = function() {
-		tweetButtons.style.display = 'none';
+		twic.dom.setVisibility(tweetButtons, false);
 		hoveredTweet = null;
 	};
 
@@ -216,7 +216,7 @@ twic.vcl.Timeline = function(parent) {
 
 						resetButtons();
 
-						tweetButtons.style.display = 'none';
+						twic.dom.setVisibility(tweetButtons, false);
 
 						var
 							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight + 1;
@@ -246,7 +246,7 @@ twic.vcl.Timeline = function(parent) {
 	var timelineMouseDown = function(e) {
 		clickTimer = setTimeout( function() {
 			if (hoveredTweet) {
-				tweetButtons.style.display = 'none';
+				twic.dom.setVisibility(tweetButtons, false);
 				hoveredTweet = null;
 			}
 

@@ -41,7 +41,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 		isRetweet        = false;
 
-	rtAvatarLink.style.display = 'none';
+	twic.dom.setVisibility(rtAvatarLink, false);
 
 	avatarLink.appendChild(avatar);
 	rtAvatarLink.appendChild(rtAvatar);

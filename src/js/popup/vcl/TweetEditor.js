@@ -13,8 +13,6 @@
  */
 twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
-	// init
-
 	var
 		editor = this,
 		/** @type {Storage} **/ storage        = window.localStorage,

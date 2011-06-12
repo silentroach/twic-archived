@@ -53,16 +53,16 @@
 		elementFollowedSpan.className = '';
 		elementFollowed.className = '';
 		elementLoader.style.display = 'block';
-		elementAvatar.style.display = 'none';
-		elementFollowings.style.display = 'none';
+		twic.dom.setVisibility(elementAvatar, false);
+		twic.dom.setVisibility(elementFollowings, false);
 		elementAvatar.src = '';
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';
 		elementUrl.innerHTML = '';
 		elementBio.innerHTML = '';
-		elementBio.style.display = 'none';
+		twic.dom.setVisibility(elementBio, false);
 		elementLocation.innerHTML = '';
-		elementLocation.style.display = 'none';
+		twic.dom.setVisibility(elementLocation, false);
 		elementFollowedSpan.innerHTML = '';
 	};
 
@@ -181,13 +181,13 @@
 			!timelineUserId
 			|| timelineUserId === data['id']
 		) {
-			elementLoader.style.display = 'none';
+		twic.dom.setVisibility(elementLoader, false);
 		} else {
 			twic.requests.makeRequest('getProfileFriendshipInfo', {
 				'source_id': timelineUserId,
 				'target_id': data['id']
 			}, function(data) {
-				elementLoader.style.display = 'none';
+				twic.dom.setVisibility(elementLoader, false);
 				showProfileFriendship(data['following']);
 				elementFollowings.style.display = 'block';
 			} );
