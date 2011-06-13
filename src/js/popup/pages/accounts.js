@@ -136,6 +136,7 @@
 		firstAccountElement = twic.dom.findElement('#accounts p');
 
 		twic.dom.findElement('#button_account_add').title = twic.utils.lang.translate('title_add_account');
+		twic.dom.findElement('#button_settings').title    = twic.utils.lang.translate('title_settings');
 		twic.dom.findElement('#button_about').title       = twic.utils.lang.translate('title_about');
 
 		/**
