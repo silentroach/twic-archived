@@ -1,5 +1,7 @@
 body {
 	padding: 1em;
+	width: 200px;
+	margin: 0 auto;
 	}
 
 h1 {
@@ -8,7 +10,7 @@ h1 {
 
 #tabs {
 	border-bottom: 1px solid rgba(0, 0, 0, .1);
-	padding-bottom: 5px;
+	padding-bottom: 4px;
 	}
 	#tabs li span {
 		-webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, .2);
@@ -16,6 +18,7 @@ h1 {
 		padding-bottom: 3px;
 		border-top-left-radius: 2px;
 		border-top-right-radius: 2px;
+		margin: 0 5px;
 		}
 		#tabs li.active span {
 			border-bottom: 2px solid #f7f7f7;
