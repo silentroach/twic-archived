@@ -24,7 +24,19 @@
 				}
 			}
 		} );
-	}
+	};
+
+	keys = twic.dom.findElements('input[data-key]');
+
+	twic.utils.queueIterator(keys, function(item, callback) {
+		twic.options.get(item.getAttribute('data-key'), function(val) {
+			if (val) {
+				item.setAttribute('checked', 'checked');
+			}
+
+			callback();
+		} );
+	}, function() { } );
 
 	var findParentOption = function(trgElement) {
 		if (trgElement.getAttribute('data-value')) {
@@ -35,6 +47,12 @@
 			return findParentOption(trgElement.parentElement);
 		}
 	};
+
+	document.addEventListener('change', function(e) {
+		if ('INPUT' === e.target.nodeName) {
+			twic.options.set(e.target.getAttribute('data-key'), e.target['checked']);
+		}
+	} );
 
 	document.addEventListener('click', function(e) {
 		var
