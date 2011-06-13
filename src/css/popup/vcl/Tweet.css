@@ -33,6 +33,10 @@ li.tweet p {
 	word-wrap: break-word;
 	padding: .3em 0 .3em 55px;
 	}
+	li.tweet p.info {
+		font-size: 8pt;
+		color: grey;
+		}
 
 li.tweet a.avatar {
  	padding-top: .4em;

@@ -471,6 +471,13 @@ twic.vcl.Timeline = function(parent) {
 	list.addEventListener('mousemove',  timelineMouseMove, false);
 	list.addEventListener('mouseout',   timelineMouseOut, false);
 
+	// update times every minute
+	setInterval( function() {
+		for (id in tweets) {
+			tweets[id].updateTime();
+		}
+	}, 1000 * 60 );
+
 };
 
 /**

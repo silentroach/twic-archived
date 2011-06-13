@@ -71,6 +71,40 @@ twic.utils.lang.translate = function(args) {
 	return chrome.i18n.getMessage.apply(chrome, arguments);
 };
 
+/**
+ * Plural form
+ * (яблоко, яблока, яблок)
+ * @param {number} number Number
+ * @param {Array.<string>} endings Translate aliases to endings
+ */
+twic.utils.lang.plural = function(number, endings) {
+	var
+		mod10  = number % 10,
+		mod100 = number % 100,
+		res = '';
+
+	if (
+		mod10 == 1
+		&& mod100 != 11
+	) {
+		res = twic.utils.lang.translate(endings[0]);
+	} else
+	if (
+		mod10 >= 2
+		&& mod10 <= 4
+		&& (
+			mod100 < 10
+			|| mod100 >= 20
+		)
+	) {
+		res = twic.utils.lang.translate(endings[1]);
+	} else {
+		res = twic.utils.lang.translate(endings[2]);
+	}
+
+	return number + ' ' + res;
+}
+
 twic.utils.url = { };
 
 /**

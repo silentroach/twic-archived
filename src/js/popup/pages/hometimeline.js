@@ -83,6 +83,7 @@
 				tweet.setSeparator();
 			}
 
+			tweet.setUnixTime(item['dt']);
 			tweet.setText(item['msg']);
 		}
 

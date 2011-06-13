@@ -23,6 +23,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 		/** @type {Object} */ mentioned = { },
 
+		/** @type {number} */ unixtime,
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
@@ -31,12 +32,16 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
 
+		/** @type {string} */ trAgo = twic.utils.lang.translate('time_ago'),
+
 		wrapper      = twic.dom.expandElement('li#' + id + '.tweet'),
 		avatarLink   = twic.dom.expandElement('a.avatar'),
 		avatar       = twic.dom.expandElement('img.avatar'),
 		rtAvatarLink = twic.dom.expandElement('a.avatar.retweeter'),
 		rtAvatar     = twic.dom.expandElement('img.avatar'),
 		tweetContent = twic.dom.expandElement('p'),
+		otherInfo    = twic.dom.expandElement('p.info'),
+		timeSpan     = twic.dom.expandElement('span.time'),
 		clearer      = twic.dom.expandElement('div.clearer'),
 
 		isRetweet        = false;
@@ -46,9 +51,12 @@ twic.vcl.Tweet = function(id, timeline) {
 	avatarLink.appendChild(avatar);
 	rtAvatarLink.appendChild(rtAvatar);
 
+	otherInfo.appendChild(timeSpan);
+
 	wrapper.appendChild(avatarLink);
 	wrapper.appendChild(rtAvatarLink);
 	wrapper.appendChild(tweetContent);
+	wrapper.appendChild(otherInfo);
 	wrapper.appendChild(clearer);
 	wrapper.appendChild(replyWrapper);
 
@@ -91,6 +99,51 @@ twic.vcl.Tweet = function(id, timeline) {
 		);
 
 		tweetContent.innerHTML = txt + '<br />';
+	};
+
+	tweet.updateTime = function() {
+		var
+			desc = '';
+			now = twic.utils.date.getCurrentTimestamp(),
+			df = now - unixtime;
+
+		// less than minute ago
+		if (df < 60) {
+			desc = twic.utils.lang.translate('time_less_minute') + ' ' + trAgo;
+		} else
+		// less than hour ago
+		if (df < 60 * 60) {
+			desc = twic.utils.lang.plural( Math.floor(df / 60), [
+				'time_minute_one',
+				'time_minute_much',
+				'time_minute_many'
+			] ) + ' ' + trAgo;
+		} else
+		// less than day ago
+		if (df < 60 * 60 * 24) {
+			desc = twic.utils.lang.plural( Math.floor(df / 60 / 60), [
+				'time_hour_one',
+				'time_hour_much',
+				'time_hour_many'
+			] ) + ' ' + trAgo;
+		} else {
+			var
+				dt = new Date(unixtime * 1000);
+
+			desc = dt.getDay() + ' ' +
+				twic.utils.lang.translate('time_month_' + (dt.getMonth() + 1));
+		}
+
+		timeSpan.innerText = desc;
+	};
+
+	/**
+	 * Set the time
+	 */
+	tweet.setUnixTime = function(newUnixTime) {
+		unixtime = newUnixTime;
+
+		tweet.updateTime();
 	};
 
 	/**
