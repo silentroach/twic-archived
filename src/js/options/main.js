@@ -52,7 +52,7 @@
 		if ('INPUT' === e.target.nodeName) {
 			twic.options.set(e.target.getAttribute('data-key'), e.target['checked']);
 		}
-	} );
+	}, false );
 
 	document.addEventListener('click', function(e) {
 		var

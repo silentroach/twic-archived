@@ -106,7 +106,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		}
 
 		var
-			desc = '';
+			desc = '',
 			now = twic.utils.date.getCurrentTimestamp(),
 			df = now - unixtime;
 

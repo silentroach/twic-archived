@@ -9,7 +9,7 @@ twic.utils = { };
 
 /**
  * Iterate array in the iterator function in series
- * @param {Array} arr Array of functions to execute
+ * @param {Array|NodeList} arr Array of functions to execute
  * @param {function(*, function())} iterator Iterator with callback
  * @param {function()} callback Finished callback
  */

@@ -473,6 +473,9 @@ twic.vcl.Timeline = function(parent) {
 
 	// update times every minute
 	setInterval( function() {
+		var
+			id;
+
 		for (id in tweets) {
 			tweets[id].updateTime();
 		}
