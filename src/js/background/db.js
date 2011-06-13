@@ -262,6 +262,16 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
+		},
+		'0.6': {
+			version: '0.7',
+			runme: function(tr, callback) {
+				twic.utils.queueIterator( [
+					'alter table tweets add source text not null default \'\''
+				], function(sqlText, callback) {
+					executeTransaction(tr, sqlText, [], callback, callback);
+				}, callback);
+			}
 		}
 	};
 

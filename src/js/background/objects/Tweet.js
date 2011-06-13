@@ -19,7 +19,8 @@ twic.db.obj.Tweet = function() {
 		'reply_to': null,
 		'dt': twic.utils.date.getCurrentTimestamp(),
 		'retweeted_user_id': null,
-		'msg': ''
+		'msg': '',
+		'source': ''
 	};
 
 	self.jsonMap = {
