@@ -14,7 +14,11 @@ twic.options = ( function() {
 			// use short links expander
 			'expander': true,
 			// 48x48 avatar size
-			'avatar_size': 48
+			'avatar_size': 48,
+			// show the tweet time
+			'tweet_show_time': true,
+			// show the twitter client
+			'tweet_show_client': true
 		},
 		// hash for existand db keys
 		inDB = { };

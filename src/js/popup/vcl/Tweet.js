@@ -44,14 +44,14 @@ twic.vcl.Tweet = function(id, timeline) {
 		timeSpan     = twic.dom.expandElement('span.time'),
 		clearer      = twic.dom.expandElement('div.clearer'),
 
-		isRetweet        = false;
+		isRetweet    = false;
 
 	twic.dom.setVisibility(rtAvatarLink, false);
 
 	avatarLink.appendChild(avatar);
 	rtAvatarLink.appendChild(rtAvatar);
 
-	otherInfo.appendChild(timeSpan);
+//	otherInfo.appendChild(timeSpan);
 
 	wrapper.appendChild(avatarLink);
 	wrapper.appendChild(rtAvatarLink);
