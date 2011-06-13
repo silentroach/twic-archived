@@ -37,6 +37,9 @@ li.tweet p {
 		font-size: 8pt;
 		color: grey;
 		}
+		li.tweet p.info a {
+			color: grey;
+			}
 
 li.tweet a.avatar {
  	padding-top: .4em;

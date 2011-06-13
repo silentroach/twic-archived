@@ -23,7 +23,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 		/** @type {Object} */ mentioned = { },
 
-		/** @type {number} */ unixtime,
+		/** @type {number} */ unixtime = 0,
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
@@ -42,6 +42,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		tweetContent = twic.dom.expandElement('p'),
 		otherInfo    = twic.dom.expandElement('p.info'),
 		timeSpan     = twic.dom.expandElement('span.time'),
+		clientSpan   = twic.dom.expandElement('span.client'),
 		clearer      = twic.dom.expandElement('div.clearer'),
 
 		isRetweet    = false;
@@ -50,8 +51,6 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	avatarLink.appendChild(avatar);
 	rtAvatarLink.appendChild(rtAvatar);
-
-//	otherInfo.appendChild(timeSpan);
 
 	wrapper.appendChild(avatarLink);
 	wrapper.appendChild(rtAvatarLink);
@@ -102,6 +101,10 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.updateTime = function() {
+		if (0 === unixtime) {
+			return false;
+		}
+
 		var
 			desc = '';
 			now = twic.utils.date.getCurrentTimestamp(),
@@ -144,6 +147,21 @@ twic.vcl.Tweet = function(id, timeline) {
 		unixtime = newUnixTime;
 
 		tweet.updateTime();
+		otherInfo.appendChild(timeSpan);
+	};
+
+	/**
+	 * Set the source
+	 */
+	tweet.setSource = function(newSource) {
+		// todo remove this [if] in next version
+		if ('' === newSource) {
+			return false;
+		}
+
+		clientSpan.innerHTML = (0 !== unixtime ? ' ' + twic.utils.lang.translate('from') + ' ' : '') +
+			newSource.replace('<a ', '<a target="_blank" ');
+		otherInfo.appendChild(clientSpan);
 	};
 
 	/**

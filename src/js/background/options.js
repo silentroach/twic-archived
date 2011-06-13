@@ -16,9 +16,9 @@ twic.options = ( function() {
 			// 48x48 avatar size
 			'avatar_size': 48,
 			// show the tweet time
-			'tweet_show_time': true,
+			'tweet_show_time': false,
 			// show the twitter client
-			'tweet_show_client': true
+			'tweet_show_client': false
 		},
 		// hash for existand db keys
 		inDB = { };
