@@ -11,13 +11,13 @@ body {
 	#tabs li span {
 		-webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, .2);
 		padding: 2px 7px;
-		padding-bottom: 3px;
+		padding-bottom: 2px;
 		border-top-left-radius: 2px;
 		border-top-right-radius: 2px;
 		margin: 0 5px;
 		}
 		#tabs li.active span {
-			border-bottom: 2px solid #f7f7f7;
+			border-bottom: 3px solid #f7f7f7;
 			}
 
 #content {
