@@ -175,8 +175,10 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	var hideButtons = function() {
-		twic.dom.setVisibility(tweetButtons, false);
-		hoveredTweet = null;
+		if (hoveredTweet) {
+			twic.dom.setVisibility(tweetButtons, false);
+			hoveredTweet = null;
+		}
 	};
 
 	var hideAndRestoreButtons = function() {
@@ -466,10 +468,12 @@ twic.vcl.Timeline = function(parent) {
 
 	resetButtons();
 
-	list.addEventListener('mousedown',  timelineMouseDown, false);
-	list.addEventListener('mouseup',    timelineMouseUp, false);
-	list.addEventListener('mousemove',  timelineMouseMove, false);
-	list.addEventListener('mouseout',   timelineMouseOut, false);
+	list.addEventListener('mousedown', timelineMouseDown, false);
+	list.addEventListener('mouseup',   timelineMouseUp, false);
+	list.addEventListener('mousemove', timelineMouseMove, false);
+	list.addEventListener('mouseout',  timelineMouseOut, false);
+	
+	document.addEventListener('mousewheel', hideButtons, false);
 
 	// update times every minute
 	setInterval( function() {
