@@ -159,7 +159,7 @@ twic.vcl.Tweet = function(id, timeline) {
 			return false;
 		}
 
-		clientSpan.innerHTML = (0 !== unixtime ? ' ' + twic.utils.lang.translate('from') + ' ' : '') +
+		clientSpan.innerHTML = (0 !== unixtime ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
 			newSource.replace('<a ', '<a target="_blank" ');
 		otherInfo.appendChild(clientSpan);
 	};
