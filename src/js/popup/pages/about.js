@@ -18,7 +18,6 @@
 
 		twic.dom.findElement('#aname').innerHTML = twic.name + ' ' + manifest['version'];
 		twic.dom.findElement('#awhat').innerHTML = twic.utils.lang.translate('about_what');
-		twic.dom.findElement('#donate').value    = twic.utils.lang.translate('button_donate');
 
 		twic.dom.findElement('#about .toolbar p').innerHTML = twic.utils.lang.translate('toolbar_about');
 		twic.dom.findElement('#about .toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
