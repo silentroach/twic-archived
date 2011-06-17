@@ -1,8 +1,8 @@
 In development:
 	* New tweet editor is now smaller on blur
 	* "Insert link" button is now disabled if we can't do it
-	+ Displaying the tweet time (optional)
-	+ Displaying the user Twitter client in tweet (optional)
+	+ Displaying the tweet time (optional, disabled by default)
+	+ Displaying the user Twitter client in tweet (optional, disabled by default)
 	+ Settings button on the first page
 	- Donate button
 	+ Additional "locked" icon in protected user profiles
