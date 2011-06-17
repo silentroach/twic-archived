@@ -7,6 +7,7 @@ In development:
 	- Donate button
 	+ Additional "locked" icon in protected user profiles
 	* Retweet button is disabled for the protected user tweets
+	* Additional tweet info is hidden while replying
 
 0.16:
 	* Fix for the urls without protocol (thanks @Stammru)

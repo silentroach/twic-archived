@@ -268,6 +268,8 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	tweet.resetEditor = function() {
 		if (replier) {
+			wrapper.classList.remove('replying');
+
 			replier.close();
 			replier = null;
 		}
@@ -319,6 +321,8 @@ twic.vcl.Tweet = function(id, timeline) {
 		replier.onClose = function() {
 			replier = null;
 		};
+
+		wrapper.classList.add('replying');
 	};
 
 };

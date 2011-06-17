@@ -41,6 +41,10 @@ li.tweet p {
 			color: grey;
 			}
 
+li.tweet.replying p.info {
+	display: none;
+	}
+
 li.tweet a.avatar {
  	padding-top: .4em;
 	float: left;
