@@ -22,6 +22,7 @@
 		elementFollowed,
 		elementFollowedSpan,
 		elementDirect,
+		elementProps,
 		timelineUserId,
 		profileUserId,
 		loader,
@@ -47,6 +48,9 @@
 		elementBio      = twic.dom.findElement('.bio', page);
 		elementLocation = twic.dom.findElement('.location', page);
 		toolbarTimeline = twic.dom.findElement('.toolbar a', page);
+
+		elementProps    = twic.dom.findElement('.props', page);
+		twic.dom.findElement('.protected', elementProps).title = twic.utils.lang.translate('title_protected');
 	};
 
 	var clearProfileData = function() {
@@ -56,6 +60,7 @@
 		twic.dom.setVisibility(elementAvatar, false);
 		twic.dom.setVisibility(elementFollowings, false);
 		elementAvatar.src = '';
+		elementProps.className = 'props';
 		elementName.innerHTML = '';
 		elementNick.innerHTML = '';
 		elementUrl.innerHTML = '';
@@ -136,6 +141,12 @@
 		elementAvatar.src = data['avatar'].replace('_normal.', '_bigger.');
 		elementAvatar.title = '@' + data['screen_name'];
 		elementAvatar.style.display = '';
+
+		// user properties
+		if (data['is_protected']) {
+			elementProps.classList.add('protected');
+		}
+
 		elementName.innerHTML = data['name'];
 		elementNick.innerHTML = data['screen_name'];
 

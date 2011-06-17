@@ -267,7 +267,8 @@ twic.db = ( function() {
 			version: '0.7',
 			runme: function(tr, callback) {
 				twic.utils.queueIterator( [
-					'alter table tweets add source text not null default \'\''
+					'alter table tweets add source text not null default \'\'',
+					'alter table users add is_protected int not null default 0'
 				], function(sqlText, callback) {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);

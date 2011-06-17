@@ -5,6 +5,7 @@ In development:
 	+ Displaying the user Twitter client in tweet (optional)
 	+ Settings button on the first page
 	- Donate button
+	+ Additional "locked" icon in protected user profiles
 
 0.16:
 	* Fix for the urls without protocol (thanks @Stammru)

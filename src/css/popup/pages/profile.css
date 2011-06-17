@@ -7,10 +7,19 @@
 		border: 1px solid silver;
 		}
 	#profile .info .avatar {
-		float: right;
 		max-width: 96px;
-		margin-left: 1em;
 		}
+	#profile .info .avatar,
+	#profile .info .props {
+		float: right;
+		margin-left: .7em;
+		}
+		#profile .info .props img {
+			display: none;
+			}
+			#profile .info .props.protected img.protected {
+				display: block;
+				}
 	#profile .info .bio {
 		word-wrap: break-word;
 		}

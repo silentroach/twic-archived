@@ -23,6 +23,7 @@ twic.db.obj.User = function() {
 		'avatar': '',
 		'url': '',
 		'verified': 0,
+		'is_protected': 0,
 		'followers_count': 0,
 		'friends_count': 0,
 		'statuses_count': 0,
@@ -43,6 +44,9 @@ twic.db.obj.User = function() {
 		},
 		'regdate': function(obj) {
 			return twic.utils.date.getTimestamp(new Date(obj['created_at']));
+		},
+		'is_protected': function(obj) {
+			return (obj['protected']) ? 1 : 0;
 		}
 	};
 };
