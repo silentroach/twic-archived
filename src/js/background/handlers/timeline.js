@@ -37,8 +37,8 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 
 			    reply[tweet.fields['id']] = {
 				    'msg': tweet.fields['msg'],
-				    'user': user.getPart(['id', 'screen_name', 'avatar']),
-				    'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar']) : null,
+				    'user': user.getPart(['id', 'screen_name', 'avatar', 'is_protected']),
+				    'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar', 'is_protected']) : null,
 				    'separator': 0 === --unreadCount
 			    };
 

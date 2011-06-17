@@ -6,6 +6,7 @@ In development:
 	+ Settings button on the first page
 	- Donate button
 	+ Additional "locked" icon in protected user profiles
+	* Retweet button is disabled for the protected user tweets
 
 0.16:
 	* Fix for the urls without protocol (thanks @Stammru)

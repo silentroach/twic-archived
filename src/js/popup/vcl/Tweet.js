@@ -29,6 +29,8 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ retweetedById,
 		/** @type {string} */ rawText,
 
+		/** @type {boolean} */ isProtected = false,
+
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
 
@@ -58,6 +60,13 @@ twic.vcl.Tweet = function(id, timeline) {
 	wrapper.appendChild(otherInfo);
 	wrapper.appendChild(clearer);
 	wrapper.appendChild(replyWrapper);
+
+	/**
+	 * Set the tweet as protected
+	 */
+	tweet.setProtected = function() {
+		isProtected = true;
+	};
 
 	/**
 	 * Set the tweet text
@@ -265,7 +274,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.getCanRetweet = function() {
-		return authorId !== timelineId && retweetedById !== timelineId;
+		return !isProtected && authorId !== timelineId && retweetedById !== timelineId;
 	};
 
 	tweet.getCanUnRetweet = function() {

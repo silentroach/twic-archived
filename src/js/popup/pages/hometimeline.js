@@ -74,8 +74,17 @@
 			if (retweeted) {
 				tweet.setAuthor(retweeted['id'], retweeted['screen_name'], retweeted['avatar']);
 				tweet.setRetweeter(user['id'], user['screen_name'], user['avatar']);
+
+				// todo refactor with bottom
+				if (retweeted['is_protected']) {
+					tweet.setProtected();
+				}
 			} else {
 				tweet.setAuthor(user['id'], user['screen_name'], user['avatar']);
+
+				if (user['is_protected']) {
+					tweet.setProtected();
+				}
 			}
 
 			if (item['separator']) {
