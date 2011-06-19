@@ -5,21 +5,15 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-twic.options = ( function() {
+twic.options = { };
 
-	var options = { };
+twic.options.get = function(key, callback) {
+	twic.requests.makeRequest('getOpt', key, callback);
+};
 
-	options.get = function(key, callback) {
-		twic.requests.makeRequest('getOpt', key, callback);
-	};
-
-	options.set = function(key, value) {
-		twic.requests.makeRequest('setOpt', {
-			'key': key,
-			'value': value
-		} );
-	};
-
-	return options;
-
-}() );
+twic.options.set = function(key, value) {
+	twic.requests.makeRequest('setOpt', {
+		'key': key,
+		'value': value
+	} );
+};
