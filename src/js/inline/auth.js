@@ -9,9 +9,14 @@
 
 	var
 		pinElement  = twic.dom.findElement('kbd'),
-		nickElement = twic.dom.findElement('.current-user .name');
+		nickElement = twic.dom.findElement('.current-user .name'),
+		descElement = twic.dom.findElement('.action-information');
 
-	if (!pinElement) {
+	if (
+		!pinElement
+		|| !descElement
+		|| !descElement.innerText.match(twic.name)
+	) {
 		return;
 	}
 
