@@ -96,4 +96,6 @@ twic.db.obj.Friend.prototype.loadFromJSON = function(obj) {
 	twic.DBObject.prototype.loadFromJSON.call(self, obj['source']);
 
 	self.fields['target_user_id'] = obj['target']['id'];
+
+	return self;
 };
