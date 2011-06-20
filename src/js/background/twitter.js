@@ -22,7 +22,8 @@ twic.twitter = ( function() {
 	 */
 	twitter.getUserInfo = function(nick, callback) {
 		var
-			tmpUser = new twic.db.obj.User();
+			tmpUser  = new twic.db.obj.User(),
+			tmpTweet = new twic.db.obj.Tweet();
 
 		tmpUser.loadByFieldValue(
 			'screen_name_lower', nick.toLowerCase(),
@@ -34,6 +35,25 @@ twic.twitter = ( function() {
 					tmpUser
 						.loadFromJSON(obj)
 						.save();
+
+					if ('status' in obj) {
+						var
+							statusObj = obj['status'];
+
+						tmpTweet.loadById(statusObj['id_str'],
+							function() { },
+							function() {
+								// adding missed fields to load it in tweet
+								statusObj['user'] = {
+									'id': obj['id']
+								};
+
+								tmpTweet
+									.loadFromJSON(statusObj)
+									.save();
+							}
+						);
+					}
 
 					callback(tmpUser);
 				} );
