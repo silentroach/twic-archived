@@ -31,8 +31,9 @@ twic.twitter = ( function() {
 			},
 			function() {
 				twic.api.getUserInfo(nick, function(obj) {
-					tmpUser.loadFromJSON(obj);
-					tmpUser.save();
+					tmpUser
+						.loadFromJSON(obj)
+						.save();
 
 					callback(tmpUser);
 				} );
@@ -60,8 +61,9 @@ twic.twitter = ( function() {
 				function(obj) {
 					tmpFriend = new twic.db.obj.Friend();
 
-					tmpFriend.loadFromJSON(obj);
-					tmpFriend.save();
+					tmpFriend
+						.loadFromJSON(obj)
+						.save();
 
 					callback(tmpFriend);
 				}

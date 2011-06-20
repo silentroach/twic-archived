@@ -52,6 +52,7 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 /**
  * Load object from JSON
  * @param {Object} obj JSON object
+ * @return {DBObject}
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var
@@ -77,6 +78,8 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 			}
 		}
 	}
+
+	return dbobject;
 };
 
 /**
