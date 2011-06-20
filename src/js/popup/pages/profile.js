@@ -43,7 +43,7 @@
 		elementLoader   = twic.dom.findElement('.loader', page);
 		elementAvatar   = twic.dom.findElement('.avatar', page);
 		elementName     = twic.dom.findElement('.name', page);
-		elementNick     = twic.dom.findElement('.nick', page);
+		elementNick     = twic.dom.findElement('.toolbar p span', page);
 		elementUrl      = twic.dom.findElement('.url', page);
 		elementBio      = twic.dom.findElement('.bio', page);
 		elementLocation = twic.dom.findElement('.location', page);

@@ -24,6 +24,7 @@
 		display: inline;
 		float: right;
 		margin-right: .4em;
+		text-shadow: rgba(255, 255, 255, 0.796875) 0px 1px 0px;
 		}
 
 .toolbar .clearer {
