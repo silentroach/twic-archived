@@ -9,8 +9,11 @@
  * @constructor
  * @extends twic.Error
  * @param {number} code Error code
+ * @param {XMLHttpRequest} req Request
  */
-twic.ResponseError = function(code) {
+twic.ResponseError = function(code, req) {
+	this.request = req;
+
 	twic.Error.call(this, code);
 };
 
@@ -19,6 +22,7 @@ goog.inherits(twic.ResponseError, twic.Error);
 /** @const */ twic.ResponseError.UNKNOWN      = 0;
 /** @const */ twic.ResponseError.UNAUTHORIZED = 1;
 /** @const */ twic.ResponseError.TIMEOUT      = 2;
+/** @const */ twic.ResponseError.CORRECTED    = 3;
 
 /**
  * @constructor
@@ -119,14 +123,14 @@ twic.HTTPRequest.prototype.send = function(callback) {
 				twic.debug.error('Unauthorized');
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.UNAUTHORIZED));
+				callback(new twic.ResponseError(twic.ResponseError.UNAUTHORIZED, req));
 			} else
 			if (req.responseText === '') {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Empty reply');
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.TIMEOUT));
+				callback(new twic.ResponseError(twic.ResponseError.TIMEOUT, req));
 			} else
 			if (req.status === 200) {
 				twic.debug.groupCollapsed('http request to ' + self.url + ' finished');
@@ -145,7 +149,7 @@ twic.HTTPRequest.prototype.send = function(callback) {
 				twic.debug.log(req.responseText);
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.UNKNOWN));
+				callback(new twic.ResponseError(twic.ResponseError.UNKNOWN, req));
 			}
 		}
 	};

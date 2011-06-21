@@ -72,22 +72,38 @@ twic.api = ( function() {
 			return;
 		}
 
-		var req = new twic.OAuthRequest('POST', authUrl + 'request_token');
-		req.sign();
+		var
+			isRetry = false;
 
-		req.send( function(error, req) {
-			if (!error) {
-				var obj = twic.HTTPRequest.queryStringToObject(req.responseText);
+		var sendRequest = function() {
+			var
+				req = new twic.OAuthRequest('POST', authUrl + 'request_token');
 
-				oauth_token        = obj['oauth_token'];
-				oauth_token_secret = obj['oauth_token_secret'];
+			req.sign();
 
-				callback(oauth_token, oauth_token_secret);
-			} else
-			if (failedCallback) {
-				failedCallback(error);
-			}
-		} );
+			req.send( function(error, req) {
+				if (!error) {
+					var obj = twic.HTTPRequest.queryStringToObject(req.responseText);
+
+					oauth_token        = obj['oauth_token'];
+					oauth_token_secret = obj['oauth_token_secret'];
+
+					callback(oauth_token, oauth_token_secret);
+				} else
+				if (
+					!isRetry
+					&& twic.ResponseError.CORRECTED === error.code
+				) {
+					isRetry = true;
+					sendRequest();
+				} else
+				if (failedCallback) {
+					failedCallback(error);
+				}
+			} );
+		}
+
+		sendRequest();
 	};
 
 	/**

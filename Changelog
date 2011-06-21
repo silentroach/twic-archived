@@ -1,6 +1,8 @@
 In development:
 	* User nick is moved to the right top on the profile page
 	* Bug with automatic Twic authorization on the pages for another applications is fixed
+	* Small things in interface
+	* Hope the bug with first authorization and OAuth timestamp is finally fixed
 
 0.17:
 	* New tweet editor is now smaller on blur

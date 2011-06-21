@@ -94,17 +94,50 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
  */
 twic.OAuthRequest.prototype.send = function(callback) {
 	var checkOffsetAndCallback = function(error, req) {
-		if (req) {
-			var
-				checkHeader = req.getResponseHeader('X-Transaction');
+		var
+			inspectedRequest = req;
 
-			if (goog.isString(checkHeader)) {
-				var
-					firstPart = checkHeader.split('-')[0],
-					newOffset = parseInt(firstPart, 10) - twic.utils.date.getCurrentTimestamp();
+		if (
+			!inspectedRequest
+			&& twic.ResponseError.UNAUTHORIZED === error.code
+		) {
+			inspectedRequest = error.request;
+		}
+
+		if (inspectedRequest) {
+			var
+				i,
+				checkHeader,
+				newOffset,
+				remoteDate,
+				checkFields = ['Last-Modified', 'Date'];
+
+			for (i = 0; i < checkFields.length; ++i) {
+				checkHeader = inspectedRequest.getResponseHeader(checkFields[i]);
+
+				if (
+					!checkHeader
+					|| !goog.isString(checkHeader)
+				) {
+					continue;
+				}
+
+				remoteDate = Date.parse(checkHeader);
+
+				if (!remoteDate) {
+					continue;
+				}
+
+				newOffset = twic.utils.date.getTimestamp(new Date(remoteDate)) - twic.utils.date.getCurrentTimestamp();
 
 				if (twic.OAuthRequest.timestampOffset !== newOffset) {
 					twic.OAuthRequest.timestampOffset = newOffset;
+
+					if (error) {
+						// change error to corrected to identify it later
+						error.code = twic.ResponseError.CORRECTED;
+					}
+
 					twic.debug.log('OAuth timestamp offset is now ' + twic.OAuthRequest.timestampOffset);
 				}
 			}
