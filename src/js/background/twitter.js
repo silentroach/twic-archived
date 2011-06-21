@@ -207,7 +207,6 @@ twic.twitter = ( function() {
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
 			function() {
 				cleanupFriends(id, whom_id, callback);
-				// todo cleanup timeline
 			}
 		);
 	};
