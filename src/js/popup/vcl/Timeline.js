@@ -473,7 +473,7 @@ twic.vcl.Timeline = function(parent) {
 	list.addEventListener('mousemove', timelineMouseMove, false);
 	list.addEventListener('mouseout',  timelineMouseOut, false);
 	
-	document.addEventListener('mousewheel', hideButtons, false);
+	parent.addEventListener('scroll', hideButtons, false);
 
 	// update times every minute
 	setInterval( function() {
