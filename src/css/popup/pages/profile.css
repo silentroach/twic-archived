@@ -1,3 +1,6 @@
+#profile .toolbar p span {
+	vertical-align: top;
+	}
 #profile .info {
 	padding: .5em;
 	}
