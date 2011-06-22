@@ -34,6 +34,7 @@ twic.HTTPRequest = function(method, url) {
 	this.url = url;
 	this.requestHeaders = {};
 	this.data = {};
+	this.serviceData = {};
 };
 
 /**
@@ -93,6 +94,16 @@ twic.HTTPRequest.prototype.setRequestData = function(key, value) {
 };
 
 /**
+ * Set request service POST data
+ * @param {string} key Key
+ * @param {string|number} value Value
+ * todo maybe it will be great to get the object with params
+ */
+twic.HTTPRequest.prototype.setRequestServiceData = function(key, value) {
+	this.serviceData[key] = value;
+};
+
+/**
  * Send the request
  * @param {function(?twic.ResponseError, XMLHttpRequest=)} callback Callback
  * todo send method can't be shortened by Closure Compiler, don't know why
@@ -105,6 +116,10 @@ twic.HTTPRequest.prototype.send = function(callback) {
 
 	for (key in self.data) {
 		data.push(key + '=' + self.encodeString(self.data[key]));
+	}
+
+	for (key in self.serviceData) {
+		data.push(key + '=' + self.encodeString(self.serviceData[key]));
 	}
 
 	var req = new XMLHttpRequest();

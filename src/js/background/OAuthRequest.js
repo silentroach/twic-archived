@@ -61,14 +61,14 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		self.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	}
 
-	self.setRequestData('oauth_consumer_key', twic.consumer_key);
-	self.setRequestData('oauth_signature_method', 'HMAC-SHA1');
-	self.setRequestData('oauth_version', '1.0');
-	self.setRequestData('oauth_nonce', self.getNonce());
-	self.setRequestData('oauth_timestamp', twic.utils.date.getCurrentTimestamp() + twic.OAuthRequest.timestampOffset);
+	self.setRequestServiceData('oauth_consumer_key', twic.consumer_key);
+	self.setRequestServiceData('oauth_signature_method', 'HMAC-SHA1');
+	self.setRequestServiceData('oauth_version', '1.0');
+	self.setRequestServiceData('oauth_nonce', self.getNonce());
+	self.setRequestServiceData('oauth_timestamp', twic.utils.date.getCurrentTimestamp() + twic.OAuthRequest.timestampOffset);
 
 	if (token) {
-		self.setRequestData('oauth_token', token);
+		self.setRequestServiceData('oauth_token', token);
 	}
 
 	// encode the data
@@ -76,10 +76,14 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		params.push(self.encodeString(key) + '=' + self.encodeString(self.data[key]));
 	}
 
+	for (key in self.serviceData) {
+		params.push(self.encodeString(key) + '=' + self.encodeString(self.serviceData[key]));
+	}
+
 	// tis important to sort params
 	baseString += self.encodeString(params.sort().join('&'));
 
-	self.setRequestData('oauth_signature',
+	self.setRequestServiceData('oauth_signature',
 		SHA1.encode(
 			self.encodeString(twic.consumer_secret) + '&' + (token_secret ? self.encodeString(token_secret) : ''),
 			baseString
