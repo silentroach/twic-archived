@@ -22,7 +22,6 @@ goog.inherits(twic.ResponseError, twic.Error);
 /** @const */ twic.ResponseError.UNKNOWN      = 0;
 /** @const */ twic.ResponseError.UNAUTHORIZED = 1;
 /** @const */ twic.ResponseError.TIMEOUT      = 2;
-/** @const */ twic.ResponseError.CORRECTED    = 3;
 
 /**
  * @constructor
@@ -58,6 +57,26 @@ twic.HTTPRequest.queryStringToObject = function(data) {
 	}
 
 	return result;
+};
+
+/**
+ * Get all the data
+ * @return {Array.<string>}
+ */
+twic.HTTPRequest.prototype.getData = function() {
+	var
+		self = this,
+		data = [];
+
+	for (key in self.data) {
+		data.push(self.encodeString(key) + '=' + self.encodeString(self.data[key]));
+	}
+
+	for (key in self.serviceData) {
+		data.push(self.encodeString(key) + '=' + self.encodeString(self.serviceData[key]));
+	}
+
+	return data;
 };
 
 /**
@@ -111,16 +130,8 @@ twic.HTTPRequest.prototype.setRequestServiceData = function(key, value) {
 twic.HTTPRequest.prototype.send = function(callback) {
 	var
 		self = this,
-		data = [],
+		data = self.getData(),
 		key;
-
-	for (key in self.data) {
-		data.push(key + '=' + self.encodeString(self.data[key]));
-	}
-
-	for (key in self.serviceData) {
-		data.push(key + '=' + self.encodeString(self.serviceData[key]));
-	}
 
 	var req = new XMLHttpRequest();
 	req.open(self.method, self.url + (self.method === 'GET' ? '?' + data.join('&') : ''));

@@ -73,37 +73,21 @@ twic.api = ( function() {
 		}
 
 		var
-			isRetry = false;
+			req = new twic.OAuthRequest('POST', authUrl + 'request_token');
 
-		var sendRequest = function() {
-			var
-				req = new twic.OAuthRequest('POST', authUrl + 'request_token');
+		req.send( function(error, req) {
+			if (!error) {
+				var obj = twic.HTTPRequest.queryStringToObject(req.responseText);
 
-			req.sign();
+				oauth_token        = obj['oauth_token'];
+				oauth_token_secret = obj['oauth_token_secret'];
 
-			req.send( function(error, req) {
-				if (!error) {
-					var obj = twic.HTTPRequest.queryStringToObject(req.responseText);
-
-					oauth_token        = obj['oauth_token'];
-					oauth_token_secret = obj['oauth_token_secret'];
-
-					callback(oauth_token, oauth_token_secret);
-				} else
-				if (
-					!isRetry
-					&& twic.ResponseError.CORRECTED === error.code
-				) {
-					isRetry = true;
-					sendRequest();
-				} else
-				if (failedCallback) {
-					failedCallback(error);
-				}
-			} );
-		}
-
-		sendRequest();
+				callback(oauth_token, oauth_token_secret);
+			} else
+			if (failedCallback) {
+				failedCallback(error);
+			}
+		} );
 	};
 
 	/**
@@ -142,8 +126,6 @@ twic.api = ( function() {
 		req.setRequestData('oauth_verifier', pin);
 
 		getRequestToken( function(token, secret) {
-			req.sign(token, secret);
-
 			req.send( function(error, req) {
 				if (!error) {
 					callback(
@@ -160,7 +142,7 @@ twic.api = ( function() {
 						failedCallback(error);
 					}
 				}
-			} );
+			}, token, secret );
 		} );
 	};
 
@@ -198,14 +180,12 @@ twic.api = ( function() {
 	api.follow = function(whom_id, token, token_secret, callback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'friendships/create/' + whom_id + '.json');
 
-		req.sign(token, token_secret);
-
 		twic.debug.info('Following user ' + whom_id);
 
 		req.send( function(error, req) {
 			// todo what if it will fails?
 			callback();
-		} );
+		}, token, secret );
 	};
 
 	/**
@@ -218,8 +198,6 @@ twic.api = ( function() {
 	 */
 	api.retweet = function(id, token, token_secret, callback, failedCallback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'statuses/retweet/' + id + '.json');
-
-		req.sign(token, token_secret);
 
 		twic.debug.info('Retweeting the ' + id);
 
@@ -237,7 +215,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		} );
+		}, token, secret );
 	};
 
 	/**
@@ -254,8 +232,6 @@ twic.api = ( function() {
 		// do not request additional user info cause it is about us
 		req.setRequestData('trim_user', 1);
 
-		req.sign(token, token_secret);
-
 		twic.debug.info('Removing the ' + id);
 
 		req.send( function(error, req) {
@@ -264,7 +240,7 @@ twic.api = ( function() {
 			} else {
 				failedCallback(error);
 			}
-		} );
+		}, token, secret );
 	};
 
 	/**
@@ -277,14 +253,12 @@ twic.api = ( function() {
 	api.unfollow = function(whom_id, token, token_secret, callback) {
 		var req = new twic.OAuthRequest('POST', baseUrl + 'friendships/destroy/' + whom_id + '.json');
 
-		req.sign(token, token_secret);
-
 		twic.debug.info('Unfollowing user ' + whom_id);
 
 		req.send( function(error, req) {
 			// todo what if it will fails?
 			callback();
-		} );
+		}, token, secret );
 	};
 
 	/**
@@ -303,8 +277,6 @@ twic.api = ( function() {
 			req.setRequestData('since_id', since_id);
 		}
 
-		req.sign(token, token_secret);
-
 		twic.debug.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
 
 		req.send( function(error, req) {
@@ -321,7 +293,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		} );
+		}, token, secret );
 	};
 
 	/**
@@ -373,8 +345,6 @@ twic.api = ( function() {
 		// do not request additional user info cause it is about us
 		req.setRequestData('trim_user', 1);
 
-		req.sign(token, token_secret);
-
 		twic.debug.info('sending the new tweet: ' + status);
 
 		req.send( function(error, req) {
@@ -391,7 +361,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		} );
+		}, token, secret );
 	};
 
 	/**
@@ -412,8 +382,6 @@ twic.api = ( function() {
 		// do not request additional user info cause it is about us
 		req.setRequestData('trim_user', 1);
 
-		req.sign(token, token_secret);
-
 		twic.debug.info('sending the reply tweet: ' + status);
 
 		req.send( function(error, req) {
@@ -430,7 +398,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		} );
+		}, token, secret );
 	};
 
 	return api;
