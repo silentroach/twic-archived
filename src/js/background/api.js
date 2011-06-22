@@ -101,13 +101,13 @@ twic.api = ( function() {
 		api.resetToken();
 
 		getRequestToken( function(token, secret) {
-			chrome.tabs.create( {
-				'url': authUrl + 'authorize?oauth_token=' + token
-			} );
-
 			if (callback) {
 				callback();
 			}
+
+			chrome.tabs.create( {
+				'url': authUrl + 'authorize?oauth_token=' + token
+			} );
 		}, function() {
 			if (failedCallback) {
 				failedCallback();
@@ -185,7 +185,7 @@ twic.api = ( function() {
 		req.send( function(error, req) {
 			// todo what if it will fails?
 			callback();
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	/**
@@ -215,7 +215,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	/**
@@ -240,7 +240,7 @@ twic.api = ( function() {
 			} else {
 				failedCallback(error);
 			}
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	/**
@@ -258,7 +258,7 @@ twic.api = ( function() {
 		req.send( function(error, req) {
 			// todo what if it will fails?
 			callback();
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	/**
@@ -293,7 +293,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	/**
@@ -361,7 +361,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	/**
@@ -398,7 +398,7 @@ twic.api = ( function() {
 			if (failedCallback) {
 				failedCallback(error);
 			}
-		}, token, secret );
+		}, token, token_secret );
 	};
 
 	return api;

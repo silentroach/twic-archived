@@ -33,7 +33,6 @@ twic.HTTPRequest = function(method, url) {
 	this.url = url;
 	this.requestHeaders = {};
 	this.data = {};
-	this.serviceData = {};
 };
 
 /**
@@ -72,10 +71,6 @@ twic.HTTPRequest.prototype.getData = function() {
 		data.push(self.encodeString(key) + '=' + self.encodeString(self.data[key]));
 	}
 
-	for (key in self.serviceData) {
-		data.push(self.encodeString(key) + '=' + self.encodeString(self.serviceData[key]));
-	}
-
 	return data;
 };
 
@@ -106,20 +101,9 @@ twic.HTTPRequest.prototype.setHeader = function(key, value) {
  * Set request POST data
  * @param {string} key Key
  * @param {string|number} value Value
- * todo maybe it will be great to get the object with params
  */
 twic.HTTPRequest.prototype.setRequestData = function(key, value) {
 	this.data[key] = value;
-};
-
-/**
- * Set request service POST data
- * @param {string} key Key
- * @param {string|number} value Value
- * todo maybe it will be great to get the object with params
- */
-twic.HTTPRequest.prototype.setRequestServiceData = function(key, value) {
-	this.serviceData[key] = value;
 };
 
 /**
@@ -134,31 +118,26 @@ twic.HTTPRequest.prototype.send = function(callback) {
 		key;
 
 	var req = new XMLHttpRequest();
-	req.open(self.method, self.url + (self.method === 'GET' ? '?' + data.join('&') : ''));
-
-	for (key in self.requestHeaders) {
-		req.setRequestHeader(key, self.requestHeaders[key]);
-	}
 
 	req.onreadystatechange = function() {
 		var req = this;
 
-		if (req.readyState === 4) {
-			if (req.status === 401) {
+		if (4 === req.readyState) {
+			if (401 === req.status) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Unauthorized');
 				twic.debug.groupEnd();
 
 				callback(new twic.ResponseError(twic.ResponseError.UNAUTHORIZED, req));
 			} else
-			if (req.responseText === '') {
+			if ('' === req.responseText) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Empty reply');
 				twic.debug.groupEnd();
 
 				callback(new twic.ResponseError(twic.ResponseError.TIMEOUT, req));
 			} else
-			if (req.status === 200) {
+			if (200 === req.status) {
 				twic.debug.groupCollapsed('http request to ' + self.url + ' finished');
 				try {
 					twic.debug.dir(JSON.parse(req.responseText));
@@ -179,6 +158,12 @@ twic.HTTPRequest.prototype.send = function(callback) {
 			}
 		}
 	};
+
+	req.open(self.method, self.url + (self.method === 'GET' ? '?' + data.join('&') : ''));
+
+	for (key in self.requestHeaders) {
+		req.setRequestHeader(key, self.requestHeaders[key]);
+	}
 
 	if (self.method === 'GET') {
 		req.send();
