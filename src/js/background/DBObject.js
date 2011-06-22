@@ -52,7 +52,7 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
 /**
  * Load object from JSON
  * @param {Object} obj JSON object
- * @return {DBObject}
+ * @return {twic.DBObject}
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var
