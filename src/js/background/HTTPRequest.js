@@ -65,6 +65,7 @@ twic.HTTPRequest.queryStringToObject = function(data) {
 twic.HTTPRequest.prototype.getData = function() {
 	var
 		self = this,
+		key,
 		data = [];
 
 	for (key in self.data) {

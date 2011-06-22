@@ -87,8 +87,8 @@ twic.dom.expandElement = function(expr) {
  */
 twic.dom.isChildOf = function(element, parent) {
 	if (element) {
-		while (element.parentNode) {
-			element = element.parentNode;
+		while (element.parentElement) {
+			element = element.parentElement;
 
 			if (element === parent) {
 				return true;

@@ -43,7 +43,8 @@ twic.OAuthRequest.prototype.setOAuthData = function(key, value) {
 twic.OAuthRequest.prototype.getData = function() {
 	var
 		self = this,
-		data = twic.HTTPRequest.prototype.getData.call(self);
+		data = twic.HTTPRequest.prototype.getData.call(self),
+		key;
 
 	for (key in self.OAuthData) {
 		data.push(self.encodeString(key) + '=' + self.encodeString(self.OAuthData[key]));
