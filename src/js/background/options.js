@@ -73,12 +73,10 @@ twic.options = ( function() {
 				if (key in storage) {
 					inDB[key] = 1;
 
-					switch (typeof storage[key]) {
-						case 'boolean':
-							val = row['val'] === true.toString();
-							break;
-						default:
-							val = row['val'];
+					if (goog.isBoolean(storage[key])) {
+						val = row['val'] === true.toString();
+					} else {
+						val = row['val'];
 					}
 
 					storage[key] = val;
