@@ -53,7 +53,7 @@ goog.global = this;
  * because they are generally used for debugging purposes and it is difficult
  * for the JSCompiler to statically determine whether they are used.
  */
-goog.DEBUG = true;
+goog.DEBUG = false;
 
 
 /**
@@ -294,7 +294,7 @@ goog.addDependency = function(relPath, provides, requires) {
  * provided (and depend on the fact that some outside tool correctly ordered
  * the script).
  */
-goog.ENABLE_DEBUG_LOADER = true;
+goog.ENABLE_DEBUG_LOADER = false;
 
 
 /**
