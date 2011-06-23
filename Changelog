@@ -1,4 +1,5 @@
-In development:
+0.19:
+	* Goog object is not available in developer version of Google Chrome
 
 0.18:
 	* User nick is moved to the right top on the profile page
