@@ -16,5 +16,6 @@ Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 
 ## 3rdparty
 
+* [Google Closure Library](http://code.google.com/closure/library/) (some language enhancements)
 * [SHA1 crypt implementation](http://pajhome.org.uk/crypt/md5)
 * [Iconza icons](http://www.iconza.com/)
