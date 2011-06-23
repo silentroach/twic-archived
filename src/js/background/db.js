@@ -341,20 +341,35 @@ twic.db = ( function() {
 		} );
 	};
 
-	/** @type {Database} **/ var database = null;
+	var
+		isPreparing = false,
+		database;
 
 	/**
 	 * @param {function(Database)} callback Callback with database
 	 */
 	var getDatabase = function(callback) {
 		if (!database) {
-			database = openDatabase(twic.name, '', twic.name, 0);
+			if (isPreparing) {
+				// wait a little while migration ends
+				setTimeout( function() {
+					getDatabase(callback);
+				}, 500 );
+			} else {
+				isPreparing = true;
 
-			migrate(database, database.version, function() {
-				cleanup(database, function() {
-					callback(database);
+				var
+					tmpDB = openDatabase(twic.name, '', twic.name, 0);
+
+				migrate(tmpDB, tmpDB.version, function() {
+					isPreparing = false;
+					database = tmpDB;
+
+					cleanup(database, function() {
+						callback(database);
+					} );
 				} );
-			} );
+			}
 		} else {
 			callback(database);
 		}
