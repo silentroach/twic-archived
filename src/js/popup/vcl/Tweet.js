@@ -15,7 +15,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		tweet = this,
 
 		/** @type {RegExp} */ nickSearchPattern   = /[\@]+(\w+)/gi,
-		/** @type {RegExp} */ hashSearchPattern   = /([^&\w]|^)(#([\w\u0080-\uffff]*))/gi,
+		/** @type {RegExp} */ hashSearchPattern   = /([^&\w\/]|^)(#([\w\u0080-\uffff]*))/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
 		/** @type {Element} */ replyWrapper = twic.dom.expandElement('div'),

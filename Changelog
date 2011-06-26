@@ -1,4 +1,5 @@
 In development:
+	* Fixed the hash replace for urls like test.dom/#hash
 
 0.20:
 	* Fixing a first extension initialization possible bug
