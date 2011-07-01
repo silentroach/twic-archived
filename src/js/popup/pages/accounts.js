@@ -11,6 +11,7 @@
 	var
 		/** @type {Element} */ list,
 		/** @type {Element} */ bottomStatus,
+		/** @type {Element} */ elementAccountAdd,
 		/** @type {number}  */ removingAccountId,
 		/** @type {Element} */ firstAccountElement;
 
@@ -39,6 +40,7 @@
 				bYes      = twic.dom.expandElement('a.button'),
 				bNo       = twic.dom.expandElement('a.button');
 
+			elementAccountAdd.classList.remove('pulsate');
 			removingAccountId = link.id;
 
 			bottomStatus.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
@@ -71,6 +73,8 @@
 			if (firstAccountElement) {
 				firstAccountElement.innerText = twic.utils.lang.translate('add_first_account');
 				firstAccountElement.style.display = 'block';
+
+				elementAccountAdd.classList.add('pulsate');
 
 				twic.dom.setVisibility(bottomStatus, false);
 			}
@@ -130,12 +134,13 @@
 
 		list = twic.dom.findElement('#accounts ul');
 		bottomStatus = twic.dom.findElement('#accounts_status');
+		elementAccountAdd = twic.dom.findElement('#button_account_add');
 
 		list.oncontextmenu = accountContextClick;
 
 		firstAccountElement = twic.dom.findElement('#accounts p');
 
-		twic.dom.findElement('#button_account_add').title = twic.utils.lang.translate('title_add_account');
+		elementAccountAdd.title                           = twic.utils.lang.translate('title_add_account');
 		twic.dom.findElement('#button_settings').title    = twic.utils.lang.translate('title_settings');
 		twic.dom.findElement('#button_about').title       = twic.utils.lang.translate('title_about');
 

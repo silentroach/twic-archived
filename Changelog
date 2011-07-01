@@ -1,5 +1,6 @@
 In development:
 	* Fixed the hash replace for urls like test.dom/#hash
+	* Pulsate the add account button when no account registered (waiting for CSSO to support webkit keyframes)
 
 0.20:
 	* Fixing a first extension initialization possible bug
