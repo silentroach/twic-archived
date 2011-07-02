@@ -273,7 +273,27 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
-		}
+		},
+		'0.7': {
+			version: '0.8',
+			runme: function(tr, callback) {
+				twic.utils.queueIterator( [
+					// kill this shit
+					'drop table friends',
+					/**
+					 * friends info cache
+					 */
+					'create table friends (' +
+						'id text not null, ' +         // (str)minID_(str)maxID
+						'following text not null, ' +  // 1_0
+						'dt int not null, ' +
+						'primary key (id)' +
+					')'
+				], function(sqlText, callback) {
+					executeTransaction(tr, sqlText, [], callback, callback);
+				}, callback);
+			}
+		},
 	};
 
 	/**

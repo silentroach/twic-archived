@@ -14,21 +14,26 @@ twic.db.obj.Friend = function() {
 
 	/** @const **/ self.table = 'friends';
 	self.fields = {
-		'source_user_id': 0,
-		'target_user_id': 0,
-		'following': 0,
-		'followed': 0,
+		'id': '',
+		'following': '',
 		'dt': twic.utils.date.getCurrentTimestamp()
 	};
 
+	var getIds = function(obj) {
+		return [obj['source']['id'], obj['target']['id']].sort();
+	};
+
 	self.jsonMap = {
-		'source_user_id': 'id',
-		'following': function(obj) {
-			return (obj['following']) ? 1 : 0;
+		'id': function(obj) {
+			return getIds(obj).join('_');
 		},
-		'followed': function(obj) {
-			return (obj['followed_by']) ? 1 : 0;
-		}
+		'following': function(obj) {
+			var
+				ids = getIds(obj),
+				f_nd = obj['source']['id'] === ids[0] ? obj['source'] : obj['target'];
+
+			return [f_nd['following'] ? '1' : '0', f_nd['followed_by'] ? '1' : '0'].join('_');
+		},
 	};
 };
 
@@ -41,60 +46,42 @@ goog.inherits(twic.db.obj.Friend, twic.DBObject);
  */
 twic.db.obj.Friend.prototype.save = function(callback) {
 	var
-		self = this,
-		tmpFriend = new twic.db.obj.Friend(),
-		key;
+		self = this;
 
 	self.fields['dt'] = twic.utils.date.getCurrentTimestamp();
 
-	twic.DBObject.prototype.save.call(self, function() {
-		tmpFriend.fields['following'] = self.fields['followed'];
-		tmpFriend.fields['followed']  = self.fields['following'];
-		tmpFriend.fields['source_user_id'] = self.fields['target_user_id'];
-		tmpFriend.fields['target_user_id'] = self.fields['source_user_id'];
-
-		twic.DBObject.prototype.save.call(tmpFriend, callback);
-	} );
+	twic.DBObject.prototype.save.call(self);
 };
 
 /**
- * Remove the item
- * @override
- * @param {function()} callback Callback function
+ * Get record by source and target ids
+ * @param {number} sourceId
+ * @param {number} targetId
+ * @param {function()} callback Object found callback
+ * @param {function()} nfcallback Object not found callback
  */
-twic.db.obj.Friend.prototype.remove = function(callback) {
+twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, nfcallback) {
 	var
 		self = this;
 
-	twic.db.execQueries( [
-		{
-			sql: 'delete from ' + self.table + ' where source_user_id = ? and target_user_id = ?',
-			params: [
-				self.fields['source_user_id'],
-				self.fields['target_user_id']
-			]
-		}, {
-			sql: 'delete from ' + self.table + ' where target_user_id = ? and source_user_id = ?',
-			params: [
-				self.fields['source_user_id'],
-				self.fields['target_user_id']
-			]
-		}
-	], callback);
+	twic.DBObject.prototype.loadById.call(self, [sourceId, targetId].sort().join('_'), callback, nfcallback);
 };
 
 /**
- * Load object from JSON
- * @override
- * @param {Object} obj JSON object
+ * Get the following status of sourceId to targetId
+ * @param {number} sourceId
+ * @param {number} targetId
+ * @return {Object}
  */
-twic.db.obj.Friend.prototype.loadFromJSON = function(obj) {
+twic.db.obj.Friend.prototype.getFollowing = function(sourceId, targetId) {
 	var
-		self = this;
+		self = this,
+		fid = parseInt(self.fields['id'].split('_').shift()),
+		f = self.fields['following'].split('_'),
+		res = {
+			'following': (fid === sourceId ? f[0] : f[1]) === '1',
+			'followed':  (fid === sourceId ? f[1] : f[0]) === '1'
+		};
 
-	twic.DBObject.prototype.loadFromJSON.call(self, obj['source']);
-
-	self.fields['target_user_id'] = obj['target']['id'];
-
-	return self;
+	return res;
 };

@@ -37,7 +37,18 @@ twic.db.obj.Tweet = function() {
 			return obj['user']['id'];
 		},
 		'retweeted_user_id': function(obj) {
-			return obj['retweeted_status'] ? obj['retweeted_status']['user']['id'] : null;
+			if (obj['retweeted_status']) {
+				var
+					rts = obj['retweeted_status'];
+
+				if (rts['user']) {
+					return rts['user']['id'];
+				}
+
+				return rts['in_reply_to_user_id'];
+			}
+
+			return null;
 		}
 	};
 };

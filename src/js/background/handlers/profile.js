@@ -25,6 +25,6 @@ twic.requests.subscribe('getProfileInfo', function(data, sendResponse) {
 
 twic.requests.subscribe('getProfileFriendshipInfo', function(data, sendResponse) {
 	twic.twitter.getFriendshipInfo( data['source_id'], data['target_id'], function(friend) {
-		sendResponse( friend.fields );
+		sendResponse( friend.getFollowing( data['source_id'], data['target_id'] ) );
 	} );
 } );

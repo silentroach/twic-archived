@@ -90,9 +90,8 @@ twic.twitter = ( function() {
 			);
 		};
 
-		tmpFriend.loadByFieldValue(
-			['source_user_id', 'target_user_id'],
-			[source_id, target_id],
+		tmpFriend.loadByIds(
+			source_id, target_id,
 			function() {
 				// cache for hour
 				if (tmpFriend.fields['dt'] < twic.utils.date.getCurrentTimestamp() - 60 * 60) {

@@ -45,9 +45,7 @@ twic.DBObject = function() {
  * @param {string} fieldName Field name
  * @param {string|number} newValue New field value
  */
-twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) {
-
-};
+twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) { };
 
 /**
  * Load object from JSON

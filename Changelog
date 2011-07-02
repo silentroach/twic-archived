@@ -1,4 +1,5 @@
 In development:
+	* Friends storage rewritten
 
 0.21:
 	* Fixed the hash replace for urls like test.dom/#hash
