@@ -27,6 +27,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
+		/** @type {string} */ retweetedByNick,
 		/** @type {string} */ rawText,
 
 		/** @type {boolean} */ isProtected = false,
@@ -210,6 +211,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		isRetweet = true;
 
 		retweetedById = id;
+		retweetedByNick = nick;
 
 		if (retweetedById === timelineId) {
 			wrapper.classList.add('me');
@@ -296,15 +298,16 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.reply = function(all) {
 		var
-			/** @type {string} **/ nickList = '@' + authorNick + ' ';
+			/** @type {string} **/ replyNick = retweetedById ? retweetedByNick : authorNick,
+			/** @type {string} **/ nickList = '@' + replyNick + ' ';
 
 		if (all) {
 			var
 				/** @type {string} **/ nick,
 				nicks = mentioned;
 
-			if (authorNick.toLowerCase() in nicks) {
-				delete nicks[authorNick.toLowerCase()];
+			if (replyNick.toLowerCase() in nicks) {
+				delete nicks[replyNick.toLowerCase()];
 			}
 
 			for (nick in nicks) {
