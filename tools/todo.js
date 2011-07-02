@@ -40,7 +40,10 @@ var checkDir = function(path) {
 			ename = path + '/' + entry,
 			st = fs.statSync(ename);
 
-		if (st.isDirectory()) {
+		if (
+			'3rdparty' !== entry
+			&& st.isDirectory()
+		) {
 			checkDir(ename);
 		} else
 		if (

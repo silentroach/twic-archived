@@ -48,7 +48,6 @@ twic.db.obj.Friend.prototype.save = function(callback) {
 	self.fields['dt'] = twic.utils.date.getCurrentTimestamp();
 
 	twic.DBObject.prototype.save.call(self, function() {
-		// todo goog.cloneObject ?
 		tmpFriend.fields['following'] = self.fields['followed'];
 		tmpFriend.fields['followed']  = self.fields['following'];
 		tmpFriend.fields['source_user_id'] = self.fields['target_user_id'];
