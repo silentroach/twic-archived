@@ -23,7 +23,6 @@
 		twic.dom.findElement('#about .toolbar a').innerHTML = twic.utils.lang.translate('toolbar_accounts');
 
 		twic.dom.findElement('#athanks').innerHTML = twic.utils.lang.translate('about_thanks');
-		twic.dom.findElement('#alinks').innerHTML = twic.utils.lang.translate('about_links');
 		twic.dom.findElement('#acontributors').innerHTML = twic.utils.lang.translate('about_contributors');
 
 		twic.dom.findElement('#acollaborate').innerHTML = twic.utils.lang.translate(
