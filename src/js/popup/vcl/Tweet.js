@@ -164,11 +164,6 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * Set the source
 	 */
 	tweet.setSource = function(newSource) {
-		// todo remove this [if] in next version
-		if ('' === newSource) {
-			return false;
-		}
-
 		clientSpan.innerHTML = (0 !== unixtime ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
 			newSource.replace('<a ', '<a target="_blank" ');
 		otherInfo.appendChild(clientSpan);
