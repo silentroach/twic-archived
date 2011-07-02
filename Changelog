@@ -1,4 +1,4 @@
-In development:
+0.21:
 	* Fixed the hash replace for urls like test.dom/#hash
 	* Pulsate the add account button when no account registered (waiting for CSSO to support webkit keyframes)
 	* Reply to the retweet is the reply to retweeter
