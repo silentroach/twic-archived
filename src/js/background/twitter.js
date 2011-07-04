@@ -16,6 +16,16 @@ twic.twitter = ( function() {
 		cachedLastId = { };
 
 	/**
+	 * Reset the last tweet id
+	 * @param {number} userId User ID
+	 */
+	twitter.resetLastId = function(userId) {
+		if (userId in cachedLastId) {
+			delete cachedLastId[userId];
+		}
+	};
+
+	/**
 	 * Get the user info
 	 * @param {string} nick Nickname
 	 * @param {function(Object)} callback Callback function

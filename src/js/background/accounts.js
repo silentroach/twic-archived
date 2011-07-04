@@ -40,6 +40,8 @@ twic.accounts = ( function() {
 			{ sql: 'delete from users where id = ?', params: [id] },
 			{ sql: 'delete from accounts where id = ?', params: [id] }
 		], function() {
+			twitter.resetLastId(id);
+
 			accounts.updateList( function() {
 				sendResponse( {
 					'result': twic.global.SUCCESS

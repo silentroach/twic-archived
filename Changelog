@@ -1,5 +1,6 @@
 In development:
 	* Friends storage rewritten
+	* Resettings the last tweet id after account removement
 
 0.21:
 	* Fixed the hash replace for urls like test.dom/#hash
