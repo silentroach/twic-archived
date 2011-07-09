@@ -76,7 +76,7 @@ twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, 
 twic.db.obj.Friend.prototype.getFollowing = function(sourceId, targetId) {
 	var
 		self = this,
-		fid = parseInt(self.fields['id'].split('_').shift()),
+		fid = parseInt(self.fields['id'].split('_').shift(), 10),
 		f = self.fields['following'].split('_'),
 		res = {
 			'following': (fid === sourceId ? f[0] : f[1]) === '1',
