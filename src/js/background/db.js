@@ -293,7 +293,7 @@ twic.db = ( function() {
 					executeTransaction(tr, sqlText, [], callback, callback);
 				}, callback);
 			}
-		},
+		}
 	};
 
 	/**

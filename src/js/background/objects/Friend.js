@@ -33,7 +33,7 @@ twic.db.obj.Friend = function() {
 				f_nd = obj['source']['id'] === ids[0] ? obj['source'] : obj['target'];
 
 			return [f_nd['following'] ? '1' : '0', f_nd['followed_by'] ? '1' : '0'].join('_');
-		},
+		}
 	};
 };
 
