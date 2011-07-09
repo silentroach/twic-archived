@@ -169,9 +169,12 @@ twic.twitter = ( function() {
 	 * @param {function()} callback Callback function
 	 */
 	var cleanupFriends = function(id, id2, callback) {
-		twic.db.execQuery('delete from friends where (source_user_id = ? and target_user_id = ?) or (source_user_id = ? and target_user_id = ?)', [
-			id, id2, id2, id
-		], callback);
+		var
+			frnd = new twic.db.obj.Friend();
+
+		frnd.loadByIds(id, id2, function() {
+			frnd.remove(callback);
+		}, callback );
 	};
 
 	/**
