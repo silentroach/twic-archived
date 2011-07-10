@@ -15,15 +15,16 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	var
 		editor = this,
-		/** @type {Storage} **/ storage        = window.localStorage,
-		/** @type {Element} **/ editorWrapper  = twic.dom.expandElement('div.tweetEditor'),
-		/** @type {Element} **/ editorTextarea = twic.dom.expandElement('textarea'),
-		/** @type {Element} **/ editorSend     = twic.dom.expandElement('input'),
-		/** @type {Element} **/ editorAttach   = twic.dom.expandElement('img'),
-		/** @type {Element} **/ rightButtons   = twic.dom.expandElement('div.rb'),
-		/** @type {Element} **/ editorCounter  = twic.dom.expandElement('span'),
-		/** @type {Element} **/ clearer        = twic.dom.expandElement('div.clearer'),
-		/** @type {number}  **/ charCount      = 0,
+		/** @type {Storage} **/ storage         = window.localStorage,
+		/** @type {Element} **/ editorWrapper   = twic.dom.expandElement('div.tweetEditor'),
+		/** @type {Element} **/ editorTextarea  = twic.dom.expandElement('textarea'),
+		/** @type {Element} **/ editorSend      = twic.dom.expandElement('input'),
+		/** @type {Element} **/ editorAttach    = twic.dom.expandElement('img'),
+		/** @type {Element} **/ rightButtons    = twic.dom.expandElement('div.rb'),
+		/** @type {Element} **/ editorCounter   = twic.dom.expandElement('span'),
+		/** @type {Element} **/ clearer         = twic.dom.expandElement('div.clearer'),
+		/** @type {Element} **/ suggestNickList = twic.dom.expandElement('ul.suggest'),
+		/** @type {number}  **/ charCount       = 0,
 
 		/** @type {string}  **/ constStartVal = '',
 
@@ -39,10 +40,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
 	editorAttach.classList.add('attach');
-	
+
 	if (!twic.vcl.TweetEditor.currentURL) {
 		editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
-	
+
 		editorAttach.classList.add('disabled');
 	} else {
 		editorAttach.title = twic.utils.lang.translate('title_attach_link');
@@ -56,6 +57,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	rightButtons.appendChild(editorSend);
 
 	editorWrapper.appendChild(editorTextarea);
+	editorWrapper.appendChild(suggestNickList);
 	editorWrapper.appendChild(editorCounter);
 	editorWrapper.appendChild(rightButtons);
 	editorWrapper.appendChild(clearer);
