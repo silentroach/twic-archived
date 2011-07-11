@@ -176,6 +176,31 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		return 'tweetEditor_' + userId + (replyTo ? '_' + replyTo : '');
 	};
 
+	var suggestInitialized = false;
+	var initSuggest = function() {
+		suggestInitialized = true;
+	};
+
+	var suggestRemove = function() {
+		suggestNickList.innerHTML = '';
+		suggestInitialized = false;
+	};
+
+	var suggestCheck = function() {
+		var
+			endPos = editorTextarea.selectionEnd,
+			pos = endPos,
+			nickPart = '';
+
+		while (pos-- > 0
+			&& '@' !== editorTextarea.value.substr(pos, 1)
+		) { }
+
+		nickPart = editorTextarea.value.substr(pos + 1, endPos - pos);
+
+		var list = editor.onGetSuggestList(nickPart);
+	};
+
 	// store the textarea value on each keyup to avoid data loss on popup close
 	editorTextarea.addEventListener('keyup', function(e) {
 		var
@@ -193,11 +218,20 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		} else {
 			storage.setItem(path, val);
 		}
+
+		if (50 === e.keyCode
+			&& !suggestInitialized
+		) {
+			initSuggest();
+		} else
+		if (suggestInitialized) {
+			suggestCheck();
+		}
 	}, false );
 
 	// prevent user to press enter
 	editorTextarea.addEventListener('keydown', function(e) {
-		if (e.keyCode === 13) {
+		if (13 === e.keyCode) {
 			e.preventDefault();
 
 			if (
@@ -331,3 +365,9 @@ twic.vcl.TweetEditor.prototype.onFocus = function() { };
  * Close handler for tweet editor
  */
 twic.vcl.TweetEditor.prototype.onClose = function() { };
+
+/**
+ * Get the suggest list
+ * @param {string} startPart Start part of the nick
+ */
+twic.vcl.TweetEditor.prototype.onGetSuggestList = function(startPart) { };

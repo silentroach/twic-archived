@@ -140,6 +140,10 @@
 		timeline.resetEditor();
 	};
 
+	var getSuggestList = function(startPart) {
+
+	};
+
 	var initPage = function() {
 		page = twic.dom.findElement('#timeline');
 		accountNameElement = twic.dom.findElement('.toolbar p', page);
@@ -176,6 +180,7 @@
 		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
 		tweetEditor.onFocus     = timelineResetEditor;
 		tweetEditor.onTweetSend = tweetHandler;
+		tweetEditor.onGetSuggestList = getSuggestList;
 
 		update();
 	} );
