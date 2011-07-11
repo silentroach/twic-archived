@@ -12,6 +12,13 @@ var twic = {
 	name: 'Twic',
 
 	/**
+	 * Database name
+	 * @const
+	 * @type {string}
+	 */
+	dbname: 'Twic',
+
+	/**
 	 * Consumer key for Twitter API
 	 * @const
 	 * @type {string}

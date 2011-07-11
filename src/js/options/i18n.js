@@ -7,7 +7,7 @@
 
 ( function() {
 
-	twic.dom.findElement('title').innerText = twic.utils.lang.translate('options_title');
+	twic.dom.findElement('title').innerHTML = twic.name + ' &ndash; ' + twic.utils.lang.translate('options_title');
 
 	twic.dom.findElement('#tabs li[data-content=ui] span').innerText = twic.utils.lang.translate('options_ui_title');
 	twic.dom.findElement('span.desc[data-key=avatar_size]').innerText = twic.utils.lang.translate('options_ui_avsize_title');

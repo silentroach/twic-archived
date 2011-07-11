@@ -1,4 +1,4 @@
-# Twic
+# Twic Extension
 
 The [opensource twitter client](https://chrome.google.com/webstore/detail/hglcekhnfbahipbmdceknefmpncbpikg) for Chromium based browsers
 

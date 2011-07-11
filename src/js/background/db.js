@@ -379,7 +379,7 @@ twic.db = ( function() {
 				isPreparing = true;
 
 				var
-					tmpDB = openDatabase(twic.name, '', twic.name, 0);
+					tmpDB = openDatabase(twic.dbname, '', twic.dbname, 0);
 
 				migrate(tmpDB, tmpDB.version, function() {
 					isPreparing = false;
