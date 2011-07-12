@@ -36,10 +36,20 @@ li.tweet p {
 	li.tweet p.info {
 		font-size: 8pt;
 		color: grey;
+		opacity: .6;
+		-webkit-transition: opacity 0.2s ease-in-out;
 		}
 		li.tweet p.info a {
 			color: grey;
+			text-decoration: none;
 			}
+
+li.tweet:hover p.info {
+	opacity: 1;
+	}
+	li.tweet:hover p.info a {
+		text-decoration: underline;
+		}
 
 li.tweet.replying p.info {
 	display: none;
