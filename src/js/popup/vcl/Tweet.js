@@ -263,12 +263,15 @@ twic.vcl.Tweet = function(id, timeline) {
 		return replier;
 	};
 
+	var resetTweetEditor = function() {
+			wrapper.classList.remove('replying');
+			replier = null;
+	};
+
 	tweet.resetEditor = function() {
 		if (replier) {
-			wrapper.classList.remove('replying');
-
 			replier.close();
-			replier = null;
+			resetTweetEditor();
 		}
 	};
 
@@ -316,9 +319,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		replier.setConstTextIfEmpty(nickList);
 		replier.setFocus();
 
-		replier.onClose = function() {
-			replier = null;
-		};
+		replier.onClose = resetTweetEditor;
 
 		wrapper.classList.add('replying');
 	};
