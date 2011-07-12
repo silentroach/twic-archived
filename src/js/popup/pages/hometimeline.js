@@ -140,8 +140,15 @@
 		timeline.resetEditor();
 	};
 
-	var getSuggestList = function(startPart) {
-
+	/**
+	 * Suggest list builder
+	 * @param {string} startPart Nick start part
+	 * @param {function(Array)} callback Callback function
+	 */
+	var getSuggestList = function(startPart, callback) {
+		twic.requests.makeRequest( 'getNickSuggest', {
+			'nickPart': startPart
+		}, callback );
 	};
 
 	var initPage = function() {
@@ -153,6 +160,7 @@
 		timeline.onRetweet = doRetweet;
 		timeline.onOldRetweet = doOldRetweet;
 		timeline.onDelete  = doDelete;
+		timeline.onReplierGetSuggestList = getSuggestList;
 
 		newTweet = twic.dom.findElement('.newtweet', page);
 

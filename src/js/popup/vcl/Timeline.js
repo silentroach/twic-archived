@@ -472,7 +472,7 @@ twic.vcl.Timeline = function(parent) {
 	list.addEventListener('mouseup',   timelineMouseUp, false);
 	list.addEventListener('mousemove', timelineMouseMove, false);
 	list.addEventListener('mouseout',  timelineMouseOut, false);
-	
+
 	parent.addEventListener('scroll', hideButtons, false);
 
 	// update times every minute
@@ -517,3 +517,12 @@ twic.vcl.Timeline.prototype.onDelete = function(userId, tweetId, callback) { };
  * @param {string} tweetText Tweet text
  */
 twic.vcl.Timeline.prototype.onOldRetweet = function(tweetText) { };
+
+/**
+ * Get the suggest list
+ * @param {string} startPart Start part of the nick
+ * @param {function(Array)} callback Callback function
+ */
+twic.vcl.Timeline.prototype.onReplierGetSuggestList = function(startPart, callback) {
+	callback( [ ] );
+};

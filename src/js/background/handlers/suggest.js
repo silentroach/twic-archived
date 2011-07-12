@@ -42,8 +42,8 @@
 		}
 
 		twic.db.openQuery(
-			'select screen_name, screen_name_lower from users where screen_name_lower like ? limit 5',
-			[part + '%'],
+			'select screen_name from users where screen_name_lower like ? and screen_name_lower <> ? limit 5',
+			[part + '%', part],
 			/**
 			 * @this {SQLResultSetRowList}
 			 */
@@ -54,7 +54,7 @@
 					i;
 
 				for (i = 0; i < rows.length; ++i) {
-					result.push(rows.item(i));
+					result.push(rows.item(i)['screen_name']);
 				}
 
 				cache[part] = {

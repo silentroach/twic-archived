@@ -103,6 +103,120 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		}, false );
 	};
 
+	var
+		suggestVisible = false,
+		suggestPart = '';
+
+	var suggestRemove = function() {
+		twic.dom.setVisibility(suggestNickList, false);
+		suggestNickList.innerHTML = '';
+		suggestVisible = false;
+		suggestPart = '';
+	};
+
+	var buildSuggestList = function(data, len) {
+		var
+			nickBuffer = document.createDocumentFragment(),
+			el, i;
+
+		for (i = 0; i < data.length; ++i) {
+			var
+				nick = data[i];
+
+			el = twic.dom.expandElement('li');
+			el.innerHTML = '<u>' + nick.substr(0, len) + '</u>' + nick.substr(len);
+			nickBuffer.appendChild(el);
+		}
+
+		suggestNickList.innerHTML = '';
+		suggestNickList.appendChild(nickBuffer);
+
+		twic.dom.setVisibility(suggestNickList, true);
+		suggestVisible = true;
+	};
+
+	var extractNickPart = function() {
+		var
+			val = editorTextarea.value,
+			valLen = val.length,
+			startPos = pos = editorTextarea.selectionEnd - 1,
+			nickChar = '';
+			nickPart = '',
+			res = {
+				beg: -1,
+				end: -1,
+				success: false,
+				part: ''
+			};
+
+		while (pos > -1 && ' ' !== nickChar) {
+			nickChar = val.substr(pos--, 1);
+			nickPart = nickChar + nickPart;
+		}
+
+		nickPart = nickPart.trim();
+
+		if (
+			0 === nickPart.length
+			|| '@' !== nickPart.substr(0, 1)
+		) {
+			return res;
+		}
+
+		pos = startPos + 1;
+		nickChar = '';
+
+		while (pos < valLen && ' ' !== nickChar) {
+			nickChar = val.substr(pos++, 1);
+			nickPart += nickChar;
+		}
+
+		if ('@' === nickPart) {
+			return res;
+		}
+
+		res.success = true;
+		res.part = nickPart.substr(1).toLowerCase();
+
+		return res;
+	};
+
+	var suggestCheck = function() {
+		if (editorTextarea.selectionStart !== editorTextarea.selectionEnd) {
+			if (suggestVisible) {
+				suggestRemove();
+			}
+
+			return true;
+		}
+
+		var
+			nickPart = extractNickPart();
+
+		if (!nickPart.success) {
+			if (suggestVisible) {
+				suggestRemove();
+			}
+
+			return true;
+		}
+
+		if (suggestPart !== nickPart.part) {
+			editor.onGetSuggestList(nickPart.part, function(data) {
+				if (0 === data.length) {
+					if (suggestVisible) {
+						suggestRemove();
+					}
+
+					return true;
+				}
+
+				buildSuggestList(data, nickPart.part.length);
+				suggestPart = nickPart.part;
+			} );
+		}
+	};
+
 	var checkTweetArea = function() {
 		var val = editorTextarea.value;
 
@@ -176,31 +290,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		return 'tweetEditor_' + userId + (replyTo ? '_' + replyTo : '');
 	};
 
-	var suggestInitialized = false;
-	var initSuggest = function() {
-		suggestInitialized = true;
-	};
-
-	var suggestRemove = function() {
-		suggestNickList.innerHTML = '';
-		suggestInitialized = false;
-	};
-
-	var suggestCheck = function() {
-		var
-			endPos = editorTextarea.selectionEnd,
-			pos = endPos,
-			nickPart = '';
-
-		while (pos-- > 0
-			&& '@' !== editorTextarea.value.substr(pos, 1)
-		) { }
-
-		nickPart = editorTextarea.value.substr(pos + 1, endPos - pos);
-
-		var list = editor.onGetSuggestList(nickPart);
-	};
-
 	// store the textarea value on each keyup to avoid data loss on popup close
 	editorTextarea.addEventListener('keyup', function(e) {
 		var
@@ -208,6 +297,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			path = getStoragePath();
 
 		checkTweetArea();
+		suggestCheck();
 
 		if (
 			val === ''
@@ -217,15 +307,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			storage.removeItem(path);
 		} else {
 			storage.setItem(path, val);
-		}
-
-		if (50 === e.keyCode
-			&& !suggestInitialized
-		) {
-			initSuggest();
-		} else
-		if (suggestInitialized) {
-			suggestCheck();
 		}
 	}, false );
 
@@ -369,5 +450,8 @@ twic.vcl.TweetEditor.prototype.onClose = function() { };
 /**
  * Get the suggest list
  * @param {string} startPart Start part of the nick
+ * @param {function(Array)} callback Callback function
  */
-twic.vcl.TweetEditor.prototype.onGetSuggestList = function(startPart) { };
+twic.vcl.TweetEditor.prototype.onGetSuggestList = function(startPart, callback) {
+	callback( [ ] );
+};

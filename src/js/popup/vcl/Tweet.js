@@ -320,6 +320,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		replier.setFocus();
 
 		replier.onClose = resetTweetEditor;
+		replier.onGetSuggestList = timeline.onReplierGetSuggestList;
 
 		wrapper.classList.add('replying');
 	};
