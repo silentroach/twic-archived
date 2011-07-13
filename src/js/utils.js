@@ -116,21 +116,22 @@ twic.utils.url.humanize = function(url) {
 	var
 		cutted = url
 			.replace(/^(.*?)\/\//, '')  // cutting the protocol
-			.replace(/^www\./, ''),     // cutting 'www.'
+			.replace(/^www\./, ''),     // cutting 'www.',
+		clen = cutted.length,
 		title = url;
 
 	if (
-		cutted.length > 6
+		clen > 6
 		&& '4sq.com' === cutted.substr(0, 7)
 	) {
 		title = 'foursquare - ' + url;
 		cutted = '<img src="https://foursquare.com/favicon.ico" class="aicon" />';
 	} else
-	if (cutted.length > 30) {
+	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
 	}	else
-	if (['/', '\\'].indexOf(cutted.substring(cutted.length - 1)) >= 0) {
-		cutted = cutted.substring(0, cutted.length - 1);
+	if (['/', '\\'].indexOf(cutted.substring(clen - 1)) >= 0) {
+		cutted = cutted.substring(0, clen - 1);
 	}
 
 	// fix url without schema
