@@ -44,12 +44,8 @@
 		twic.db.openQuery(
 			'select screen_name from users where screen_name_lower like ? and screen_name_lower <> ? limit 5',
 			[part + '%', part],
-			/**
-			 * @this {SQLResultSetRowList}
-			 */
-			function() {
+			function(rows) {
 				var
-					rows = this,
 					result = [],
 					i;
 

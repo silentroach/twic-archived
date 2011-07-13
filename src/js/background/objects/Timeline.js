@@ -22,12 +22,7 @@ twic.db.obj.Timeline = ( function() {
 			'where user_id = ? and tweet_id = ? ' +
 			'limit 1 ',
 			[userId, tweetId],
-			/**
-			 * @this {SQLResultSetRowList}
-			 */
-			function() {
-				var rows = this;
-
+			function(rows) {
 				if (rows.length > 0) {
 					return;
 				}

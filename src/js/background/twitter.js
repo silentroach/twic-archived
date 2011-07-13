@@ -139,12 +139,8 @@ twic.twitter = ( function() {
 			(afterId ? ' and t.id > ? ' : '') +
 			'order by t.dt desc, t.id desc limit 20 ',
 			afterId ? [id, afterId] : [id],
-			/**
-			 * @this {SQLResultSetRowList}
-			 */
-			function() {
+			function(rows) {
 				var
-					rows = this,
 					tweetList = new twic.DBObjectList(twic.db.obj.Tweet),
 					userList  = new twic.DBObjectList(twic.db.obj.User),
 					i;
@@ -449,12 +445,8 @@ twic.twitter = ( function() {
 				'select t.id ' +
 				'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +
 				'where tl.user_id = ? order by t.dt desc, t.id desc limit 1 ', [userId],
-				/**
-				 * @this {SQLResultSetRowList}
-				 */
-				function() {
+				function(rows) {
 					var
-						rows = this,
 						/** @type {string} **/ since_id;
 
 					if (rows.length > 0) {

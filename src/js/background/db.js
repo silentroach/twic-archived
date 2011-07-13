@@ -24,7 +24,7 @@ twic.db = ( function() {
 	 * @param {SQLTransaction} tr Read transaction
 	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
-	 * @param {function()} successCallback Success callback
+	 * @param {function(SQLResultSetRowList)} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
 	 */
 	var selectTransaction = function(tr, sqlText, sqlParams, successCallback, failedCallback) {
@@ -34,7 +34,7 @@ twic.db = ( function() {
 				twic.debug.info(sqlText, (sqlParams.length > 0) ? sqlParams : '');
 
 				if (successCallback) {
-					successCallback.apply(res.rows);
+					successCallback(res.rows);
 				}
 			},
 			function(tr, error) {
@@ -52,7 +52,7 @@ twic.db = ( function() {
 	 * @param {Database} db Read transaction
 	 * @param {string} sqlText SQL query text
 	 * @param {Array} sqlParams SQL query params
-	 * @param {function()} successCallback Success callback
+	 * @param {function(SQLResultSetRowList)} successCallback Success callback
 	 * @param {function(string)} failedCallback Failed callback
 	 */
 	var select = function(db, sqlText, sqlParams, successCallback, failedCallback) {
@@ -400,7 +400,7 @@ twic.db = ( function() {
 		 * Execute the select statement
 		 * @param {string} sqlText SQL query text
 		 * @param {Array} sqlParams SQL query params
-		 * @param {function()} successCallback Success callback
+		 * @param {function(SQLResultSetRowList)} successCallback Success callback
 		 * @param {function(string)} failedCallback Failed callback
 		 */
 		openQuery: function(sqlText, sqlParams, successCallback, failedCallback) {

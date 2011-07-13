@@ -293,9 +293,9 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 
 	sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + whereClause.join(' and ') + ' limit 1';
 
-	twic.db.openQuery(sql, values, function() {
-		if (this.length === 1) {
-			obj.loadFromRow(this.item(0));
+	twic.db.openQuery(sql, values, function(rows) {
+		if (rows.length === 1) {
+			obj.loadFromRow(rows.item(0));
 
 			callback.apply(obj);
 		} else {

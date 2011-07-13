@@ -56,9 +56,6 @@ twic.options = ( function() {
 	};
 
 	twic.db.openQuery('select key, val from options', [],
-		/**
-		 * @this {SQLResultSetRowList}
-		 */
 		function(rows) {
 			var
 				row,
@@ -66,8 +63,8 @@ twic.options = ( function() {
 				val,
 				i;
 
-			for (i = 0; i < this.length; ++i) {
-				row = this.item(i);
+			for (i = 0; i < rows.length; ++i) {
+				row = rows.item(i);
 				key = row['key'];
 
 				if (key in storage) {

@@ -223,12 +223,8 @@ twic.accounts = ( function() {
 					'u.id = a.id ' +
 				') ' +
 			'order by u.screen_name_lower ', [],
-			/**
-			 * @this {SQLResultSetRowList}
-			 */
-			function() {
+			function(rows) {
 				var
-					rows = this,
 					accs = new twic.DBObjectList(twic.db.obj.Account),
 					usrs = new twic.DBObjectList(twic.db.obj.User),
 					id;
