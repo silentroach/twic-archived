@@ -5,96 +5,95 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-twic.options = ( function() {
+twic.options = { };
 
-	var
-		options = { },
-		// options storage with default values
-		storage = {
-			// use short links expander
-			'expander': true,
-			// 48x48 avatar size
-			'avatar_size': 48,
-			// show the tweet time
-			'tweet_show_time': false,
-			// show the twitter client
-			'tweet_show_client': false
-		},
-		// hash for existand db keys
-		inDB = { };
+/**
+ * Options
+ * @private
+ */
+twic.options.storage_ = {
+	// use short links expander
+	'expander': true,
+	// 48x48 avatar size
+	'avatar_size': 48,
+	// show the tweet time
+	'tweet_show_time': false,
+	// show the twitter client
+	'tweet_show_client': false
+};
 
-	/**
-	 * Get the value
-	 * @param {string} key Options key
-	 */
-	options.getValue = function(key) {
-		if (key in storage) {
-			return storage[key];
-		}
+/**
+ * Hash for existand db keys
+ * @private
+ */
+twic.options.inDB_ = { };
 
-		return false;
-	};
+/**
+ * Get the value
+ * @param {string} key Options key
+ */
+twic.options.getValue = function(key) {
+	if (key in twic.options.storage_) {
+		return twic.options.storage_[key];
+	}
 
-	/**
-	 * Set the key value
-	 * @param {string} key Key
-	 * @param {*} value Value
-	 */
-	options.setValue = function(key, value) {
-		if (key in storage) {
-			twic.db.execQuery(
-				key in inDB
-					? 'update options set val = ? where key = ?'
-					: 'insert into options (val, key) values (?, ?)',
-				[value.toString(), key],
-				function() {
-					inDB[key] = 1;
-					storage[key] = value;
-				}
-			);
-		}
-	};
+	return false;
+};
 
-	twic.db.openQuery('select key, val from options', [],
-		function(rows) {
-			var
-				row,
-				key,
-				val,
-				i;
+/**
+ * Set the key value
+ * @param {string} key Key
+ * @param {*} value Value
+ */
+twic.options.setValue = function(key, value) {
+	if (key in twic.options.storage_) {
+		twic.db.execQuery(
+			key in twic.options.inDB_
+				? 'update options set val = ? where key = ?'
+				: 'insert into options (val, key) values (?, ?)',
+			[value.toString(), key],
+			function() {
+				twic.options.inDB_[key] = 1;
+				twic.options.storage_[key] = value;
+			}
+		);
+	}
+};
 
-			for (i = 0; i < rows.length; ++i) {
-				row = rows.item(i);
-				key = row['key'];
+twic.db.openQuery('select key, val from options', [],
+	function(rows) {
+		var
+			row, key, val, i;
 
-				if (key in storage) {
-					inDB[key] = 1;
+		for (i = 0; i < rows.length; ++i) {
+			row = rows.item(i);
+			key = row['key'];
 
-					if (goog.isBoolean(storage[key])) {
-						val = row['val'] === true.toString();
-					} else {
-						val = row['val'];
-					}
+			if (key in twic.options.storage_) {
+				twic.options.inDB_[key] = 1;
 
-					storage[key] = val;
+				if (goog.isBoolean(twic.options.storage_[key])) {
+					val = row['val'] === true.toString();
 				} else {
-					// removing the key from database
-					twic.db.execQuery('delete from options where key = ?', [key]);
+					val = row['val'];
 				}
+
+				twic.options.storage_[key] = val;
+			} else {
+				// removing the key from database
+				twic.db.execQuery('delete from options where key = ?', [key]);
 			}
 		}
-	);
+	}
+);
 
-	twic.requests.subscribe('getOpt', function(data, sendResponse) {
-		sendResponse( options.getValue(data) );
-	} );
+twic.requests.subscribe('getOpt', function(data, sendResponse) {
+	sendResponse( twic.options.getValue(data) );
+} );
 
-	twic.requests.subscribe('setOpt', function(data, sendResponse) {
-		sendResponse( { } );
+twic.requests.subscribe('setOpt', function(data, sendResponse) {
+	sendResponse( { } );
 
-		options.setValue(data['key'], data['value']);
-	} );
+	twic.options.setValue(data['key'], data['value']);
+} );
 
-	return options;
-
-}() );
