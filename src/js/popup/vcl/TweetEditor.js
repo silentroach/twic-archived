@@ -139,8 +139,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		var
 			val = editorTextarea.value,
 			valLen = val.length,
-			startPos = pos = editorTextarea.selectionEnd - 1,
-			nickChar = '';
+			pos = editorTextarea.selectionEnd - 1,
+			startPos = pos,
+			nickChar = '',
 			nickPart = '',
 			res = {
 				beg: -1,

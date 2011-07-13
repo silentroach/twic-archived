@@ -65,7 +65,7 @@
 
 	twic.requests.subscribe('getNickSuggest', function(data, sendResponse) {
 		var
-			/** @var {string} **/ nickPart = data['nickPart'];
+			/** @type {string} **/ nickPart = data['nickPart'];
 
 		getNickSuggestList( nickPart, function( list ) {
 			sendResponse( list );
