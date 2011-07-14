@@ -176,8 +176,8 @@
 			return;
 		}
 
-		this.remember();
-		this.initOnce(initPage);
+		twic.router.remember();
+		twic.router.initOnce(initPage);
 
 		accountNameElement.innerHTML = '';
 

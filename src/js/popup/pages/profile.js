@@ -207,12 +207,11 @@
 
 	twic.router.handle('profile', function(data) {
 		var
-			router = this,
-			prev = router.previous(),
+			prev = twic.router.previous(),
 			/** @type {string} **/ prevPage = prev.shift(),
 			/** @type {string} **/ userName;
 
-		router.initOnce(initPage);
+		twic.router.initOnce(initPage);
 
 		toolbarTimeline.href = '#' + prevPage;
 

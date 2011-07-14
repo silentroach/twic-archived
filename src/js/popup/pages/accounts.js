@@ -179,9 +179,9 @@
 	// --------------------------------------------------------------------------------------------------
 
 	twic.router.handle('accounts', function(data) {
-		this.remember();
+		twic.router.remember();
 
-		this.initOnce(initPage);
+		twic.router.initOnce(initPage);
 
 		refresh();
 	} );

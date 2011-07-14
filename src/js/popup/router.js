@@ -6,114 +6,133 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-twic.router = ( function() {
+twic.router = { };
 
+/**
+ * @type {Object}
+ * @private
+ */
+twic.router.frames_ = ( function() {
 	var
-		self = { },
-		/** @type {Object} */ frames = { },
-		/** @type {string} */ currentFrame,
-		/** @type {Array.<string>} */ location = [],
-		/** @type {Array.<string>} */ previousLocation = [],
-		i;
+		tmp = document.querySelectorAll('div.page'),
+		res = { };
 
-	var tmp = document.querySelectorAll('div.page');
 	for (i = 0; i < tmp.length; ++i) {
 		var frame = tmp[i];
-		frames[frame.id] = {
+
+		res[frame.id] = {
 			frame: frame,
 			callbacks: [],
 			init: false
 		};
 	}
 
-	// ----------------------------------------------------
+	return res;
+}() );
 
-	/**
-	 * Change the frame
-	 * @param {string} targetFrameName Target frame names
-	 * @param {Array.<string>} data Data from url
-	 */
-	var changeFrame = function(targetFrameName, data) {
-		var
-			frame = frames[targetFrameName],
-			i;
+/**
+ * @type {string}
+ * @private
+ */
+twic.router.currentFrame_;
 
-		if (currentFrame) {
-			twic.dom.setVisibility(frames[currentFrame].frame, false);
+/**
+ * @type {Array.<string>}
+ * @private
+ */
+twic.router.location_ = [];
+
+/**
+ * @type {Array.<string>}
+ * @private
+ */
+twic.router.previousLocation_ = [];
+
+// ----------------------------------------------------
+
+/**
+ * Change the frame
+ * @param {string} targetFrameName Target frame names
+ * @param {Array.<string>} data Data from url
+ */
+twic.router.changeFrame_ = function(targetFrameName, data) {
+	var
+		frame = twic.router.frames_[targetFrameName],
+		i;
+
+	if (twic.router.currentFrame_) {
+		twic.dom.setVisibility(twic.router.frames_[twic.router.currentFrame_].frame, false);
+	}
+
+	if (frame) {
+		twic.router.currentFrame_ = targetFrameName;
+
+		for (i = 0; i < frame.callbacks.length; ++i) {
+			frame.callbacks[i](data);
 		}
 
-		if (frame) {
-			currentFrame = targetFrameName;
+		frame.frame.style.display = 'block';
+	} else {
+		console.error('Frame ' + targetFrameName + ' not found');
+	}
+};
 
-			for (i = 0; i < frame.callbacks.length; ++i) {
-				frame.callbacks[i].call(self, data);
-			}
+// ----------------------------------------------------
 
-			frame.frame.style.display = 'block';
-		} else {
-			console.error('Frame ' + targetFrameName + ' not found');
-		}
-	};
+window.onhashchange = function() {
+	// store the previous location
+	twic.router.previousLocation_ = twic.router.location_;
 
-	// ----------------------------------------------------
+	twic.router.location_ = window.location.hash.split('#');
+	twic.router.location_.shift();
 
-	window.onhashchange = function() {
-		// store the previous location
-		previousLocation = location;
+	var trg = twic.router.location_[0];
 
-		location = window.location.hash.split('#');
-		location.shift();
+	if (
+		trg
+		&& twic.router.currentFrame_ !== trg
+		&& twic.router.frames_[trg]
+	) {
+		twic.router.changeFrame_(trg, twic.router.location_.slice(1));
+	}
+};
 
-		var trg = location[0];
+/**
+ * @param {string} frameName Frame names
+ * @param {function()} callback Callback function
+ */
+twic.router.handle = function(frameName, callback) {
+	twic.router.frames_[frameName].callbacks.push(callback);
+};
 
-		if (
-			trg
-			&& currentFrame !== trg
-			&& frames[trg]
-		) {
-			changeFrame(trg, location.slice(1));
-		}
-	};
+/**
+ * Get the previous frame names
+ * @return {Array.<string>}
+ */
+twic.router.previous = function() {
+	return twic.router.previousLocation_;
+};
 
-	/**
-	 * @param {string} frameName Frame names
-	 * @param {function()} callback Callback function
-	 */
-	self.handle = function(frameName, callback) {
-		frames[frameName].callbacks.push(callback);
-	};
+/**
+ * init the page for the first time
+ * @param {function()} callback
+ */
+twic.router.initOnce = function(callback) {
+	if (
+		!twic.router.frames_[twic.router.currentFrame_]
+		|| twic.router.frames_[twic.router.currentFrame_].init
+	) {
+		return;
+	}
 
-	/**
-	 * Get the previous frame names
-	 * @return {Array.<string>}
-	 */
-	self.previous = function() {
-		return previousLocation;
-	};
+	twic.router.frames_[twic.router.currentFrame_].init = true;
+	callback();
+};
 
-	/**
-	 * init the page for the first time
-	 * @param {function()} callback
-	 */
-	self.initOnce = function(callback) {
-		if (
-			!frames[currentFrame]
-			|| frames[currentFrame].init
-		) {
-			return;
-		}
+/**
+ * Remember the page to open it next time popup is open
+ */
+twic.router.remember = function() {
+	window.localStorage.setItem('location', twic.router.location_.join('#'));
+};
 
-		frames[currentFrame].init = true;
-		callback();
-	};
-
-	/**
-	 * Remember the page to open it next time popup is open
-	 */
-	self.remember = function() {
-		window.localStorage.setItem('location', location.join('#'));
-	};
-
-	return self;
-
-}());

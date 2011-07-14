@@ -41,7 +41,7 @@
 	};
 
 	twic.router.handle('about', function(data) {
-		this.initOnce(initPage);
+		twic.router.initOnce(initPage);
 	} );
 
 }() );
