@@ -11,6 +11,7 @@
 twic.DBObject = function() {
 	/**
 	 * Table
+	 * @protected
 	 * @type {string}
 	 */
 	this.table = '';
@@ -23,6 +24,7 @@ twic.DBObject = function() {
 
 	/**
 	 * Json map to override field names
+	 * @protected
 	 * @type {Object}
 	 */
 	this.jsonMap = { };
@@ -35,6 +37,7 @@ twic.DBObject = function() {
 
 	/**
 	 * Fields that was changed
+	 * @protected
 	 * @type {Array}
 	 */
 	this.changed = [];

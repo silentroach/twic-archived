@@ -5,32 +5,38 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-twic.style = ( function() {
+twic.style = { };
 
-	var
-		headElement,
-		self = { },
-		injected = { };
+/**
+ * @type {Element}
+ * @private
+ */
+twic.style.headElement_;
 
-	self.inject = function(file) {
-		if (file in injected) {
-			return false;
-		} else {
-			injected[file] = 1;
-		}
+/**
+ * @type {Object.<string,number>}
+ * @private
+ */
+twic.style.injected_ = { };
 
-		if (!headElement) {
-			headElement = twic.dom.findElement('head');
-		}
+/**
+ * @param {string} file Filename
+ */
+twic.style.inject = function(file) {
+	if (file in twic.style.injected_) {
+		return false;
+	} else {
+		twic.style.injected_[file] = 1;
+	}
 
-		var styleElement = twic.dom.expandElement('link');
-		styleElement.setAttribute('rel', 'stylesheet');
-		styleElement.setAttribute('type', 'text/css');
-		styleElement.setAttribute('href', file);
+	if (!twic.style.headElement_) {
+		twic.style.headElement_ = twic.dom.findElement('head');
+	}
 
-		headElement.appendChild(styleElement);
-	};
+	var styleElement = twic.dom.expandElement('link');
+	styleElement.setAttribute('rel', 'stylesheet');
+	styleElement.setAttribute('type', 'text/css');
+	styleElement.setAttribute('href', file);
 
-	return self;
-
-}() );
+	twic.style.headElement_.appendChild(styleElement);
+};

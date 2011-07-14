@@ -19,8 +19,8 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 		account = twic.accounts.getInfo(id);
 
 	if (account) {
-	    var
-	        unreadCount = account.fields['unread_tweets_count'];
+		var
+			unreadCount = account.fields['unread_tweets_count'];
 
 		// we need to get the homeTimeline if user is in out accounts
 		twic.twitter.getHomeTimeline(id, function(tweets, users) {
