@@ -1,5 +1,6 @@
 In development:
 	* Unhide the tweet client and time info after reply
+	+ Email addresses are now links
 	* Fixed email parsing as a screen_name
 	* Now Twic is even faster than before
 

@@ -115,8 +115,8 @@ twic.utils.url = { };
 twic.utils.url.humanize = function(url) {
 	var
 		cutted = url
-			.replace(/^(.*?)\/\//, '')  // cutting the protocol
-			.replace(/^www\./, ''),     // cutting 'www.',
+			.replace(/^(.*?)\/\//, '')         // cutting the protocol
+			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
 		clen = cutted.length,
 		title = url;
 
@@ -135,7 +135,10 @@ twic.utils.url.humanize = function(url) {
 	}
 
 	// fix url without schema
-	if (-1 === url.indexOf('://')) {
+	if (
+		-1 === url.indexOf('://')
+		&& -1 === url.indexOf('mailto:')
+	) {
 		url = 'http://' + url;
 	}
 
@@ -145,10 +148,18 @@ twic.utils.url.humanize = function(url) {
 twic.utils.url.processText = function(text) {
 	var
 		/**
+		 * Mail search pattern
+		 * @type {RegExp}
+		 */
+		mailSearchPattern = /(^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})$/gi,
+		/**
 		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		 * @type {RegExp}
 		 */
-		urlSearchPattern = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
+		urlSearchPattern = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,
 
-	return text.replace(urlSearchPattern, twic.utils.url.humanize);
+		// adding 'mailto' prefix for email addresses
+		txt = text.replace(mailSearchPattern, 'mailto:$1');
+
+	return txt.replace(urlSearchPattern, twic.utils.url.humanize);
 };
