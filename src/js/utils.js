@@ -151,7 +151,7 @@ twic.utils.url.processText = function(text) {
 		 * Mail search pattern
 		 * @type {RegExp}
 		 */
-		mailSearchPattern = /(^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3})$/gi,
+		mailSearchPattern = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)/gi,
 		/**
 		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
 		 * @type {RegExp}
