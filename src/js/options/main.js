@@ -11,20 +11,24 @@
 		i,
 		keys = twic.dom.findElements('ul.options[data-key]');
 
+	var valVis = function(val) {
+		var n;
+	
+		for (n = 0; n < values.length; ++n) {
+			if (val === values[n].getAttribute('data-value')) {
+				values[n].classList.add('selected');
+				break;
+			}
+		}
+	};
+
 	for (i = 0; i < keys.length; ++i) {
 		var
 			optKey = keys[i],
 			values = twic.dom.findElements('li[data-value]', optKey);
 
-		twic.options.get(optKey.getAttribute('data-key'), function(val) {
-			for (var n = 0; n < values.length; ++n) {
-				if (val == values[n].getAttribute('data-value')) {
-					values[n].classList.add('selected');
-					break;
-				}
-			}
-		} );
-	};
+		twic.options.get(optKey.getAttribute('data-key'), valVis);
+	}
 
 	keys = twic.dom.findElements('input[data-key]');
 
@@ -66,14 +70,13 @@
 			optKeyElement = optElement.parentElement,
 			optValue = optElement.getAttribute('data-value'),
 			optValues = twic.dom.findElements('li[data-value]', optKeyElement),
-			optKey = optKeyElement.getAttribute('data-key');
+			optKey = optKeyElement.getAttribute('data-key'),
+			n;
 
 		twic.options.set(optKey, optValue);
 
-		for (var n = 0; n < optValues.length; ++n) {
-			if (optValues[n] == optValue) {
-				continue;
-			} else {
+		for (n = 0; n < optValues.length; ++n) {
+			if (optValues[n] !== optValue) {
 				optValues[n].classList.remove('selected');
 			}
 		}

@@ -84,8 +84,8 @@ twic.utils.lang.plural = function(number, endings) {
 		res = '';
 
 	if (
-		mod10 == 1
-		&& mod100 != 11
+		mod10 === 1
+		&& mod100 !== 11
 	) {
 		res = twic.utils.lang.translate(endings[0]);
 	} else
@@ -103,7 +103,7 @@ twic.utils.lang.plural = function(number, endings) {
 	}
 
 	return number + ' ' + res;
-}
+};
 
 twic.utils.url = { };
 

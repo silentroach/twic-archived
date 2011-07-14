@@ -35,7 +35,7 @@ twic.router.frames_ = ( function() {
  * @type {string}
  * @private
  */
-twic.router.currentFrame_;
+twic.router.currentFrame_ = '';
 
 /**
  * @type {Array.<string>}
