@@ -134,28 +134,24 @@ twic.OAuthRequest.prototype.send = function(callback, token, token_secret) {
 			checkHeader = req.getResponseHeader(checkFields[i]);
 
 			if (
-				!checkHeader
-				|| !goog.isString(checkHeader)
+				checkHeader
+				&& !goog.isString(checkHeader)
 			) {
-				continue;
-			}
+				remoteDate = Date.parse(checkHeader);
 
-			remoteDate = Date.parse(checkHeader);
+				if (remoteDate) {
+					newOffset = remoteDate - (new Date()).getTime();
 
-			if (!remoteDate) {
-				continue;
-			}
+					if (twic.OAuthRequest.timestampOffset !== newOffset) {
+						if (Math.abs(newOffset - twic.OAuthRequest.timestampOffset) > 5000) {
+							twic.debug.log('OAuth timestamp offset is now ' + newOffset + 'ms');
+						}
 
-			newOffset = remoteDate - (new Date()).getTime();
+						twic.OAuthRequest.timestampOffset = newOffset;
 
-			if (twic.OAuthRequest.timestampOffset !== newOffset) {
-				if (Math.abs(newOffset - twic.OAuthRequest.timestampOffset) > 5000) {
-					twic.debug.log('OAuth timestamp offset is now ' + newOffset + 'ms');
+						return true;
+					}
 				}
-
-				twic.OAuthRequest.timestampOffset = newOffset;
-
-				return true;
 			}
 		}
 

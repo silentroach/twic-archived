@@ -103,7 +103,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 			editorTextarea.focus();
 		}, false );
-	};
+	}
 
 	var
 		suggestVisible = false,
@@ -420,7 +420,7 @@ twic.vcl.TweetEditor.currentURL = false;
 chrome.tabs.getSelected( null, function(tab) {
 	if (tab) {
 		var
-			url = tab.url
+			url = tab.url;
 
 		if (
 			url.length > 4
