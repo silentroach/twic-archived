@@ -4,3 +4,6 @@
 [submodule "src/_locales"]
 	path = src/_locales
 	url = git://github.com/silentroach/twic-i18n.git
+[submodule "tools/node-jslint"]
+	path = tools/node-jslint
+	url = https://github.com/reid/node-jslint.git
