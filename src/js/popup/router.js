@@ -15,7 +15,8 @@ twic.router = { };
 twic.router.frames_ = ( function() {
 	var
 		tmp = document.querySelectorAll('div.page'),
-		res = { };
+		res = { },
+		i;
 
 	for (i = 0; i < tmp.length; ++i) {
 		var frame = tmp[i];
