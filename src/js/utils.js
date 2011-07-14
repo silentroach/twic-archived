@@ -134,11 +134,12 @@ twic.utils.url.humanize = function(url) {
 		cutted = cutted.substring(0, clen - 1);
 	}
 
+	// simple links for mailto
+	if (-1 !== url.indexOf('mailto:')) {
+		return '<a href="' + url + '">' + cutted + '</a>';
+	} else
 	// fix url without schema
-	if (
-		-1 === url.indexOf('://')
-		&& -1 === url.indexOf('mailto:')
-	) {
+	if (-1 === url.indexOf('://')) {
 		url = 'http://' + url;
 	}
 
