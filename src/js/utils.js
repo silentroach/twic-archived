@@ -146,21 +146,25 @@ twic.utils.url.humanize = function(url) {
 	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
+/**
+ * Mail search pattern
+ * @type {RegExp}
+ * @private
+ */
+twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)/gi;
+
+/**
+ * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+ * @type {RegExp}
+ * @private
+ */
+twic.utils.url.urlSearchPattern_ = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
+
+/**
+ * Process text replacements
+ * @param {string} text Text
+ * @return {string}
+ */
 twic.utils.url.processText = function(text) {
-	var
-		/**
-		 * Mail search pattern
-		 * @type {RegExp}
-		 */
-		mailSearchPattern = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)/gi,
-		/**
-		 * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
-		 * @type {RegExp}
-		 */
-		urlSearchPattern = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi,
-
-		// adding 'mailto' prefix for email addresses
-		txt = text.replace(mailSearchPattern, 'mailto:$1');
-
-	return txt.replace(urlSearchPattern, twic.utils.url.humanize);
+	return text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1').replace(twic.utils.url.urlSearchPattern_, twic.utils.url.humanize);
 };
