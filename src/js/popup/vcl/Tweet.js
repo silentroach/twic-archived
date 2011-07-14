@@ -14,7 +14,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	var
 		tweet = this,
 
-		/** @type {RegExp} */ nickSearchPattern   = /[\@]+(\w+)/gi,
+		/** @type {RegExp} */ nickSearchPattern   = /([^&\w\/]|^)(@\w+)/gi,
 		/** @type {RegExp} */ hashSearchPattern   = /([^&\w\/]|^)(#([\w\u0080-\uffff]*))/gi,
 		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
 
@@ -88,7 +88,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		txt = txt.replace(
 			nickSearchPattern,
 			function(nick) {
-				var n = nick.substring(1);
+				var n = nick.trim().substring(1);
 
 				if (timelineNick === n) {
 					// this tweet is with our mention
@@ -97,7 +97,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 				mentioned[n.toLowerCase()] = '@' + n;
 
-				return '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>';
+				return nick.replace('@' + n, '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>');
 			}
 		);
 
