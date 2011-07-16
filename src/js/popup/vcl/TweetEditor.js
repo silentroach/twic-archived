@@ -107,13 +107,65 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	var
 		suggestVisible = false,
+		suggestFocused = false,
 		suggestPart = '';
+
+	var resetSuggestSelection = function() {
+		var
+			selectedElement = twic.dom.findElement('.selected', suggestNickList);
+
+		if (selectedElement) {
+			selectedElement.classList.remove('selected');
+		}
+
+		suggestFocused = false;
+	};
+
+	/**
+	 * Move the suggest selection
+	 * @param {boolean} onRight Move to the right?
+	 */
+	var moveSuggest = function(onRight) {
+		var
+			selectedElement = twic.dom.findElement('.selected', suggestNickList),
+			trg;
+
+		if (selectedElement) {
+			trg = onRight ? selectedElement.nextElementSibling : selectedElement.previousElementSibling;
+		}
+
+		if (
+			!selectedElement
+			|| !trg
+		) {
+			trg = onRight ? suggestNickList.firstElementChild : suggestNickList.lastElementChild;
+		}
+
+		if (selectedElement) {
+			selectedElement.classList.remove('selected');
+		}
+
+		if (trg) {
+			trg.classList.add('selected');
+		}
+	};
+
+	var focusSuggest = function() {
+		suggestFocused = true;
+		moveSuggest(true);
+	};
 
 	var suggestRemove = function() {
 		twic.dom.setVisibility(suggestNickList, false);
 		suggestNickList.innerHTML = '';
 		suggestVisible = false;
+		suggestFocused = false;
 		suggestPart = '';
+	};
+
+	var suggestSelect = function() {
+
+		suggestRemove();
 	};
 
 	var buildSuggestList = function(data, len) {
@@ -135,6 +187,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		twic.dom.setVisibility(suggestNickList, true);
 		suggestVisible = true;
+		suggestFocused = false;
 	};
 
 	var extractNickPart = function() {
@@ -295,6 +348,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	// store the textarea value on each keyup to avoid data loss on popup close
 	editorTextarea.addEventListener('keyup', function(e) {
+		if (13 === e.keyCode) {
+			return false;
+		}
+
 		var
 			val  = editorTextarea.value,
 			path = getStoragePath();
@@ -315,16 +372,73 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	// prevent user to press enter
 	editorTextarea.addEventListener('keydown', function(e) {
-		if (13 === e.keyCode) {
-			e.preventDefault();
+		switch (e.keyCode) {
+			// enter
+			case 13:
+				e.preventDefault();
 
-			if (
-				e.ctrlKey
-				&& charCount > 0
-				&& charCount < 141
-			) {
-				tryToSend();
-			}
+				if (e.ctrlKey) {
+					if (
+						charCount > 0
+						&& charCount < 141
+					) {
+						tryToSend();
+					}
+				} else
+				if (
+					suggestVisible
+					&& suggestFocused
+				) {
+					suggestSelect();
+				}
+
+				break;
+			// left
+			case 37:
+				if (
+					suggestVisible
+					&& suggestFocused
+				) {
+					e.preventDefault();
+					moveSuggest(false);
+				}
+
+				break;
+			// up
+			case 38:
+				if (
+					suggestVisible
+					&& suggestFocused
+				) {
+					e.preventDefault();
+					resetSuggestSelection();
+				}
+
+				break;
+			// right
+			case 39:
+				if (
+					suggestVisible
+					&& suggestFocused
+				) {
+					e.preventDefault();
+					moveSuggest(true);
+				}
+
+				break;
+			// down
+			case 40:
+				if (suggestVisible) {
+					e.preventDefault();
+
+					if (suggestFocused) {
+						resetSuggestSelection();
+					} else {
+						focusSuggest();
+					}
+				}
+
+				break;
 		}
 	}, false );
 
@@ -359,6 +473,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorWrapper.classList.remove(focusedClass);
 		editorWrapper.classList.remove(sendingClass);
 	};
+
+	suggestNickList.addEventListener('click', function() {
+		suggestSelect();
+	} );
 
 	// init
 
