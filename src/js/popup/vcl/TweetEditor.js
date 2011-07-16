@@ -501,7 +501,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	suggestNickList.addEventListener('click', function() {
 		suggestSelect();
-	} );
+	}, false );
 
 	// init
 
