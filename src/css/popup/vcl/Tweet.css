@@ -48,7 +48,7 @@ li.tweet:hover p.info {
 	opacity: 1;
 	}
 	li.tweet:hover p.info a {
-		border-bottom: 1px solid silver;
+		text-decoration: underline;
 		}
 
 li.tweet.replying p.info {
