@@ -296,7 +296,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 */
 	tweet.reply = function(all) {
 		var
-			/** @type {string} **/ replyNick = retweetedById ? retweetedByNick : authorNick,
+			/** @type {string} **/ replyNick = authorNick,
 			/** @type {string} **/ nickList = '@' + replyNick + ' ';
 
 		if (all) {

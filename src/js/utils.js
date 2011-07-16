@@ -42,6 +42,8 @@ twic.utils.queueIterator = function(arr, iterator, callback) {
 	iterate();
 };
 
+// ------------------------------------------------------------
+
 twic.utils.date = { };
 
 /**
@@ -60,6 +62,8 @@ twic.utils.date.getTimestamp = function(dt) {
 twic.utils.date.getCurrentTimestamp = function() {
 	return twic.utils.date.getTimestamp(new Date());
 };
+
+// ------------------------------------------------------------
 
 twic.utils.lang = { };
 
@@ -104,6 +108,8 @@ twic.utils.lang.plural = function(number, endings) {
 
 	return number + ' ' + res;
 };
+
+// ------------------------------------------------------------
 
 twic.utils.url = { };
 

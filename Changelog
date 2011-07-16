@@ -3,6 +3,7 @@ In development:
 	+ Email addresses are now links
 	* Fixed email parsing as a screen_name
 	* Now Twic is even faster than before
+	* Reply to the retweet reverted to the original way
 
 0.23:
 	* Fix for unread tweets count marker
