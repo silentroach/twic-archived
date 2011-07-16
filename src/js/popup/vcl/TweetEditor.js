@@ -110,9 +110,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		suggestFocused = false,
 		suggestPart = '';
 
+	var getSelectedSuggestElement = function() {
+		return twic.dom.findElement('.selected', suggestNickList);
+	};
+
 	var resetSuggestSelection = function() {
 		var
-			selectedElement = twic.dom.findElement('.selected', suggestNickList);
+			selectedElement = getSelectedSuggestElement();
 
 		if (selectedElement) {
 			selectedElement.classList.remove('selected');
@@ -127,7 +131,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 */
 	var moveSuggest = function(onRight) {
 		var
-			selectedElement = twic.dom.findElement('.selected', suggestNickList),
+			selectedElement = getSelectedSuggestElement(),
 			trg;
 
 		if (selectedElement) {
@@ -164,8 +168,25 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	};
 
 	var suggestSelect = function() {
+		var
+			selectedElement = getSelectedSuggestElement(),
+			nickPart = extractNickPart(),
+			val = editorTextarea.value;
+
+		if (!nickPart.success) {
+			suggestRemove();
+			return false;
+		}
+
+		var
+			selectedNick = selectedElement.innerText;
+
+		editorTextarea.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
+		editorTextarea.selectionEnd = editorTextarea.selectionStart = nickPart.beg + selectedNick.length + 1;
 
 		suggestRemove();
+
+		checkTweetArea();
 	};
 
 	var buildSuggestList = function(data, len) {
@@ -199,18 +220,18 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			nickChar = '',
 			nickPart = '',
 			res = {
-				beg: -1,
-				end: -1,
+				beg: 0,
+				end: valLen,
 				success: false,
 				part: ''
 			};
 
-		while (pos > -1 && ' ' !== nickChar) {
+		while (pos > -1 && '@' !== nickChar) {
+			res.beg = pos;
+
 			nickChar = val.substr(pos--, 1);
 			nickPart = nickChar + nickPart;
 		}
-
-		nickPart = nickPart.trim();
 
 		if (
 			0 === nickPart.length
@@ -223,16 +244,20 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		nickChar = '';
 
 		while (pos < valLen && ' ' !== nickChar) {
+			res.end = pos;
+
 			nickChar = val.substr(pos++, 1);
 			nickPart += nickChar;
 		}
+
+		nickPart = nickPart.trim();
 
 		if ('@' === nickPart) {
 			return res;
 		}
 
 		res.success = true;
-		res.part = nickPart.substr(1).toLowerCase();
+		res.part = nickPart.substring(1).toLowerCase();
 
 		return res;
 	};
