@@ -5,6 +5,9 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// namespace for visual components
+twic.vcl = { };
+
 setTimeout( function() {
 
 	// try to switch to the page we remember before popup was closed
@@ -66,23 +69,3 @@ document.addEventListener('click', function(e) {
 	}
 }, false);
 
-/*
-( function() {
-
-	var
-		wrapper = document.getElementById('wrapper');
-
-	var reheight = function() {
-		var newHeight = (screen.availHeight - window.screenTop - 70) + 'px';
-
-		if (newHeight !== wrapper.style.maxHeight) {
-			wrapper.style.maxHeight = newHeight;
-		}
-	};
-
-	// ugly thing to recalculate the max page height
-	setInterval( reheight, 1000 );
-	setTimeout( reheight, 200 );
-
-}() );
-*/
