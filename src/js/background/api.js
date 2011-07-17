@@ -157,6 +157,9 @@ twic.api.getAccessToken = function(pin, callback, failedCallback) {
  */
 twic.api.getUserInfo = function(id, callback, failedCallback) {
 	var req = new twic.HTTPRequest('GET', twic.api.BASE_URL + 'users/show/' + id + '.json');
+
+	req.setRequestData('include_entities', 1);
+
 	req.send( function(error, req) {
 		if (!error) {
 			twic.api.parseGlobalLimit_(req);
@@ -220,6 +223,8 @@ twic.api.unfollow = function(whom_id, token, token_secret, callback) {
 twic.api.retweet = function(id, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('POST', twic.api.BASE_URL + 'statuses/retweet/' + id + '.json');
 
+	req.setRequestData('include_entities', 1);
+
 	twic.debug.info('Retweeting the ' + id);
 
 	req.send( function(error, req) {
@@ -275,6 +280,8 @@ twic.api.deleteTweet = function(id, token, token_secret, callback, failedCallbac
  */
 twic.api.homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('GET', twic.api.BASE_URL + 'statuses/home_timeline/' + id + '.json');
+
+	req.setRequestData('include_entities', 1);
 
 	if (since_id) {
 		req.setRequestData('since_id', since_id);
@@ -343,6 +350,7 @@ twic.api.getFriendshipInfo = function(source_id, target_id, callback, failedCall
 twic.api.updateStatus = function(status, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('POST', twic.api.BASE_URL + 'statuses/update.json');
 
+	req.setRequestData('include_entities', 1);
 	req.setRequestData('status', status);
 
 	// do not request additional user info cause it is about us
@@ -379,6 +387,7 @@ twic.api.updateStatus = function(status, token, token_secret, callback, failedCa
 twic.api.replyStatus = function(status, replyTo, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('POST', twic.api.BASE_URL + 'statuses/update.json');
 
+	req.setRequestData('include_entities', 1);
 	req.setRequestData('in_reply_to_status_id', replyTo);
 	req.setRequestData('status', status);
 

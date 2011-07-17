@@ -60,6 +60,8 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 		dbobject = this,
 		key;
 
+	dbobject.jsonObj = obj;
+
 	dbobject.changed = [];
 
 	for (key in dbobject.fields) {

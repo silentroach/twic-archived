@@ -305,6 +305,23 @@ twic.db.migrations_ = {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);
 		}
+	},
+	'0.8': {
+		ver: '0.9',
+		runme: function(tr, callback) {
+			twic.utils.queueIterator( [
+				// tweet links
+				'create table links (' +
+					'tweet_id varchar(32) not null, ' +
+					'lnk text not null, ' +
+					'expanded text not null ' +
+				')',
+				// indexes for tweet links
+				'create index idx_links_tweet on links (tweet_id)'
+			], function(sqlText, callback) {
+				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
+			}, callback);
+		}
 	}
 };
 
@@ -366,6 +383,7 @@ twic.db.cleanup_ = function(db, callback) {
 
 	twic.db.execQueries( [
 		{ sql: 'delete from timeline where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
+		{ sql: 'delete from links where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
 		{ sql: 'delete from tweets where dt < ?', params: [cutDate] },
 		{ sql: 'delete from users where dt < ? and id not in (select id from accounts)', params: [cutDate] },
 		{ sql: 'delete from friends where dt < ?', params: [cutDate] }

@@ -12,6 +12,13 @@ twic.db.obj.Tweet = function() {
 
 	twic.DBObject.call(self);
 
+	/**
+	 * Json object
+	 * @protected
+	 * @type {Object}
+	 */
+	self.jsonObj = { };
+
 	/** @const **/ self.table = 'tweets';
 	self.fields = {
 		'id': '',
@@ -64,7 +71,72 @@ twic.db.obj.Tweet.prototype.remove = function(callback) {
 	var
 		self = this;
 
-	twic.db.execQuery('delete from timeline where tweet_id = ?', [self.fields['id']], function() {
+	// lets remove some tweet crap
+	twic.utils.queueIterator( [
+		'delete from timeline where tweet_id = ?',
+		'delete from links where tweet_id = ?'
+	], function(sqlText, callback) {
+		twic.db.execQuery(sqlText, [self.fields['id']], callback, callback);
+	}, function() {
 		twic.DBObject.prototype.remove.call(self, callback);
 	} );
 };
+
+/**
+ * Load object from JSON
+ * @param {Object} obj JSON object
+ * @return {twic.DBObject}
+ */
+twic.db.obj.Tweet.prototype.loadFromJSON = function(obj) {
+	var
+		self = this;
+
+	self.jsonObj = obj;
+
+	twic.DBObject.prototype.loadFromJSON.call(self, obj);
+};
+
+/**
+ * Save object to database
+ * @param {function()=} callback Callback function
+ */
+twic.db.obj.Tweet.prototype.save = function(callback) {
+	var
+		self = this;
+
+	twic.DBObject.prototype.save.call(self, function() {
+		twic.db.execQuery('delete from links where tweet_id = ?', [self.fields['id']], function() {
+			if (
+				'entities' in self.jsonObj
+				&& 'urls' in self.jsonObj['entities']
+				&& self.jsonObj['entities']['urls'].length > 0
+			) {
+				var
+					urls = self.jsonObj['entities']['urls'],
+					i;
+
+				for (i = 0; i < urls.length; ++i) {
+					var
+						url = urls[i];
+
+					if (
+						'url' in url
+						&& 'expanded_url' in url
+					) {
+						twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
+							self.fields['id'],
+							url['url'],
+							url['expanded_url']
+						// FIXME make it optional callbacks
+						], function() { }, function(err) { });
+					}
+				}
+			}
+
+			if (callback) {
+				callback();
+			}
+		}, callback);
+	} );
+};
+
