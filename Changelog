@@ -1,4 +1,5 @@
-In development:
+0.25:
+	* Bug with suggest select with mouse is fixed
 
 0.24:
 	* Unhide the tweet client and time info after reply

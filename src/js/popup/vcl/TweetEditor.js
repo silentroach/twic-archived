@@ -476,8 +476,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		}
 	};
 
-	document.addEventListener('click', handleOutClick, false);
-
 	editorTextarea.addEventListener('focus', function(e) {
 		editorWrapper.classList.add(focusedClass);
 		checkTweetArea();
@@ -499,9 +497,31 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorWrapper.classList.remove(sendingClass);
 	};
 
-	suggestNickList.addEventListener('click', function() {
+	suggestNickList.addEventListener('click', function(e) {
+		var
+			selEl = getSelectedSuggestElement(),
+			trgEl = e.target;
+
+		e.preventDefault();
+		e.stopPropagation();
+
+		if ('LI' !== trgEl.tagName) {
+			trgEl = trgEl.parentElement;
+		}
+
+		if (
+			selEl
+			&& selEl !== trgEl
+		) {
+			selEl.classList.remove('selected');
+		}
+
+		trgEl.classList.add('selected');
+
 		suggestSelect();
 	}, false );
+
+	document.addEventListener('click', handleOutClick, false);
 
 	// init
 
