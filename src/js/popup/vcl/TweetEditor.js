@@ -234,6 +234,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		}
 
 		if (
+			pos > 0
+			&& ' ' !== val.substr(pos, 1)
+		) {
+			return res;
+		}
+
+		if (
 			0 === nickPart.length
 			|| '@' !== nickPart.substr(0, 1)
 		) {
