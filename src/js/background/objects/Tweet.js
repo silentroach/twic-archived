@@ -122,6 +122,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 					if (
 						'url' in url
 						&& 'expanded_url' in url
+						&& !goog.isNull(url['expanded_url'])
 					) {
 						twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
 							self.fields['id'],
