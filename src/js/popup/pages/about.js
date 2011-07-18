@@ -12,6 +12,8 @@
 			req = new XMLHttpRequest(),
 			manifest;
 
+		twic.inject.js('http://api.flattr.com/js/0.6/load.js?mode=auto');
+
 		req.open('GET', chrome.extension.getURL('manifest.json'), false);
 		req.send(null);
 		manifest = JSON.parse(req.responseText);

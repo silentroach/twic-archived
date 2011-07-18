@@ -11,6 +11,6 @@ twic.options.get('avatar_size', function(tmpVal) {
 
 	if (32 === avSize) {
 		// @resource css/inject/av_32.css
-		twic.style.inject('css/inject/av_32.css');
+		twic.inject.css('css/inject/av_32.css');
 	}
 } );
