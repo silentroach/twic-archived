@@ -23,11 +23,13 @@
 		elementFollowedSpan,
 		elementDirect,
 		elementProps,
+		elementMap,
 		timelineUserId,
 		profileUserId,
 		loader,
 		toolbarTimeline,
-		directLinkBase;
+		directLinkBase,
+		map;
 
 	var initPage = function() {
 		page = twic.dom.findElement('#profile');
@@ -49,6 +51,8 @@
 		elementLocation = twic.dom.findElement('.location', page);
 		toolbarTimeline = twic.dom.findElement('.toolbar a', page);
 
+		elementMap      = twic.dom.findElement('.map', page);
+
 		elementProps    = twic.dom.findElement('.props', page);
 		twic.dom.findElement('.protected', elementProps).title = twic.utils.lang.translate('title_protected');
 	};
@@ -69,6 +73,8 @@
 		elementLocation.innerHTML = '';
 		twic.dom.setVisibility(elementLocation, false);
 		elementFollowedSpan.innerHTML = '';
+		delete map;
+		twic.dom.setVisibility(elementMap, false);
 	};
 
 	var follow = function() {
@@ -162,16 +168,15 @@
 
 			// trying to find the coordinates
 			var coords = coordsRegExp.exec(loc);
+
 			if (
 				coords
 				&& 3 === coords.length
 			) {
-				var coordsData = coords.shift();
+				var
+					coordsData = coords.shift().split(',');
 
-				loc += '<br /><br /><center>' +
-					'<iframe class="map" src="http://www.google.com/uds/modules/elements/mapselement/iframe.html?maptype=roadmap' +
-					'&latlng=' + encodeURIComponent(coordsData) +
-					'&zoom=16&element=true"></iframe></center>';
+				map = new twic.vcl.Map(elementMap, coordsData.shift(), coordsData.shift());
 			}
 
 			elementLocation.innerHTML = loc;

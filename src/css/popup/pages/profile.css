@@ -4,9 +4,11 @@
 #profile .info {
 	padding: .5em;
 	}
-	#profile iframe.map {
-		width: 370px;
+	#profile .map {
+		display: none;
+		width: 100%;
 		height: 200px;
+		margin-top: 1em;
 		border: 1px solid silver;
 		}
 	#profile .info .avatar {
