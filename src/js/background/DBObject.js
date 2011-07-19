@@ -244,8 +244,7 @@ twic.DBObject.prototype.getFieldString = function(alias) {
 twic.DBObject.prototype.getPart = function(fields) {
 	var
 		obj = this,
-		newObj = { },
-		key;
+		newObj = { };
 
 	fields.forEach( function(key) {
 		newObj[key] = obj.fields[key];

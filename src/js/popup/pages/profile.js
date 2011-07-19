@@ -26,7 +26,6 @@
 		elementMap,
 		timelineUserId,
 		profileUserId,
-		loader,
 		toolbarTimeline,
 		directLinkBase,
 		map;

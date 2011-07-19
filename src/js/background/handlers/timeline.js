@@ -77,7 +77,7 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 					}
 
 					send();
-		    }, send )
+		    }, send );
 	    }, afterId);
 
 		account.setValue('unread_tweets_count', 0);

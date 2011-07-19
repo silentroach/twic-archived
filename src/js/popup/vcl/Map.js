@@ -11,13 +11,10 @@ window['map_init'] = false;
  * @param {Element} container Container element
  */
 twic.vcl.Map = function(container, lat, lng) {
-	var
-		map = this;
-
 	var drawMap = function() {
 		container.style.display = 'block';
 
-		var map = new google.maps.Map(container, {
+		new google.maps.Map(container, {
 			'zoom': 13,
 			'center': new google.maps.LatLng(lat, lng),
 		  'mapTypeId': google.maps.MapTypeId.ROADMAP,

@@ -27,7 +27,6 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
-		/** @type {string} */ retweetedByNick,
 		/** @type {string} */ rawText,
 		/** @type {Object} */ links = { },
 
@@ -47,9 +46,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		otherInfo    = twic.dom.expandElement('p.info'),
 		timeSpan     = twic.dom.expandElement('span.time'),
 		clientSpan   = twic.dom.expandElement('span.client'),
-		clearer      = twic.dom.expandElement('div.clearer'),
-
-		isRetweet    = false;
+		clearer      = twic.dom.expandElement('div.clearer');
 
 	twic.dom.setVisibility(rtAvatarLink, false);
 
@@ -113,7 +110,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	tweet.setLinks = function(linksHash) {
 		links = linksHash;
-	}
+	};
 
 	tweet.updateTime = function() {
 		if (0 === unixtime) {
@@ -208,10 +205,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @param {string} av User avatar src
 	 */
 	tweet.setRetweeter = function(id, nick, av) {
-		isRetweet = true;
-
 		retweetedById = id;
-		retweetedByNick = nick;
 
 		if (retweetedById === timelineId) {
 			wrapper.classList.add('me');

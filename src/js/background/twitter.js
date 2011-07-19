@@ -80,10 +80,6 @@ twic.twitter.getFriendshipInfo = function(source_id, target_id, callback) {
 	var
 		tmpFriend = new twic.db.obj.Friend();
 
-	var sendResult = function() {
-		callback(tmpFriend);
-	};
-
 	var getInfo = function() {
 		twic.api.getFriendshipInfo(
 			source_id, target_id,

@@ -82,8 +82,7 @@ twic.OAuthRequest.prototype.getNonce = function() {
 twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	var
 		self = this,
-		baseString = self.method + '&' + self.encodeString(self.url) + '&',
-		key;
+		baseString = self.method + '&' + self.encodeString(self.url) + '&';
 
 	if (self.method !== 'GET') {
 		self.setHeader('Content-Type', 'application/x-www-form-urlencoded');

@@ -207,5 +207,5 @@ SHA1.binb2b64_ = function(binarray) {
  */
 SHA1.encode = function(key, data) {
 	return SHA1.binb2b64_(SHA1.core_hmac_sha1_(key, data));
-}
+};
 
