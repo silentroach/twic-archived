@@ -27,6 +27,7 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 		    // prepare tweets data and send the response
 		    var
 			    reply = { },
+			    ids = [],
 			    tweetId;
 
 		    for (tweetId in tweets.items) {
@@ -35,11 +36,14 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 				    user      = users.items[tweet.fields['user_id']],
 				    retweeted = tweet.fields['retweeted_user_id'] ? users.items[tweet.fields['retweeted_user_id']] : null;
 
+					ids.push('"' + tweetId + '"');
+
 			    reply[tweet.fields['id']] = {
 				    'msg': tweet.fields['msg'],
 				    'user': user.getPart(['id', 'screen_name', 'avatar', 'is_protected']),
 				    'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar', 'is_protected']) : null,
-				    'separator': 0 === --unreadCount
+				    'separator': 0 === --unreadCount,
+				    'links': { 'length': 0 }
 			    };
 
 			    if (twic.options.getValue('tweet_show_time')) {
@@ -51,13 +55,29 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 			    }
 		    }
 
-		    sendResponse( {
-			    'account': {
-				    'id': account.fields['id'],
-				    'name': account.user.fields['screen_name']
-			    },
-			    'data': reply
-		    } );
+		    var send = function() {
+				  sendResponse( {
+					  'account': {
+						  'id': account.fields['id'],
+						  'name': account.user.fields['screen_name']
+					  },
+					  'data': reply
+				  } );
+		    };
+
+		    twic.db.openQuery('select * from links where tweet_id in (' + ids.join(',') + ')', [], function(rows) {
+					var i;
+
+					for (i = 0; i < rows.length; ++i) {
+						var
+							row = rows.item(i);
+
+						reply[row['tweet_id']]['links'][row['lnk']] = row['expanded'];
+						++reply[row['tweet_id']]['links']['length'];
+					}
+
+					send();
+		    }, send )
 	    }, afterId);
 
 		account.setValue('unread_tweets_count', 0);

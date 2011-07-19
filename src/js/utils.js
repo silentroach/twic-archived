@@ -116,15 +116,18 @@ twic.utils.url = { };
 /**
  * Humanize the link
  * @param {string} url Url
+ * @param {Object=} links Shortened links hash
  * @return {string}
  */
-twic.utils.url.humanize = function(url) {
+twic.utils.url.humanize = function(url, links) {
 	var
-		cutted = url
+		links = links || { },
+		expanded = url in links ? links[url] : url,
+		cutted = expanded
 			.replace(/^(.*?)\/\//, '')         // cutting the protocol
 			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
 		clen = cutted.length,
-		title = url;
+		title = cutted;
 
 	if (
 		clen > 6
@@ -169,8 +172,15 @@ twic.utils.url.urlSearchPattern_ = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www
 /**
  * Process text replacements
  * @param {string} text Text
+ * @param {Object=} links Shortened links hash
  * @return {string}
  */
-twic.utils.url.processText = function(text) {
-	return text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1').replace(twic.utils.url.urlSearchPattern_, twic.utils.url.humanize);
+twic.utils.url.processText = function(text, links) {
+	var
+		result = text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1');
+
+	return result.replace(twic.utils.url.urlSearchPattern_, function(url) {
+		return twic.utils.url.humanize(url, links ? links : { });
+	} );
 };
+

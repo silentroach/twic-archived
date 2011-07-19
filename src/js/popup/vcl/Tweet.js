@@ -29,6 +29,7 @@ twic.vcl.Tweet = function(id, timeline) {
 		/** @type {number} */ retweetedById,
 		/** @type {string} */ retweetedByNick,
 		/** @type {string} */ rawText,
+		/** @type {Object} */ links = { },
 
 		/** @type {boolean} */ isProtected = false,
 
@@ -74,7 +75,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @param {string} text
 	 */
 	tweet.setText = function(text) {
-		var txt = twic.utils.url.processText(text);
+		var txt = twic.utils.url.processText(text, links);
 
 		rawText = text;
 
@@ -109,6 +110,10 @@ twic.vcl.Tweet = function(id, timeline) {
 
 		tweetContent.innerHTML = txt + '<br />';
 	};
+
+	tweet.setLinks = function(linksHash) {
+		links = linksHash;
+	}
 
 	tweet.updateTime = function() {
 		if (0 === unixtime) {

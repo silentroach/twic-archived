@@ -1,5 +1,6 @@
 0.26 (in development):
 	* No suggest for email addresses
+	+ t.co links expander
 
 0.25:
 	* Bug with suggest select with mouse is fixed

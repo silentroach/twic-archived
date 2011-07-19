@@ -99,6 +99,13 @@
 				tweet.setSource(item['source']);
 			}
 
+			if (
+				'links' in item
+				&& item['links'].length > 0
+			) {
+				tweet.setLinks(item['links']);
+			}
+
 			tweet.setText(item['msg']);
 		}
 
