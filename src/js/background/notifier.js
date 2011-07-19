@@ -14,6 +14,7 @@ twic.notifier = { };
 twic.notifier.show = function(title, description) {
 	var
 		notification = webkitNotifications.createNotification(
+			// @resource img/icons/48.png
 			'/img/icons/48.png',
 			title,
 			description
