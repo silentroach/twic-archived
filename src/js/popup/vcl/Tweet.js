@@ -88,6 +88,10 @@ twic.vcl.Tweet = function(id, timeline) {
 			function(nick) {
 				var n = nick.trim().substring(1);
 
+				if (n.substr(0, 1) == '@') {
+					n = n.substring(1);
+				}
+
 				if (timelineNick === n) {
 					// this tweet is with our mention
 					wrapper.classList.add('mention');

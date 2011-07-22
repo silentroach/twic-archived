@@ -9,14 +9,15 @@
 	<script src="../js/init.js"></script>
 	<script src="../js/utils.js"></script>
 	<script src="../js/dom.js"></script>
+	<script src="../js/popup/init.js"></script>
 	<script src="../js/popup/vcl/Tweet.js"></script>
 	<script src="../js/popup/vcl/Timeline.js"></script>
 
 	<script>
 		twic.utils.lang.translate = function(alias) { return alias; };
-	
+
 		var timeline = new twic.vcl.Timeline(document.body);
-		
+
 		var testTweets = [
 			'test @nick #hash www.link.com',
 			'email@test.com',
@@ -24,10 +25,13 @@
 			'#hash, simple hash sign -> # and #hash# and again ###',
 			'www.link.com/with#hash',
 			'email with point igor.kalashnikov@gmail.com',
-			'ololo'
+			'ololo',
+			'testing with "quotes and http://links.com/werwe2", test',
+			'testing nick in quotes "@nick test"',
+			'testing nick in quotes "test @nick"'
 		];
-		
-		for (var i = 0; i < testTweets.length; ++i) {		
+
+		for (var i = 0; i < testTweets.length; ++i) {
 			timeline.addTweet(i).setText(testTweets[i]);
 		}
 	</script>
