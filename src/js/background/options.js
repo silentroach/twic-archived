@@ -12,10 +12,8 @@ twic.options = { };
  * @private
  */
 twic.options.storage_ = {
-	// use short links expander
-	'expander': true,
 	// 48x48 avatar size
-	'avatar_size': 48,
+	'avatar_size': '48',
 	// show the tweet time
 	'tweet_show_time': false,
 	// show the twitter client
