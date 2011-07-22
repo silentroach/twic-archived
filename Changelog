@@ -3,7 +3,7 @@
 	+ t.co links expander
 	+ Showing tumblr.com links as an icons
 	* Bug with focused tweet editor after send is fixed (#74)
-	* Bug with nicks in quotes is fixed (#72)
+	* Bug with nicks in quotes is fixed (#73)
 
 0.25:
 	* Bug with suggest select with mouse is fixed
