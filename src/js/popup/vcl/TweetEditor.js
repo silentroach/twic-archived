@@ -497,6 +497,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	var reset = function() {
 		editorTextarea.value = '';
 		editorTextarea.rows = 1;
+		editorTextarea.blur();
 
 		editorCounter.innerHTML = '140';
 

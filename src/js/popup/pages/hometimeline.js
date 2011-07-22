@@ -193,8 +193,8 @@
 		newTweet.innerHTML = '';
 
 		tweetEditor = new twic.vcl.TweetEditor(userId, newTweet);
-		tweetEditor.onFocus     = timelineResetEditor;
-		tweetEditor.onTweetSend = tweetHandler;
+		tweetEditor.onFocus          = timelineResetEditor;
+		tweetEditor.onTweetSend      = tweetHandler;
 		tweetEditor.onGetSuggestList = getSuggestList;
 
 		update();

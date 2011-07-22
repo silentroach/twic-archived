@@ -2,6 +2,7 @@
 	* No suggest for email addresses
 	+ t.co links expander
 	+ Showing tumblr.com links as an icons
+	* Bug with focused tweet editor after send is fixed (#74)
 
 0.25:
 	* Bug with suggest select with mouse is fixed
