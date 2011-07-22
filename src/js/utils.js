@@ -116,12 +116,12 @@ twic.utils.url = { };
 /**
  * Humanize the link
  * @param {string} url Url
- * @param {Object=} links Shortened links hash
+ * @param {Object=} lnks Shortened links hash
  * @return {string}
  */
-twic.utils.url.humanize = function(url, links) {
+twic.utils.url.humanize = function(url, lnks) {
 	var
-		links = links || { },
+		links = lnks || { },
 		expanded = url in links ? links[url] : url,
 		cutted = expanded
 			.replace(/^(.*?)\/\//, '')         // cutting the protocol
