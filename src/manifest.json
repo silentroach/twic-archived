@@ -2,7 +2,7 @@
 	"name": "Twic Extension",
 	"description": "__MSG_about_what__",
 	"default_locale": "en",
-	"version": "0.26",
+	"version": "0.27",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
 		"popup": "popup.html#accounts",

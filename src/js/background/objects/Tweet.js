@@ -93,7 +93,7 @@ twic.db.obj.Tweet.prototype.loadFromJSON = function(obj) {
 
 	self.jsonObj = obj;
 
-	twic.DBObject.prototype.loadFromJSON.call(self, obj);
+	return twic.DBObject.prototype.loadFromJSON.call(self, obj);
 };
 
 /**
