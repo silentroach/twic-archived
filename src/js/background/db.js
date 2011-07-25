@@ -30,7 +30,7 @@ twic.db.logError_ = function(error, sqlText, sqlParams) {
  * @param {string} sqlText SQL query text
  * @param {Array} sqlParams SQL query params
  * @param {function(SQLResultSetRowList)} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.selectTransaction_ = function(tr, sqlText, sqlParams, successCallback, failedCallback) {
 	tr.executeSql(
@@ -59,7 +59,7 @@ twic.db.selectTransaction_ = function(tr, sqlText, sqlParams, successCallback, f
  * @param {string} sqlText SQL query text
  * @param {Array} sqlParams SQL query params
  * @param {function(SQLResultSetRowList)} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.select_ = function(db, sqlText, sqlParams, successCallback, failedCallback) {
 	db.readTransaction( function(tr) {
@@ -79,8 +79,8 @@ twic.db.select_ = function(db, sqlText, sqlParams, successCallback, failedCallba
  * @param {SQLTransaction} tr ReadWrite transaction
  * @param {string} sqlText SQL query text
  * @param {Array} sqlParams SQL query params
- * @param {function()} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function()=} successCallback Success callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.executeTransaction_ = function(tr, sqlText, sqlParams, successCallback, failedCallback) {
 	tr.executeSql(
@@ -108,8 +108,8 @@ twic.db.executeTransaction_ = function(tr, sqlText, sqlParams, successCallback, 
  * @param {Database} db Database
  * @param {string} sqlText SQL query text
  * @param {Array} sqlParams SQL query params
- * @param {function()} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function()=} successCallback Success callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.execute_ = function(db, sqlText, sqlParams, successCallback, failedCallback) {
 	db.transaction( function(tr) {
@@ -129,7 +129,7 @@ twic.db.execute_ = function(db, sqlText, sqlParams, successCallback, failedCallb
  * @param {Database} db Database
  * @param {Array} sqlObjArray SQL query text
  * @param {function()} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.executeGroup_ = function(db, sqlObjArray, successCallback, failedCallback) {
 	db.transaction( function(tr) {
@@ -441,7 +441,7 @@ twic.db.getDatabase_ = function(callback) {
  * @param {string} sqlText SQL query text
  * @param {Array} sqlParams SQL query params
  * @param {function(SQLResultSetRowList)} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.openQuery = function(sqlText, sqlParams, successCallback, failedCallback) {
 	twic.db.getDatabase_( function(db) {
@@ -453,8 +453,8 @@ twic.db.openQuery = function(sqlText, sqlParams, successCallback, failedCallback
  * Execute the statement
  * @param {string} sqlText SQL query text
  * @param {Array} sqlParams SQL query params
- * @param {function()} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function()=} successCallback Success callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.execQuery = function(sqlText, sqlParams, successCallback, failedCallback) {
 	twic.db.getDatabase_( function(db) {
@@ -466,7 +466,7 @@ twic.db.execQuery = function(sqlText, sqlParams, successCallback, failedCallback
  * Execute the group of queries in one transaction
  * @param {Array} sqlObjArray Array of sql objects
  * @param {function()} successCallback Success callback
- * @param {function(string)} failedCallback Failed callback
+ * @param {function(string)=} failedCallback Failed callback
  */
 twic.db.execQueries = function(sqlObjArray, successCallback, failedCallback) {
 	twic.db.getDatabase_( function(db) {
