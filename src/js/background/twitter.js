@@ -367,7 +367,7 @@ twic.twitter.updateHomeTimeline = function(userId) {
 				var
 					users = [],
 					i,
-					tweetUserId;
+					tweetUserId = 0;
 
 				if (data.length === 0) {
 					// no updates
@@ -443,7 +443,7 @@ twic.twitter.updateHomeTimeline = function(userId) {
 			'where tl.user_id = ? order by t.dt desc, t.id desc limit 1 ', [userId],
 			function(rows) {
 				var
-					/** @type {string} **/ since_id;
+					/** @type {string} **/ since_id = '';
 
 				if (rows.length > 0) {
 					// nice to see you, since_id

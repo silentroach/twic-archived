@@ -23,11 +23,7 @@
 	};
 
 	for (i = 0; i < keys.length; ++i) {
-		var
-			optKey = keys[i],
-			values = twic.dom.findElements('li[data-value]', optKey);
-
-		twic.options.get(optKey.getAttribute('data-key'), valVis);
+		twic.options.get(keys[i].getAttribute('data-key'), valVis);
 	}
 
 	keys = twic.dom.findElements('input[data-key]');

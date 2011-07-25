@@ -15,7 +15,7 @@
 	setInterval( function() {
 		var
 			now = twic.utils.date.getCurrentTimestamp(),
-			part;
+			part = '';
 
 		twic.debug.info('Suggest cleanup');
 
