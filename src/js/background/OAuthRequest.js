@@ -19,6 +19,20 @@ twic.OAuthRequest = function(method, url) {
 };
 
 /**
+ * Consumer key for Twitter API
+ * @const
+ * @type {string}
+ */
+twic.OAuthRequest.CONSUMER_KEY = 'Yda6L1lsEkqwDhcqxWPXtw';
+
+/**
+ * Consumer secret for Twitter API
+ * @const
+ * @type {string}
+ */
+twic.OAuthRequest.CONSUMER_SECRET = 'IHtRC1kPwQ4MH1lccSaZGdhZPyPiw2iuEfhCDV4';
+
+/**
  * Offset to correct the timestamp property
  * @type {number}
  */
@@ -88,7 +102,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 		self.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	}
 
-	self.setOAuthData('oauth_consumer_key', twic.consumer_key);
+	self.setOAuthData('oauth_consumer_key', twic.OAuthRequest.CONSUMER_KEY);
 	self.setOAuthData('oauth_signature_method', 'HMAC-SHA1');
 	self.setOAuthData('oauth_version', '1.0');
 	self.setOAuthData('oauth_timestamp', Math.floor(((new Date()).getTime() + twic.OAuthRequest.timestampOffset) / 1000));
@@ -103,7 +117,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 
 	self.setOAuthData('oauth_signature',
 		SHA1.encode(
-			self.encodeString(twic.consumer_secret) + '&' + (token_secret ? self.encodeString(token_secret) : ''),
+			self.encodeString(twic.OAuthRequest.CONSUMER_SECRET) + '&' + (token_secret ? self.encodeString(token_secret) : ''),
 			baseString
 		)
 	);

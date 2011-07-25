@@ -7,6 +7,13 @@
 
 twic.db = { };
 
+/**
+ * Database name
+ * @const
+ * @type {string}
+ */
+twic.db.NAME = 'Twic';
+
 // DBObject storage
 twic.db.obj = { };
 
@@ -420,7 +427,7 @@ twic.db.getDatabase_ = function(callback) {
 			twic.db.isPreparing_ = true;
 
 			var
-				tmpDB = openDatabase(twic.dbname, '', twic.dbname, 0);
+				tmpDB = openDatabase(twic.db.NAME, '', twic.db.NAME, 0);
 
 			twic.db.migrate_(tmpDB, tmpDB.version, function() {
 				twic.db.isPreparing_ = false;
