@@ -9,11 +9,12 @@
 
 	var
 		i,
+		values,
 		keys = twic.dom.findElements('ul.options[data-key]');
 
 	var valVis = function(val) {
 		var n;
-	
+
 		for (n = 0; n < values.length; ++n) {
 			if (val === values[n].getAttribute('data-value')) {
 				values[n].classList.add('selected');
@@ -23,6 +24,10 @@
 	};
 
 	for (i = 0; i < keys.length; ++i) {
+		var
+			optKey = keys[i],
+			values = twic.dom.findElements('li[data-value]', optKey);
+
 		twic.options.get(keys[i].getAttribute('data-key'), valVis);
 	}
 

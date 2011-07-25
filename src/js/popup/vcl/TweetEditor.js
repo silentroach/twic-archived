@@ -43,7 +43,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorAttach.src = 'img/buttons/attach.png';
 	editorAttach.classList.add('attach');
 
-	if (!twic.vcl.TweetEditor.currentURL) {
+	if (!twic.vcl.TweetEditor.prototype.currentURL_) {
 		editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
 
 		editorAttach.classList.add('disabled');
@@ -70,10 +70,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		parent.appendChild(editorWrapper);
 	}
 
-	if (twic.vcl.TweetEditor.currentURL) {
+	if (twic.vcl.TweetEditor.prototype.currentURL_) {
 		editorAttach.addEventListener('click', function() {
 			var
-				url = twic.vcl.TweetEditor.currentURL,
+				url = twic.vcl.TweetEditor.prototype.currentURL_,
 				selStart = editorTextarea.selectionStart,
 				selEnd = editorTextarea.selectionEnd,
 				valLen = editorTextarea.value.length,
@@ -583,10 +583,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 };
 
-// --------------------------------------
-// current url to paste it into the tweet
-// --------------------------------------
-twic.vcl.TweetEditor.currentURL = false;
+/**
+ * Current url to paste it into the tweet
+ * @private
+ */
+twic.vcl.TweetEditor.prototype.currentURL_ = false;
 
 chrome.tabs.getSelected( null, function(tab) {
 	if (tab) {
@@ -595,9 +596,12 @@ chrome.tabs.getSelected( null, function(tab) {
 
 		if (
 			url.length > 4
-			&& 'http' === url.substr(0, 4)
+			&& (
+				'http' === url.substr(0, 4)
+				|| 'ftp' === url.substr(0, 3)
+			)
 		) {
-			twic.vcl.TweetEditor.currentURL = url;
+			twic.vcl.TweetEditor.prototype.currentURL_ = url;
 		}
 	}
 } );

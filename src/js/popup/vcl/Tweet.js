@@ -23,19 +23,14 @@ twic.vcl.Tweet = function(id, timeline) {
 
 		/** @type {Object} */ mentioned = { },
 
-		/** @type {number} */ unixtime = 0,
 		/** @type {number} */ authorId,
 		/** @type {string} */ authorNick,
 		/** @type {number} */ retweetedById,
 		/** @type {string} */ rawText,
 		/** @type {Object} */ links = { },
 
-		/** @type {boolean} */ isProtected = false,
-
 		/** @type {number} */ timelineId = timeline.getUserId(),
 		/** @type {string} */ timelineNick = timeline.getUserNick(),
-
-		/** @type {string} */ trAgo = twic.utils.lang.translate('time_ago'),
 
 		wrapper      = twic.dom.expandElement('li#' + id + '.tweet'),
 		avatarLink   = twic.dom.expandElement('a.avatar'),
@@ -43,10 +38,37 @@ twic.vcl.Tweet = function(id, timeline) {
 		rtAvatarLink = twic.dom.expandElement('a.avatar.retweeter'),
 		rtAvatar     = twic.dom.expandElement('img.avatar'),
 		tweetContent = twic.dom.expandElement('p'),
-		otherInfo    = twic.dom.expandElement('p.info'),
-		timeSpan     = twic.dom.expandElement('span.time'),
-		clientSpan   = twic.dom.expandElement('span.client'),
 		clearer      = twic.dom.expandElement('div.clearer');
+
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.unixtime_ = 0;
+
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	this.isProtected_ = false;
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.clientSpan_ = twic.dom.expandElement('span.client');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.otherInfo_ = twic.dom.expandElement('p.info');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.timeSpan_ = twic.dom.expandElement('span.time');
 
 	twic.dom.setVisibility(rtAvatarLink, false);
 
@@ -56,16 +78,9 @@ twic.vcl.Tweet = function(id, timeline) {
 	wrapper.appendChild(avatarLink);
 	wrapper.appendChild(rtAvatarLink);
 	wrapper.appendChild(tweetContent);
-	wrapper.appendChild(otherInfo);
+	wrapper.appendChild(this.otherInfo_);
 	wrapper.appendChild(clearer);
 	wrapper.appendChild(replyWrapper);
-
-	/**
-	 * Set the tweet as protected
-	 */
-	tweet.setProtected = function() {
-		isProtected = true;
-	};
 
 	/**
 	 * Set the tweet text
@@ -114,65 +129,6 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	tweet.setLinks = function(linksHash) {
 		links = linksHash;
-	};
-
-	tweet.updateTime = function() {
-		if (0 === unixtime) {
-			return false;
-		}
-
-		var
-			desc = '',
-			now = twic.utils.date.getCurrentTimestamp(),
-			df = now - unixtime;
-
-		// less than minute ago
-		if (df < 60) {
-			desc = twic.utils.lang.translate('time_less_minute') + ' ' + trAgo;
-		} else
-		// less than hour ago
-		if (df < 60 * 60) {
-			desc = twic.utils.lang.plural( Math.floor(df / 60), [
-				'time_minute_one',
-				'time_minute_much',
-				'time_minute_many'
-			] ) + ' ' + trAgo;
-		} else
-		// less than day ago
-		if (df < 60 * 60 * 24) {
-			desc = twic.utils.lang.plural( Math.floor(df / 60 / 60), [
-				'time_hour_one',
-				'time_hour_much',
-				'time_hour_many'
-			] ) + ' ' + trAgo;
-		} else {
-			var
-				dt = new Date(unixtime * 1000);
-
-			desc = dt.getDay() + ' ' +
-				twic.utils.lang.translate('time_month_' + (dt.getMonth() + 1));
-		}
-
-		timeSpan.innerText = desc;
-	};
-
-	/**
-	 * Set the time
-	 */
-	tweet.setUnixTime = function(newUnixTime) {
-		unixtime = newUnixTime;
-
-		tweet.updateTime();
-		otherInfo.appendChild(timeSpan);
-	};
-
-	/**
-	 * Set the source
-	 */
-	tweet.setSource = function(newSource) {
-		clientSpan.innerHTML = (0 !== unixtime ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
-			newSource.replace('<a ', '<a target="_blank" ');
-		otherInfo.appendChild(clientSpan);
 	};
 
 	/**
@@ -267,8 +223,8 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	var resetTweetEditor = function() {
-			wrapper.classList.remove('replying');
-			replier = null;
+		wrapper.classList.remove('replying');
+		replier = null;
 	};
 
 	tweet.resetEditor = function() {
@@ -279,7 +235,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	};
 
 	tweet.getCanRetweet = function() {
-		return !isProtected && authorId !== timelineId && retweetedById !== timelineId;
+		return !this.isProtected_ && authorId !== timelineId && retweetedById !== timelineId;
 	};
 
 	tweet.getCanUnRetweet = function() {
@@ -328,6 +284,80 @@ twic.vcl.Tweet = function(id, timeline) {
 		wrapper.classList.add('replying');
 	};
 
+};
+
+/**
+ * @type {string}
+ * @private
+ */
+twic.vcl.Tweet.prototype.trAgo_ = twic.utils.lang.translate('time_ago');
+
+twic.vcl.Tweet.prototype.updateTime = function() {
+	if (0 === this.unixtime_) {
+		return false;
+	}
+
+	var
+		desc = '',
+		now = twic.utils.date.getCurrentTimestamp(),
+		df = now - this.unixtime_;
+
+	// less than minute ago
+	if (df < 60) {
+		desc = twic.utils.lang.translate('time_less_minute') + ' ' + this.trAgo_;
+	} else
+	// less than hour ago
+	if (df < 60 * 60) {
+		desc = twic.utils.lang.plural( Math.floor(df / 60), [
+			'time_minute_one',
+			'time_minute_much',
+			'time_minute_many'
+		] ) + ' ' + this.trAgo_;
+	} else
+	// less than day ago
+	if (df < 60 * 60 * 24) {
+		desc = twic.utils.lang.plural( Math.floor(df / 60 / 60), [
+			'time_hour_one',
+			'time_hour_much',
+			'time_hour_many'
+		] ) + ' ' + this.trAgo_;
+	} else {
+		var
+			dt = new Date(this.unixtime_ * 1000);
+
+		desc = dt.getDay() + ' ' +
+			twic.utils.lang.translate('time_month_' + (dt.getMonth() + 1));
+	}
+
+	this.timeSpan_.innerText = desc;
+};
+
+/**
+ * Set the time
+ * @param {number} newUnixTime New unix time
+ */
+twic.vcl.Tweet.prototype.setUnixTime = function(newUnixTime) {
+	this.unixtime_ = newUnixTime;
+
+	this.updateTime();
+	this.otherInfo_.appendChild(this.timeSpan_);
+};
+
+/**
+ * Set the tweet as protected
+ */
+twic.vcl.Tweet.prototype.setProtected = function() {
+	this.isProtected_ = true;
+};
+
+/**
+ * Set the source
+ * @param {string} newSource Tweet source (client)
+ */
+twic.vcl.Tweet.prototype.setSource = function(newSource) {
+	this.clientSpan_.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
+		newSource.replace('<a ', '<a target="_blank" ');
+	this.otherInfo_.appendChild(this.clientSpan_);
 };
 
 /**

@@ -40,7 +40,6 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {twic.vcl.Tweet} **/ replyTweet,
 
 		/** @type {Element} **/ hoveredTweet,
-		/** @type {Element} **/ tmp,
 
 		/** @type {?string} **/ firstId,
 		/** @type {?string} **/ lastId,
