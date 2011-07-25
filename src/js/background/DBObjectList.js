@@ -7,7 +7,7 @@
 
 /**
  * @constructor
- * @param {!Object} cls DBObject constructor function name
+ * @param {!function(*)} cls DBObject constructor function name
  */
 twic.DBObjectList = function(cls) {
 	this.cls = cls;

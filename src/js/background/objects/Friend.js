@@ -43,12 +43,9 @@ goog.inherits(twic.db.obj.Friend, twic.DBObject);
  * @override
  */
 twic.db.obj.Friend.prototype.save = function(callback) {
-	var
-		self = this;
+	this.fields['dt'] = twic.utils.date.getCurrentTimestamp();
 
-	self.fields['dt'] = twic.utils.date.getCurrentTimestamp();
-
-	twic.DBObject.prototype.save.call(self);
+	twic.DBObject.prototype.save.call(this);
 };
 
 /**
