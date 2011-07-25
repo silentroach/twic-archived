@@ -8,19 +8,17 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Tweet = function() {
-	var self = this;
-
-	twic.DBObject.call(self);
+	twic.DBObject.call(this);
 
 	/**
 	 * Json object
 	 * @protected
 	 * @type {Object}
 	 */
-	self.jsonObj = { };
+	this.jsonObj = { };
 
-	/** @const **/ self.table = 'tweets';
-	self.fields = {
+	this.table = 'tweets';
+	this.fields = {
 		'id': '',
 		'user_id': 0,
 		'reply_to': null,
@@ -30,7 +28,7 @@ twic.db.obj.Tweet = function() {
 		'source': ''
 	};
 
-	self.jsonMap = {
+	this.jsonMap = {
 		'id': 'id_str',
 		'reply_to': 'in_reply_to_status_id_str',
 
@@ -88,12 +86,9 @@ twic.db.obj.Tweet.prototype.remove = function(callback) {
  * @return {twic.DBObject}
  */
 twic.db.obj.Tweet.prototype.loadFromJSON = function(obj) {
-	var
-		self = this;
+	this.jsonObj = obj;
 
-	self.jsonObj = obj;
-
-	return twic.DBObject.prototype.loadFromJSON.call(self, obj);
+	return twic.DBObject.prototype.loadFromJSON.call(this, obj);
 };
 
 /**

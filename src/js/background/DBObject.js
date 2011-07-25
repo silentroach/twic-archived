@@ -58,7 +58,7 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) { };
 twic.DBObject.prototype.loadFromJSON = function(obj) {
 	var
 		dbobject = this,
-		key;
+		key = '';
 
 	dbobject.jsonObj = obj;
 
@@ -123,7 +123,7 @@ twic.DBObject.prototype.save = function(callback) {
 		params = [],
 		vals = [],
 		sql = '',
-		key;
+		key = '';
 
 	for (key in dbobject.fields) {
 		if (
@@ -209,7 +209,7 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 	var
 		obj = this,
 		al = (alias ? alias + '_' : ''),
-		fkey;
+		fkey = '';
 
 	for (fkey in obj.fields) {
 		obj.setValue(fkey, row[al + fkey]);
@@ -227,7 +227,7 @@ twic.DBObject.prototype.getFieldString = function(alias) {
 	var
 		obj = this,
 		result = '',
-		key;
+		key = '';
 
 	for(key in obj.fields) {
 		result += (alias ? alias + '.' : '') + key + (alias ? ' ' + alias + '_' + key : '') + ', ';
@@ -281,7 +281,7 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
 		values = goog.isObject(value) ? value : [value],
 		/** @type {string} **/ sql,
 		/** @type {number} **/ i,
-		/** @type {string} **/ key;
+		/** @type {string} **/ key = '';
 
 	if (goog.isString(fieldname)) {
 		whereClause = [fieldname + ' = ?'];

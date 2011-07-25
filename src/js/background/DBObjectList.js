@@ -10,15 +10,12 @@
  * @param {!Object} cls DBObject constructor function name
  */
 twic.DBObjectList = function(cls) {
-	var
-		self = this;
-
-	self.cls = cls;
+	this.cls = cls;
 
 	/**
 	 * @type {Object.<number,twic.DBObject>}
 	 */
-	self.items = { };
+	this.items = { };
 };
 
 /**

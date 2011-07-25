@@ -28,7 +28,7 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 		    var
 			    reply = { },
 			    ids = [],
-			    tweetId;
+			    tweetId = '';
 
 		    for (tweetId in tweets.items) {
 			    var

@@ -65,7 +65,7 @@ twic.HTTPRequest.queryStringToObject = function(data) {
 twic.HTTPRequest.prototype.getData = function() {
 	var
 		self = this,
-		key,
+		key = '',
 		data = [];
 
 	for (key in self.data) {
@@ -116,7 +116,7 @@ twic.HTTPRequest.prototype.send = function(callback) {
 	var
 		self = this,
 		data = self.getData(),
-		key;
+		key = '';
 
 	var req = new XMLHttpRequest();
 
