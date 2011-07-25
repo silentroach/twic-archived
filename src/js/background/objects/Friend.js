@@ -8,12 +8,10 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Friend = function() {
-	var self = this;
+	twic.DBObject.call(this);
 
-	twic.DBObject.call(self);
-
-	/** @const **/ self.table = 'friends';
-	self.fields = {
+	this.table = 'friends';
+	this.fields = {
 		'id': '',
 		'following': '',
 		'dt': twic.utils.date.getCurrentTimestamp()
@@ -23,7 +21,7 @@ twic.db.obj.Friend = function() {
 		return [obj['source']['id'], obj['target']['id']].sort();
 	};
 
-	self.jsonMap = {
+	this.jsonMap = {
 		'id': function(obj) {
 			return getIds(obj).join('_');
 		},
@@ -61,10 +59,7 @@ twic.db.obj.Friend.prototype.save = function(callback) {
  * @param {function()} nfcallback Object not found callback
  */
 twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, nfcallback) {
-	var
-		self = this;
-
-	twic.DBObject.prototype.loadById.call(self, [sourceId, targetId].sort().join('_'), callback, nfcallback);
+	twic.DBObject.prototype.loadById.call(this, [sourceId, targetId].sort().join('_'), callback, nfcallback);
 };
 
 /**
@@ -75,9 +70,8 @@ twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, 
  */
 twic.db.obj.Friend.prototype.getFollowing = function(sourceId, targetId) {
 	var
-		self = this,
-		fid = parseInt(self.fields['id'].split('_').shift(), 10),
-		f = self.fields['following'].split('_'),
+		fid = parseInt(this.fields['id'].split('_').shift(), 10),
+		f = this.fields['following'].split('_'),
 		res = {
 			'following': (fid === sourceId ? f[0] : f[1]) === '1',
 			'followed':  (fid === sourceId ? f[1] : f[0]) === '1'

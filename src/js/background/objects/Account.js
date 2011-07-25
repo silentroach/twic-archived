@@ -8,12 +8,10 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Account = function() {
-	var self = this;
+	twic.DBObject.call(this);
 
-	twic.DBObject.call(self);
-
-	/** @const **/ self.table = 'accounts';
-	self.fields = {
+	this.table = 'accounts';
+	this.fields = {
 		'id': 0,
 		'oauth_token': '',
 		'oauth_token_secret': '',
@@ -25,21 +23,15 @@ twic.db.obj.Account = function() {
 goog.inherits(twic.db.obj.Account, twic.DBObject);
 
 // todo is it right to declare handlers in this way?
-twic.db.obj.Account.prototype.onUnreadTweetsCountChanged = function(newCount) {
+twic.db.obj.Account.prototype.onUnreadTweetsCountChanged = function(newCount) { };
 
-};
-
-twic.db.obj.Account.prototype.onUnreadMessagesCountChanged = function(newCount) {
-
-};
+twic.db.obj.Account.prototype.onUnreadMessagesCountChanged = function(newCount) { };
 
 twic.db.obj.Account.prototype.onFieldChanged = function(fieldName, newValue) {
-	var account = this;
-
 	if (fieldName === 'unread_tweets_count') {
-		account.onUnreadTweetsCountChanged(newValue);
+		this.onUnreadTweetsCountChanged(newValue);
 	} else
 	if (fieldName === 'unread_messages_count') {
-		account.onUnreadMessagesCountChanged(newValue);
+		this.onUnreadMessagesCountChanged(newValue);
 	}
 };

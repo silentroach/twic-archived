@@ -17,7 +17,7 @@ twic.accounts.items_ = [];
  * @private
  */
 twic.accounts.scheduler_ = function() {
-	var i;
+	var i = 0;
 
 	for (i in twic.accounts.items_) {
 		twic.twitter.updateHomeTimeline(twic.accounts.items_[i].fields['id']);
@@ -42,7 +42,7 @@ twic.accounts.updateCounter_ = function() {
 	var
 		unreadTweetsCount = 0,
 		badgeHint = [],
-		id;
+		id = 0;
 
 	for (id in twic.accounts.items_) {
 		unreadTweetsCount += twic.accounts.items_[id].fields['unread_tweets_count'];
@@ -87,7 +87,7 @@ twic.accounts.updateList_ = function(callback) {
 			var
 				accs = new twic.DBObjectList(twic.db.obj.Account),
 				usrs = new twic.DBObjectList(twic.db.obj.User),
-				id;
+				id = 0;
 
 			accs.load(rows, 'a');
 			usrs.load(rows, 'u');
@@ -130,7 +130,7 @@ twic.accounts.getInfo = function(id) {
 twic.accounts.getInfoByNick_ = function(nick) {
 	var
 		nickLowered = nick.toLowerCase(),
-		id;
+		id = 0;
 
 	for (id in twic.accounts.items_) {
 		if (twic.accounts.items_[id].user.fields['screen_name_lower'] === nickLowered) {
@@ -209,7 +209,7 @@ twic.requests.subscribe('accountAdd', function(data, sendResponse) {
 twic.requests.subscribe('accountList', function(data, sendResponse) {
 	var
 		accs = [],
-		id;
+		id = 0;
 
 	for (id in twic.accounts.items_) {
 		var item = twic.accounts.items_[id];

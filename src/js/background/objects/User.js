@@ -10,12 +10,10 @@
  * @extends twic.DBObject
  */
 twic.db.obj.User = function() {
-	var self = this;
+	twic.DBObject.call(this);
 
-	twic.DBObject.call(self);
-
-	/** @const **/ self.table = 'users';
-	self.fields = {
+	this.table = 'users';
+	this.fields = {
 		'id': 0,
 		'name': '',
 		'screen_name': '',
@@ -33,7 +31,7 @@ twic.db.obj.User = function() {
 		'dt': twic.utils.date.getCurrentTimestamp()
 	};
 
-	self.jsonMap = {
+	this.jsonMap = {
 		'avatar': 'profile_image_url',
 		'verified': function(obj) {
 			return (obj['verified']) ? 1 : 0;
@@ -59,10 +57,7 @@ goog.inherits(twic.db.obj.User, twic.DBObject);
  * @override
  */
 twic.db.obj.User.prototype.save = function(callback) {
-	var
-		self = this;
+	this.fields['dt'] = twic.utils.date.getCurrentTimestamp();
 
-	self.fields['dt'] = twic.utils.date.getCurrentTimestamp();
-
-	twic.DBObject.prototype.save.call(self, callback);
+	twic.DBObject.prototype.save.call(this, callback);
 };
