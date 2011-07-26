@@ -116,7 +116,7 @@ twic.utils.url = { };
 /**
  * Humanize the link
  * @param {string} url Url
- * @param {Object=} lnks Shortened links hash
+ * @param {Object.<string, string>=} lnks Shortened links hash
  * @return {string}
  */
 twic.utils.url.humanize = function(url, lnks) {

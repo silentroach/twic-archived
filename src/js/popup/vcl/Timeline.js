@@ -23,222 +23,177 @@ twic.vcl.Timeline = function(parent) {
 	var
 		timeline = this,
 
-		/** @type {Element} **/ wrapper      = twic.dom.expandElement('div.timeline'),
-		/** @type {Element} **/ list         = twic.dom.expandElement('ul'),
-		/** @type {Element} **/ loader       = twic.dom.expandElement('p.loader'),
-
-		/** @type {Element} **/ tweetButtons = twic.dom.expandElement('div.tweetButtons'),
-		/** @type {Element} **/ tbReply      = twic.dom.expandElement('img.tb_reply'),
-		/** @type {Element} **/ tbRetweet    = twic.dom.expandElement('img.tb_retweet'),
-		/** @type {Element} **/ tbUnRetweet  = twic.dom.expandElement('img.tb_retweet_undo'),
-		/** @type {Element} **/ tbDelete     = twic.dom.expandElement('img.tb_delete'),
 		/** @type {Element} **/ buttonHolder = twic.dom.expandElement('div.holder'),
-		/** @type {Element} **/ confirmer    = twic.dom.expandElement('a.confirm'),
-		/** @type {boolean} **/ isLoading    = false,
-
-		/** @type {confirmAction} **/ confirmerAction,
-		/** @type {twic.vcl.Tweet} **/ replyTweet,
-
-		/** @type {Element} **/ hoveredTweet,
-
-		/** @type {?string} **/ firstId,
-		/** @type {?string} **/ lastId,
-
-		/** @type {string}  **/ userNick,
-		/** @type {number}  **/ userId,
-
-		/** @type {DocumentFragment}                **/ tweetBuffer,
-		/** @type {Object.<string, twic.vcl.Tweet>} **/ tweets = {};
+		/** @type {Element} **/ confirmer    = twic.dom.expandElement('a.confirm');
 
 	/**
-	 * Open the confirm dialog in the tweetButtons
-	 * @param {confirmAction} what
+	 * @type {Element}
 	 */
-	var doConfirm = function(what) {
-		confirmerAction = what;
-
-		tweetButtons.classList.add('bconfirm');
-
-		if (what === confirmAction.ACTION_DELETE) {
-			tweetButtons.classList.add('bdel');
-		} else
-		if (what === confirmAction.ACTION_UNDO_RETWEET) {
-			tweetButtons.classList.add('bunret');
-		} else
-		if (what === confirmAction.ACTION_RETWEET) {
-			tweetButtons.classList.add('bret');
-		}
-	};
-
-	var resetConfirm = function() {
-		confirmerAction = null;
-		tweetButtons.classList.remove('bconfirm');
-		tweetButtons.classList.remove('bdel');
-		tweetButtons.classList.remove('bret');
-		tweetButtons.classList.remove('bunret');
-	};
-
-	var resetButtons = function() {
-		resetConfirm();
-
-		// @resource img/buttons/retweet.png
-		tbRetweet.src   = 'img/buttons/retweet.png';
-		// @resource img/buttons/retweet_undo.png
-		tbUnRetweet.src = 'img/buttons/retweet_undo.png';
-		// @resource img/buttons/delete.png
-		tbDelete.src    = 'img/buttons/delete.png';
-		// @resource img/buttons/reply.png
-		tbReply.src     = 'img/buttons/reply.png';
-	};
+	this.wrapper_ = twic.dom.expandElement('div.timeline');
 
 	/**
-	 * Remove tweet
-	 * @param {Event|boolean|null} confirmed Is it confirmed?
+	 * @type {boolean}
 	 */
-	var doDelete = function(confirmed) {
-		if (hoveredTweet) {
-			if (!confirmed || !goog.isBoolean(confirmed)) {
-				doConfirm(confirmAction.ACTION_DELETE);
-				return;
-			}
-
-			doButtonLoad(tbDelete);
-			doButtonLoad(tbUnRetweet);
-
-			timeline.onDelete(userId, hoveredTweet.id, hideAndRestoreButtons);
-		}
-	};
+	this.buttonPressed_ = false;
 
 	/**
-	 * Remove tweet
-	 * @param {Event|boolean|null} confirmed Is it confirmed?
+	 * @type {confirmAction}
+	 * @private
 	 */
-	var doUnRetweet = function(confirmed) {
-		if (hoveredTweet) {
-			if (!confirmed || !goog.isBoolean(confirmed)) {
-				doConfirm(confirmAction.ACTION_UNDO_RETWEET);
-				return;
-			}
-
-			doDelete(true);
-		}
-	};
+	this.confirmerAction = null;
 
 	/**
-	 * Retweet
-	 * @param {Event|boolean|null} confirmed Is it confirmed?
+	 * @type {Timer}
+	 * @private
 	 */
-	var doRetweet = function(confirmed) {
-		if (hoveredTweet) {
-			if (!confirmed || !goog.isBoolean(confirmed)) {
-				if (confirmed && confirmed.ctrlKey) {
-					// oldstyle retweet
-					var
-						tweet = tweets[hoveredTweet.id];
+	this.clickTimer_ = null;
 
-					// wow, so ugly (it is Event here)
-					confirmed.stopPropagation();
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.list_ = twic.dom.expandElement('ul');
 
-					timeline.onOldRetweet('RT @' + tweet.getAuthorNick() + ' ' + tweet.getRawText());
-					hideAndRestoreButtons();
-					return;
-				}
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.hoveredTweet_ = null;
 
-				doConfirm(confirmAction.ACTION_RETWEET);
-				return;
-			}
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tweetButtons_ = twic.dom.expandElement('div.tweetButtons');
 
-			doButtonLoad(tbRetweet);
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.loader_ = twic.dom.expandElement('p.loader');
 
-			timeline.onRetweet(userId, hoveredTweet.id, hideAndRestoreButtons);
-		}
-	};
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	this.isLoading_ = false;
 
-	var doReallyConfirm = function() {
-		if (
-			confirmerAction === confirmAction.ACTION_DELETE
-			|| confirmerAction === confirmAction.ACTION_UNDO_RETWEET
-		) {
-			doDelete(true);
-		} else
-		if (confirmerAction === confirmAction.ACTION_RETWEET) {
-			doRetweet(true);
-		}
+	/**
+	 * @type {DocumentFragment}
+	 */
+	this.tweetBuffer_ = null;
 
-		resetConfirm();
-	};
+	/**
+	 * @type {twic.vcl.Tweet}
+	 * @private
+	 */
+	this.replyTweet_ = null;
 
-	var doButtonLoad = function(button) {
-		// @resource img/loader.gif
-		button.src = 'img/loader.gif';
-	};
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.userId_ = 0;
 
-	var hideButtons = function() {
-		if (hoveredTweet) {
-			twic.dom.setVisibility(tweetButtons, false);
-			hoveredTweet = null;
-		}
-	};
+	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.userNick_ = '';
 
-	var hideAndRestoreButtons = function() {
-		hideButtons();
-		resetButtons();
-	};
+	/**
+	 * @type {?string}
+	 */
+	this.firstId_ = '';
+
+	/**
+	 * @type {?string}
+	 */
+	this.lastId_ = '';
+
+	/**
+	 * @type {Object.<string, twic.vcl.Tweet>}
+	 * @private
+	 */
+	this.tweets_ = {};
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tbReply_ = twic.dom.expandElement('img.tb_reply');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tbRetweet_ = twic.dom.expandElement('img.tb_retweet');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tbUnRetweet_ = twic.dom.expandElement('img.tb_retweet_undo');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
 
 	var timelineMouseOut = function(e) {
 		if (
-			tweetButtons !== e.toElement
-			&& !twic.dom.isChildOf(e.toElement, tweetButtons)
-			&& !twic.dom.isChildOf(e.toElement, list)
+			timeline.tweetButtons_ !== e.toElement
+			&& !twic.dom.isChildOf(e.toElement, timeline.tweetButtons_)
+			&& !twic.dom.isChildOf(e.toElement, timeline.list_)
 		) {
-			hideButtons();
+			timeline.hideButtons_();
 		}
 	};
 
-	var buttonPressed = false;
 	var timelineMouseMove = function(e) {
 		var find = e.target;
 
-		if (!buttonPressed) {
+		if (!timeline.buttonPressed_) {
 			while (
 				find
-				&& find.nodeName !== 'LI'
+				&& 'LI' !== find.nodeName
 				&& find.parentNode
 			) {
 				find = find.parentNode;
 			}
 
-			if (find && find !== hoveredTweet) {
+			if (find && find !== timeline.hoveredTweet_) {
 				var
-					tweet = tweets[find.id];
+					tweet = timeline.tweets_[find.id];
 
 				if (tweet) {
 					if (tweet.isReplying()) {
-						hideButtons();
+						timeline.hideButtons_();
 					} else {
-						hoveredTweet = find;
+						timeline.hoveredTweet_ = find;
 
-						resetButtons();
+						timeline.resetButtons_();
 
-						twic.dom.setVisibility(tweetButtons, false);
+						twic.dom.setVisibility(timeline.tweetButtons_, false);
 
 						var
-							hackTop = hoveredTweet.offsetTop - parent.scrollTop + hoveredTweet.clientHeight + 1;
+							hackTop = timeline.hoveredTweet_.offsetTop - parent.scrollTop + timeline.hoveredTweet_.clientHeight + 1;
 
 						if (hackTop > parent.clientHeight) {
 							return;
 						}
 
 						var
-							vReply     = twic.dom.setVisibility(tbReply, tweet.getCanReply()),
-							vRetweet   = twic.dom.setVisibility(tbRetweet, tweet.getCanRetweet()),
-							vUnRetweet = twic.dom.setVisibility(tbUnRetweet, tweet.getCanUnRetweet()),
-							vDelete    = twic.dom.setVisibility(tbDelete, tweet.getCanDelete());
+							vReply     = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
+							vRetweet   = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
+							vUnRetweet = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
+							vDelete    = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete());
 
 						if (vReply || vRetweet || vUnRetweet || vDelete) {
-							tweetButtons.style.display = 'block';
-							tweetButtons.style.top = (hackTop - tweetButtons.clientHeight - 1) + 'px';
-							tweetButtons.style.right = (document.body.clientWidth - hoveredTweet.clientWidth) + 'px';
+							timeline.tweetButtons_.style.display = 'block';
+							timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
+							timeline.tweetButtons_.style.right = (document.body.clientWidth - timeline.hoveredTweet_.clientWidth) + 'px';
 						}
 					}
 				}
@@ -246,244 +201,420 @@ twic.vcl.Timeline = function(parent) {
 		}
 	};
 
-	var clickTimer;
-	var timelineMouseDown = function(e) {
-		clickTimer = setTimeout( function() {
-			if (hoveredTweet) {
-				twic.dom.setVisibility(tweetButtons, false);
-				hoveredTweet = null;
-			}
+	var timelineMouseDownFunc = function() {
+		if (timeline.hoveredTweet_) {
+			twic.dom.setVisibility(timeline.tweetButtons_, false);
+			timeline.hoveredTweet_ = null;
+		}
 
-			buttonPressed = true;
-		}, 250 );
+		timeline.buttonPressed_ = true;
+	};
+
+	var timelineMouseDown = function(e) {
+		timeline.clickTimer_ = setTimeout(timelineMouseDownFunc, 250);
 	};
 
 	var timelineMouseUp = function(e) {
-		if (clickTimer) {
-			clearTimeout(clickTimer);
-			clickTimer = null;
-
-			if (!buttonPressed && hoveredTweet && replyTweet) {
-				replyTweet.resetEditor();
-				hideButtons();
-			}
-		}
-
-		buttonPressed = false;
-	};
-
-	/**
-	 * Start the update
-	 * @param {boolean=} isBottom Show animation at the bottom of timeline?
-	 * @param {boolean=} noBuffer Don't use buffering
-	 */
-	timeline.beginUpdate = function(isBottom, noBuffer) {
-		if (!isLoading) {
-			if (isBottom) {
-				wrapper.appendChild(loader);
-			} else {
-				wrapper.insertBefore(loader, list);
-			}
-
-			if (!noBuffer) {
-				tweetBuffer = document.createDocumentFragment();
-			}
-
-			isLoading = true;
-		}
-	};
-
-	/**
-	 * Stop the loading
-	 */
-	timeline.endUpdate = function() {
-		if (isLoading) {
-			isLoading = false;
+		if (timeline.clickTimer_) {
+			clearTimeout(timeline.clickTimer_);
+			timeline.clickTimer_ = null;
 
 			if (
-				tweetBuffer
-				&& tweetBuffer.childNodes.length > 0
+				!timeline.buttonPressed_
+				&& timeline.hoveredTweet_
+				&& timeline.replyTweet_
 			) {
-				list.appendChild(tweetBuffer);
-				tweetBuffer = null;
-			}
-
-			twic.dom.removeElement(loader);
-		}
-	};
-
-	/**
-	 * Clear the timeline
-	 */
-	timeline.clear = function() {
-		list.innerHTML = '';
-		tweets = { };
-
-		lastId = null;
-		firstId = null;
-	};
-
-	/**
-	 * Add tweet to timeline
-	 * @param {string} id Tweet identifier
-	 * @return {!twic.vcl.Tweet}
-	 */
-	timeline.addTweet = function(id) {
-		var
-			tweet = new twic.vcl.Tweet(id, timeline);
-
-		tweets[id] = tweet;
-
-		tweet.onReplySend = timeline.onReplySend;
-
-		if (
-			isLoading
-			&& tweetBuffer
-		) {
-			tweetBuffer.appendChild(tweet.getElement());
-		} else {
-			if (
-				lastId
-				&& id > lastId
-			) {
-				list.insertBefore(tweet.getElement(), list.childNodes[0]);
-			} else {
-				list.appendChild(tweet.getElement());
+				timeline.replyTweet_.resetEditor();
+				timeline.hideButtons_();
 			}
 		}
 
-		if (
-			!lastId
-			|| id > lastId
-		) {
-			lastId = id;
-		}
-
-		if (
-			!firstId
-			|| id < firstId
-		) {
-			firstId = id;
-		}
-
-		return tweet;
-	};
-
-	/**
-	 * @param {number} id User identifier
-	 */
-	timeline.setUserId = function(id) {
-		userId = id;
-	};
-
-	/**
-	 * @param {string} nick User nick
-	 */
-	timeline.setUserNick = function(nick) {
-		userNick = nick;
-	};
-
-	/**
-	 * @return {number} User identifier
-	 */
-	timeline.getUserId = function() {
-		return userId;
-	};
-
-	/**
-	 * @return {string} User nick
-	 */
-	timeline.getUserNick = function() {
-		return userNick;
-	};
-
-	/**
-	 * @return {?string} Last tweet identifier
-	 */
-	timeline.getLastId = function() {
-		return lastId;
-	};
-
-	/**
-	 * @return {?string} First tweet identifier
-	 */
-	timeline.getFirstId = function() {
-		return firstId;
-	};
-
-	timeline.resetEditor = function() {
-		if (replyTweet) {
-			replyTweet.resetEditor();
-		}
-	};
-
-	/**
-	 * @param {Event=} e Mouse event
-	 */
-	var doReply = function(e) {
-		if (
-			null === confirmerAction
-			&& hoveredTweet
-		) {
-			e.stopPropagation();
-
-			timeline.resetEditor();
-
-			replyTweet = tweets[hoveredTweet.id];
-			replyTweet.reply(e && e.ctrlKey);
-
-			hideButtons();
-		}
+		timeline.buttonPressed_ = false;
 	};
 
 	// init
 
-	tbReply.title = twic.utils.lang.translate('title_reply');
-	tbReply.onclick = doReply;
-	buttonHolder.appendChild(tbReply);
+	this.tbReply_.title = twic.utils.lang.translate('title_reply');
+	this.tbReply_.addEventListener('click', this.doReply_, false);
+	buttonHolder.appendChild(this.tbReply_);
 
-	tbRetweet.title = twic.utils.lang.translate('title_retweet');
-	tbRetweet.onclick = doRetweet;
-	buttonHolder.appendChild(tbRetweet);
+	this.tbRetweet_.title = twic.utils.lang.translate('title_retweet');
+	this.tbRetweet_.addEventListener('click', this.doRetweet_, false);
+	buttonHolder.appendChild(this.tbRetweet_);
 
-	tbUnRetweet.title = twic.utils.lang.translate('title_retweet_undo');
-	tbUnRetweet.onclick = doUnRetweet;
-	buttonHolder.appendChild(tbUnRetweet);
+	this.tbUnRetweet_.title = twic.utils.lang.translate('title_retweet_undo');
+	this.tbUnRetweet_.addEventListener('click', this.doUnRetweet_, false);
+	buttonHolder.appendChild(this.tbUnRetweet_);
 
-	tbDelete.title = twic.utils.lang.translate('title_delete');
-	tbDelete.onclick = doDelete;
-	buttonHolder.appendChild(tbDelete);
+	this.tbDelete_.title = twic.utils.lang.translate('title_delete');
+	this.tbDelete_.addEventListener('click', this.doDelete_, false);
+	buttonHolder.appendChild(this.tbDelete_);
 
-	tweetButtons.appendChild(buttonHolder);
+	this.tweetButtons_.appendChild(buttonHolder);
 
 	confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
 	confirmer.href = '#';
-	confirmer.onclick = doReallyConfirm;
-	tweetButtons.appendChild(confirmer);
+	confirmer.addEventListener('click', this.doReallyConfirm_, false);
+	this.tweetButtons_.appendChild(confirmer);
 
-	wrapper.appendChild(list);
-	wrapper.appendChild(tweetButtons);
-	parent.appendChild(wrapper);
+	this.wrapper_.appendChild(this.list_);
+	this.wrapper_.appendChild(this.tweetButtons_);
+	parent.appendChild(this.wrapper_);
 
-	resetButtons();
+	this.resetButtons_();
 
-	list.addEventListener('mousedown', timelineMouseDown, false);
-	list.addEventListener('mouseup',   timelineMouseUp, false);
-	list.addEventListener('mousemove', timelineMouseMove, false);
-	list.addEventListener('mouseout',  timelineMouseOut, false);
+	this.list_.addEventListener('mousedown', timelineMouseDown, false);
+	this.list_.addEventListener('mouseup',   timelineMouseUp, false);
+	this.list_.addEventListener('mousemove', timelineMouseMove, false);
+	this.list_.addEventListener('mouseout',  timelineMouseOut, false);
 
-	parent.addEventListener('scroll', hideButtons, false);
+	parent.addEventListener('scroll', this.hideButtons_, false);
 
 	// update times every minute
 	setInterval( function() {
 		var
-			id;
+			id = '';
 
-		for (id in tweets) {
-			tweets[id].updateTime();
+		for (id in this.tweets_) {
+			this.tweets_[id].updateTime();
 		}
 	}, 1000 * 60 );
 
+};
+
+/**
+ * Start the update
+ * @param {boolean=} isBottom Show animation at the bottom of timeline?
+ * @param {boolean=} noBuffer Don't use buffering
+ */
+twic.vcl.Timeline.prototype.beginUpdate = function(isBottom, noBuffer) {
+	if (!this.isLoading_) {
+		if (isBottom) {
+			this.wrapper_.appendChild(this.loader_);
+		} else {
+			this.wrapper_.insertBefore(this.loader_, this.list_);
+		}
+
+		if (!noBuffer) {
+			this.tweetBuffer_ = document.createDocumentFragment();
+		}
+
+		this.isLoading_ = true;
+	}
+};
+
+/**
+ * Change button image to loader animation
+ * @param {Element} button Button
+ * @private
+ */
+twic.vcl.Timeline.prototype.doButtonLoad_ = function(button) {
+	// @resource img/loader.gif
+	button.src = 'img/loader.gif';
+};
+
+/**
+ * Retweet
+ * @param {Event|boolean|null} confirmed Is it confirmed?
+ * @private
+ */
+twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
+	if (this.hoveredTweet_) {
+		if (!confirmed || !goog.isBoolean(confirmed)) {
+			if (confirmed && confirmed.ctrlKey) {
+				// oldstyle retweet
+				var
+					tweet = this.tweets_[this.hoveredTweet_.id];
+
+				// wow, so ugly (it is Event here)
+				confirmed.stopPropagation();
+
+				this.onOldRetweet('RT @' + tweet.getAuthorNick() + ' ' + tweet.getRawText());
+				this.hideAndRestoreButtons_();
+				return;
+			}
+
+			this.doConfirm_(confirmAction.ACTION_RETWEET);
+			return;
+		}
+
+		this.doButtonLoad_(this.tbRetweet_);
+
+		this.onRetweet(this.userId_, this.hoveredTweet_.id, this.hideAndRestoreButtons_);
+	}
+};
+
+/**
+ * Really confirm
+ */
+twic.vcl.Timeline.prototype.doReallyConfirm_ = function() {
+	if (
+		this.confirmerAction_ === confirmAction.ACTION_DELETE
+		|| this.confirmerAction_ === confirmAction.ACTION_UNDO_RETWEET
+	) {
+		this.doDelete_(true);
+	} else
+	if (timeline.confirmerAction_ === confirmAction.ACTION_RETWEET) {
+		this.doRetweet_(true);
+	}
+
+	this.resetConfirm_();
+};
+
+/**
+ * Remove tweet
+ * @param {Event|boolean|null} confirmed Is it confirmed?
+ * @private
+ */
+twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
+	if (this.hoveredTweet_) {
+		if (!confirmed || !goog.isBoolean(confirmed)) {
+			this.doConfirm_(confirmAction.ACTION_DELETE);
+			return;
+		}
+
+		this.doButtonLoad_(this.tbDelete_);
+		this.doButtonLoad_(this.tbUnRetweet_);
+
+		this.onDelete(this.userId_, this.hoveredTweet_.id, this.hideAndRestoreButtons_);
+	}
+};
+
+/**
+ * Remove tweet
+ * @param {Event|boolean|null} confirmed Is it confirmed?
+ * @private
+ */
+twic.vcl.Timeline.prototype.doUnRetweet_ = function(confirmed) {
+	if (this.hoveredTweet_) {
+		if (!confirmed || !goog.isBoolean(confirmed)) {
+			this.doConfirm_(confirmAction.ACTION_UNDO_RETWEET);
+			return;
+		}
+
+		this.doDelete_(true);
+	}
+};
+
+/**
+ * Stop the loading
+ */
+twic.vcl.Timeline.prototype.endUpdate = function() {
+	if (this.isLoading_) {
+		this.isLoading_ = false;
+
+		if (
+			this.tweetBuffer_
+			&& this.tweetBuffer_.childNodes.length > 0
+		) {
+			this.list_.appendChild(this.tweetBuffer_);
+			this.tweetBuffer_ = null;
+		}
+
+		twic.dom.removeElement(this.loader_);
+	}
+};
+
+/**
+ * Hide the timeline tweet buttons
+ * @private
+ */
+twic.vcl.Timeline.prototype.hideButtons_ = function() {
+	if (this.hoveredTweet_) {
+		twic.dom.setVisibility(this.tweetButtons_, false);
+		this.hoveredTweet_ = null;
+	}
+};
+
+/**
+ * Hide and restore the tweet buttons
+ * @private
+ */
+twic.vcl.Timeline.prototype.hideAndRestoreButtons_ = function() {
+	this.hideButtons_();
+	this.resetButtons_();
+};
+
+/**
+ * Reset the confirmer
+ * @private
+ */
+twic.vcl.Timeline.prototype.resetConfirm_ = function() {
+	this.confirmerAction_ = null;
+	this.tweetButtons_.classList.remove('bconfirm');
+	this.tweetButtons_.classList.remove('bdel');
+	this.tweetButtons_.classList.remove('bret');
+	this.tweetButtons_.classList.remove('bunret');
+};
+
+/**
+ * Reset the tweet buttons
+ */
+twic.vcl.Timeline.prototype.resetButtons_ = function() {
+	this.resetConfirm_();
+
+	// @resource img/buttons/retweet.png
+	this.tbRetweet_.src   = 'img/buttons/retweet.png';
+	// @resource img/buttons/retweet_undo.png
+	this.tbUnRetweet_.src = 'img/buttons/retweet_undo.png';
+	// @resource img/buttons/delete.png
+	this.tbDelete_.src    = 'img/buttons/delete.png';
+	// @resource img/buttons/reply.png
+	this.tbReply_.src     = 'img/buttons/reply.png';
+};
+
+/**
+ * Clear the timeline
+ */
+twic.vcl.Timeline.prototype.clear = function() {
+	this.list_.innerHTML = '';
+	this.tweets_ = { };
+
+	this.lastId_ = null;
+	this.firstId_ = null;
+};
+
+/**
+ * @param {Event} e Mouse event
+ * @private
+ */
+twic.vcl.Timeline.prototype.doReply_ = function(e) {
+	if (
+		null === this.confirmerAction_
+		&& this.hoveredTweet_
+	) {
+		e.stopPropagation();
+
+		this.resetEditor();
+
+		this.replyTweet_ = this.tweets_[this.hoveredTweet_.id];
+		this.replyTweet_.reply(e && e.ctrlKey);
+
+		this.hideButtons_();
+	}
+};
+
+/**
+ * Open the confirm dialog in the tweetButtons
+ * @param {confirmAction} what
+ * @private
+ */
+twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
+	this.confirmerAction_ = what;
+
+	this.tweetButtons_.classList.add('bconfirm');
+
+	if (what === confirmAction.ACTION_DELETE) {
+		this.tweetButtons_.classList.add('bdel');
+	} else
+	if (what === confirmAction.ACTION_UNDO_RETWEET) {
+		this.tweetButtons_.classList.add('bunret');
+	} else
+	if (what === confirmAction.ACTION_RETWEET) {
+		this.tweetButtons_.classList.add('bret');
+	}
+};
+
+/**
+ * Add tweet to timeline
+ * @param {string} id Tweet identifier
+ * @return {!twic.vcl.Tweet}
+ */
+twic.vcl.Timeline.prototype.addTweet = function(id) {
+	var
+		tweet = new twic.vcl.Tweet(id, this);
+
+	this.tweets_[id] = tweet;
+
+	tweet.onReplySend = this.onReplySend;
+
+	if (
+		this.isLoading_
+		&& this.tweetBuffer_
+	) {
+		this.tweetBuffer_.appendChild(tweet.getElement());
+	} else {
+		if (
+			this.lastId_
+			&& id > this.lastId_
+		) {
+			this.list_.insertBefore(tweet.getElement(), this.list_.childNodes[0]);
+		} else {
+			this.list_.appendChild(tweet.getElement());
+		}
+	}
+
+	if (
+		!this.lastId_
+		|| id > this.lastId_
+	) {
+		this.lastId_ = id;
+	}
+
+	if (
+		!this.firstId_
+		|| id < this.firstId_
+	) {
+		this.firstId_ = id;
+	}
+
+	return tweet;
+};
+
+/**
+ * Reset the editor
+ */
+twic.vcl.Timeline.prototype.resetEditor = function() {
+	if (this.replyTweet_) {
+		this.replyTweet_.resetEditor();
+	}
+};
+
+/**
+ * Set the timeline user id
+ * @param {number} id User identifier
+ */
+twic.vcl.Timeline.prototype.setUserId = function(id) {
+	this.userId_ = id;
+};
+
+/**
+ * @param {string} nick User nick
+ */
+twic.vcl.Timeline.prototype.setUserNick = function(nick) {
+	this.userNick_ = nick;
+};
+
+
+/**
+ * Get the timeline user id
+ * @return {number} User identifier
+ */
+twic.vcl.Timeline.prototype.getUserId = function() {
+	return this.userId_;
+};
+
+/**
+ * @return {string} User nick
+ */
+twic.vcl.Timeline.prototype.getUserNick = function() {
+	return this.userNick_;
+};
+
+/**
+ * Get the last tweet identifier
+ * @return {?string}
+ */
+twic.vcl.Timeline.prototype.getLastId = function() {
+	return this.lastId_;
+};
+
+/**
+ * Get the first tweet identifier
+ * @return {?string}
+ */
+twic.vcl.Timeline.prototype.getFirstId = function() {
+	return this.firstId_;
 };
 
 /**

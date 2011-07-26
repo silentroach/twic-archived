@@ -17,8 +17,8 @@ twic.vcl.Map = function(container, lat, lng) {
 		new google.maps.Map(container, {
 			'zoom': 13,
 			'center': new google.maps.LatLng(lat, lng),
-		  'mapTypeId': google.maps.MapTypeId.ROADMAP,
-		  'streetViewControl': false
+			'mapTypeId': google.maps.MapTypeId.ROADMAP,
+			'streetViewControl': false
 		} );
 	};
 

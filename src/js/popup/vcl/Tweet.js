@@ -11,34 +11,101 @@
  */
 twic.vcl.Tweet = function(id, timeline) {
 
-	var
-		tweet = this,
+	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.id_ = id;
 
-		/** @type {RegExp} */ nickSearchPattern   = /([^&\w\/]|^)(@\w+)/gi,
-		/** @type {RegExp} */ hashSearchPattern   = /([^&\w\/]|^)(#([\w\u0080-\uffff]*))/gi,
-		/** @type {RegExp} */ breaksSearchPattern = /\r?\n/,
+	/**
+	 * @type {twic.vcl.Timeline}
+	 * @private
+	 */
+	this.timeline_ = timeline;
 
-		/** @type {Element} */ replyWrapper = twic.dom.expandElement('div'),
-		/** @type {twic.vcl.TweetEditor} */ replier,
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.timelineId_ = this.timeline_.getUserId();
 
-		/** @type {Object} */ mentioned = { },
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.avatar_ = twic.dom.expandElement('img.avatar');
 
-		/** @type {number} */ authorId,
-		/** @type {string} */ authorNick,
-		/** @type {number} */ retweetedById,
-		/** @type {string} */ rawText,
-		/** @type {Object} */ links = { },
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.avatarLink_ = twic.dom.expandElement('a.avatar');
 
-		/** @type {number} */ timelineId = timeline.getUserId(),
-		/** @type {string} */ timelineNick = timeline.getUserNick(),
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.rtAvatarLink_ = twic.dom.expandElement('a.avatar.retweeter');
 
-		wrapper      = twic.dom.expandElement('li#' + id + '.tweet'),
-		avatarLink   = twic.dom.expandElement('a.avatar'),
-		avatar       = twic.dom.expandElement('img.avatar'),
-		rtAvatarLink = twic.dom.expandElement('a.avatar.retweeter'),
-		rtAvatar     = twic.dom.expandElement('img.avatar'),
-		tweetContent = twic.dom.expandElement('p'),
-		clearer      = twic.dom.expandElement('div.clearer');
+	/**
+	 * @type {Element}
+	 * @pivate
+	 */
+	this.rtAvatar_ = twic.dom.expandElement('img.avatar');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.wrapper_ = twic.dom.expandElement('li#' + this.id_ + '.tweet');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tweetContent_ = twic.dom.expandElement('p');
+
+	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.timelineNick_ = this.timeline_.getUserNick();
+
+	/**
+	 * @type {Object}
+	 * @private
+	 */
+	this.mentioned_ = { };
+
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.authorId_ = 0;
+
+	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.authorNick_ = '';
+
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.retweetedById_ = 0;
+
+	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.rawText_ = '';
+
+	/**
+	 * @type {Object.<string, string>}
+	 * @private
+	 */
+	this.links_ = { };
 
 	/**
 	 * @type {number}
@@ -51,6 +118,11 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @private
 	 */
 	this.isProtected_ = false;
+
+	/**
+	 * @type {twic.vcl.TweetEditor}
+	 */
+	this.replier_ = null,
 
 	/**
 	 * @type {Element}
@@ -68,223 +140,45 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @type {Element}
 	 * @private
 	 */
+	this.replyWrapper_ = twic.dom.expandElement('div');
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
 	this.timeSpan_ = twic.dom.expandElement('span.time');
 
-	twic.dom.setVisibility(rtAvatarLink, false);
+	twic.dom.setVisibility(this.rtAvatarLink_, false);
 
-	avatarLink.appendChild(avatar);
-	rtAvatarLink.appendChild(rtAvatar);
+	this.avatarLink_.appendChild(this.avatar_);
+	this.rtAvatarLink_.appendChild(this.rtAvatar_);
 
-	wrapper.appendChild(avatarLink);
-	wrapper.appendChild(rtAvatarLink);
-	wrapper.appendChild(tweetContent);
-	wrapper.appendChild(this.otherInfo_);
-	wrapper.appendChild(clearer);
-	wrapper.appendChild(replyWrapper);
-
-	/**
-	 * Set the tweet text
-	 * @param {string} text
-	 */
-	tweet.setText = function(text) {
-		var txt = twic.utils.url.processText(text, links);
-
-		rawText = text;
-
-		// preparing hashtags
-		txt = txt.replace(
-			hashSearchPattern,
-			'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$3">$2</a>'
-		);
-
-		// preparing nicks
-		txt = txt.replace(
-			nickSearchPattern,
-			function(nick) {
-				var n = nick.trim().substring(1);
-
-				if (n.substr(0, 1) == '@') {
-					n = n.substring(1);
-				}
-
-				if (timelineNick === n) {
-					// this tweet is with our mention
-					wrapper.classList.add('mention');
-				}
-
-				mentioned[n.toLowerCase()] = '@' + n;
-
-				return nick.replace('@' + n, '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>');
-			}
-		);
-
-		// preparing line breaks
-		txt = txt.replace(
-			breaksSearchPattern,
-			'<br />'
-		);
-
-		tweetContent.innerHTML = txt + '<br />';
-	};
-
-	tweet.setLinks = function(linksHash) {
-		links = linksHash;
-	};
-
-	/**
-	 * Add a separator
-	 */
-	tweet.setSeparator = function() {
-		wrapper.classList.add('separator');
-	};
-
-	/**
-	 * Set author info
-	 * @param {number} id Author identifier
-	 * @param {string} nick Tweet author nick
-	 * @param {string} av User avatar src
-	 */
-	tweet.setAuthor = function(id, nick, av) {
-		authorId = id;
-		authorNick = nick;
-
-		if (authorId === timelineId) {
-			wrapper.classList.add('me');
-		}
-
-		avatarLink.title = '@' + nick;
-		avatarLink.href = '#profile#' + nick;
-
-		avatar.src = av;
-	};
-
-	/**
-	 * Set retweeter info
-	 * @param {number} id Retweet author identifier
-	 * @param {string} nick Retweet author nick
-	 * @param {string} av User avatar src
-	 */
-	tweet.setRetweeter = function(id, nick, av) {
-		retweetedById = id;
-
-		if (retweetedById === timelineId) {
-			wrapper.classList.add('me');
-		}
-
-		rtAvatarLink.title = twic.utils.lang.translate('title_retweeted_by', '@' + nick);
-		rtAvatarLink.href = '#profile#' + nick;
-
-		rtAvatar.src = av;
-
-		rtAvatarLink.style.display = 'block';
-
-		wrapper.classList.add('retweet');
-	};
-
-	/**
-	 * @return {number}
-	 */
-	tweet.getAuthorId = function() {
-		return authorId;
-	};
-
-	/**
-	 * @return {string}
-	 */
-	tweet.getRawText = function() {
-		return rawText;
-	};
-
-	/**
-	 * @return {string}
-	 */
-	tweet.getAuthorNick = function() {
-		return authorNick;
-	};
-
-	/**
-	 * Get the tweet element
-	 * @return {Element}
-	 */
-	tweet.getElement = function() {
-		return wrapper;
-	};
-
-	/**
-	 * Tweet id
-	 * @return {string}
-	 */
-	tweet.getId = function() {
-		return id;
-	};
-
-	tweet.isReplying = function() {
-		return replier;
-	};
-
-	var resetTweetEditor = function() {
-		wrapper.classList.remove('replying');
-		replier = null;
-	};
-
-	tweet.resetEditor = function() {
-		if (replier) {
-			replier.close();
-			resetTweetEditor();
-		}
-	};
-
-	tweet.getCanRetweet = function() {
-		return !this.isProtected_ && authorId !== timelineId && retweetedById !== timelineId;
-	};
-
-	tweet.getCanUnRetweet = function() {
-		return retweetedById === timelineId;
-	};
-
-	tweet.getCanDelete = function() {
-		return authorId === timelineId;
-	};
-
-	tweet.getCanReply = function() {
-		return true;
-	};
-
-	/**
-	 * @param {boolean=} all Reply to all mentioned
-	 */
-	tweet.reply = function(all) {
-		var
-			/** @type {string} **/ replyNick = authorNick,
-			/** @type {string} **/ nickList = '@' + replyNick + ' ';
-
-		if (all) {
-			var
-				/** @type {string} **/ nick,
-				nicks = mentioned;
-
-			if (replyNick.toLowerCase() in nicks) {
-				delete nicks[replyNick.toLowerCase()];
-			}
-
-			for (nick in nicks) {
-				nickList += nicks[nick] + ' ';
-			}
-		}
-
-		replier = new twic.vcl.TweetEditor(timelineId, replyWrapper, id);
-		replier.autoRemovable = true;
-		replier.onTweetSend = tweet.onReplySend;
-		replier.setConstTextIfEmpty(nickList);
-		replier.setFocus();
-
-		replier.onClose = resetTweetEditor;
-		replier.onGetSuggestList = timeline.onReplierGetSuggestList;
-
-		wrapper.classList.add('replying');
-	};
+	this.wrapper_.appendChild(this.avatarLink_);
+	this.wrapper_.appendChild(this.rtAvatarLink_);
+	this.wrapper_.appendChild(this.tweetContent_);
+	this.wrapper_.appendChild(this.otherInfo_);
+	this.wrapper_.appendChild(twic.dom.expandElement('div.clearer'));
+	this.wrapper_.appendChild(this.replyWrapper_);
 
 };
+
+/**
+ * @type {RegExp}
+ * @const
+ */
+twic.vcl.Tweet.REGEXP_NICK = /([^&\w\/]|^)(@\w+)/gi;
+
+/**
+ * @type {RegExp}
+ * @const
+ */
+twic.vcl.Tweet.REGEXP_HASH = /([^&\w\/]|^)(#([\w\u0080-\uffff]*))/gi;
+
+/**
+ * @type {RegExp}
+ * @const
+ */
+twic.vcl.Tweet.REGEXP_BREAK = /\r?\n/;
 
 /**
  * @type {string}
@@ -292,9 +186,28 @@ twic.vcl.Tweet = function(id, timeline) {
  */
 twic.vcl.Tweet.prototype.trAgo_ = twic.utils.lang.translate('time_ago');
 
+/**
+ * Get the tweet author id
+ * @return {number}
+ */
+twic.vcl.Tweet.prototype.getAuthorId = function() {
+	return this.authorId_;
+};
+
+/**
+ * Get the tweet author nick
+ * @return {string}
+ */
+twic.vcl.Tweet.prototype.getAuthorNick = function() {
+	return this.authorNick_;
+};
+
+/**
+ * Update the tweet time
+ */
 twic.vcl.Tweet.prototype.updateTime = function() {
 	if (0 === this.unixtime_) {
-		return false;
+		return;
 	}
 
 	var
@@ -333,6 +246,53 @@ twic.vcl.Tweet.prototype.updateTime = function() {
 };
 
 /**
+ * Set the tweet text
+ * @param {string} text
+ */
+twic.vcl.Tweet.prototype.setText = function(text) {
+	var
+		txt = twic.utils.url.processText(text, this.links_),
+		tweet = this;
+
+	this.rawText_ = text;
+
+	// preparing hashtags
+	txt = txt.replace(
+		twic.vcl.Tweet.REGEXP_HASH,
+		'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$3">$2</a>'
+	);
+
+	// preparing nicks
+	txt = txt.replace(
+		twic.vcl.Tweet.REGEXP_NICK,
+		function(nick) {
+			var n = nick.trim().substring(1);
+
+			if (n.substr(0, 1) == '@') {
+				n = n.substring(1);
+			}
+
+			if (tweet.timelineNick_ === n) {
+				// this tweet is with our mention
+				tweet.wrapper_.classList.add('mention');
+			}
+
+			tweet.mentioned_[n.toLowerCase()] = '@' + n;
+
+			return nick.replace('@' + n, '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>');
+		}
+	);
+
+	// preparing line breaks
+	txt = txt.replace(
+		twic.vcl.Tweet.REGEXP_BREAK,
+		'<br />'
+	);
+
+	this.tweetContent_.innerHTML = txt + '<br />';
+};
+
+/**
  * Set the time
  * @param {number} newUnixTime New unix time
  */
@@ -348,6 +308,184 @@ twic.vcl.Tweet.prototype.setUnixTime = function(newUnixTime) {
  */
 twic.vcl.Tweet.prototype.setProtected = function() {
 	this.isProtected_ = true;
+};
+
+/**
+ * Add the separator
+ */
+twic.vcl.Tweet.prototype.setSeparator = function() {
+	this.wrapper_.classList.add('separator');
+};
+
+/**
+ * Set the tweet shortened links hash
+ * @param {Object.<string, string>} linksHash Links hash
+ */
+twic.vcl.Tweet.prototype.setLinks = function(linksHash) {
+	this.links_ = linksHash;
+};
+
+/**
+ * Set retweeter info
+ * @param {number} id Retweet author identifier
+ * @param {string} nick Retweet author nick
+ * @param {string} av User avatar src
+ */
+twic.vcl.Tweet.prototype.setRetweeter = function(id, nick, av) {
+	this.retweetedById_ = id;
+
+	if (this.retweetedById_ === this.timelineId_) {
+		this.wrapper_.classList.add('me');
+	}
+
+	this.rtAvatarLink_.title = twic.utils.lang.translate('title_retweeted_by', '@' + nick);
+	this.rtAvatarLink_.href = '#profile#' + nick;
+
+	this.rtAvatar_.src = av;
+
+	this.rtAvatarLink_.style.display = 'block';
+
+	this.wrapper_.classList.add('retweet');
+};
+
+/**
+ * Set author info
+ * @param {number} id Author identifier
+ * @param {string} nick Tweet author nick
+ * @param {string} av User avatar src
+ */
+twic.vcl.Tweet.prototype.setAuthor = function(id, nick, av) {
+	this.authorId_ = id;
+	this.authorNick_ = nick;
+
+	if (this.authorId_ === this.timelineId_) {
+		this.wrapper_.classList.add('me');
+	}
+
+	this.avatarLink_.title = '@' + nick;
+	this.avatarLink_.href = '#profile#' + nick;
+
+	this.avatar_.src = av;
+};
+
+/**
+ * Can reply to tweet?
+ * @return {!boolean}
+ */
+twic.vcl.Tweet.prototype.getCanReply = function() {
+	return true;
+};
+
+/**
+ * Get the tweet element
+ * @return {Element}
+ */
+twic.vcl.Tweet.prototype.getElement = function() {
+	return this.wrapper_;
+};
+
+/**
+ * Get the tweet raw text
+ * @return {string}
+ */
+twic.vcl.Tweet.prototype.getRawText = function() {
+	return this.rawText_;
+};
+
+/**
+ * Tweet id
+ * @return {string}
+ */
+twic.vcl.Tweet.prototype.getId = function() {
+	return this.id_;
+};
+
+/**
+ * Is replying?
+ * @returns {boolean}
+ */
+twic.vcl.Tweet.prototype.isReplying = function() {
+	return null !== this.replier_;
+};
+
+/**
+ * Inner reset the tweet replier
+ * @private
+ */
+twic.vcl.Tweet.prototype.resetTweetEditor_ = function() {
+	this.wrapper_.classList.remove('replying');
+	this.replier_ = null;
+};
+
+/**
+ * Reset the tweet replier
+ */
+twic.vcl.Tweet.prototype.resetEditor = function() {
+	if (this.isReplying()) {
+		this.replier_.close();
+		this.resetTweetEditor_();
+	}
+};
+
+/**
+ * Can retweet?
+ * @returns {boolean}
+ */
+twic.vcl.Tweet.prototype.getCanRetweet = function() {
+	return !this.isProtected_
+		&& this.authorId_ !== this.timelineId_
+		&& this.retweetedById_ !== this.timelineId_;
+};
+
+/**
+ * Can unretweet?
+ * @returns {boolean}
+ */
+twic.vcl.Tweet.prototype.getCanUnRetweet = function() {
+	return this.retweetedById_ === this.timelineId_;
+};
+
+/**
+ * Can delete?
+ * @returns {boolean}
+ */
+twic.vcl.Tweet.prototype.getCanDelete = function() {
+	return this.authorId_ === this.timelineId_;
+};
+
+/**
+ * Reply the tweet
+ * @param {boolean=} all Reply to all mentioned
+ */
+twic.vcl.Tweet.prototype.reply = function(all) {
+	var
+		/** @type {string} **/ replyNick = this.authorNick_,
+		/** @type {string} **/ nickList = '@' + replyNick + ' ';
+
+	if (all) {
+		var
+			/** @type {string} **/ nick = '',
+			nicks = this.mentioned_;
+
+		if (replyNick.toLowerCase() in nicks) {
+			delete nicks[replyNick.toLowerCase()];
+		}
+
+		for (nick in nicks) {
+			nickList += nicks[nick] + ' ';
+		}
+	}
+
+	this.replier_ = new twic.vcl.TweetEditor(this.timelineId_, this.replyWrapper_, this.id_);
+	this.replier_.autoRemovable = true;
+	this.replier_.onTweetSend = this.onReplySend;
+	this.replier_.setConstTextIfEmpty(nickList);
+	this.replier_.setFocus();
+
+	this.replier_.onClose = this.resetTweetEditor_;
+	this.replier_.onGetSuggestList = this.timeline_.onReplierGetSuggestList;
+
+	this.wrapper_.classList.add('replying');
 };
 
 /**

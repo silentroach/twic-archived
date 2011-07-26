@@ -19,25 +19,29 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editor = this,
 		/** @type {Storage} **/ storage         = window.localStorage,
 		/** @type {Element} **/ editorWrapper   = twic.dom.expandElement('div.tweetEditor'),
-		/** @type {Element} **/ editorTextarea  = twic.dom.expandElement('textarea'),
 		/** @type {Element} **/ editorSend      = twic.dom.expandElement('input'),
 		/** @type {Element} **/ editorAttach    = twic.dom.expandElement('img'),
 		/** @type {Element} **/ rightButtons    = twic.dom.expandElement('div.rb'),
 		/** @type {Element} **/ editorCounter   = twic.dom.expandElement('span'),
 		/** @type {Element} **/ clearer         = twic.dom.expandElement('div.clearer'),
 		/** @type {Element} **/ suggestNickList = twic.dom.expandElement('ul.suggest'),
-		/** @type {number}  **/ charCount       = 0,
-
-		/** @type {string}  **/ constStartVal = '',
-
-		/** @const **/ overloadClass = 'overload',
-		/** @const **/ focusedClass  = 'focused',
-		/** @const **/ sendingClass  = 'sending';
+		/** @type {number}  **/ charCount       = 0;
 
 	/** @type {boolean} **/ editor.autoRemovable = false;
 
-	editorTextarea['spellcheck'] = false;
-	editorTextarea.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
+	/**
+	 * @type {string}
+	 */
+	this.constStartVal_ = '';
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.editorTextarea_ = twic.dom.expandElement('textarea');
+
+	this.editorTextarea_['spellcheck'] = false;
+	this.editorTextarea_.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
 
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
@@ -58,7 +62,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	rightButtons.appendChild(editorAttach);
 	rightButtons.appendChild(editorSend);
 
-	editorWrapper.appendChild(editorTextarea);
+	editorWrapper.appendChild(this.editorTextarea_);
 	editorWrapper.appendChild(suggestNickList);
 	editorWrapper.appendChild(editorCounter);
 	editorWrapper.appendChild(rightButtons);
@@ -74,10 +78,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorAttach.addEventListener('click', function() {
 			var
 				url = twic.vcl.TweetEditor.prototype.currentURL_,
-				selStart = editorTextarea.selectionStart,
-				selEnd = editorTextarea.selectionEnd,
-				valLen = editorTextarea.value.length,
-				newVal = editorTextarea.value.substr(0, selStart);
+				selStart = editor.editorTextarea_.selectionStart,
+				selEnd = editor.editorTextarea_.selectionEnd,
+				valLen = editor.editorTextarea_.value.length,
+				newVal = editor.editorTextarea_.value.substr(0, selStart);
 
 			if (
 				newVal.length > 0
@@ -88,20 +92,20 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 			newVal += url;
 
-			if (' ' !== editorTextarea.value.substr(selEnd).substr(0, 1)) {
+			if (' ' !== editor.editorTextarea_.value.substr(selEnd).substr(0, 1)) {
 				newVal += ' ';
 			}
 
 			selStart = newVal.length;
 
-			newVal += editorTextarea.value.substr(selEnd);
+			newVal += editor.editorTextarea_.value.substr(selEnd);
 
-			editorTextarea.value = newVal;
+			editor.editorTextarea_.value = newVal;
 
-			editorTextarea.selectionStart = selStart;
-			editorTextarea.selectionEnd = selStart;
+			editor.editorTextarea_.selectionStart = selStart;
+			editor.editorTextarea_.selectionEnd = selStart;
 
-			editorTextarea.focus();
+			editor.editorTextarea_.focus();
 		}, false );
 	}
 
@@ -171,7 +175,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		var
 			selectedElement = getSelectedSuggestElement(),
 			nickPart = extractNickPart(),
-			val = editorTextarea.value;
+			val = editor.editorTextarea_.value;
 
 		if (!nickPart.success) {
 			suggestRemove();
@@ -181,8 +185,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		var
 			selectedNick = selectedElement.innerText;
 
-		editorTextarea.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
-		editorTextarea.selectionEnd = editorTextarea.selectionStart = nickPart.beg + selectedNick.length + 1;
+		editor.editorTextarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
+		editor.editorTextarea_.selectionEnd = editor.editorTextarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
 
 		suggestRemove();
 
@@ -213,9 +217,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	var extractNickPart = function() {
 		var
-			val = editorTextarea.value,
+			val = editor.editorTextarea_.value,
 			valLen = val.length,
-			pos = editorTextarea.selectionEnd - 1,
+			pos = editor.editorTextarea_.selectionEnd - 1,
 			startPos = pos,
 			nickChar = '',
 			nickPart = '',
@@ -270,7 +274,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	};
 
 	var suggestCheck = function() {
-		if (editorTextarea.selectionStart !== editorTextarea.selectionEnd) {
+		if (editor.editorTextarea_.selectionStart !== editor.editorTextarea_.selectionEnd) {
 			if (suggestVisible) {
 				suggestRemove();
 			}
@@ -306,43 +310,43 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	};
 
 	var checkTweetArea = function() {
-		var val = editorTextarea.value;
+		var val = editor.editorTextarea_.value;
 
-		if (editorWrapper.classList.contains(sendingClass)) {
+		if (editorWrapper.classList.contains(twic.vcl.TweetEditor.sendingClass)) {
 			return;
 		}
 
-		if (val.substring(0, constStartVal.length) !== constStartVal) {
-			editorTextarea.value = constStartVal;
-			editorTextarea.selectionStart = editorTextarea.selectionEnd = constStartVal.length;
-			val = constStartVal;
+		if (val.substring(0, editor.constStartVal_.length) !== editor.constStartVal_) {
+			editor.editorTextarea_.value = editor.constStartVal_;
+			editor.editorTextarea_.selectionStart = editor.editorTextarea_.selectionEnd = editor.constStartVal_.length;
+			val = editor.constStartVal_;
 		}
 
 		charCount = val.length;
 
 		while (
-			editorTextarea.rows > 1
-			&& editorTextarea.scrollHeight <= editorTextarea.offsetHeight
+			editor.editorTextarea_.rows > 1
+			&& editor.editorTextarea_.scrollHeight <= editor.editorTextarea_.offsetHeight
 		) {
-			--editorTextarea.rows;
+			--editor.editorTextarea_.rows;
 		}
 
-		while (editorTextarea.scrollHeight > editorTextarea.offsetHeight) {
-			++editorTextarea.rows;
+		while (editor.editorTextarea_.scrollHeight > editor.editorTextarea_.offsetHeight) {
+			++editor.editorTextarea_.rows;
 		}
 
-		editorCounter.innerHTML = (140 - charCount).toString();
+		editorCounter.innerHTML = (twic.vcl.TweetEditor.MAXCOUNT - charCount).toString();
 
-		if (charCount > 140) {
-			editorWrapper.classList.add(overloadClass);
+		if (charCount > twic.vcl.TweetEditor.MAXCOUNT) {
+			editorWrapper.classList.add(twic.vcl.TweetEditor.overloadClass);
 		} else {
-			editorWrapper.classList.remove(overloadClass);
+			editorWrapper.classList.remove(twic.vcl.TweetEditor.overloadClass);
 		}
 
 		editorSend.disabled = (
 			charCount === 0
-			|| charCount > 140
-			|| val === constStartVal
+			|| charCount > twic.vcl.TweetEditor.MAXCOUNT
+			|| val === editor.constStartVal_
 		);
 	};
 
@@ -350,12 +354,12 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 * Try to send the tweet
 	 */
 	var tryToSend = function() {
-		/** @type {string} **/ var val = editorTextarea.value;
+		/** @type {string} **/ var val = editor.editorTextarea_.value;
 
 		if (val.length > 0) {
 			// loading state
 
-			editorWrapper.classList.add(sendingClass);
+			editorWrapper.classList.add(twic.vcl.TweetEditor.sendingClass);
 			editorCounter.innerHTML = '&nbsp;';
 			editorSend.disabled = true;
 
@@ -379,13 +383,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	};
 
 	// store the textarea value on each keyup to avoid data loss on popup close
-	editorTextarea.addEventListener('keyup', function(e) {
+	this.editorTextarea_.addEventListener('keyup', function(e) {
 		if (13 === e.keyCode) {
 			return false;
 		}
 
 		var
-			val  = editorTextarea.value,
+			val  = editor.editorTextarea_.value,
 			path = getStoragePath();
 
 		checkTweetArea();
@@ -393,8 +397,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		if (
 			val === ''
-			|| val === constStartVal
-			|| val.length < constStartVal.length
+			|| val === editor.constStartVal_
+			|| val.length < editor.constStartVal_.length
 		) {
 			storage.removeItem(path);
 		} else {
@@ -403,7 +407,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}, false );
 
 	// prevent user to press enter
-	editorTextarea.addEventListener('keydown', function(e) {
+	this.editorTextarea_.addEventListener('keydown', function(e) {
 		switch (e.keyCode) {
 			// enter
 			case 13:
@@ -476,15 +480,15 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	var handleOutClick = function(e) {
 		if (
-			editorWrapper.classList.contains(focusedClass)
+			editorWrapper.classList.contains(twic.vcl.TweetEditor.focusedClass)
 			&& !twic.dom.isChildOf(e.target, editorWrapper)
 		) {
-			editorWrapper.classList.remove(focusedClass);
+			editorWrapper.classList.remove(twic.vcl.TweetEditor.focusedClass);
 		}
 	};
 
-	editorTextarea.addEventListener('focus', function(e) {
-		editorWrapper.classList.add(focusedClass);
+	this.editorTextarea_.addEventListener('focus', function(e) {
+		editorWrapper.classList.add(twic.vcl.TweetEditor.focusedClass);
 		checkTweetArea();
 
 		editor.onFocus();
@@ -495,14 +499,14 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}, false );
 
 	var reset = function() {
-		editorTextarea.value = '';
-		editorTextarea.rows = 1;
-		editorTextarea.blur();
+		editor.editorTextarea_.value = '';
+		editor.editorTextarea_.rows = 1;
+		editor.editorTextarea_.blur();
 
-		editorCounter.innerHTML = '140';
+		editorCounter.innerHTML = twic.vcl.TweetEditor.MAXCOUNT.toString();
 
-		editorWrapper.classList.remove(focusedClass);
-		editorWrapper.classList.remove(sendingClass);
+		editorWrapper.classList.remove(twic.vcl.TweetEditor.focusedClass);
+		editorWrapper.classList.remove(twic.vcl.TweetEditor.sendingClass);
 	};
 
 	suggestNickList.addEventListener('click', function(e) {
@@ -537,7 +541,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	var backupText = storage.getItem(getStoragePath());
 	if (backupText) {
-		editorTextarea.value = backupText;
+		this.editorTextarea_.value = backupText;
 		// fixme ugly timeout to resize textarea after ui is loaded
 		setTimeout( function() {
 			checkTweetArea();
@@ -551,26 +555,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		storage.removeItem(getStoragePath());
 
 		reset();
-	};
-
-	editor.setText = function(text) {
-		constStartVal = '';
-		editorTextarea.value = text;
-	};
-
-	editor.setConstTextIfEmpty = function(text) {
-		if (editorTextarea.value === '') {
-			constStartVal = text;
-			editorTextarea.value = text;
-		}
-	};
-
-	/**
-	 * @param {boolean=} setstart Set the cursor to the start
-	 */
-	editor.setFocus = function(setstart) {
-		editorTextarea.selectionStart = setstart ? 0 : editorTextarea.selectionEnd = editorTextarea.value.length;
-		editorTextarea.focus();
 	};
 
 	editor.close = function() {
@@ -605,6 +589,41 @@ chrome.tabs.getSelected( null, function(tab) {
 		}
 	}
 } );
+
+// ------------------------------------------
+
+/** @const **/ twic.vcl.TweetEditor.overloadClass = 'overload',
+/** @const **/ twic.vcl.TweetEditor.focusedClass  = 'focused',
+/** @const **/ twic.vcl.TweetEditor.sendingClass  = 'sending';
+/** @const **/ twic.vcl.TweetEditor.MAXCOUNT = 140;
+
+/**
+ * @param {boolean=} setstart Set the cursor to the start
+ */
+twic.vcl.TweetEditor.prototype.setFocus = function(setstart) {
+	this.editorTextarea_.selectionStart = setstart ? 0 : this.editorTextarea_.selectionEnd = this.editorTextarea_.value.length;
+	this.editorTextarea_.focus();
+};
+
+/**
+ * Set the editor text
+ * @param {string} text Tweet text
+ */
+twic.vcl.TweetEditor.prototype.setText = function(text) {
+	this.constStartVal_ = '';
+	this.editorTextarea_.value = text;
+};
+
+/**
+ * Set the constant editor text
+ * @param {string} text Constant tweet part
+ */
+twic.vcl.TweetEditor.prototype.setConstTextIfEmpty = function(text) {
+	if (this.editorTextarea_.value === '') {
+		this.constStartVal_ = text;
+		this.editorTextarea_.value = text;
+	}
+};
 
 /**
  * Handler for tweet send process

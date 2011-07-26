@@ -9,7 +9,7 @@
 
 	var
 		i,
-		values,
+		values = [],
 		keys = twic.dom.findElements('ul.options[data-key]');
 
 	var valVis = function(val) {
@@ -25,8 +25,9 @@
 
 	for (i = 0; i < keys.length; ++i) {
 		var
-			optKey = keys[i],
-			values = twic.dom.findElements('li[data-value]', optKey);
+			optKey = keys[i];
+
+		values = twic.dom.findElements('li[data-value]', optKey);
 
 		twic.options.get(keys[i].getAttribute('data-key'), valVis);
 	}
