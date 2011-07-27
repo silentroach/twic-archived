@@ -49,7 +49,7 @@ twic.vcl.Tweet = function(id, timeline) {
 
 	/**
 	 * @type {Element}
-	 * @pivate
+	 * @private
 	 */
 	this.rtAvatar_ = twic.dom.expandElement('img.avatar');
 
@@ -494,7 +494,7 @@ twic.vcl.Tweet.prototype.reply = function(all) {
  */
 twic.vcl.Tweet.prototype.setSource = function(newSource) {
 	this.clientSpan_.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
-		newSource.replace('<a ', '<a target="_blank" ');
+		newSource.replace('<a ', '<a target="_blank" ') + '<br />';
 	this.otherInfo_.appendChild(this.clientSpan_);
 };
 

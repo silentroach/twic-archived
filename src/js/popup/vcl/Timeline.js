@@ -10,16 +10,6 @@
  */
 twic.vcl.Timeline = function(parent) {
 
-	/**
-	 * Confirm actions
-	 * @enum {number}
-	 */
-	var confirmAction = {
-		ACTION_RETWEET: 0,
-		ACTION_UNDO_RETWEET: 1,
-		ACTION_DELETE: 2
-	};
-
 	var
 		timeline = this,
 
@@ -37,13 +27,13 @@ twic.vcl.Timeline = function(parent) {
 	this.buttonPressed_ = false;
 
 	/**
-	 * @type {confirmAction}
+	 * @type {?twic.vcl.Timeline.confirmAction}
 	 * @private
 	 */
 	this.confirmerAction = null;
 
 	/**
-	 * @type {Timer}
+	 * @type {?number}
 	 * @private
 	 */
 	this.clickTimer_ = null;
@@ -283,6 +273,16 @@ twic.vcl.Timeline = function(parent) {
 };
 
 /**
+ * Confirm actions
+ * @enum {number}
+ */
+twic.vcl.Timeline.confirmAction = {
+	ACTION_RETWEET: 0,
+	ACTION_UNDO_RETWEET: 1,
+	ACTION_DELETE: 2
+};
+
+/**
  * Start the update
  * @param {boolean=} isBottom Show animation at the bottom of timeline?
  * @param {boolean=} noBuffer Don't use buffering
@@ -334,7 +334,7 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
 				return;
 			}
 
-			this.doConfirm_(confirmAction.ACTION_RETWEET);
+			this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_RETWEET);
 			return;
 		}
 
@@ -349,12 +349,12 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
  */
 twic.vcl.Timeline.prototype.doReallyConfirm_ = function() {
 	if (
-		this.confirmerAction_ === confirmAction.ACTION_DELETE
-		|| this.confirmerAction_ === confirmAction.ACTION_UNDO_RETWEET
+		this.confirmerAction_ === twic.vcl.Timeline.confirmAction.ACTION_DELETE
+		|| this.confirmerAction_ === twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET
 	) {
 		this.doDelete_(true);
 	} else
-	if (timeline.confirmerAction_ === confirmAction.ACTION_RETWEET) {
+	if (this.confirmerAction_ === twic.vcl.Timeline.confirmAction.ACTION_RETWEET) {
 		this.doRetweet_(true);
 	}
 
@@ -369,7 +369,7 @@ twic.vcl.Timeline.prototype.doReallyConfirm_ = function() {
 twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
 	if (this.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
-			this.doConfirm_(confirmAction.ACTION_DELETE);
+			this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_DELETE);
 			return;
 		}
 
@@ -388,7 +388,7 @@ twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
 twic.vcl.Timeline.prototype.doUnRetweet_ = function(confirmed) {
 	if (this.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
-			this.doConfirm_(confirmAction.ACTION_UNDO_RETWEET);
+			this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET);
 			return;
 		}
 
@@ -496,7 +496,7 @@ twic.vcl.Timeline.prototype.doReply_ = function(e) {
 
 /**
  * Open the confirm dialog in the tweetButtons
- * @param {confirmAction} what
+ * @param {twic.vcl.Timeline.confirmAction} what
  * @private
  */
 twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
@@ -504,13 +504,13 @@ twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
 
 	this.tweetButtons_.classList.add('bconfirm');
 
-	if (what === confirmAction.ACTION_DELETE) {
+	if (what === twic.vcl.Timeline.confirmAction.ACTION_DELETE) {
 		this.tweetButtons_.classList.add('bdel');
 	} else
-	if (what === confirmAction.ACTION_UNDO_RETWEET) {
+	if (what === twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET) {
 		this.tweetButtons_.classList.add('bunret');
 	} else
-	if (what === confirmAction.ACTION_RETWEET) {
+	if (what === twic.vcl.Timeline.confirmAction.ACTION_RETWEET) {
 		this.tweetButtons_.classList.add('bret');
 	}
 };
