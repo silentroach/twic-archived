@@ -1,0 +1,29 @@
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+ 
+.suggest {
+	padding: 1px;
+	font-size: 8pt;
+	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+	margin: -4px 0 3px 0;
+	background-color: white;
+	z-index: 10;
+	display: none;
+	border-top: 0px;
+	}
+	.suggest li {
+		padding: 2px 3px;
+		display: inline-block;
+		border-right: 1px solid rgba(0, 0, 0, .05);
+		}
+		.suggest li:hover,
+		.suggest li.selected {
+			background-color: silver;
+			cursor: pointer;
+			background-color: rgba(0, 0, 0, .1);
+			}
+		.suggest li:last-child {
+			border-right: 0px;
+			}

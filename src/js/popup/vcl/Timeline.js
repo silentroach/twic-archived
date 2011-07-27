@@ -535,12 +535,13 @@ twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
  */
 twic.vcl.Timeline.prototype.addTweet = function(id) {
 	var
+		timeline = this,
 		tweet = new twic.vcl.Tweet(id, this);
 
 	this.tweets_[id] = tweet;
 
 	tweet.onReplySend = function(editor, tweetText, replyTo, callback) {
-		tweet.onReplySend.call(tweet.timeline_, editor, tweetText, replyTo, callback);
+		timeline.onReplySend.call(tweet, editor, tweetText, replyTo, callback);
 	};
 
 	if (
