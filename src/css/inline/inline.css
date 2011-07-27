@@ -1,3 +1,8 @@
+/**
+ * Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
+ */
+
 /* do not display twitter message about PIN code return to Twic */
 #code-desc {
 	display: none;

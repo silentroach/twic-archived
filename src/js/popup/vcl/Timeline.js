@@ -108,7 +108,7 @@ twic.vcl.Timeline = function(parent) {
 	 * @type {Object.<string, twic.vcl.Tweet>}
 	 * @private
 	 */
-	this.tweets_ = {};
+	this.tweets_ = { };
 
 	/**
 	 * @type {Element}
