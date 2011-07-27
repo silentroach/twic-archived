@@ -459,6 +459,7 @@ twic.vcl.Tweet.prototype.getCanDelete = function() {
  */
 twic.vcl.Tweet.prototype.reply = function(all) {
 	var
+		tweet = this,
 		/** @type {string} **/ replyNick = this.authorNick_,
 		/** @type {string} **/ nickList = '@' + replyNick + ' ';
 
@@ -478,12 +479,20 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 
 	this.replier_ = new twic.vcl.TweetEditor(this.timelineId_, this.replyWrapper_, this.id_);
 	this.replier_.autoRemovable = true;
-	this.replier_.onTweetSend = this.onReplySend;
 	this.replier_.setConstTextIfEmpty(nickList);
 	this.replier_.setFocus();
 
-	this.replier_.onClose = this.resetTweetEditor_;
-	this.replier_.onGetSuggestList = this.timeline_.onReplierGetSuggestList;
+	this.replier_.onTweetSend = function(editor, tweetText, replyTo, callback) {
+		tweet.onReplySend.call(tweet, editor, tweetText, replyTo, callback);
+	};
+
+	this.replier_.onClose = function() {
+		tweet.resetTweetEditor_.call(tweet);
+	};
+
+	this.replier_.onGetSuggestList = function(startPart, callback) {
+		tweet.timeline_.onReplierGetSuggestList.call(tweet.replier_, startPart, callback);
+	};
 
 	this.wrapper_.classList.add('replying');
 };

@@ -16,6 +16,9 @@ twic.vcl.Timeline = function(parent) {
 		/** @type {Element} **/ buttonHolder = twic.dom.expandElement('div.holder'),
 		/** @type {Element} **/ confirmer    = twic.dom.expandElement('a.confirm');
 
+	confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
+	confirmer.href = '#';
+
 	/**
 	 * @type {Element}
 	 */
@@ -112,24 +115,28 @@ twic.vcl.Timeline = function(parent) {
 	 * @private
 	 */
 	this.tbReply_ = twic.dom.expandElement('img.tb_reply');
+	this.tbReply_.title = twic.utils.lang.translate('title_reply');
 
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.tbRetweet_ = twic.dom.expandElement('img.tb_retweet');
+	this.tbRetweet_.title = twic.utils.lang.translate('title_retweet');
 
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.tbUnRetweet_ = twic.dom.expandElement('img.tb_retweet_undo');
+	this.tbUnRetweet_.title = twic.utils.lang.translate('title_retweet_undo');
 
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
+	this.tbDelete_.title = twic.utils.lang.translate('title_delete');
 
 	var timelineMouseOut = function(e) {
 		if (
@@ -224,27 +231,31 @@ twic.vcl.Timeline = function(parent) {
 
 	// init
 
-	this.tbReply_.title = twic.utils.lang.translate('title_reply');
-	this.tbReply_.addEventListener('click', this.doReply_, false);
+	this.tbReply_.addEventListener('click', function(e) {
+		timeline.doReply_.call(timeline, e);
+	}, false);
 	buttonHolder.appendChild(this.tbReply_);
 
-	this.tbRetweet_.title = twic.utils.lang.translate('title_retweet');
-	this.tbRetweet_.addEventListener('click', this.doRetweet_, false);
+	this.tbRetweet_.addEventListener('click', function(e) {
+		timeline.doRetweet_.call(timeline, e);
+	}, false);
 	buttonHolder.appendChild(this.tbRetweet_);
 
-	this.tbUnRetweet_.title = twic.utils.lang.translate('title_retweet_undo');
-	this.tbUnRetweet_.addEventListener('click', this.doUnRetweet_, false);
+	this.tbUnRetweet_.addEventListener('click', function(e) {
+		timeline.doUnRetweet_.call(timeline, e);
+	}, false);
 	buttonHolder.appendChild(this.tbUnRetweet_);
 
-	this.tbDelete_.title = twic.utils.lang.translate('title_delete');
-	this.tbDelete_.addEventListener('click', this.doDelete_, false);
+	this.tbDelete_.addEventListener('click', function(e) {
+		timeline.doDelete_.call(timeline, e);
+	}, false);
 	buttonHolder.appendChild(this.tbDelete_);
 
 	this.tweetButtons_.appendChild(buttonHolder);
 
-	confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
-	confirmer.href = '#';
-	confirmer.addEventListener('click', this.doReallyConfirm_, false);
+	confirmer.addEventListener('click', function(e) {
+		timeline.doReallyConfirm_.call(timeline, e);
+	}, false);
 	this.tweetButtons_.appendChild(confirmer);
 
 	this.wrapper_.appendChild(this.list_);
@@ -258,7 +269,9 @@ twic.vcl.Timeline = function(parent) {
 	this.list_.addEventListener('mousemove', timelineMouseMove, false);
 	this.list_.addEventListener('mouseout',  timelineMouseOut, false);
 
-	parent.addEventListener('scroll', this.hideButtons_, false);
+	parent.addEventListener('scroll', function(e) {
+		timeline.hideButtons_.call(timeline, e);
+	}, false);
 
 	// update times every minute
 	setInterval( function() {
@@ -526,7 +539,9 @@ twic.vcl.Timeline.prototype.addTweet = function(id) {
 
 	this.tweets_[id] = tweet;
 
-	tweet.onReplySend = this.onReplySend;
+	tweet.onReplySend = function(editor, tweetText, replyTo, callback) {
+		tweet.onReplySend.call(tweet.timeline_, editor, tweetText, replyTo, callback);
+	};
 
 	if (
 		this.isLoading_

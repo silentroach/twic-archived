@@ -230,7 +230,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 				part: ''
 			};
 
-		while (pos > -1 && '@' !== nickChar) {
+		while (
+			pos > -1
+			&& '@' !== nickChar
+			&& ' ' !== nickChar
+		) {
 			res.beg = pos;
 
 			nickChar = val.substr(pos--, 1);
