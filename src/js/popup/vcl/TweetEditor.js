@@ -24,7 +24,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @type {Element} **/ rightButtons    = twic.dom.expandElement('div.rb'),
 		/** @type {Element} **/ editorCounter   = twic.dom.expandElement('span'),
 		/** @type {Element} **/ clearer         = twic.dom.expandElement('div.clearer'),
-		/** @type {Element} **/ suggestNickList = twic.dom.expandElement('ul.suggest'),
 		/** @type {number}  **/ charCount       = 0;
 
 	/** @type {boolean} **/ editor.autoRemovable = false;
@@ -33,6 +32,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 * @type {string}
 	 */
 	this.constStartVal_ = '';
+
+	this.suggestBlock_ = twic.dom.expandElement('div');
 
 	/**
 	 * @type {Element}
@@ -63,7 +64,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	rightButtons.appendChild(editorSend);
 
 	editorWrapper.appendChild(this.editorTextarea_);
-	editorWrapper.appendChild(suggestNickList);
+	editorWrapper.appendChild(this.suggestBlock_);
+
 	editorWrapper.appendChild(editorCounter);
 	editorWrapper.appendChild(rightButtons);
 	editorWrapper.appendChild(clearer);
@@ -108,210 +110,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			editor.editorTextarea_.focus();
 		}, false );
 	}
-
-	var
-		suggestVisible = false,
-		suggestFocused = false,
-		suggestPart = '';
-
-	var getSelectedSuggestElement = function() {
-		return twic.dom.findElement('.selected', suggestNickList);
-	};
-
-	var resetSuggestSelection = function() {
-		var
-			selectedElement = getSelectedSuggestElement();
-
-		if (selectedElement) {
-			selectedElement.classList.remove('selected');
-		}
-
-		suggestFocused = false;
-	};
-
-	/**
-	 * Move the suggest selection
-	 * @param {boolean} onRight Move to the right?
-	 */
-	var moveSuggest = function(onRight) {
-		var
-			selectedElement = getSelectedSuggestElement(),
-			trg;
-
-		if (selectedElement) {
-			trg = onRight ? selectedElement.nextElementSibling : selectedElement.previousElementSibling;
-		}
-
-		if (
-			!selectedElement
-			|| !trg
-		) {
-			trg = onRight ? suggestNickList.firstElementChild : suggestNickList.lastElementChild;
-		}
-
-		if (selectedElement) {
-			selectedElement.classList.remove('selected');
-		}
-
-		if (trg) {
-			trg.classList.add('selected');
-		}
-	};
-
-	var focusSuggest = function() {
-		suggestFocused = true;
-		moveSuggest(true);
-	};
-
-	var suggestRemove = function() {
-		twic.dom.setVisibility(suggestNickList, false);
-		suggestNickList.innerHTML = '';
-		suggestVisible = false;
-		suggestFocused = false;
-		suggestPart = '';
-	};
-
-	var suggestSelect = function() {
-		var
-			selectedElement = getSelectedSuggestElement(),
-			nickPart = extractNickPart(),
-			val = editor.editorTextarea_.value;
-
-		if (!nickPart.success) {
-			suggestRemove();
-			return false;
-		}
-
-		var
-			selectedNick = selectedElement.innerText;
-
-		editor.editorTextarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
-		editor.editorTextarea_.selectionEnd = editor.editorTextarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
-
-		suggestRemove();
-
-		checkTweetArea();
-	};
-
-	var buildSuggestList = function(data, len) {
-		var
-			nickBuffer = document.createDocumentFragment(),
-			el, i;
-
-		for (i = 0; i < data.length; ++i) {
-			var
-				nick = data[i];
-
-			el = twic.dom.expandElement('li');
-			el.innerHTML = '<u>' + nick.substr(0, len) + '</u>' + nick.substr(len);
-			nickBuffer.appendChild(el);
-		}
-
-		suggestNickList.innerHTML = '';
-		suggestNickList.appendChild(nickBuffer);
-
-		twic.dom.setVisibility(suggestNickList, true);
-		suggestVisible = true;
-		suggestFocused = false;
-	};
-
-	var extractNickPart = function() {
-		var
-			val = editor.editorTextarea_.value,
-			valLen = val.length,
-			pos = editor.editorTextarea_.selectionEnd - 1,
-			startPos = pos,
-			nickChar = '',
-			nickPart = '',
-			res = {
-				beg: 0,
-				end: valLen,
-				success: false,
-				part: ''
-			};
-
-		while (
-			pos > -1
-			&& '@' !== nickChar
-			&& ' ' !== nickChar
-		) {
-			res.beg = pos;
-
-			nickChar = val.substr(pos--, 1);
-			nickPart = nickChar + nickPart;
-		}
-
-		if (
-			pos > 0
-			&& ' ' !== val.substr(pos, 1)
-		) {
-			return res;
-		}
-
-		if (
-			0 === nickPart.length
-			|| '@' !== nickPart.substr(0, 1)
-		) {
-			return res;
-		}
-
-		pos = startPos + 1;
-		nickChar = '';
-
-		while (pos < valLen && ' ' !== nickChar) {
-			res.end = pos;
-
-			nickChar = val.substr(pos++, 1);
-			nickPart += nickChar;
-		}
-
-		nickPart = nickPart.trim();
-
-		if ('@' === nickPart) {
-			return res;
-		}
-
-		res.success = true;
-		res.part = nickPart.substring(1).toLowerCase();
-
-		return res;
-	};
-
-	var suggestCheck = function() {
-		if (editor.editorTextarea_.selectionStart !== editor.editorTextarea_.selectionEnd) {
-			if (suggestVisible) {
-				suggestRemove();
-			}
-
-			return true;
-		}
-
-		var
-			nickPart = extractNickPart();
-
-		if (!nickPart.success) {
-			if (suggestVisible) {
-				suggestRemove();
-			}
-
-			return true;
-		}
-
-		if (suggestPart !== nickPart.part) {
-			editor.onGetSuggestList(nickPart.part, function(data) {
-				if (0 === data.length) {
-					if (suggestVisible) {
-						suggestRemove();
-					}
-
-					return true;
-				}
-
-				buildSuggestList(data, nickPart.part.length);
-				suggestPart = nickPart.part;
-			} );
-		}
-	};
 
 	var checkTweetArea = function() {
 		var val = editor.editorTextarea_.value;
@@ -397,7 +195,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			path = getStoragePath();
 
 		checkTweetArea();
-		suggestCheck();
 
 		if (
 			val === ''
@@ -418,63 +215,13 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 				e.preventDefault();
 
 				if (e.ctrlKey) {
+					e.stopPropagation();
+
 					if (
 						charCount > 0
 						&& charCount < 141
 					) {
 						tryToSend();
-					}
-				} else
-				if (
-					suggestVisible
-					&& suggestFocused
-				) {
-					suggestSelect();
-				}
-
-				break;
-			// left
-			case 37:
-				if (
-					suggestVisible
-					&& suggestFocused
-				) {
-					e.preventDefault();
-					moveSuggest(false);
-				}
-
-				break;
-			// up
-			case 38:
-				if (
-					suggestVisible
-					&& suggestFocused
-				) {
-					e.preventDefault();
-					resetSuggestSelection();
-				}
-
-				break;
-			// right
-			case 39:
-				if (
-					suggestVisible
-					&& suggestFocused
-				) {
-					e.preventDefault();
-					moveSuggest(true);
-				}
-
-				break;
-			// down
-			case 40:
-				if (suggestVisible) {
-					e.preventDefault();
-
-					if (suggestFocused) {
-						resetSuggestSelection();
-					} else {
-						focusSuggest();
 					}
 				}
 
@@ -513,30 +260,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editorWrapper.classList.remove(twic.vcl.TweetEditor.sendingClass);
 	};
 
-	suggestNickList.addEventListener('click', function(e) {
-		var
-			selEl = getSelectedSuggestElement(),
-			trgEl = e.target;
-
-		e.preventDefault();
-		e.stopPropagation();
-
-		if ('LI' !== trgEl.tagName) {
-			trgEl = trgEl.parentElement;
-		}
-
-		if (
-			selEl
-			&& selEl !== trgEl
-		) {
-			selEl.classList.remove('selected');
-		}
-
-		trgEl.classList.add('selected');
-
-		suggestSelect();
-	}, false );
-
 	document.addEventListener('click', handleOutClick, false);
 
 	// init
@@ -568,6 +291,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		editor.onClose();
 	};
+
+	new twic.vcl.Suggest(this);
 
 };
 
@@ -627,6 +352,22 @@ twic.vcl.TweetEditor.prototype.setConstTextIfEmpty = function(text) {
 		this.constStartVal_ = text;
 		this.editorTextarea_.value = text;
 	}
+};
+
+/**
+ * Get the suggest place
+ * @return {Element}
+ */
+twic.vcl.TweetEditor.prototype.getSuggestBlock = function() {
+	return this.suggestBlock_;
+};
+
+/**
+ * Get the textarea
+ * @return {Element}
+ */
+twic.vcl.TweetEditor.prototype.getTextarea = function() {
+	return this.editorTextarea_;
 };
 
 /**
