@@ -332,6 +332,9 @@ twic.vcl.Timeline.prototype.doButtonLoad_ = function(button) {
  * @private
  */
 twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
+	var
+		timeline = this;
+
 	if (this.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
 			if (confirmed && confirmed.ctrlKey) {
@@ -353,7 +356,9 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
 
 		this.doButtonLoad_(this.tbRetweet_);
 
-		this.onRetweet(this.userId_, this.hoveredTweet_.id, this.hideAndRestoreButtons_);
+		this.onRetweet(this.userId_, this.hoveredTweet_.id, function() {
+			timeline.hideAndRestoreButtons_.call(timeline);
+		} );
 	}
 };
 
@@ -380,6 +385,9 @@ twic.vcl.Timeline.prototype.doReallyConfirm_ = function() {
  * @private
  */
 twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
+	var
+		timeline = this;
+
 	if (this.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
 			this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_DELETE);
@@ -389,7 +397,9 @@ twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
 		this.doButtonLoad_(this.tbDelete_);
 		this.doButtonLoad_(this.tbUnRetweet_);
 
-		this.onDelete(this.userId_, this.hoveredTweet_.id, this.hideAndRestoreButtons_);
+		this.onDelete(this.userId_, this.hoveredTweet_.id, function() {
+			timeline.hideAndRestoreButtons_.call(timeline);
+		} );
 	}
 };
 
