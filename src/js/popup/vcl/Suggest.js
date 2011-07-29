@@ -33,30 +33,10 @@ twic.vcl.Suggest = function(editor) {
 
 	editor.getSuggestBlock().appendChild(this.nickList_);
 
-	/*
-	suggestNickList.addEventListener('click', function(e) {
-		var
-			selEl = getSelectedSuggestElement(),
-			trgEl = e.target;
 
-		e.preventDefault();
-		e.stopPropagation();
-
-		if ('LI' !== trgEl.tagName) {
-			trgEl = trgEl.parentElement;
-		}
-
-		if (
-			selEl
-			&& selEl !== trgEl
-		) {
-			selEl.classList.remove('selected');
-		}
-
-		trgEl.classList.add('selected');
-
-		suggestSelect();
-	}, false );*/
+    this.nickList_.addEventListener('click', function(e) {
+        suggest.onListClick_.call(suggest, e);
+	}, false );
 
 	// prevent user to press enter
 	this.textarea_.addEventListener('keydown', function(e) {
@@ -81,6 +61,34 @@ twic.vcl.Suggest.prototype.resetSelection_ = function() {
 	}
 
 	this.focused_ = false;
+};
+
+/**
+ * Handler for the suggest list click
+ * @param {Event} e
+ */
+twic.vcl.Suggest.prototype.onListClick_ = function(e) {
+    var
+        selEl = this.getSelectedElement_(),
+        trgEl = e.target;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if ('LI' !== trgEl.tagName) {
+        trgEl = trgEl.parentElement;
+    }
+
+    if (
+        selEl
+        && selEl !== trgEl
+    ) {
+        selEl.classList.remove('selected');
+    }
+
+    trgEl.classList.add('selected');
+
+    this.select_();
 };
 
 twic.vcl.Suggest.prototype.onKeyDown_ = function(e) {
@@ -186,7 +194,7 @@ twic.vcl.Suggest.prototype.remove_ = function() {
 	this.part_ = '';
 };
 
-twic.vcl.Suggest.select_ = function() {
+twic.vcl.Suggest.prototype.select_ = function() {
 	var
 		selectedElement = this.getSelectedElement_(),
 		nickPart = this.extractNickPart_(),
@@ -203,9 +211,9 @@ twic.vcl.Suggest.select_ = function() {
 	this.textarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
 	this.textarea_.selectionEnd = this.textarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
 
-	this.remove_();
+    this.onSelect();
 
-	//checkTweetArea();
+	this.remove_();
 };
 
 twic.vcl.Suggest.prototype.buildList_ = function(data, len) {
@@ -312,20 +320,23 @@ twic.vcl.Suggest.prototype.check_ = function() {
 		return true;
 	}
 
+    var
+        suggest = this;
+
 	if (this.part_ !== nickPart.part) {
-		/*
-		editor.onGetSuggestList(nickPart.part, function(data) {
-			if (0 === data.length) {
-				if (suggestVisible) {
-					suggestRemove();
-				}
+        this.editor_.onGetSuggestList.call(this.editor_, nickPart.part, function(data) {
+            if (0 === data.length) {
+                if (suggest.visible_) {
+                    suggest.remove_();
+                }
 
-				return true;
-			}
+                return true;
+            }
 
-			this.buildList_(data, nickPart.part.length);
-			this.part_ = nickPart.part;
-		} );
-		*/
+            suggest.buildList_(data, nickPart.part.length);
+            suggest.part_ = nickPart.part;
+        } );
 	}
 };
+
+twic.vcl.Suggest.prototype.onSelect = function() { };

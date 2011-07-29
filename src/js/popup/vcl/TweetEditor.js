@@ -292,8 +292,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editor.onClose();
 	};
 
-	new twic.vcl.Suggest(this);
-
+	var suggest = new twic.vcl.Suggest(this);
+    suggest.onSelect = function() {
+        checkTweetArea();
+    };
 };
 
 /**
