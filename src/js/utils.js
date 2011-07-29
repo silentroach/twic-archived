@@ -136,12 +136,15 @@ twic.utils.url.humanize = function(url, lnks) {
 		title = 'foursquare - ' + url;
 		cutted = '<img src="https://foursquare.com/favicon.ico" class="aicon" />';
 	} else
-	if (
-		clen > 9
-		&& 'tumblr.com' === cutted.substr(0, 10)
-	) {
-		title = 'tumblr - ' + url;
-		cutted = '<img src="https://tumblr.com/favicon.ico" class="aicon" />';
+	if (clen > 9) {
+		if ('tumblr.com' === cutted.substr(0, 10)) {
+			title = 'tumblr - ' + url;
+			cutted = '<img src="https://tumblr.com/favicon.ico" class="aicon" />';
+		} else
+		if ('instagr.am' === cutted.substr(0, 10)) {
+			title = 'instagram - ' + url;
+			cutted = '<img src="https://instagr.am/favicon.ico" class="aicon" />';
+		}
 	} else
 	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
