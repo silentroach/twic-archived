@@ -1,6 +1,7 @@
 0.28 (in development):
 	+ Showing instagr.am links as an icons
 	* Big code refactoring
+	* Nicks suggest small bugfix with wrong nick cut
 
 0.27:
 	* Small fix
