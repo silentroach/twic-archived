@@ -12,7 +12,7 @@ li.tweet.me {
 	}
 
 li.tweet.separator {
-	border-bottom: 3px solid rgba(0, 0, 0, .3) !important;
+	-webkit-box-shadow: 0 1px 3px black !important;
 	}
 
 li.tweet.retweet {
