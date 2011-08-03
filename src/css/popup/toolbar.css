@@ -4,7 +4,7 @@
  */
 
 .toolbar {
-	border-bottom: 1px dotted silver;
+	border-bottom: 1px solid rgba(192, 192, 192, .5);
 	background-color: rgba(0, 0, 0, .05);
 	padding: .5em .3em .3em .3em;
 	margin-bottom: 4px;
@@ -37,7 +37,7 @@
 	}
 
 .toolbar.bottom {
-	border-top: 1px dotted silver;
+	border-top: 1px solid rgba(192, 192, 192, .5);
 	border-bottom: 0px;
 	margin-bottom: 0px;
 	padding-bottom: .5em;

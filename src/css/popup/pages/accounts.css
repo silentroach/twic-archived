@@ -39,6 +39,10 @@
 	display: none;
 	}
 
+#accounts .toolbar:first-child {
+	padding-bottom: .4em;
+	}
+
 #accounts .toolbar.bottom .container {
 	padding: .5em 0;
 	}
