@@ -307,7 +307,7 @@ twic.vcl.TweetEditor.prototype.currentURL_ = false;
 chrome.tabs.getSelected( null, function(tab) {
 	if (tab) {
 		var
-			url = tab.url;
+			url = tab.url.trim();
 
 		if (
 			url.length > 4
@@ -316,6 +316,10 @@ chrome.tabs.getSelected( null, function(tab) {
 				|| 'ftp' === url.substr(0, 3)
 			)
 		) {
+			if ('/' === url.substr(-1)) {
+				url = url.substring(0, url.length - 1);
+			}
+
 			twic.vcl.TweetEditor.prototype.currentURL_ = url;
 		}
 	}
