@@ -75,9 +75,10 @@ twic.OAuthRequest.prototype.getData_ = function() {
 
 /**
  * Get the random OAuth nonce
+ * @private
  * @return {string}
  */
-twic.OAuthRequest.prototype.getNonce = function() {
+twic.OAuthRequest.prototype.getNonce_ = function() {
 	var
 		/**
 		 * Nonce charset for random string
@@ -112,7 +113,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	self.setOAuthData('oauth_signature_method', 'HMAC-SHA1');
 	self.setOAuthData('oauth_version', '1.0');
 	self.setOAuthData('oauth_timestamp', Math.floor(((new Date()).getTime() + twic.OAuthRequest.timestampOffset) / 1000));
-	self.setOAuthData('oauth_nonce', self.getNonce());
+	self.setOAuthData('oauth_nonce', self.getNonce_());
 
 	if (token) {
 		self.setOAuthData('oauth_token', token);
