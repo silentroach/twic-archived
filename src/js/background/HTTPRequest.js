@@ -29,10 +29,33 @@ goog.inherits(twic.ResponseError, twic.Error);
  * @param {string} url Url
  */
 twic.HTTPRequest = function(method, url) {
-	this.method = method;
-	this.url = url;
-	this.requestHeaders = {};
-	this.data = {};
+	/**
+	 * GET/POST
+	 * @protected
+	 * @type {string}
+	 */
+	this.method_ = method;
+	
+	/**
+	 * URL
+	 * @type {string}
+	 * @private
+	 */
+	this.url_ = url;
+	
+	/**
+	 * Headers
+	 * @type {Object.<string, string>}
+	 * @private
+	 */
+	this.requestHeaders_ = {};
+	
+	/**
+	 * Data
+	 * @type {Object.<string, string>}
+	 * @private
+	 */
+	this.data_ = {};
 };
 
 /**
@@ -60,16 +83,17 @@ twic.HTTPRequest.queryStringToObject = function(data) {
 
 /**
  * Get all the data
+ * @protected
  * @return {Array.<string>}
  */
-twic.HTTPRequest.prototype.getData = function() {
+twic.HTTPRequest.prototype.getData_ = function() {
 	var
 		self = this,
 		key = '',
 		data = [];
 
-	for (key in self.data) {
-		data.push(self.encodeString(key) + '=' + self.encodeString(self.data[key]));
+	for (key in self.data_) {
+		data.push(self.encodeString(key) + '=' + self.encodeString(self.data_[key]));
 	}
 
 	return data;
@@ -95,7 +119,7 @@ twic.HTTPRequest.prototype.encodeString = function(str) {
  * @param {string} value Value
  */
 twic.HTTPRequest.prototype.setHeader = function(key, value) {
-  this.requestHeaders[key] = value;
+  this.requestHeaders_[key] = value;
 };
 
 /**
@@ -104,7 +128,7 @@ twic.HTTPRequest.prototype.setHeader = function(key, value) {
  * @param {string|number} value Value
  */
 twic.HTTPRequest.prototype.setRequestData = function(key, value) {
-	this.data[key] = value;
+	this.data_[key] = value.toString();
 };
 
 /**
@@ -115,7 +139,7 @@ twic.HTTPRequest.prototype.setRequestData = function(key, value) {
 twic.HTTPRequest.prototype.send = function(callback) {
 	var
 		self = this,
-		data = self.getData(),
+		data = self.getData_(),
 		key = '';
 
 	var req = new XMLHttpRequest();
@@ -139,7 +163,7 @@ twic.HTTPRequest.prototype.send = function(callback) {
 				callback(new twic.ResponseError(twic.ResponseError.TIMEOUT, req));
 			} else
 			if (200 === req.status) {
-				twic.debug.groupCollapsed('http request to ' + self.url + ' finished');
+				twic.debug.groupCollapsed('http request to ' + self.url_ + ' finished');
 				try {
 					twic.debug.dir(JSON.parse(req.responseText));
 				} catch(e) {
@@ -160,13 +184,13 @@ twic.HTTPRequest.prototype.send = function(callback) {
 		}
 	};
 
-	req.open(self.method, self.url + (self.method === 'GET' ? '?' + data.join('&') : ''));
+	req.open(self.method_, self.url_ + ('GET' === self.method_ ? '?' + data.join('&') : ''));
 
-	for (key in self.requestHeaders) {
-		req.setRequestHeader(key, self.requestHeaders[key]);
+	for (key in self.requestHeaders_) {
+		req.setRequestHeader(key, self.requestHeaders_[key]);
 	}
 
-	if (self.method === 'GET') {
+	if ('GET' === self.method_) {
 		req.send();
 	} else {
 		req.send(data.join('&'));

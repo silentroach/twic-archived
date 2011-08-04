@@ -12,7 +12,12 @@
  * @param {string} url Url
  */
 twic.OAuthRequest = function(method, url) {
-	this.OAuthData = {};
+	/**
+	 * OAuth special data
+	 * @type {Object.<string, string>}
+	 * @private
+	 */
+	this.OAuthData_ = {};
 
 	// call the parent constructor
 	twic.HTTPRequest.call(this, method, url);
@@ -46,22 +51,23 @@ goog.inherits(twic.OAuthRequest, twic.HTTPRequest);
  * @param {string|number} value Value
  */
 twic.OAuthRequest.prototype.setOAuthData = function(key, value) {
-	this.OAuthData[key] = value;
+	this.OAuthData_[key] = value.toString();
 };
 
 /**
  * Get all the data
+ * @protected
  * @override
  * @return {Array.<string>}
  */
-twic.OAuthRequest.prototype.getData = function() {
+twic.OAuthRequest.prototype.getData_ = function() {
 	var
 		self = this,
-		data = twic.HTTPRequest.prototype.getData.call(self),
+		data = twic.HTTPRequest.prototype.getData_.call(self),
 		key = '';
 
-	for (key in self.OAuthData) {
-		data.push(self.encodeString(key) + '=' + self.encodeString(self.OAuthData[key]));
+	for (key in self.OAuthData_) {
+		data.push(self.encodeString(key) + '=' + self.encodeString(self.OAuthData_[key]));
 	}
 
 	return data;
@@ -96,9 +102,9 @@ twic.OAuthRequest.prototype.getNonce = function() {
 twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	var
 		self = this,
-		baseString = self.method + '&' + self.encodeString(self.url) + '&';
+		baseString = self.method_ + '&' + self.encodeString(self.url_) + '&';
 
-	if (self.method !== 'GET') {
+	if ('GET' !== self.method_) {
 		self.setHeader('Content-Type', 'application/x-www-form-urlencoded');
 	}
 
@@ -113,7 +119,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	}
 
 	// tis important to sort params
-	baseString += self.encodeString(self.getData().sort().join('&'));
+	baseString += self.encodeString(self.getData_().sort().join('&'));
 
 	self.setOAuthData('oauth_signature',
 		SHA1.encode(
@@ -192,7 +198,7 @@ twic.OAuthRequest.prototype.send = function(callback, token, token_secret) {
 				isRetry = true;
 
 				// !!! WARNING !!!
-				delete self.OAuthData['oauth_signature'];
+				delete self.OAuthData_['oauth_signature'];
 				sendRequest();
 			} else {
 				callback(error, req);

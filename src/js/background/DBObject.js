@@ -37,10 +37,10 @@ twic.DBObject = function() {
 
 	/**
 	 * Fields that was changed
-	 * @protected
+	 * @private
 	 * @type {Array}
 	 */
-	this.changed = [];
+	this.changed_ = [];
 };
 
 /**
@@ -62,7 +62,7 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
 
 	dbobject.jsonObj = obj;
 
-	dbobject.changed = [];
+	dbobject.changed_ = [];
 
 	for (key in dbobject.fields) {
 		var
@@ -112,7 +112,7 @@ twic.DBObject.prototype.save = function(callback) {
 
 	if (
 		dbobject.exists
-		&& 0 === dbobject.changed.length
+		&& 0 === dbobject.changed_.length
 	) {
 		// nothing was changed
 		return;
@@ -130,7 +130,7 @@ twic.DBObject.prototype.save = function(callback) {
 			key !== 'id'
 			&& (
 				!dbobject.exists
-				|| dbobject.changed.indexOf(key) >= 0
+				|| dbobject.changed_.indexOf(key) >= 0
 			)
 		) {
 			fld.push(key);
@@ -166,7 +166,7 @@ twic.DBObject.prototype.save = function(callback) {
 	twic.db.execQuery(sql, vals, function() {
 		// reset flags
 		dbobject.exists = true;
-		dbobject.changed = [];
+		dbobject.changed_ = [];
 
 		if (callback) {
 			callback();
@@ -191,8 +191,8 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
 		// change handler
 		if (dbobject.exists) {
 			// changed fields
-			if (dbobject.changed.indexOf(fieldname) < 0) {
-				dbobject.changed.push(fieldname);
+			if (dbobject.changed_.indexOf(fieldname) < 0) {
+				dbobject.changed_.push(fieldname);
 			}
 
 			dbobject.onFieldChanged(fieldname, value);
@@ -216,7 +216,7 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
 	}
 
 	obj.exists = true;
-	obj.changed = [];
+	obj.changed_ = [];
 };
 
 /**
