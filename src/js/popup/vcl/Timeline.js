@@ -278,11 +278,8 @@ twic.vcl.Timeline = function(parent) {
 		var
 			id = '';
 
-		for (id in this.tweets_) {
-			var
-				tweet = this.tweets_[id];
-			
-			tweet.updateTime.call(tweet);
+		for (id in timeline.tweets_) {
+			timeline.tweets_[id].updateTime();
 		}
 	}, 1000 * 60 );
 
