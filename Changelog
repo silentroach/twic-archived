@@ -1,4 +1,6 @@
-0.28 (in testing):
+0.29 (in development):
+
+0.28:
 	+ Showing instagr.am links as an icons
 	* Big code refactoring
 	* Nicks suggest small bugfix with wrong nick cut
