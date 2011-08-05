@@ -5,185 +5,250 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo annotations
-( function() {
+/**
+ * @constructor
+ * @extends twic.Page
+ */
+twic.pages.AccountsPage = function() {
+	twic.Page.call(this);
+	
+	this.remember = true;
+	
+	/** 
+	 * @type {Element} 
+	 * @private
+	 */ 
+	this.list_ = null;
+	
+	/** 
+	 * @type {Element}
+	 * @private 
+	 */ 
+	this.bottomStatus_ = null;
+	
+	/** 
+	 * @type {Element}
+	 * @private 
+	 */ 
+	this.elementAccountAdd_ = null;
+	
+	/** 
+	 * @type {number}
+	 * @private  
+	 */ 
+	this.removingAccountId_ = 0;
+	
+	/** 
+	 * @type {Element}
+	 * @private 
+	 */ 
+	this.firstAccountElement_ = null;
+};
+
+goog.inherits(twic.pages.AccountsPage, twic.Page);
+
+/**
+ * @private
+ */
+twic.pages.AccountsPage.prototype.resetToolbar_ = function() {
+	this.bottomStatus_.innerHTML = twic.utils.lang.translate('title_select_or_remove');
+	this.bottomStatus_.classList.remove('alert');	
+};
+
+/**
+ * @private
+ */
+twic.pages.AccountsPage.prototype.removeAccount_ = function() {
+	var
+		page = this;
+	
+	twic.requests.makeRequest('accountRemove', {
+		'id': page.removingAccountId_
+	}, function() {
+		page.refresh_();
+	} );
+};
+
+/**
+ * @private
+ */
+twic.pages.AccountsPage.prototype.refresh_ = function() {
+	var
+		page = this;
+	
+	page.resetToolbar_();
+	page.clearList_();
+	
+	twic.requests.makeRequest('accountList', {}, function(data) {
+		page.buildList_.call(page, data);
+	} );
+};
+
+/**
+ * @private
+ */
+twic.pages.AccountsPage.prototype.clearList_ = function() {
+	this.list_.innerHTML = '';
+};
+
+/**
+ * @private
+ * @param {Array} elements
+ */
+twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
+	if (elements.length === 0) {
+		if (this.firstAccountElement_) {
+			this.firstAccountElement_.innerText = twic.utils.lang.translate('add_first_account');
+			this.firstAccountElement_.style.display = 'block';
+
+			this.elementAccountAdd_.classList.add('pulsate');
+
+			twic.dom.setVisibility(this.bottomStatus_, false);
+		}
+
+		return;
+	} else {
+		if (this.firstAccountElement_) {
+			this.firstAccountElement_.style.display = '';
+		}
+	}
 
 	var
-		/** @type {Element} */ list,
-		/** @type {Element} */ bottomStatus,
-		/** @type {Element} */ elementAccountAdd,
-		/** @type {number}  */ removingAccountId,
-		/** @type {Element} */ firstAccountElement;
+		frag = document.createDocumentFragment(),
+		i;
 
-	var resetToolbar = function() {
-		bottomStatus.innerHTML = twic.utils.lang.translate('title_select_or_remove');
-		bottomStatus.classList.remove('alert');
-	};
-
-	var removeAccount = function() {
-		twic.requests.makeRequest('accountRemove', {
-			'id': removingAccountId
-		}, function() {
-			refresh();
-		} );
-	};
-
-	var accountContextClick = function(e) {
-		if (
-			e.srcElement
-			&& e.srcElement.tagName === 'IMG'
-			&& e.srcElement.className === 'avatar'
-		) {
-			var
-				link      = e.srcElement.parentNode,
-				container = twic.dom.expandElement('div.container'),
-				bYes      = twic.dom.expandElement('a.button'),
-				bNo       = twic.dom.expandElement('a.button');
-
-			elementAccountAdd.classList.remove('pulsate');
-			removingAccountId = link.id;
-
-			bottomStatus.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
-
-			bYes.innerHTML = twic.utils.lang.translate('button_yes');
-			bYes.href      = '#';
-
-			bYes.onclick   = removeAccount;
-
-			bNo.innerHTML  = twic.utils.lang.translate('button_no');
-			bNo.href       = '#';
-
-			bNo.onclick    = resetToolbar;
-
-			container.appendChild(bYes);
-			container.appendChild(bNo);
-
-			bottomStatus.appendChild(container);
-
-			bottomStatus.classList.add('alert');
-		}
-	};
-
-	var clearList = function() {
-		list.innerHTML = '';
-	};
-
-	var buildList = function(elements) {
-		if (elements.length === 0) {
-			if (firstAccountElement) {
-				firstAccountElement.innerText = twic.utils.lang.translate('add_first_account');
-				firstAccountElement.style.display = 'block';
-
-				elementAccountAdd.classList.add('pulsate');
-
-				twic.dom.setVisibility(bottomStatus, false);
-			}
-
-			return;
-		} else {
-			if (firstAccountElement) {
-				firstAccountElement.style.display = '';
-			}
-		}
-
+	for (i = 0; i < elements.length; ++i) {
 		var
-			frag = document.createDocumentFragment(),
-			i;
+			element = elements[i],
+			avatar = twic.dom.expandElement('img.avatar'),
+			a = twic.dom.expandElement('a#' + element['id']),
+			utweets = element['unread_tweets'],
+			li = twic.dom.expandElement('li');
 
-		for (i = 0; i < elements.length; ++i) {
+		avatar.src = element['avatar'];
+
+		a.title = '@' + element['screen_name'];
+		a.href = '#timeline#' + element['id'];
+
+		a.appendChild(avatar);
+
+		if (utweets > 0) {
 			var
-				element = elements[i],
-				avatar = twic.dom.expandElement('img.avatar'),
-				a = twic.dom.expandElement('a#' + element['id']),
-				utweets = element['unread_tweets'],
-				li = twic.dom.expandElement('li');
+				utspan = twic.dom.expandElement('span.utweets');
 
-			avatar.src = element['avatar'];
+			utspan.innerHTML = utweets;
 
-			a.title = '@' + element['screen_name'];
-			a.href = '#timeline#' + element['id'];
-
-			a.appendChild(avatar);
-
-			if (utweets > 0) {
-				var
-					utspan = twic.dom.expandElement('span.utweets');
-
-				utspan.innerHTML = utweets;
-
-				a.appendChild(utspan);
-			}
-
-			li.appendChild(a);
-
-			frag.appendChild(li);
+			a.appendChild(utspan);
 		}
 
-		list.appendChild(frag);
-	};
+		li.appendChild(a);
 
-	var refresh = function() {
-		resetToolbar();
+		frag.appendChild(li);
+	}
 
-		clearList();
-		twic.requests.makeRequest('accountList', {}, buildList);
-	};
+	this.list_.appendChild(frag);
+};
 
-	var initPage = function() {
-		var loading = false;
+twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
+	if (
+		e.srcElement
+		&& e.srcElement.tagName === 'IMG'
+		&& e.srcElement.className === 'avatar'
+	) {
+		var
+			page      = this,
+			link      = e.srcElement.parentNode,
+			container = twic.dom.expandElement('div.container'),
+			bYes      = twic.dom.expandElement('a.button'),
+			bNo       = twic.dom.expandElement('a.button');
 
-		list = twic.dom.findElement('#accounts ul');
-		bottomStatus = twic.dom.findElement('#accounts_status');
-		elementAccountAdd = twic.dom.findElement('#button_account_add');
+		page.elementAccountAdd_.classList.remove('pulsate');
+		page.removingAccountId_ = link.id;
 
-		list.oncontextmenu = accountContextClick;
+		page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
 
-		firstAccountElement = twic.dom.findElement('#accounts p');
+		bYes.innerHTML = twic.utils.lang.translate('button_yes');
+		bYes.href      = '#';
 
-		elementAccountAdd.title                           = twic.utils.lang.translate('title_add_account');
-		twic.dom.findElement('#button_settings').title    = twic.utils.lang.translate('title_settings');
-		twic.dom.findElement('#button_about').title       = twic.utils.lang.translate('title_about');
+		bYes.addEventListener('click', function(e) {
+			page.removeAccount_.call(page);
+		}, false);
 
-		/**
-		 * @this {Element}
-		 */
-		twic.dom.findElement('#button_account_add').onclick = function() {
-			var
-				buttonElement = twic.dom.findElement('img', this),
-				oldSource = buttonElement.src;
+		bNo.innerHTML  = twic.utils.lang.translate('button_no');
+		bNo.href       = '#';
 
-			if (loading) {
-				return false;
+		bNo.addEventListener('click', function(e) {
+			page.resetToolbar_.call(page, e);
+		}, false);
+
+		container.appendChild(bYes);
+		container.appendChild(bNo);
+
+		page.bottomStatus_.appendChild(container);
+		page.bottomStatus_.classList.add('alert');
+	}
+};
+
+twic.pages.AccountsPage.prototype.initOnce = function() {
+	twic.Page.prototype.initOnce.call(this);
+	
+	var 
+		page = this,
+		loading = false;
+
+	page.list_ = twic.dom.findElement('#accounts ul');
+	page.bottomStatus_ = twic.dom.findElement('#accounts_status');
+	page.elementAccountAdd_ = twic.dom.findElement('#button_account_add');
+
+	page.list_.addEventListener('contextmenu', function(e) {
+		page.accountContextClick_.call(page, e);
+	}, false);
+
+	page.firstAccountElement_ = twic.dom.findElement('#accounts p');
+
+	page.elementAccountAdd_.title                   = twic.utils.lang.translate('title_add_account');
+	twic.dom.findElement('#button_settings').title  = twic.utils.lang.translate('title_settings');
+	twic.dom.findElement('#button_about').title     = twic.utils.lang.translate('title_about');
+
+	/**
+	 * @this {Element}
+	 */
+	twic.dom.findElement('#button_account_add').addEventListener('click', function(e) {
+		var
+			buttonElement = twic.dom.findElement('img', e.target),
+			oldSource = buttonElement.src;
+		
+		if (loading) {
+			return false;
+		}
+		
+		loading = true;
+		
+		// @resource img/loader.gif
+		buttonElement.src = 'img/loader.gif';
+		e.target.href = '#';
+		
+		twic.requests.makeRequest('accountAdd', { }, function(reply) {
+			if (twic.global.SUCCESS === reply['result']) {
+				window.close();
+			} else {
+				page.buttonElement_.src = oldSource;
+		
+				page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
+				page.bottomStatus_.classList.add('alert');
+				page.bottomStatus_.style.display = 'block';
 			}
+		} );
+	}, false);
+};
 
-			loading = true;
+/**
+ * @override
+ */
+twic.pages.AccountsPage.prototype.handle = function() { 
+	twic.Page.prototype.handle.call(this);
+	
+	this.refresh_();
+};
 
-			// @resource img/loader.gif
-			buttonElement.src = 'img/loader.gif';
-			this.href = '#';
-
-			twic.requests.makeRequest('accountAdd', { }, function(reply) {
-				if (twic.global.SUCCESS === reply['result']) {
-					window.close();
-				} else {
-					buttonElement.src = oldSource;
-
-					bottomStatus.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
-					bottomStatus.classList.add('alert');
-					bottomStatus.style.display = 'block';
-				}
-			} );
-		};
-	};
-
-	// --------------------------------------------------------------------------------------------------
-
-	twic.router.handle('accounts', function(data) {
-		twic.router.remember();
-
-		twic.router.initOnce(initPage);
-
-		refresh();
-	} );
-
-}());
+twic.router.register('accounts', twic.pages.AccountsPage);

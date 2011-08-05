@@ -5,261 +5,425 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// todo annotations
-( function() {
+/**
+ * @constructor
+ * @extends twic.Page
+ */
+twic.pages.ProfilePage = function() {
+	twic.Page.call(this);
+	
+	/**
+	 * @type {boolean}
+	 * @private
+	 */
+	this.unfollowOver_ = false;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.page_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementLoader_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementAvatar_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementName_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementNick_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementUrl_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementBio_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementLocation_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementFollowings_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementFollowed_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementFollowedSpan_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementDirect_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementProps_ = null;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.elementMap_ = null;
+	
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.timelineUserId = 0;
+	
+	/**
+	 * @type {number}
+	 * @private
+	 */
+	this.profileUserId = 0;
+	
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.toolbarTimeline_ = null;
+	
+	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.directLinkBase_ = '';
 
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.map_ = null;
+};
+
+goog.inherits(twic.pages.ProfilePage, twic.Page);
+
+/**
+ * @type {RegExp}
+ * @const
+ */
+twic.pages.ProfilePage.REGEXP_COORDS = /(-?\d+\.\d+),(-?\d+\.\d+)/;
+
+twic.pages.ProfilePage.prototype.initOnce = function() {
+	twic.Page.prototype.initOnce.call(this);
+
+	this.page_ = twic.dom.findElement('#profile');
+
+	this.elementFollowings_   = twic.dom.findElement('#followings');
+	this.elementFollowed_     = twic.dom.findElement('p', this.elementFollowings_);
+	this.elementFollowedSpan_ = twic.dom.findElement('span', this.elementFollowings_);
+
+	this.elementDirect_       = twic.dom.findElement('.toolbar p a', this.page_);
+	this.elementDirect_.title = twic.utils.lang.translate('title_directly');
+	this.directLinkBase_      = this.elementDirect_.href;
+
+	this.elementLoader_   = twic.dom.findElement('.loader', this.page_);
+	this.elementAvatar_   = twic.dom.findElement('.avatar', this.page_);
+	this.elementName_     = twic.dom.findElement('.name', this.page_);
+	this.elementNick_     = twic.dom.findElement('.toolbar p span', this.page_);
+	this.elementUrl_      = twic.dom.findElement('.url', this.page_);
+	this.elementBio_      = twic.dom.findElement('.bio', this.page_);
+	this.elementLocation_ = twic.dom.findElement('.location', this.page_);
+	this.toolbarTimeline_ = twic.dom.findElement('.toolbar a', this.page_);
+
+	this.elementMap_      = twic.dom.findElement('.map', this.page_);
+
+	this.elementProps_    = twic.dom.findElement('.props', this.page_);
+	
+	twic.dom.findElement('.protected', this.elementProps_).title = twic.utils.lang.translate('title_protected');
+};
+
+/**
+ * Clear the profile data
+ * @private
+ */
+twic.pages.ProfilePage.prototype.clearData_ = function() {
+	this.elementFollowedSpan_.className = '';
+	this.elementFollowed_.className = '';
+	this.elementLoader_.style.display = 'block';
+	this.elementAvatar_.src = '';
+	this.elementProps_.className = 'props';
+	this.elementName_.innerHTML = '';
+	this.elementNick_.innerHTML = '';
+	this.elementUrl_.innerHTML = '';
+	this.elementBio_.innerHTML = '';
+	this.elementLocation_.innerHTML = '';
+	this.elementFollowedSpan_.innerHTML = '';
+	delete this.map_;
+	
+	twic.dom.setVisibility(this.elementAvatar_, false);
+	twic.dom.setVisibility(this.elementFollowings_, false);
+	twic.dom.setVisibility(this.elementBio_, false);
+	twic.dom.setVisibility(this.elementLocation_, false);
+	twic.dom.setVisibility(this.elementMap_, false);
+};
+
+/**
+ * Follow user
+ * @private
+ */
+twic.pages.ProfilePage.prototype.follow_ = function() {
 	var
-		coordsRegExp = /(-?\d+\.\d+),(-?\d+\.\d+)/,
-		page,
-		elementLoader,
-		elementAvatar,
-		elementName,
-		elementNick,
-		elementUrl,
-		elementBio,
-		elementLocation,
-		elementFollowings,
-		elementFollowed,
-		elementFollowedSpan,
-		elementDirect,
-		elementProps,
-		elementMap,
-		timelineUserId,
-		profileUserId,
-		toolbarTimeline,
-		directLinkBase,
-		map;
+		page = this;
+	
+	page.elementFollowedSpan_.className = 'loading';
 
-	var initPage = function() {
-		page = twic.dom.findElement('#profile');
+	twic.requests.makeRequest('follow', {
+		'id': page.timelineUserId_,
+		'whom_id': page.profileUserId_
+	}, function() {
+		page.showProfileFriendship_(true);
+	} );	
+};
 
-		elementFollowings   = twic.dom.findElement('#followings');
-		elementFollowed     = twic.dom.findElement('p', elementFollowings);
-		elementFollowedSpan = twic.dom.findElement('span', elementFollowings);
+/**
+ * Unfollow user
+ * @private
+ */
+twic.pages.ProfilePage.prototype.unfollow_ = function() {
+	var
+		page = this;
+	
+	page.elementFollowedSpan_.className = 'loading';
 
-		elementDirect   = twic.dom.findElement('.toolbar p a', page);
-		elementDirect.title = twic.utils.lang.translate('title_directly');
-		directLinkBase  = elementDirect.href;
-
-		elementLoader   = twic.dom.findElement('.loader', page);
-		elementAvatar   = twic.dom.findElement('.avatar', page);
-		elementName     = twic.dom.findElement('.name', page);
-		elementNick     = twic.dom.findElement('.toolbar p span', page);
-		elementUrl      = twic.dom.findElement('.url', page);
-		elementBio      = twic.dom.findElement('.bio', page);
-		elementLocation = twic.dom.findElement('.location', page);
-		toolbarTimeline = twic.dom.findElement('.toolbar a', page);
-
-		elementMap      = twic.dom.findElement('.map', page);
-
-		elementProps    = twic.dom.findElement('.props', page);
-		twic.dom.findElement('.protected', elementProps).title = twic.utils.lang.translate('title_protected');
-	};
-
-	var clearProfileData = function() {
-		elementFollowedSpan.className = '';
-		elementFollowed.className = '';
-		elementLoader.style.display = 'block';
-		twic.dom.setVisibility(elementAvatar, false);
-		twic.dom.setVisibility(elementFollowings, false);
-		elementAvatar.src = '';
-		elementProps.className = 'props';
-		elementName.innerHTML = '';
-		elementNick.innerHTML = '';
-		elementUrl.innerHTML = '';
-		elementBio.innerHTML = '';
-		twic.dom.setVisibility(elementBio, false);
-		elementLocation.innerHTML = '';
-		twic.dom.setVisibility(elementLocation, false);
-		elementFollowedSpan.innerHTML = '';
-		delete map;
-		twic.dom.setVisibility(elementMap, false);
-	};
-
-	var follow = function() {
-		elementFollowedSpan.className = 'loading';
-
-		twic.requests.makeRequest('follow', {
-			'id': timelineUserId,
-			'whom_id': profileUserId
-		}, function() {
-			showProfileFriendship(true);
-		} );
-	};
-
-	var unfollow = function() {
-		elementFollowedSpan.className = 'loading';
-
-		twic.requests.makeRequest('unfollow', {
-			'id': timelineUserId,
-			'whom_id': profileUserId
-		}, function() {
-			showProfileFriendship(false);
-		} );
-	};
-
-	var unfollowOver = false;
-
-	var onFollowedMouseOver = function() {
-		if (!unfollowOver) {
-			unfollowOver = true;
-			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_unfollow');
-		}
-	};
-
-	var onFollowedMouseOut = function() {
-		if (unfollowOver) {
-			unfollowOver = false;
-			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_following');
-		}
-	};
-
-	var showProfileFriendship = function(following) {
-		elementFollowedSpan.className = '';
-
-		if (following) {
-			elementFollowed.className = 'following';
-			elementFollowed.onclick = unfollow;
-			elementFollowed.onmouseover = onFollowedMouseOver;
-			elementFollowed.onmouseout = onFollowedMouseOut;
-			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_following');
-		} else {
-			elementFollowed.className = '';
-			elementFollowed.onclick = follow;
-			elementFollowed.onmouseover = null;
-			elementFollowed.onmouseout = null;
-			elementFollowedSpan.innerHTML = twic.utils.lang.translate('button_follow');
-		}
-
-		elementFollowings.style.display = 'block';
-	};
-
-	var showProfile = function(data) {
-		var
-			/** @type {Element} **/ marginElement,
-			/** @type {string} **/  description = data['description'],
-			/** @type {string} **/  loc = data['location'];
-
-		profileUserId = data['id'];
-
-		// fixme shitcode
-		elementAvatar.src = data['avatar'].replace('_normal.', '_bigger.');
-		elementAvatar.title = '@' + data['screen_name'];
-		elementAvatar.style.display = '';
-
-		// user properties
-		if (data['is_protected']) {
-			elementProps.classList.add('protected');
-		}
-
-		elementName.innerHTML = data['name'];
-		elementNick.innerHTML = data['screen_name'];
-
-		elementDirect.href = directLinkBase + data['screen_name'];
-
-		if (data['url'] !== '') {
-			elementUrl.innerHTML = twic.utils.url.humanize(data['url']);
-		}
-
-		if (loc.trim() !== '') {
-			elementLocation.style.display = 'block';
-			marginElement = elementLocation;
-
-			// trying to find the coordinates
-			var coords = coordsRegExp.exec(loc);
-
-			if (
-				coords
-				&& 3 === coords.length
-			) {
-				var
-					coordsData = coords.shift().split(',');
-
-				map = new twic.vcl.Map(elementMap, coordsData.shift(), coordsData.shift());
-			}
-
-			elementLocation.innerHTML = loc;
-		}
-
-		if (description.trim() !== '') {
-			// todo prepare the text as a tweet
-			elementBio.innerHTML = twic.utils.url.processText(description);
-			elementBio.style.display = 'block';
-			marginElement = elementBio;
-		}
-
-		if (marginElement) {
-			marginElement.style.marginTop = '1em';
-		}
-
-		if (
-			!timelineUserId
-			|| timelineUserId === data['id']
-		) {
-		twic.dom.setVisibility(elementLoader, false);
-		} else {
-			twic.requests.makeRequest('getProfileFriendshipInfo', {
-				'source_id': timelineUserId,
-				'target_id': data['id']
-			}, function(data) {
-				twic.dom.setVisibility(elementLoader, false);
-				showProfileFriendship(data['following']);
-				elementFollowings.style.display = 'block';
-			} );
-		}
-	};
-
-	twic.router.handle('profile', function(data) {
-		var
-			prev = twic.router.previous(),
-			/** @type {string} **/ prevPage = prev.shift(),
-			/** @type {string} **/ userName;
-
-		twic.router.initOnce(initPage);
-
-		toolbarTimeline.href = '#' + prevPage;
-
-		if (prevPage === 'about') {
-			toolbarTimeline.innerHTML = twic.utils.lang.translate('title_about');
-
-			// trying to find if we are using just one account
-			var
-				tmpList = document.querySelectorAll('#accounts ul li a');
-
-			if (tmpList.length === 1) {
-				timelineUserId = parseInt(tmpList[0].id, 10);
-			} else {
-				timelineUserId = null;
-			}
-		} else {
-			toolbarTimeline.innerHTML = twic.dom.findElement('#timeline .toolbar p').innerHTML;
-			toolbarTimeline.href += '#' + prev.join('#');
-			// fixme shitcode
-			timelineUserId = parseInt(prev[0], 10);
-		}
-
-		if (
-			!data.length
-			|| 1 !== data.length
-		) {
-			// todo return to the accounts list screen
-			return;
-		}
-
-		userName = data[0];
-
-		// update info if it is not loaded yet
-		var pageUserName = page.getAttribute('username');
-		if (pageUserName !== userName) {
-			clearProfileData();
-
-			page.setAttribute('username', userName);
-
-			twic.requests.makeRequest('getProfileInfo', {
-				'name': userName
-			}, showProfile);
-			// todo or show an error
-		}
+	twic.requests.makeRequest('unfollow', {
+		'id': page.timelineUserId_,
+		'whom_id': page.profileUserId_
+	}, function() {
+		page.showProfileFriendship_(false);
 	} );
+};
 
-}() );
+/**
+ * Show the user membership
+ * @param {boolean} following Following user?
+ * @private
+ */
+twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
+	var
+		page = this;
+	
+	page.elementFollowedSpan_.className = '';
+
+	if (following) {
+		page.elementFollowed_.className = 'following';
+		page.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_following');
+		
+		page.elementFollowed_.onclick = function() {
+			page.unfollow_.call(page);
+		};
+		
+		page.elementFollowed_.onmouseover = function() {
+			page.onFollowedMouseOver_.call(page);
+		};
+		
+		page.elementFollowed_.onmouseout = function() {
+			page.onFollowedMouseOut_.call(page);
+		};
+	} else {
+		page.elementFollowed_.className = '';
+		page.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_follow');
+		
+		page.elementFollowed_.onmouseover = null;
+		page.elementFollowed_.onmouseout = null;
+		page.elementFollowed_.onclick = function() {
+			page.follow_.call(page);
+		};
+	}
+
+	page.elementFollowings_.style.display = 'block';
+};
+
+/**
+ * @private
+ */
+twic.pages.ProfilePage.prototype.onFollowedMouseOver_ = function() {
+	if (!this.unfollowOver_) {
+		this.unfollowOver_ = true;
+		this.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_unfollow');
+	}
+};
+
+/**
+ * @private
+ */
+twic.pages.ProfilePage.prototype.onFollowedMouseOut_ = function() {
+	if (this.unfollowOver_) {
+		this.unfollowOver_ = false;
+		this.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_following');
+	}
+};
+
+/**
+ * @private
+ * @param {Object} data
+ */
+twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
+	var
+		page = this,
+		/** @type {Element} **/ marginElement = null,
+		/** @type {string} **/  description = data['description'],
+		/** @type {string} **/  loc = data['location'];
+
+	page.profileUserId_ = data['id'];
+
+	// fixme shitcode
+	page.elementAvatar_.src = data['avatar'].replace('_normal.', '_bigger.');
+	page.elementAvatar_.title = '@' + data['screen_name'];
+	page.elementAvatar_.style.display = '';
+
+	// user properties
+	if (data['is_protected']) {
+		page.elementProps_.classList.add('protected');
+	}
+
+	page.elementName_.innerHTML = data['name'];
+	page.elementNick_.innerHTML = data['screen_name'];
+
+	page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
+
+	if (data['url'] !== '') {
+		page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
+	}
+
+	if (loc.trim() !== '') {
+		page.elementLocation_.style.display = 'block';
+		marginElement = page.elementLocation_;
+
+		// trying to find the coordinates
+		var coords = twic.pages.ProfilePage.REGEXP_COORDS.exec(loc);
+
+		if (
+			coords
+			&& 3 === coords.length
+		) {
+			var
+				coordsData = coords.shift().split(',');
+
+			page.map_ = new twic.vcl.Map(page.elementMap_, coordsData.shift(), coordsData.shift());
+		}
+
+		page.elementLocation_.innerHTML = loc;
+	}
+
+	if (description.trim() !== '') {
+		page.elementBio_.innerHTML = twic.utils.url.processText(description);
+		page.elementBio_.style.display = 'block';
+		marginElement = page.elementBio_;
+	}
+
+	if (marginElement) {
+		marginElement.style.marginTop = '1em';
+	}
+
+	if (
+		!page.timelineUserId_
+		|| page.timelineUserId_ === data['id']
+	) {
+		twic.dom.setVisibility(page.elementLoader_, false);
+	} else {
+		twic.requests.makeRequest('getProfileFriendshipInfo', {
+			'source_id': page.timelineUserId_,
+			'target_id': data['id']
+		}, function(data) {
+			twic.dom.setVisibility(page.elementLoader_, false);
+			page.showProfileFriendship_(data['following']);
+			page.elementFollowings_.style.display = 'block';
+		} );
+	}
+};
+
+twic.pages.ProfilePage.prototype.handle = function(data) {
+	twic.Page.prototype.handle.call(this);
+	
+	var
+		page = this,
+		prev = twic.router.previous(),
+		/** @type {string} **/ prevPage = prev.shift(),
+		/** @type {string} **/ userName;
+	
+	page.toolbarTimeline_.href = '#' + prevPage;
+	
+	if (prevPage === 'about') {
+		page.toolbarTimeline_.innerHTML = twic.utils.lang.translate('title_about');
+	
+		// trying to find if we are using just one account
+		var
+			tmpList = document.querySelectorAll('#accounts ul li a');
+	
+		if (tmpList.length === 1) {
+			page.timelineUserId_ = parseInt(tmpList[0].id, 10);
+		} else {
+			page.timelineUserId_ = null;
+		}
+	} else {
+		page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p').innerHTML;
+		page.toolbarTimeline_.href += '#' + prev.join('#');
+		// fixme shitcode
+		page.timelineUserId_ = parseInt(prev[0], 10);
+	}
+	
+	if (
+		!data.length
+		|| 1 !== data.length
+	) {
+		// todo return to the accounts list screen
+		return;
+	}
+	
+	userName = data[0];
+	
+	// update info if it is not loaded yet
+	var pageUserName = page.page_.getAttribute('username');
+	if (pageUserName !== userName) {
+		page.clearData_();
+	
+		page.page_.setAttribute('username', userName);
+	
+		twic.requests.makeRequest('getProfileInfo', {
+			'name': userName
+		}, function(data) {
+			page.showProfile_.call(page, data);
+		} );
+		// todo or show an error
+	}	
+};
+
+twic.router.register('profile', twic.pages.ProfilePage);
