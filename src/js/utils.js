@@ -145,7 +145,8 @@ twic.utils.url.humanize = function(url, lnks) {
 			title = 'instagram - ' + url;
 			cutted = '<img src="https://instagr.am/favicon.ico" class="aicon" />';
 		}
-	} else
+	}
+
 	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
 	}	else
