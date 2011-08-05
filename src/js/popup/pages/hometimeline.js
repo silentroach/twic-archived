@@ -152,8 +152,8 @@ twic.pages.TimelinePage.prototype.doRetweet_ = function(userId, tweetId, callbac
 		page = this;
 	
 	twic.requests.makeRequest('retweet', {
-		'userId': page.userId_,
-		'tweetId': page.tweetId_
+		'userId': userId,
+		'tweetId': tweetId
 	}, function() {
 		callback();
 
@@ -173,8 +173,8 @@ twic.pages.TimelinePage.prototype.doDelete_ = function(userId, tweetId, callback
 		page = this;
 	
 	twic.requests.makeRequest('delete', {
-		'userId': page.userId_,
-		'tweetId': page.tweetId_
+		'userId': userId,
+		'tweetId': tweetId
 	}, function() {
 		callback();
 
@@ -221,13 +221,13 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweetText, re
 	if (replyId) {
 		twic.requests.makeRequest('replyTweet', {
 			'id': page.userId_,
-			'tweet': page.tweetText_,
-			'replyTo': page.replyId_
+			'tweet': tweetText,
+			'replyTo': replyId
 		}, finish);
 	} else {
 		twic.requests.makeRequest('sendTweet', {
 			'id': page.userId_,
-			'tweet': page.tweetText_
+			'tweet': tweetText
 		}, finish);
 	}
 };
@@ -265,7 +265,7 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 	};
 	page.timeline_.onRetweet = function(userId, tweetId, callback) {
 		page.doRetweet_.call(page, userId, tweetId, callback);
-	}
+	};
 	page.timeline_.onOldRetweet = function(text) {
 		page.doOldRetweet_.call(page, text);
 	};
@@ -310,7 +310,7 @@ twic.pages.TimelinePage.prototype.handle = function(data) {
 	};
 	page.tweetEditor_.onGetSuggestList = function(startPart, callback) {
 		page.getSuggestList_.call(page, startPart, callback);
-	}
+	};
 
 	page.update_();
 };
