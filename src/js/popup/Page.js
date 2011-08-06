@@ -7,6 +7,9 @@
 
 twic.pages = { };
 
+/**
+ * @constructor
+ */
 twic.Page = function() {
 	/**
 	 * Remember this page as last?

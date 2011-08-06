@@ -232,7 +232,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 			if (twic.global.SUCCESS === reply['result']) {
 				window.close();
 			} else {
-				page.buttonElement_.src = oldSource;
+				buttonElement.src = oldSource;
 		
 				page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
 				page.bottomStatus_.classList.add('alert');
@@ -245,8 +245,8 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 /**
  * @override
  */
-twic.pages.AccountsPage.prototype.handle = function() { 
-	twic.Page.prototype.handle.call(this);
+twic.pages.AccountsPage.prototype.handle = function(data) { 
+	twic.Page.prototype.handle.call(this, data);
 	
 	this.refresh_();
 };

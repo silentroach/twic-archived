@@ -215,7 +215,7 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweetText, re
 	
 	var finish = function() {
 		callback();
-		page.updateTop.call(page);
+		page.updateTop_.call(page);
 	};
 
 	if (replyId) {
@@ -242,7 +242,7 @@ twic.pages.TimelinePage.prototype.timelineResetEditor_ = function() {
 /**
  * Suggest list builder
  * @param {string} startPart Nick start part
- * @param {function(Array<string>)} callback Callback function
+ * @param {function(Array.<string>)} callback Callback function
  */
 twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback) {
 	twic.requests.makeRequest( 'getNickSuggest', {
@@ -285,7 +285,7 @@ twic.pages.TimelinePage.prototype.handle = function(data) {
 	var
 		page = this;
 	
-	twic.Page.prototype.handle.call(page);
+	twic.Page.prototype.handle.call(page, data);
 	
 	if (
 		!data.length

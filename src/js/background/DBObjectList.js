@@ -7,10 +7,15 @@
 
 /**
  * @constructor
- * @param {!function(*)} cls DBObject constructor function name
+ * @param {!function(new:twic.DBObject)} ctor DBObject constructor function name
  */
-twic.DBObjectList = function(cls) {
-	this.cls = cls;
+twic.DBObjectList = function(ctor) {
+	
+	/**
+	 * DBObject constructor
+	 * @private
+	 */
+	this.ctor_ = ctor;
 
 	/**
 	 * @type {Object.<number,twic.DBObject>}
@@ -39,7 +44,7 @@ twic.DBObjectList.prototype.load = function(result, alias) {
 		/**
 		 * @type {twic.DBObject}
 		 */
-		var obj = new objList.cls();
+		var obj = new objList.ctor_();
 		obj.loadFromRow(result.item(i), alias);
 
 		objList.items[obj.fields['id']] = obj;
@@ -63,7 +68,7 @@ twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 		return;
 	}
 
-	var obj = new objList.cls();
+	var obj = new objList.ctor_();
 	obj.loadFromRow(row, alias);
 
 	objList.items[id] = obj;

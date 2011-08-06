@@ -82,7 +82,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 				url = twic.vcl.TweetEditor.prototype.currentURL_,
 				selStart = editor.editorTextarea_.selectionStart,
 				selEnd = editor.editorTextarea_.selectionEnd,
-				valLen = editor.editorTextarea_.value.length,
 				newVal = editor.editorTextarea_.value.substr(0, selStart);
 
 			if (

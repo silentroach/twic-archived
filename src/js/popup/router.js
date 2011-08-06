@@ -48,14 +48,14 @@ twic.router.previousLocation_ = [];
 /**
  * Initialized pages
  * @private
- * @type {Object.<string, twic.Page}
+ * @type {Object.<string, twic.Page>}
  */
 twic.router.pages_ = { };
 
 /**
  * Router handlers
  * @private
- * @type {Object.<string, function()}
+ * @type {Object.<string, !function(new:twic.Page)>}
  */
 twic.router.handlers_ = { };
 
@@ -103,6 +103,10 @@ twic.router.changeFrame_ = function(targetFrameName, data) {
 
 	twic.router.frames_[targetFrameName].style.display = 'block';
 	page.handle.call(page, data);
+	
+	if (page.remember) {
+		window.localStorage.setItem('location', twic.router.location_.join('#'));
+	}
 };
 
 // -------------------------------------------------------------------
@@ -124,60 +128,3 @@ window.onhashchange = function() {
 		twic.router.changeFrame_(trg, twic.router.location_.slice(1));
 	}
 };
-
-/**
- * @type {Object}
- * @private
-twic.router.frames_ = ( function() {
-	var
-		tmp = document.querySelectorAll('div.page'),
-		res = { },
-		i;
-
-	for (i = 0; i < tmp.length; ++i) {
-		var frame = tmp[i];
-
-		res[frame.id] = {
-			frame: frame,
-			callbacks: [],
-			init: false
-		};
-	}
-
-	return res;
-}() );
-
-
-
- * @param {string} frameName Frame names
- * @param {function()} callback Callback function
-twic.router.handle = function(frameName, callback) {
-	twic.router.frames_[frameName].callbacks.push(callback);
-};
-
- * Get the previous frame names
- * @return {Array.<string>}
-twic.router.previous = function() {
-	return twic.router.previousLocation_;
-};
-
- * init the page for the first time
- * @param {function()} callback
-twic.router.initOnce = function(callback) {
-	if (
-		!twic.router.frames_[twic.router.currentFrame_]
-		|| twic.router.frames_[twic.router.currentFrame_].init
-	) {
-		return;
-	}
-
-	twic.router.frames_[twic.router.currentFrame_].init = true;
-	callback();
-};
-
- * Remember the page to open it next time popup is open
-twic.router.remember = function() {
-	window.localStorage.setItem('location', twic.router.location_.join('#'));
-};
-*/
-

@@ -127,7 +127,7 @@ twic.pages.ProfilePage = function() {
 	this.directLinkBase_ = '';
 
 	/**
-	 * @type {Element}
+	 * @type {twic.vcl.Map}
 	 * @private
 	 */
 	this.map_ = null;
@@ -371,7 +371,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 };
 
 twic.pages.ProfilePage.prototype.handle = function(data) {
-	twic.Page.prototype.handle.call(this);
+	twic.Page.prototype.handle.call(this, data);
 	
 	var
 		page = this,
