@@ -119,6 +119,29 @@ twic.api.accountAdd = function(callback, failedCallback) {
 };
 
 /**
+ * Get the configuration
+ * @param {function(Object)} callback Callback function
+ * @param {function(twic.ResponseError)=} failedCallback Failed callback function
+ */
+twic.api.getConfiruration = function(callback, failedCallback) {
+	var
+		req = new twic.HTTPRequest('GET', twic.api.BASE_URL + 'help/configuration.json');
+
+	req.send( function(error, req) {
+		if (!error) {
+			var obj = JSON.parse(req.responseText);
+
+			if (obj) {
+				callback(obj);
+			} // todo else failedCallback?
+		} else
+		if (failedCallback) {
+			failedCallback(error);
+		}
+	} );
+};
+
+/**
  * Get the user access token
  * @param {string} pin Pin code
  * @param {function(Object)} callback Callback function

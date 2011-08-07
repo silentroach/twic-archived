@@ -12,6 +12,10 @@ twic.options = { };
  * @private
  */
 twic.options.storage_ = {
+	// twitter api config values
+	'short_url_length': '19',
+	'short_url_length_https': '20',
+	// -------------------------
 	// 48x48 avatar size
 	'avatar_size': '48',
 	// show the tweet time

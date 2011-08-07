@@ -35,21 +35,21 @@ twic.HTTPRequest = function(method, url) {
 	 * @type {string}
 	 */
 	this.method_ = method;
-	
+
 	/**
 	 * URL
 	 * @type {string}
 	 * @private
 	 */
 	this.url_ = url;
-	
+
 	/**
 	 * Headers
 	 * @type {Object.<string, string>}
 	 * @private
 	 */
 	this.requestHeaders_ = {};
-	
+
 	/**
 	 * Data
 	 * @type {Object.<string, string>}
@@ -184,7 +184,7 @@ twic.HTTPRequest.prototype.send = function(callback) {
 		}
 	};
 
-	req.open(self.method_, self.url_ + ('GET' === self.method_ ? '?' + data.join('&') : ''));
+	req.open(self.method_, self.url_ + ('GET' === self.method_ && data.length > 0 ? '?' + data.join('&') : ''));
 
 	for (key in self.requestHeaders_) {
 		req.setRequestHeader(key, self.requestHeaders_[key]);

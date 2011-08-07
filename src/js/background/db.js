@@ -364,24 +364,10 @@ twic.db.migrate_ = function(db, ver, callback) {
 
 /**
  * Cleanup the database
- * @private
  * @param {Database} db Database
  * @param {function()} callback Callback
  */
-twic.db.cleanup_ = function(db, callback) {
-	var
-		/** @const **/ cleanupMarkItem = 'lastCleanup',
-		dirtyDate  = (new Date()).toJSON().split('T')[0],
-		storedDate = window.localStorage.getItem(cleanupMarkItem);
-
-	if (storedDate === dirtyDate) {
-		callback();
-		// running cleanup only once per day
-		return;
-	}
-
-	window.localStorage.setItem(cleanupMarkItem, dirtyDate);
-
+twic.db.cleanup = function(db, callback) {
 	var
 		// week is enough for data to store
 		cutDate = twic.utils.date.getCurrentTimestamp() - 60 * 60 * 24 * 7;
@@ -433,9 +419,7 @@ twic.db.getDatabase_ = function(callback) {
 				twic.db.isPreparing_ = false;
 				twic.db.database_ = tmpDB;
 
-				twic.db.cleanup_(twic.db.database_, function() {
-					callback(twic.db.database_);
-				} );
+				callback(twic.db.database_);
 			} );
 		}
 	} else {

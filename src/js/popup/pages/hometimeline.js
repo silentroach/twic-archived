@@ -11,43 +11,43 @@
  */
 twic.pages.TimelinePage = function() {
 	twic.Page.call(this);
-	
+
 	this.remember = true;
-	
-	/** 
+
+	/**
 	 * @type {twic.vcl.Timeline}
 	 * @private
-	 */ 
+	 */
 	this.timeline_ = null;
-	
-	/** 
+
+	/**
 	 * @type {Element}
 	 * @private
-	 */ 
+	 */
 	this.page_ = null;
-	
-	/** 
+
+	/**
 	 * @type {Element}
 	 * @private
-	 */ 
+	 */
 	this.accountNameElement_ = null;
-	
-	/** 
+
+	/**
 	 * @type {Element}
 	 * @private
-	 */ 
+	 */
 	this.newTweet_ = null;
-	
-	/** 
+
+	/**
 	 * @type {twic.vcl.TweetEditor}
 	 * @private
-	 */ 
+	 */
 	this.tweetEditor_ = null;
-	
-	/** 
+
+	/**
 	 * @type {number}
 	 * @private
-	 */ 
+	 */
 	this.userId_ = 0;
 };
 
@@ -121,7 +121,7 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 twic.pages.TimelinePage.prototype.updateTop_ = function() {
 	var
 		page = this;
-	
+
 	page.timeline_.beginUpdate(false, true);
 
 	twic.requests.makeRequest('getTimeline', {
@@ -150,7 +150,7 @@ twic.pages.TimelinePage.prototype.doOldRetweet_ = function(text) {
 twic.pages.TimelinePage.prototype.doRetweet_ = function(userId, tweetId, callback) {
 	var
 		page = this;
-	
+
 	twic.requests.makeRequest('retweet', {
 		'userId': userId,
 		'tweetId': tweetId
@@ -171,7 +171,7 @@ twic.pages.TimelinePage.prototype.doRetweet_ = function(userId, tweetId, callbac
 twic.pages.TimelinePage.prototype.doDelete_ = function(userId, tweetId, callback) {
 	var
 		page = this;
-	
+
 	twic.requests.makeRequest('delete', {
 		'userId': userId,
 		'tweetId': tweetId
@@ -189,9 +189,9 @@ twic.pages.TimelinePage.prototype.doDelete_ = function(userId, tweetId, callback
 twic.pages.TimelinePage.prototype.update_ = function() {
 	var
 		page = this;
-	
+
 	page.timeline_.clear();
-	
+
 	page.timeline_.beginUpdate();
 
 	// todo thank about smarter way to refresh the timeline
@@ -212,7 +212,7 @@ twic.pages.TimelinePage.prototype.update_ = function() {
 twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweetText, replyId, callback) {
 	var
 		page = this;
-	
+
 	var finish = function() {
 		callback();
 		page.updateTop_.call(page);
@@ -260,20 +260,21 @@ twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 		&& this.page_.scrollHeight - this.page_.offsetHeight - this.page_.scrollTop < 50
 	) {
 		// load bottom tweets
+		twic.debug.log('loading bottom tweets');
 	}
 };
 
 twic.pages.TimelinePage.prototype.initOnce = function() {
 	var
 		page = this;
-	
+
 	twic.Page.prototype.initOnce.call(page);
-	
+
 	page.page_ = twic.dom.findElement('#timeline');
 	page.page_.addEventListener('scroll', function(e) {
 		page.scrollHandler_.call(page, e);
 	}, false);
-	
+
 	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
 
 	page.timeline_ = new twic.vcl.Timeline(page.page_);
@@ -301,9 +302,9 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 twic.pages.TimelinePage.prototype.handle = function(data) {
 	var
 		page = this;
-	
+
 	twic.Page.prototype.handle.call(page, data);
-	
+
 	if (
 		!data.length
 		|| 1 !== data.length

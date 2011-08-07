@@ -25,6 +25,25 @@ twic.twitter.resetLastId = function(userId) {
 };
 
 /**
+ * Check the config
+ */
+twic.twitter.checkConfig = function() {
+	twic.api.getConfiruration( function(obj) {
+		var
+			i = '';
+
+		for (i in obj) {
+			if (
+				'short_url_length' == i
+				|| 'short_url_length_https' == i
+			) {
+				twic.options.setValue(i, obj[i]);
+			}
+		}
+	} );
+};
+
+/**
  * Get the user info
  * @param {string} nick Nickname
  * @param {function(Object)} callback Callback function
