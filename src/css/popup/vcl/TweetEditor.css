@@ -58,7 +58,7 @@
 	opacity: 1;
 	}
 .tweetEditor.overload textarea {
-	background-color: rgba(255, 0, 0, .1);
+	background-color: #f6dddd;
 	}
 
 /** sending state **/

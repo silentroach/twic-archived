@@ -45,7 +45,7 @@
 		}
 		#profile #followings p:hover {
 			/* simple hover on "follow" button */
-			background-color: rgba(0, 0, 0, .05);
+			background-color: #eaeaea;
 			}
 		#profile #followings p span {
 			background: url('/img/buttons/add.png') no-repeat left;
@@ -53,14 +53,14 @@
 			}
 		#profile #followings p.following {
 			/* following status background */
-			background-color: rgba(0, 128, 0, .15);
+			background-color: #e7f1dd;
 			}
 			#profile #followings p.following span {
 				background: url('/img/buttons/following.png') no-repeat left;
 				}
 		#profile #followings p.following:hover {
 			/* unfollow status background */
-			background-color: rgba(255, 0, 0, .15);
+			background-color: #f6dddd;
 			}
 			#profile #followings p.following:hover span {
 				background: url('/img/buttons/following_not.png') no-repeat left;

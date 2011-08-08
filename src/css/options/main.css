@@ -45,11 +45,11 @@ body {
 		-webkit-transition: border .2s ease-in-out;
 		}
 		#content ul.options li.selected img {
-			border: 1px solid rgba(0, 0, 0, 1);
+			border: 1px solid black;
 			}
 	#content ul.options li:hover {
 		cursor: pointer;
 		}
 		#content ul.options li:hover img {
-			border: 1px solid rgba(0, 0, 0, .5);
+			border: 1px solid #757575;
 			}

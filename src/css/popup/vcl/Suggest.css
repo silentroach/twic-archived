@@ -16,7 +16,7 @@
 	.suggest li {
 		padding: 2px 3px;
 		display: inline-block;
-		border-right: 1px solid rgba(0, 0, 0, .05);
+		border-right: 1px solid #eaeaea;
 		}
 		.suggest li:hover,
 		.suggest li.selected {
