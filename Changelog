@@ -1,4 +1,5 @@
 0.29 (in development):
+	* Bug with wrong tweets sorting after tweet posting fixed (#79)
 
 0.28:
 	+ Showing instagr.am links as an icons
