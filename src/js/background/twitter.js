@@ -131,7 +131,7 @@ twic.twitter.getFriendshipInfo = function(source_id, target_id, callback) {
  * Get user timeline
  * @param {number} id User identifier
  * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
- * @param {string} afterId Get only after tweet id
+ * @param {Object} afterId Get only after tweet id
  */
 twic.twitter.getHomeTimeline = function(id, callback, afterId) {
 	var
@@ -150,9 +150,9 @@ twic.twitter.getHomeTimeline = function(id, callback, afterId) {
 			'inner join users u on (t.user_id = u.id) ' +
 			'left join users r on (t.retweeted_user_id = r.id) ' +
 		'where tl.user_id = ? ' +
-		(afterId ? ' and t.id > ? ' : '') +
+		(afterId ? ' and t.id > ? and t.dt > ? ' : '') +
 		'order by t.dt desc, t.id desc limit 20 ',
-		afterId ? [id, afterId] : [id],
+		afterId ? [id, afterId['id'], afterId['ts']] : [id],
 		function(rows) {
 			var
 				tweetList = new twic.DBObjectList(twic.db.obj.Tweet),

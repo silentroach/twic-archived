@@ -95,14 +95,22 @@ twic.vcl.Timeline = function(parent) {
 	this.userNick_ = '';
 
 	/**
-	 * @type {?string}
+	 * @type {Object}
+	 * @private
 	 */
-	this.firstId_ = '';
+	this.firstTweetId_ = {
+		'id': '',
+		'ts': 0
+	};
 
 	/**
 	 * @type {?string}
+	 * @private
 	 */
-	this.lastId_ = '';
+	this.lastTweetId_ = {
+		'id': '',
+		'ts': 0
+	};
 
 	/**
 	 * @type {Object.<string, twic.vcl.Tweet>}
@@ -493,8 +501,10 @@ twic.vcl.Timeline.prototype.clear = function() {
 	this.list_.innerHTML = '';
 	this.tweets_ = { };
 
-	this.lastId_ = null;
-	this.firstId_ = null;
+	this.lastTweetId_['id'] = '';
+	this.lastTweetId_['ts'] = 0;
+	this.firstTweetId_['id'] = '';
+	this.firstTweetId_['ts'] = 0;
 };
 
 /**
@@ -541,9 +551,10 @@ twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
 /**
  * Add tweet to timeline
  * @param {string} id Tweet identifier
+ * @param {number} ts Tweet timestamp
  * @return {!twic.vcl.Tweet}
  */
-twic.vcl.Timeline.prototype.addTweet = function(id) {
+twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 	var
 		timeline = this,
 		tweet = new twic.vcl.Tweet(id, this);
@@ -561,8 +572,8 @@ twic.vcl.Timeline.prototype.addTweet = function(id) {
 		this.tweetBuffer_.appendChild(tweet.getElement());
 	} else {
 		if (
-			this.lastId_
-			&& id > this.lastId_
+			ts > this.lastTweetId_['ts']
+			&& id > this.lastTweetId_['id']
 		) {
 			this.list_.insertBefore(tweet.getElement(), this.list_.childNodes[0]);
 		} else {
@@ -571,17 +582,22 @@ twic.vcl.Timeline.prototype.addTweet = function(id) {
 	}
 
 	if (
-		!this.lastId_
-		|| id > this.lastId_
+		ts > this.lastTweetId_['ts']
+		&& id > this.lastTweetId_['id']
 	) {
-		this.lastId_ = id;
+		this.lastTweetId_['id'] = id;
+		this.lastTweetId_['ts'] = ts;
 	}
 
 	if (
-		!this.firstId_
-		|| id < this.firstId_
+		0 === this.firstTweetId_['ts']
+		|| (
+			id < this.firstTweetId_['id']
+			&& ts < this.firstTweetId_['ts']
+		)
 	) {
-		this.firstId_ = id;
+		this.firstTweetId_['id'] = id;
+		this.firstTweetId_['ts'] = ts;
 	}
 
 	return tweet;
@@ -629,18 +645,18 @@ twic.vcl.Timeline.prototype.getUserNick = function() {
 
 /**
  * Get the last tweet identifier
- * @return {?string}
+ * @return {Object}
  */
-twic.vcl.Timeline.prototype.getLastId = function() {
-	return this.lastId_;
+twic.vcl.Timeline.prototype.getLastTweetId = function() {
+	return this.lastTweetId_;
 };
 
 /**
  * Get the first tweet identifier
- * @return {?string}
+ * @return {Object}
  */
-twic.vcl.Timeline.prototype.getFirstId = function() {
-	return this.firstId_;
+twic.vcl.Timeline.prototype.getFirstTweetId = function() {
+	return this.firstTweetId_;
 };
 
 /**

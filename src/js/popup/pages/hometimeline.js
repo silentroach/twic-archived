@@ -72,7 +72,7 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 			item      = data[id],
 			user      = item['user'],
 			retweeted = item['retweeted'],
-			tweet     = this.timeline_.addTweet(id);
+			tweet     = this.timeline_.addTweet(id, item['dt']);
 
 		if (retweeted) {
 			tweet.setAuthor(retweeted['id'], retweeted['screen_name'], retweeted['avatar']);
@@ -126,7 +126,7 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
 
 	twic.requests.makeRequest('getTimeline', {
 		'id': page.userId_,
-		'after': page.timeline_.getLastId()
+		'after': page.timeline_.getLastTweetId()
 	}, function(data) {
 		page.buildList_.call(page, data);
 	} );
