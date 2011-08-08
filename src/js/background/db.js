@@ -364,10 +364,8 @@ twic.db.migrate_ = function(db, ver, callback) {
 
 /**
  * Cleanup the database
- * @param {Database} db Database
- * @param {function()} callback Callback
  */
-twic.db.cleanup = function(db, callback) {
+twic.db.cleanup = function() {
 	var
 		// week is enough for data to store
 		cutDate = twic.utils.date.getCurrentTimestamp() - 60 * 60 * 24 * 7;
@@ -382,7 +380,6 @@ twic.db.cleanup = function(db, callback) {
 		{ sql: 'delete from friends where dt < ?', params: [cutDate] }
 	], function() {
 		twic.debug.groupEnd();
-		callback();
 	} );
 };
 

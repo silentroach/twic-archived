@@ -104,7 +104,7 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	/**
-	 * @type {?string}
+	 * @type {Object}
 	 * @private
 	 */
 	this.lastTweetId_ = {

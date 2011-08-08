@@ -120,7 +120,7 @@ twic.api.accountAdd = function(callback, failedCallback) {
 
 /**
  * Get the configuration
- * @param {function(Object)} callback Callback function
+ * @param {function(*)} callback Callback function
  * @param {function(twic.ResponseError)=} failedCallback Failed callback function
  */
 twic.api.getConfiruration = function(callback, failedCallback) {
