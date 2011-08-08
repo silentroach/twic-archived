@@ -94,10 +94,6 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 			tweet.setSeparator();
 		}
 
-		if ('dt' in item) {
-			tweet.setUnixTime(item['dt']);
-		}
-
 		if ('source' in item) {
 			tweet.setSource(item['source']);
 		}
@@ -123,14 +119,14 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
 	var
 		page = this;
 
-	page.timeline_.beginUpdate(false, true);
-
-	twic.requests.makeRequest('getTimeline', {
-		'id': page.userId_,
-		'after': page.timeline_.getLastTweetId()
-	}, function(data) {
-		page.buildList_.call(page, data);
-	} );
+	if (page.timeline_.beginUpdate(false, true)) {
+		twic.requests.makeRequest('getTimeline', {
+			'id': page.userId_,
+			'after': page.timeline_.getLastTweetId()
+		}, function(data) {
+			page.buildList_.call(page, data);
+		} );
+	}
 };
 
 /**
@@ -141,14 +137,14 @@ twic.pages.TimelinePage.prototype.updateBottom_ = function() {
 	var
 		page = this;
 
-	page.timeline_.beginUpdate(true, true);
-
-	twic.requests.makeRequest('getTimeline', {
-		'id': page.userId_,
-		'before': page.timeline_.getFirstTweetId()
-	}, function(data) {
-		page.buildList_.call(page, data);
-	} );
+	if (page.timeline_.beginUpdate(true, true)) {
+		twic.requests.makeRequest('getTimeline', {
+			'id': page.userId_,
+			'before': page.timeline_.getFirstTweetId()
+		}, function(data) {
+			page.buildList_.call(page, data);
+		} );
+	}
 };
 
 /**

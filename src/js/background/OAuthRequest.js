@@ -112,7 +112,7 @@ twic.OAuthRequest.prototype.sign = function(token, token_secret) {
 	self.setOAuthData('oauth_consumer_key', twic.OAuthRequest.CONSUMER_KEY);
 	self.setOAuthData('oauth_signature_method', 'HMAC-SHA1');
 	self.setOAuthData('oauth_version', '1.0');
-	self.setOAuthData('oauth_timestamp', Math.floor(((new Date()).getTime() + twic.OAuthRequest.timestampOffset) / 1000));
+	self.setOAuthData('oauth_timestamp', Math.round(((new Date()).getTime() + twic.OAuthRequest.timestampOffset) / 1000));
 	self.setOAuthData('oauth_nonce', self.getNonce_());
 
 	if (token) {

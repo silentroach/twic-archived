@@ -312,7 +312,7 @@ twic.twitter.updateStatus = function(id, status, callback) {
  * @param {number} id User identifier
  * @param {string} status New status text
  * @param {string} replyTo Reply to tweet identifier
- * @param {function()} callback Callback function
+ * @param {!function()} callback Callback function
  */
 twic.twitter.replyStatus = function(id, status, replyTo, callback) {
 	var account = twic.accounts.getInfo(id);

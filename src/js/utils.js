@@ -52,7 +52,7 @@ twic.utils.date = { };
  * @return {number} Timestamp
  */
 twic.utils.date.getTimestamp = function(dt) {
-	return Math.floor(dt.getTime() / 1000);
+	return Math.round(dt.getTime() / 1000);
 };
 
 /**

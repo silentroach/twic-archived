@@ -50,12 +50,9 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 				    'user': user.getPart(['id', 'screen_name', 'avatar', 'is_protected']),
 				    'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar', 'is_protected']) : null,
 				    'separator': 0 === --unreadCount,
+				    'dt': tweet.fields['dt'],
 				    'links': { 'length': 0 }
 			    };
-
-			    if (twic.options.getValue('tweet_show_time')) {
-			    	reply[tweet.fields['id']]['dt'] = tweet.fields['dt'];
-			    }
 
 			    if (twic.options.getValue('tweet_show_client')) {
 			    	reply[tweet.fields['id']]['source'] = tweet.fields['source'];
