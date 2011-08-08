@@ -116,6 +116,7 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 };
 
 /**
+ * Update the timeline from the top
  * @private
  */
 twic.pages.TimelinePage.prototype.updateTop_ = function() {
@@ -127,6 +128,24 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
 	twic.requests.makeRequest('getTimeline', {
 		'id': page.userId_,
 		'after': page.timeline_.getLastTweetId()
+	}, function(data) {
+		page.buildList_.call(page, data);
+	} );
+};
+
+/**
+ * Update the timeline from the bottom
+ * @private
+ */
+twic.pages.TimelinePage.prototype.updateBottom_ = function() {
+	var
+		page = this;
+
+	page.timeline_.beginUpdate(true, true);
+
+	twic.requests.makeRequest('getTimeline', {
+		'id': page.userId_,
+		'before': page.timeline_.getFirstTweetId()
 	}, function(data) {
 		page.buildList_.call(page, data);
 	} );
@@ -257,10 +276,9 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 	if (
 		this.page_.scrollHeight > this.page_.offsetHeight
-		&& this.page_.scrollHeight - this.page_.offsetHeight - this.page_.scrollTop < 50
+		&& this.page_.scrollHeight - this.page_.offsetHeight - this.page_.scrollTop < 100
 	) {
-		// load bottom tweets
-		twic.debug.log('loading bottom tweets');
+		this.updateBottom_();
 	}
 };
 

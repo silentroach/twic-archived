@@ -131,12 +131,23 @@ twic.twitter.getFriendshipInfo = function(source_id, target_id, callback) {
  * Get user timeline
  * @param {number} id User identifier
  * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
- * @param {Object} afterId Get only after tweet id
+ * @param {Object} options Options
  */
-twic.twitter.getHomeTimeline = function(id, callback, afterId) {
+twic.twitter.getHomeTimeline = function(id, callback, options) {
 	var
 		tmpTweet = new twic.db.obj.Tweet(),
-		tmpUser  = new twic.db.obj.User();
+		tmpUser  = new twic.db.obj.User(),
+		tmpWhere  = '',
+		tmpParams = [id];
+
+	if ('afterId' in options) {
+		tmpWhere = ' and t.id > ? and t.dt > ? ';
+		tmpParams = [id, options['afterId']['id'], options['afterId']['ts']];
+	} else
+	if ('beforeId' in options) {
+		tmpWhere = ' and t.id < ? and t.dt < ? ';
+		tmpParams = [id, options['beforeId']['id'], options['beforeId']['ts']];
+	}
 
 	// fixme holy shit
 	twic.db.openQuery(
@@ -149,10 +160,9 @@ twic.twitter.getHomeTimeline = function(id, callback, afterId) {
 			'inner join timeline tl on (t.id = tl.tweet_id) ' +
 			'inner join users u on (t.user_id = u.id) ' +
 			'left join users r on (t.retweeted_user_id = r.id) ' +
-		'where tl.user_id = ? ' +
-		(afterId ? ' and t.id > ? and t.dt > ? ' : '') +
+		'where tl.user_id = ? ' + tmpWhere +
 		'order by t.dt desc, t.id desc limit 20 ',
-		afterId ? [id, afterId['id'], afterId['ts']] : [id],
+		tmpParams,
 		function(rows) {
 			var
 				tweetList = new twic.DBObjectList(twic.db.obj.Tweet),

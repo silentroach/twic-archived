@@ -15,8 +15,15 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 
 	var
 		id = data['id'],
-		afterId = data['after'],
+		options = { },
 		account = twic.accounts.getInfo(id);
+
+	if ('after' in data) {
+		options['afterId'] = data['after'];
+	} else
+	if ('before' in data) {
+		options['beforeId'] = data['before'];
+	}
 
 	if (account) {
 		var
@@ -78,7 +85,7 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 
 					send();
 		    }, send );
-	    }, afterId);
+	    }, options);
 
 		account.setValue('unread_tweets_count', 0);
 		account.save();
