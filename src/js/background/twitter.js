@@ -137,16 +137,19 @@ twic.twitter.getHomeTimeline = function(id, callback, options) {
 	var
 		tmpTweet = new twic.db.obj.Tweet(),
 		tmpUser  = new twic.db.obj.User(),
+		tmpLimit = 20,
 		tmpWhere  = '',
 		tmpParams = [id];
 
 	if ('afterId' in options) {
 		tmpWhere = ' and t.id > ? and t.dt > ? ';
 		tmpParams = [id, options['afterId']['id'], options['afterId']['ts']];
+		tmpLimit = 5;
 	} else
 	if ('beforeId' in options) {
 		tmpWhere = ' and t.id < ? and t.dt < ? ';
 		tmpParams = [id, options['beforeId']['id'], options['beforeId']['ts']];
+		tmpLimit = 5;
 	}
 
 	// fixme holy shit
@@ -161,7 +164,7 @@ twic.twitter.getHomeTimeline = function(id, callback, options) {
 			'inner join users u on (t.user_id = u.id) ' +
 			'left join users r on (t.retweeted_user_id = r.id) ' +
 		'where tl.user_id = ? ' + tmpWhere +
-		'order by t.dt desc, t.id desc limit 20 ',
+		'order by t.dt desc, t.id desc limit ' + tmpLimit,
 		tmpParams,
 		function(rows) {
 			var
