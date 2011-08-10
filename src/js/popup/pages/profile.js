@@ -11,115 +11,115 @@
  */
 twic.pages.ProfilePage = function() {
 	twic.Page.call(this);
-	
+
 	/**
 	 * @type {boolean}
 	 * @private
 	 */
 	this.unfollowOver_ = false;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.page_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementLoader_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementAvatar_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementName_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementNick_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementUrl_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementBio_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementLocation_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementFollowings_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementFollowed_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementFollowedSpan_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementDirect_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementProps_ = null;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.elementMap_ = null;
-	
+
 	/**
 	 * @type {number}
 	 * @private
 	 */
 	this.timelineUserId = 0;
-	
+
 	/**
 	 * @type {number}
 	 * @private
 	 */
 	this.profileUserId = 0;
-	
+
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.toolbarTimeline_ = null;
-	
+
 	/**
 	 * @type {string}
 	 * @private
@@ -166,7 +166,7 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
 	this.elementMap_      = twic.dom.findElement('.map', this.page_);
 
 	this.elementProps_    = twic.dom.findElement('.props', this.page_);
-	
+
 	twic.dom.findElement('.protected', this.elementProps_).title = twic.utils.lang.translate('title_protected');
 };
 
@@ -187,7 +187,7 @@ twic.pages.ProfilePage.prototype.clearData_ = function() {
 	this.elementLocation_.innerHTML = '';
 	this.elementFollowedSpan_.innerHTML = '';
 	delete this.map_;
-	
+
 	twic.dom.setVisibility(this.elementAvatar_, false);
 	twic.dom.setVisibility(this.elementFollowings_, false);
 	twic.dom.setVisibility(this.elementBio_, false);
@@ -202,7 +202,7 @@ twic.pages.ProfilePage.prototype.clearData_ = function() {
 twic.pages.ProfilePage.prototype.follow_ = function() {
 	var
 		page = this;
-	
+
 	page.elementFollowedSpan_.className = 'loading';
 
 	twic.requests.makeRequest('follow', {
@@ -210,7 +210,7 @@ twic.pages.ProfilePage.prototype.follow_ = function() {
 		'whom_id': page.profileUserId_
 	}, function() {
 		page.showProfileFriendship_(true);
-	} );	
+	} );
 };
 
 /**
@@ -220,7 +220,7 @@ twic.pages.ProfilePage.prototype.follow_ = function() {
 twic.pages.ProfilePage.prototype.unfollow_ = function() {
 	var
 		page = this;
-	
+
 	page.elementFollowedSpan_.className = 'loading';
 
 	twic.requests.makeRequest('unfollow', {
@@ -239,28 +239,28 @@ twic.pages.ProfilePage.prototype.unfollow_ = function() {
 twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
 	var
 		page = this;
-	
+
 	page.elementFollowedSpan_.className = '';
 
 	if (following) {
 		page.elementFollowed_.className = 'following';
 		page.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_following');
-		
+
 		page.elementFollowed_.onclick = function() {
 			page.unfollow_.call(page);
 		};
-		
+
 		page.elementFollowed_.onmouseover = function() {
 			page.onFollowedMouseOver_.call(page);
 		};
-		
+
 		page.elementFollowed_.onmouseout = function() {
 			page.onFollowedMouseOut_.call(page);
 		};
 	} else {
 		page.elementFollowed_.className = '';
 		page.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_follow');
-		
+
 		page.elementFollowed_.onmouseover = null;
 		page.elementFollowed_.onmouseout = null;
 		page.elementFollowed_.onclick = function() {
@@ -372,22 +372,22 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 
 twic.pages.ProfilePage.prototype.handle = function(data) {
 	twic.Page.prototype.handle.call(this, data);
-	
+
 	var
 		page = this,
 		prev = twic.router.previous(),
 		/** @type {string} **/ prevPage = prev.shift(),
 		/** @type {string} **/ userName;
-	
+
 	page.toolbarTimeline_.href = '#' + prevPage;
-	
+
 	if (prevPage === 'about') {
 		page.toolbarTimeline_.innerHTML = twic.utils.lang.translate('title_about');
-	
+
 		// trying to find if we are using just one account
 		var
 			tmpList = document.querySelectorAll('#accounts ul li a');
-	
+
 		if (tmpList.length === 1) {
 			page.timelineUserId_ = parseInt(tmpList[0].id, 10);
 		} else {
@@ -399,7 +399,7 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
 		// fixme shitcode
 		page.timelineUserId_ = parseInt(prev[0], 10);
 	}
-	
+
 	if (
 		!data.length
 		|| 1 !== data.length
@@ -407,23 +407,21 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
 		// todo return to the accounts list screen
 		return;
 	}
-	
+
 	userName = data[0];
-	
+
 	// update info if it is not loaded yet
 	var pageUserName = page.page_.getAttribute('username');
 	if (pageUserName !== userName) {
 		page.clearData_();
-	
+
 		page.page_.setAttribute('username', userName);
-	
+
 		twic.requests.makeRequest('getProfileInfo', {
 			'name': userName
 		}, function(data) {
 			page.showProfile_.call(page, data);
 		} );
 		// todo or show an error
-	}	
+	}
 };
-
-twic.router.register('profile', twic.pages.ProfilePage);

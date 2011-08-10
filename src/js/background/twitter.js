@@ -128,6 +128,7 @@ twic.twitter.getFriendshipInfo = function(source_id, target_id, callback) {
 };
 
 /**
+ * TODO think about refactoring
  * Get user timeline
  * @param {number} id User identifier
  * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function

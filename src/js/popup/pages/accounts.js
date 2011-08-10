@@ -11,37 +11,37 @@
  */
 twic.pages.AccountsPage = function() {
 	twic.Page.call(this);
-	
+
 	this.remember = true;
-	
-	/** 
-	 * @type {Element} 
+
+	/**
+	 * @type {Element}
 	 * @private
-	 */ 
+	 */
 	this.list_ = null;
-	
-	/** 
+
+	/**
 	 * @type {Element}
-	 * @private 
-	 */ 
+	 * @private
+	 */
 	this.bottomStatus_ = null;
-	
-	/** 
+
+	/**
 	 * @type {Element}
-	 * @private 
-	 */ 
+	 * @private
+	 */
 	this.elementAccountAdd_ = null;
-	
-	/** 
+
+	/**
 	 * @type {number}
-	 * @private  
-	 */ 
+	 * @private
+	 */
 	this.removingAccountId_ = 0;
-	
-	/** 
+
+	/**
 	 * @type {Element}
-	 * @private 
-	 */ 
+	 * @private
+	 */
 	this.firstAccountElement_ = null;
 };
 
@@ -52,7 +52,7 @@ goog.inherits(twic.pages.AccountsPage, twic.Page);
  */
 twic.pages.AccountsPage.prototype.resetToolbar_ = function() {
 	this.bottomStatus_.innerHTML = twic.utils.lang.translate('title_select_or_remove');
-	this.bottomStatus_.classList.remove('alert');	
+	this.bottomStatus_.classList.remove('alert');
 };
 
 /**
@@ -61,7 +61,7 @@ twic.pages.AccountsPage.prototype.resetToolbar_ = function() {
 twic.pages.AccountsPage.prototype.removeAccount_ = function() {
 	var
 		page = this;
-	
+
 	twic.requests.makeRequest('accountRemove', {
 		'id': page.removingAccountId_
 	}, function() {
@@ -75,10 +75,10 @@ twic.pages.AccountsPage.prototype.removeAccount_ = function() {
 twic.pages.AccountsPage.prototype.refresh_ = function() {
 	var
 		page = this;
-	
+
 	page.resetToolbar_();
 	page.clearList_();
-	
+
 	twic.requests.makeRequest('accountList', {}, function(data) {
 		page.buildList_.call(page, data);
 	} );
@@ -191,8 +191,8 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
 
 twic.pages.AccountsPage.prototype.initOnce = function() {
 	twic.Page.prototype.initOnce.call(this);
-	
-	var 
+
+	var
 		page = this,
 		loading = false;
 
@@ -217,23 +217,23 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 		var
 			buttonElement = twic.dom.findElement('img', e.target),
 			oldSource = buttonElement.src;
-		
+
 		if (loading) {
 			return false;
 		}
-		
+
 		loading = true;
-		
+
 		// @resource img/loader.gif
 		buttonElement.src = 'img/loader.gif';
 		e.target.href = '#';
-		
+
 		twic.requests.makeRequest('accountAdd', { }, function(reply) {
 			if (twic.global.SUCCESS === reply['result']) {
 				window.close();
 			} else {
 				buttonElement.src = oldSource;
-		
+
 				page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
 				page.bottomStatus_.classList.add('alert');
 				page.bottomStatus_.style.display = 'block';
@@ -245,10 +245,8 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 /**
  * @override
  */
-twic.pages.AccountsPage.prototype.handle = function(data) { 
+twic.pages.AccountsPage.prototype.handle = function(data) {
 	twic.Page.prototype.handle.call(this, data);
-	
+
 	this.refresh_();
 };
-
-twic.router.register('accounts', twic.pages.AccountsPage);

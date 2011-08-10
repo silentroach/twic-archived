@@ -346,5 +346,3 @@ twic.pages.TimelinePage.prototype.handle = function(data) {
 
 	page.update_();
 };
-
-twic.router.register('timeline', twic.pages.TimelinePage);

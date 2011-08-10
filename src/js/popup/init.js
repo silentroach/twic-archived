@@ -5,9 +5,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-// namespace for visual components
-twic.vcl = { };
-
 setTimeout( function() {
 
 	// try to switch to the page we remember before popup was closed
@@ -69,3 +66,9 @@ document.addEventListener('click', function(e) {
 	}
 }, false);
 
+//register pages
+
+twic.router.register('profile', twic.pages.ProfilePage);
+twic.router.register('accounts', twic.pages.AccountsPage);
+twic.router.register('timeline', twic.pages.TimelinePage);
+twic.router.register('about', twic.pages.AboutPage);
