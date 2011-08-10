@@ -156,7 +156,7 @@ twic.utils.url.humanize = function(url, lnks) {
 
 	// simple links for mailto
 	if (-1 !== url.indexOf('mailto:')) {
-		return '<a href="' + url + '">' + cutted + '</a>';
+		return '<a target="_blank" href="' + url + '">' + cutted + '</a>';
 	} else
 	// fix url without schema
 	if (-1 === url.indexOf('://')) {
