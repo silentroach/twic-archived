@@ -267,8 +267,8 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback
 
 /**
  * Handler for the scroll event
- * @param {Event} e
- *
+ */
+/*
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 	if (
 		this.page_.scrollHeight > this.page_.offsetHeight
