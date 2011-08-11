@@ -268,7 +268,7 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback
 /**
  * Handler for the scroll event
  * @param {Event} e
- */
+ *
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 	if (
 		this.page_.scrollHeight > this.page_.offsetHeight
@@ -277,6 +277,7 @@ twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 		this.updateBottom_();
 	}
 };
+*/
 
 twic.pages.TimelinePage.prototype.initOnce = function() {
 	var
@@ -285,10 +286,11 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 	twic.Page.prototype.initOnce.call(page);
 
 	page.page_ = twic.dom.findElement('#timeline');
+	/*
 	page.page_.addEventListener('scroll', function(e) {
 		page.scrollHandler_.call(page, e);
 	}, false);
-
+*/
 	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
 
 	page.timeline_ = new twic.vcl.Timeline(page.page_);

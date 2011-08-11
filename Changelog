@@ -1,4 +1,4 @@
-0.29 (in development):
+0.29:
 	* Bug with wrong tweets sorting after tweet posting fixed (#79)
 	* Mailto links fixed
 
