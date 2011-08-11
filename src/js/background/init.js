@@ -7,20 +7,18 @@
 
 ( function() {
 	var
-		/** @const **/ cleanupMarkItem = 'lastCleanup',
-		/** @const **/ configCheckItem = 'lastConfigCheck',
-		dirtyDate  = (new Date()).toJSON().split('T')[0],
-		lastCleanupDate = window.localStorage.getItem(cleanupMarkItem),
-		lastConfigCheckDate = window.localStorage.getItem(configCheckItem);
+		nowDate = (new Date()).toDateString(),
+		cleanupMarkItem = 'lastCleanup',
+		configCheckItem = 'lastConfigCheck';
 
-	if (lastCleanupDate != dirtyDate) {
-		window.localStorage.setItem(cleanupMarkItem, dirtyDate);
+	if (nowDate !== window.localStorage.getItem(cleanupMarkItem)) {
+		window.localStorage.setItem(cleanupMarkItem, nowDate);
 
 		twic.db.cleanup();
 	}
 
-	if (lastConfigCheckDate != dirtyDate) {
-		window.localStorage.setItem(configCheckItem, dirtyDate);
+	if (nowDate !== window.localStorage.getItem(configCheckItem)) {
+		window.localStorage.setItem(configCheckItem, nowDate);
 
 		twic.twitter.checkConfig();
 	}
