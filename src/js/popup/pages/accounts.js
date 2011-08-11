@@ -215,7 +215,8 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 	 */
 	twic.dom.findElement('#button_account_add').addEventListener('click', function(e) {
 		var
-			buttonElement = twic.dom.findElement('img', e.target),
+			trg = 'IMG' === e.target.nodeName ? e.target.parentNode : e.target,
+			buttonElement = twic.dom.findElement('img', trg),
 			oldSource = buttonElement.src;
 
 		if (loading) {
@@ -226,7 +227,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 
 		// @resource img/loader.gif
 		buttonElement.src = 'img/loader.gif';
-		e.target.href = '#';
+		trg.href = '#';
 
 		twic.requests.makeRequest('accountAdd', { }, function(reply) {
 			if (twic.global.SUCCESS === reply['result']) {
