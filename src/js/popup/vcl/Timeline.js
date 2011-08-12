@@ -304,6 +304,13 @@ twic.vcl.Timeline.confirmAction = {
 };
 
 /**
+ * Timeline options
+ */
+twic.vcl.Timeline.options = {
+	showTime: false
+};
+
+/**
  * Start the update
  * @param {boolean=} isBottom Show animation at the bottom of timeline?
  * @param {boolean=} noBuffer Don't use buffering
@@ -564,7 +571,9 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		timeline = this,
 		tweet = new twic.vcl.Tweet(id, this);
 
-	tweet.setUnixTime(ts);
+	if (twic.vcl.Timeline.options.showTime) {
+		tweet.setUnixTime(ts);
+	}
 
 	this.tweets_[id] = tweet;
 

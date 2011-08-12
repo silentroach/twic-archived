@@ -5,6 +5,14 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// options
+
+twic.options.get('tweet_show_time', function(value) {
+	twic.vcl.Timeline.options.showTime = value;
+} );
+
+// some handlers
+
 setTimeout( function() {
 
 	// try to switch to the page we remember before popup was closed
@@ -66,7 +74,7 @@ document.addEventListener('click', function(e) {
 	}
 }, false);
 
-//register pages
+// register pages
 
 twic.router.register('profile', twic.pages.ProfilePage);
 twic.router.register('accounts', twic.pages.AccountsPage);

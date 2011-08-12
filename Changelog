@@ -1,3 +1,6 @@
+0.30:
+	* Bug with tweet time in timeline while the option is unchecked is fixed
+
 0.29:
 	* Bug with wrong tweets sorting after tweet posting fixed (#79)
 	* Mailto links fixed

@@ -159,7 +159,6 @@ twic.vcl.Tweet = function(id, timeline) {
 	this.wrapper_.appendChild(this.otherInfo_);
 	this.wrapper_.appendChild(twic.dom.expandElement('div.clearer'));
 	this.wrapper_.appendChild(this.replyWrapper_);
-
 };
 
 /**
