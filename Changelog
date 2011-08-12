@@ -1,6 +1,7 @@
 0.29:
 	* Bug with wrong tweets sorting after tweet posting fixed (#79)
 	* Mailto links fixed
+	* Bug with removing a user with tweets in other account's timeline
 
 0.28:
 	+ Showing instagr.am links as an icons

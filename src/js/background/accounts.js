@@ -180,8 +180,6 @@ twic.requests.subscribe('accountRemove', function(data, sendResponse) {
 
 	twic.db.execQueries( [
 		{ sql: 'delete from timeline where user_id = ?', params: [id] },
-		{ sql: 'delete from tweets where user_id = ?', params: [id] },
-		{ sql: 'delete from users where id = ?', params: [id] },
 		{ sql: 'delete from accounts where id = ?', params: [id] }
 	], function() {
 		twic.twitter.resetLastId(id);
