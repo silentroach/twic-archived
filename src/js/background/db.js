@@ -158,7 +158,7 @@ twic.db.executeGroup_ = function(db, sqlObjArray, successCallback, failedCallbac
  */
 twic.db.migrations_ = {
 	'0': {
-		ver: '0.01',
+		ver: '0.4',
 		runme: function(tr, callback) {
 			twic.utils.queueIterator( [
 				/**
@@ -175,6 +175,8 @@ twic.db.migrations_ = {
 					'friends_count int not null, ' +
 					'statuses_count int not null, ' +
 					'regdate int not null, ' +
+					'description varchar(255) not null default \'\', ' +
+					'location varchar(255) not null default \'\', ' +
 					'dt int not null' +
 				')',
 
@@ -215,20 +217,6 @@ twic.db.migrations_ = {
 				')',
 
 				/**
-				 * Indexes
-				 */
-				'create index idx_users_name on users (screen_name)',
-				'create index idx_tweets on tweets (dt desc, id desc)'
-			], function(sqlText, callback) {
-				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-			}, callback);
-		}
-	},
-	'0.01': {
-		ver: '0.3',
-		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
-				/**
 				 * friends info cache
 				 */
 				'create table friends (' +
@@ -238,18 +226,13 @@ twic.db.migrations_ = {
 					'followed int not null, ' +
 					'dt int not null, ' +
 					'primary key (source_user_id, target_user_id)' +
-				')'
-			], function(sqlText, callback) {
-				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-			}, callback);
-		}
-	},
-	'0.3': {
-		ver: '0.4',
-		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
-				'alter table users add description varchar(255) not null default \'\'',
-				'alter table users add location varchar(255) not null default \'\''
+				')',
+
+				/**
+				 * Indexes
+				 */
+				'create index idx_users_name on users (screen_name)',
+				'create index idx_tweets on tweets (dt desc, id desc)'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);
