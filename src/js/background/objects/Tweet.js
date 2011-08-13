@@ -25,7 +25,8 @@ twic.db.obj.Tweet = function() {
 		'dt': twic.utils.date.getCurrentTimestamp(),
 		'retweeted_user_id': null,
 		'msg': '',
-		'source': ''
+		'source': '',
+		'geo': null
 	};
 
 	this.jsonMap = {
@@ -51,6 +52,16 @@ twic.db.obj.Tweet = function() {
 				}
 
 				return rts['in_reply_to_user_id'];
+			}
+
+			return null;
+		},
+		'geo': function(obj) {
+			if (obj['geo']
+				&& 'Point' === obj['geo']['type']
+				&& 'coordinates' in obj['geo']
+			) {
+				return obj['geo']['coordinates'].join(',');
 			}
 
 			return null;
