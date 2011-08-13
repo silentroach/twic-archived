@@ -123,7 +123,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			val = editor.constStartVal_;
 		}
 
-		charCount = val.length;
+		charCount = editor.getCharCount_();
 
 		while (
 			editor.editorTextarea_.rows > 1
@@ -297,6 +297,11 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     };
 };
 
+twic.vcl.TweetEditor.options = {
+	short_url_length: 20,
+	short_url_length_https: 21
+};
+
 /**
  * Current url to paste it into the tweet
  * @private
@@ -346,6 +351,37 @@ twic.vcl.TweetEditor.prototype.setFocus = function(setstart) {
 twic.vcl.TweetEditor.prototype.setText = function(text) {
 	this.constStartVal_ = '';
 	this.editorTextarea_.value = text;
+};
+
+/**
+ * Get the current char count
+ * @private
+ */
+twic.vcl.TweetEditor.prototype.getCharCount_ = function() {
+	var
+		val = this.editorTextarea_.value,
+		len = val.length,
+		links = twic.utils.url.extractLinks(val),
+		link = '',
+		i;
+
+	if (links) {
+		for(i = 0; i < links.length; ++i) {
+			link = links[i];
+
+			len -= link.length;
+
+			if (link.length > 7
+				&& 'https://' === link.substr(0, 7)
+			) {
+				len += twic.vcl.TweetEditor.options.short_url_length_https;
+			} else {
+				len += twic.vcl.TweetEditor.options.short_url_length;
+			}
+		}
+	}
+
+	return len;
 };
 
 /**

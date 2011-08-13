@@ -197,3 +197,11 @@ twic.utils.url.processText = function(text, links) {
 	} );
 };
 
+/**
+ * Get all links used in text
+ * @param {string} text Text
+ * @return {Array}
+ */
+twic.utils.url.extractLinks = function(text) {
+	return text.match(twic.utils.url.urlSearchPattern_);
+};

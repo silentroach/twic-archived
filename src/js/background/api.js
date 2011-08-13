@@ -379,6 +379,11 @@ twic.api.updateStatus = function(status, token, token_secret, callback, failedCa
 	// do not request additional user info cause it is about us
 	req.setRequestData('trim_user', 1);
 
+	// wrapping the links if tweet length is over 140 chars
+	if (status.length > 140) {
+		req.setRequestData('wrap_links', 1);
+	}
+
 	twic.debug.info('sending the new tweet: ' + status);
 
 	req.send( function(error, req) {

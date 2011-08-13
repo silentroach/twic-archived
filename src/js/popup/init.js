@@ -11,6 +11,14 @@ twic.options.get('tweet_show_time', function(value) {
 	twic.vcl.Timeline.options.showTime = value;
 } );
 
+twic.options.get('short_url_length', function(value) {
+	twic.vcl.TweetEditor.options.short_url_length = parseInt(value, 10);
+} );
+
+twic.options.get('short_url_length_https', function(value) {
+	twic.vcl.TweetEditor.options.short_url_length_https = parseInt(value, 10);
+} );
+
 // some handlers
 
 setTimeout( function() {
