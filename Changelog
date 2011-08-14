@@ -1,5 +1,6 @@
 0.31 (in development):
 	+ Links shortening for long tweets (#14)
+	+ Geolocation support (only in tweets for now) (#11)
 
 0.30:
 	* Bug with tweet time in timeline while the option is unchecked is fixed

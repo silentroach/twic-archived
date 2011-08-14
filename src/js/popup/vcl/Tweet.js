@@ -128,7 +128,18 @@ twic.vcl.Tweet = function(id, timeline) {
 	/**
 	 * @type {twic.vcl.TweetEditor}
 	 */
-	this.replier_ = null,
+	this.replier_ = null
+
+	/**
+	 * @type {twic.vcl.Map}
+	 */
+	this.map_ = null;
+
+	/**
+	 * Is map visible?
+	 * @type {boolean}
+	 */
+	this.mapVisible_ = false;
 
 	/**
 	 * @type {Element}
@@ -152,7 +163,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @type {Element}
 	 * @private
 	 */
-	this.mapWrapper_ = twic.dom.expandElement('div');
+	this.mapWrapper_ = twic.dom.expandElement('div.map');
 
 	twic.dom.setVisibility(this.rtAvatarLink_, false);
 
@@ -460,6 +471,25 @@ twic.vcl.Tweet.prototype.getCanDelete = function() {
 };
 
 /**
+ * Toggle the map
+ */
+twic.vcl.Tweet.prototype.toggleMap_ = function() {
+	if (!this.map_) {
+		this.map_ = new twic.vcl.Map(this.mapWrapper_, this.geo_[0], this.geo_[1]);
+	}
+
+	if (!this.mapVisible_) {
+		this.wrapper_.classList.add('map');
+		this.mapWrapper_.style.display = 'block';
+	} else {
+		this.wrapper_.classList.remove('map');
+		this.mapWrapper_.style.display = 'none';
+	}
+
+	this.mapVisible_ = !this.mapVisible_;
+};
+
+/**
  * Reply the tweet
  * @param {boolean=} all Reply to all mentioned
  */
@@ -522,9 +552,14 @@ twic.vcl.Tweet.prototype.setSource = function(newSource) {
  */
 twic.vcl.Tweet.prototype.setGeo = function(info) {
 	var
+		tweet = this,
 		markerSpan = twic.dom.expandElement('span.geo');
 
 	markerSpan.innerHTML = '&nbsp;&nbsp;';
+
+	markerSpan.addEventListener('click', function(e) {
+		tweet.toggleMap_.call(tweet);
+	}, false);
 
 	this.geo_ = info;
 	this.otherInfo_.insertBefore(markerSpan, this.timeSpan_);

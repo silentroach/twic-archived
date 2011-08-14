@@ -56,6 +56,18 @@ li.tweet p {
 			opacity: .5;
 			}
 
+li.tweet .map {
+	display: none;
+	height: 200px;
+	width: 100%;
+	border: 1px solid silver;
+	margin-bottom: 3px;
+	}
+
+li.tweet.map p.info .geo {
+	opacity: 1;
+	}
+
 li.tweet:hover p.info {
 	opacity: 1;
 	}

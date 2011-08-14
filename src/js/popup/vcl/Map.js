@@ -14,11 +14,21 @@ twic.vcl.Map = function(container, lat, lng) {
 	var drawMap = function() {
 		container.style.display = 'block';
 
-		new google.maps.Map(container, {
+		var
+			latLng = new google.maps.LatLng(lat, lng);
+
+		var map = new google.maps.Map(container, {
 			'zoom': 13,
-			'center': new google.maps.LatLng(lat, lng),
+			'center': latLng,
 			'mapTypeId': google.maps.MapTypeId.ROADMAP,
 			'streetViewControl': false
+		} );
+
+		new google.maps.Marker( {
+			'map': map,
+			'position': latLng,
+			// @resource img/marker_map.gif
+			'icon': '/img/marker_map.gif'
 		} );
 	};
 
