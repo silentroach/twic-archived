@@ -41,22 +41,29 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 			    var
 				    tweet     = tweets.items[tweetId],
 				    user      = users.items[tweet.fields['user_id']],
-				    retweeted = tweet.fields['retweeted_user_id'] ? users.items[tweet.fields['retweeted_user_id']] : null;
-
-					ids.push('"' + tweetId + '"');
-
-			    reply[tweet.fields['id']] = {
-				    'msg': tweet.fields['msg'],
-				    'user': user.getPart(['id', 'screen_name', 'avatar', 'is_protected']),
-				    'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar', 'is_protected']) : null,
-				    'separator': 0 === --unreadCount,
-				    'dt': tweet.fields['dt'],
-				    'links': { 'length': 0 }
-			    };
+				    retweeted = tweet.fields['retweeted_user_id'] ? users.items[tweet.fields['retweeted_user_id']] : null,
+					tweetInfo = {
+						'msg': tweet.fields['msg'],
+						'user': user.getPart(['id', 'screen_name', 'avatar', 'is_protected']),
+						'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar', 'is_protected']) : null,
+						'separator': 0 === --unreadCount,
+						'dt': tweet.fields['dt'],
+						'links': { 'length': 0 }
+					};
 
 			    if (twic.options.getValue('tweet_show_client')) {
-			    	reply[tweet.fields['id']]['source'] = tweet.fields['source'];
+			    	tweetInfo['source'] = tweet.fields['source'];
 			    }
+
+				if (
+					tweet.fields['geo']
+					&& twic.options.getValue('tweet_show_geo')
+				) {
+					tweetInfo['geo'] = tweet.fields['geo'].split(',');
+				}
+
+				ids.push('"' + tweetId + '"');
+				reply[tweet.fields['id']] = tweetInfo;
 		    }
 
 		    var send = function() {

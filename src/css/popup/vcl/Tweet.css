@@ -48,6 +48,13 @@ li.tweet p {
 			color: grey;
 			text-decoration: none;
 			}
+		li.tweet p.info .geo {
+			display: inline-block;
+			width: 13px;
+			background: transparent url('/img/buttons/marker_map.png') no-repeat 1px 3px;
+			cursor: pointer;
+			opacity: .5;
+			}
 
 li.tweet:hover p.info {
 	opacity: 1;

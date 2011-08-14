@@ -120,6 +120,12 @@ twic.vcl.Tweet = function(id, timeline) {
 	this.isProtected_ = false;
 
 	/**
+	 * @type {Array}
+	 * @private
+	 */
+	this.geo_ = null;
+
+	/**
 	 * @type {twic.vcl.TweetEditor}
 	 */
 	this.replier_ = null,
@@ -128,7 +134,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @type {Element}
 	 * @private
 	 */
-	this.clientSpan_ = twic.dom.expandElement('span.client');
+	this.timeSpan_ = twic.dom.expandElement('span.time');
 
 	/**
 	 * @type {Element}
@@ -146,7 +152,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @type {Element}
 	 * @private
 	 */
-	this.timeSpan_ = twic.dom.expandElement('span.time');
+	this.mapWrapper_ = twic.dom.expandElement('div');
 
 	twic.dom.setVisibility(this.rtAvatarLink_, false);
 
@@ -158,6 +164,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	this.wrapper_.appendChild(this.tweetContent_);
 	this.wrapper_.appendChild(this.otherInfo_);
 	this.wrapper_.appendChild(twic.dom.expandElement('div.clearer'));
+	this.wrapper_.appendChild(this.mapWrapper_);
 	this.wrapper_.appendChild(this.replyWrapper_);
 };
 
@@ -501,9 +508,26 @@ twic.vcl.Tweet.prototype.reply = function(all) {
  * @param {string} newSource Tweet source (client)
  */
 twic.vcl.Tweet.prototype.setSource = function(newSource) {
-	this.clientSpan_.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
+	var
+		clientSpan = twic.dom.expandElement('span.client');
+
+	clientSpan.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
 		newSource.replace('<a ', '<a target="_blank" ') + '<br />';
-	this.otherInfo_.appendChild(this.clientSpan_);
+	this.otherInfo_.appendChild(clientSpan);
+};
+
+/**
+ * Set geo info
+ * @param {Array} info Geo info
+ */
+twic.vcl.Tweet.prototype.setGeo = function(info) {
+	var
+		markerSpan = twic.dom.expandElement('span.geo');
+
+	markerSpan.innerHTML = '&nbsp;&nbsp;';
+
+	this.geo_ = info;
+	this.otherInfo_.insertBefore(markerSpan, this.timeSpan_);
 };
 
 /**

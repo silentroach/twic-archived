@@ -94,6 +94,10 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 			tweet.setSeparator();
 		}
 
+		if ('geo' in item) {
+			tweet.setGeo(item['geo']);
+		}
+
 		if ('source' in item) {
 			tweet.setSource(item['source']);
 		}
