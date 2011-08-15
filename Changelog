@@ -1,4 +1,6 @@
-0.31 (in development):
+0.32 (in development):
+
+0.31:
 	+ Links shortening for long tweets (#14)
 	+ Geolocation support (only in tweets for now) (#11)
 
