@@ -474,11 +474,16 @@ twic.vcl.Tweet.prototype.getCanDelete = function() {
  * Toggle the map
  */
 twic.vcl.Tweet.prototype.toggleMap_ = function() {
+	var
+		tweet = this;
+
 	if (!this.map_) {
 		this.map_ = new twic.vcl.Map(this.mapWrapper_, this.geo_[0], this.geo_[1]);
 	}
 
 	if (!this.mapVisible_) {
+		tweet.onMapShow.call(tweet);
+
 		this.wrapper_.classList.add('map');
 		this.mapWrapper_.style.display = 'block';
 	} else {
@@ -531,6 +536,10 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 	};
 
 	this.wrapper_.classList.add('replying');
+
+	if (this.mapVisible_) {
+		this.mapWrapper_.style.display = 'none';
+	}
 };
 
 /**
@@ -562,7 +571,12 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
 	}, false);
 
 	this.geo_ = info;
-	this.otherInfo_.insertBefore(markerSpan, this.timeSpan_);
+
+	if (this.unixtime_) {
+		this.otherInfo_.insertBefore(markerSpan, this.timeSpan_);
+	} else {
+		this.otherInfo_.appendChild(markerSpan);
+	}
 };
 
 /**
@@ -573,3 +587,8 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
  * @param {function()=} callback Callback
  */
 twic.vcl.Tweet.prototype.onReplySend = function(editor, tweetText, replyTo, callback) { };
+
+/**
+ * Handler for the tweet map show
+ */
+twic.vcl.Tweet.prototype.onMapShow = function() { };
