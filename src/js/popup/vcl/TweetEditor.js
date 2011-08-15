@@ -20,7 +20,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		/** @type {Storage} **/ storage         = window.localStorage,
 		/** @type {Element} **/ editorWrapper   = twic.dom.expandElement('div.tweetEditor'),
 		/** @type {Element} **/ editorSend      = twic.dom.expandElement('input'),
-		/** @type {Element} **/ editorAttach    = twic.dom.expandElement('img'),
+		/** @type {Element} **/ editorAttach    = twic.dom.expandElement('img.attach'),
 		/** @type {Element} **/ rightButtons    = twic.dom.expandElement('div.rb'),
 		/** @type {Element} **/ editorCounter   = twic.dom.expandElement('span'),
 		/** @type {Element} **/ clearer         = twic.dom.expandElement('div.clearer'),
@@ -44,9 +44,12 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	this.editorTextarea_['spellcheck'] = false;
 	this.editorTextarea_.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
 
+	this.geoInfo_ = twic.dom.expandElement('img.geo.disabled');
+	// @resource img/buttons/map.png
+	this.geoInfo_.src = 'img/buttons/map.png';
+
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
-	editorAttach.classList.add('attach');
 
 	if (!twic.vcl.TweetEditor.prototype.currentURL_) {
 		editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
@@ -60,6 +63,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
 	editorSend.title = twic.utils.lang.translate('title_button_send');
 
+	rightButtons.appendChild(this.geoInfo_);
 	rightButtons.appendChild(editorAttach);
 	rightButtons.appendChild(editorSend);
 

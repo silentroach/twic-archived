@@ -39,6 +39,7 @@
 		"unlimitedStorage",
 		"notifications",
 		"tabs",
+		"geolocation",
 
 		"https://api.twitter.com/1/*",
 		"https://twitter.com/oauth/*"

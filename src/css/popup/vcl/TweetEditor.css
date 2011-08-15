@@ -17,13 +17,18 @@
 			vertical-align: middle;
 			margin-left: 10px;
 			}
-	.tweetEditor .attach {
-		cursor: pointer;
-		}
-	.tweetEditor .attach.disabled {
-		opacity: .5;
-		cursor: default;
-		}
+			.tweetEditor .rb input {
+				margin-left: 13px;
+				}
+			.tweetEditor .rb img {
+				cursor: pointer;
+				}
+				.tweetEditor .rb img.disabled {
+					opacity: .5;
+					}
+					.tweetEditor .rb img.attach.disabled {
+						cursor: default;
+						}
 	/** button to send tweet **/
 	.tweetEditor input {
 		font-size: 8pt;
