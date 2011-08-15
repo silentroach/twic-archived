@@ -75,7 +75,8 @@ li.tweet:hover p.info {
 		text-decoration: underline;
 		}
 
-li.tweet.replying p.info {
+li.tweet.replying p.info,
+li.tweet.map.replying .map {
 	display: none;
 	}
 

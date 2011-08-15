@@ -128,7 +128,7 @@ twic.vcl.Tweet = function(id, timeline) {
 	/**
 	 * @type {twic.vcl.TweetEditor}
 	 */
-	this.replier_ = null
+	this.replier_ = null;
 
 	/**
 	 * @type {twic.vcl.Map}

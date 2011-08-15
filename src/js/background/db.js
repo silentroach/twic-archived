@@ -317,7 +317,7 @@ twic.db.migrations_ = {
 		ver: '0.10',
 		runme: function(tr, callback) {
 			twic.utils.queueIterator( [
-				'alter table tweets add geo text null',
+				'alter table tweets add geo text null'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);
