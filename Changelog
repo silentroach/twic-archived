@@ -1,4 +1,7 @@
-0.31 (in development):
+0.32 (in development):
+	* Bug with status update with shortened link appears shortened at the timeline top is fixes (#81)
+
+0.31:
 	+ Links shortening for long tweets (#14)
 	+ Geolocation support (only in tweets for now) (#11)
 

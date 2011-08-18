@@ -89,13 +89,14 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
  * Update object from json
  * @param {number|string} id Object identifier
  * @param {Object} obj Object
+ * @param {function()=} callback Callback function
  */
-twic.DBObject.prototype.updateFromJSON = function(id, obj) {
+twic.DBObject.prototype.updateFromJSON = function(id, obj, callback) {
 	var dbobject = this;
 
 	var updateMe = function() {
 		this.loadFromJSON(obj);
-		this.save();
+		this.save(callback);
 	};
 
 	dbobject.loadById(id, updateMe, updateMe);
@@ -114,6 +115,10 @@ twic.DBObject.prototype.save = function(callback) {
 		dbobject.exists
 		&& 0 === dbobject.changed_.length
 	) {
+		if (callback) {
+			callback();
+		}
+
 		// nothing was changed
 		return;
 	}

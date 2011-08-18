@@ -304,9 +304,9 @@ twic.twitter.updateStatus = function(id, status, callback) {
 				/** @type {string} **/ tweetId = tweet['id_str'],
 				tweetObj = new twic.db.obj.Tweet();
 
-			tweetObj.updateFromJSON(tweetId, tweet);
-
-			twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, callback);
+			tweetObj.updateFromJSON(tweetId, tweet, function() {
+				twic.db.obj.Timeline.pushUserTimelineTweet(id, tweetId, callback);
+			} );
 		}
 	);
 };

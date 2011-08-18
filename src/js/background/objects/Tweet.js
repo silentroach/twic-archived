@@ -110,6 +110,12 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 	var
 		self = this;
 
+	var onDone = function() {
+		if (callback) {
+			callback();
+		}
+	};
+
 	twic.DBObject.prototype.save.call(self, function() {
 		twic.db.execQuery('delete from links where tweet_id = ?', [self.fields['id']], function() {
 			if (
@@ -121,10 +127,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 					urls = self.jsonObj['entities']['urls'],
 					i;
 
-				for (i = 0; i < urls.length; ++i) {
-					var
-						url = urls[i];
-
+				twic.utils.queueIterator(urls, function(url, callback) {
 					if (
 						'url' in url
 						&& 'expanded_url' in url
@@ -135,13 +138,11 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 							url['url'],
 							url['expanded_url']
 						// FIXME make it optional callbacks
-						], function() { }, function(err) { });
+						], onDone, onDone);
 					}
-				}
-			}
-
-			if (callback) {
-				callback();
+				}, onDone )
+			} else {
+				onDone();
 			}
 		}, callback);
 	} );

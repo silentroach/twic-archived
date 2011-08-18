@@ -7,12 +7,6 @@
 
 // listen for the "getTimeline" request
 twic.requests.subscribe('getTimeline', function(data, sendResponse) {
-	// check for id in request data
-	if (!data['id']) {
-		sendResponse({ });
-		return;
-	}
-
 	var
 		id = data['id'],
 		options = { },
@@ -97,48 +91,24 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 } );
 
 twic.requests.subscribe('sendTweet', function(data, sendResponse) {
-	// check for id in request data
-	if (!data['id']) {
-		sendResponse({ });
-		return;
-	}
-
 	twic.twitter.updateStatus(data['id'], data['tweet'], function() {
 		sendResponse({ });
 	} );
 } );
 
 twic.requests.subscribe('replyTweet', function(data, sendResponse) {
-	// check for id in request data
-	if (!data['id']) {
-		sendResponse({ });
-		return;
-	}
-
 	twic.twitter.replyStatus(data['id'], data['tweet'], data['replyTo'], function() {
 		sendResponse({ });
 	} );
 } );
 
 twic.requests.subscribe('retweet', function(data, sendResponse) {
-	// check for id in request data
-	if (!data['userId']) {
-		sendResponse({ });
-		return;
-	}
-
 	twic.twitter.retweet(data['userId'], data['tweetId'], function() {
 		sendResponse({ });
 	} );
 } );
 
 twic.requests.subscribe('delete', function(data, sendResponse) {
-	// check for id in request data
-	if (!data['userId']) {
-		sendResponse({ });
-		return;
-	}
-
 	twic.twitter.deleteTweet(data['userId'], data['tweetId'], function() {
 		sendResponse({ });
 	} );
