@@ -20,9 +20,13 @@
 		var
 			ts = twic.utils.date.getCurrentTimestamp();
 
+		var replyPos = function() {
+			sendResponse( [ lastPos.coords.lat, lastPos.coords.lng ]);
+		};
+
 		// caching last coords for the 5 minutes
 		if (ts - lastPos.ts < 5 * 60) {
-			sendResponse( lastPos.coords );
+			replyPos();
 			return;
 		}
 
@@ -31,8 +35,9 @@
 			lastPos.coords.lat = position.coords.latitude;
 			lastPos.coords.lng = position.coords.longitude;
 
-			sendResponse( lastPos.coords );
+			replyPos();
 		}, function(error) {
+			lastPos.result = false;
 			sendResponse( false );
 		} );
 	} );

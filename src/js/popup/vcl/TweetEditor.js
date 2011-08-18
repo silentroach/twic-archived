@@ -44,9 +44,24 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	this.editorTextarea_['spellcheck'] = false;
 	this.editorTextarea_.placeholder = twic.utils.lang.translate(replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new');
 
+	/**
+	 * @private
+	 */
+	this.geoLoading_ = false;
+
+	/**
+	 * @private
+	 */
+	this.geoCoords_ = {
+		enabled: false,
+		lat: 0,
+		lng: 0
+	};
+
 	this.geoInfo_ = twic.dom.expandElement('img.geo.disabled');
 	// @resource img/buttons/map.png
 	this.geoInfo_.src = 'img/buttons/map.png';
+	this.geoInfo_.title = twic.utils.lang.translate('title_button_geo');
 
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
@@ -79,6 +94,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	} else {
 		parent.appendChild(editorWrapper);
 	}
+
+	this.geoInfo_.addEventListener('click', function() {
+		editor.toggleMap_.call(editor);
+	} );
 
 	if (twic.vcl.TweetEditor.prototype.currentURL_) {
 		editorAttach.addEventListener('click', function() {
@@ -355,6 +374,52 @@ twic.vcl.TweetEditor.prototype.setFocus = function(setstart) {
 twic.vcl.TweetEditor.prototype.setText = function(text) {
 	this.constStartVal_ = '';
 	this.editorTextarea_.value = text;
+};
+
+/**
+ * @param {Object.<result: boolean, coords: Object.<lat: number, lng: number>, ts: number>} coords Current coordinates
+ * @private
+ */
+twic.vcl.TweetEditor.prototype.onMapCoordsReply_ = function(reply) {
+	this.geoInfo_.src = this.geoInfo_.getAttribute('old-src');
+
+	if (!reply) {
+		this.geoCoords_.enabled = false;
+		this.geoInfo_.title = twic.utils.lang.translate('title_button_geo_failed');
+	} else {
+		this.geoLoading_ = false;
+
+		this.geoCoords_.enabled = true;
+		this.geoCoords_.lat = reply[0];
+		this.geoCoords_.lng = reply[1];
+	}
+};
+
+/**
+ * Toggle tweet geolocation info
+ * @private
+ */
+twic.vcl.TweetEditor.prototype.toggleMap_ = function() {
+	var
+		editor = this;
+
+	if (!this.geoCoords_.enabled) {
+		if (this.geoLoading_) {
+			return true;
+		} else {
+			this.geoLoading_ = true;
+		}
+
+		this.geoInfo_.setAttribute('old-src', this.geoInfo_.src);
+		// @resource img/loader.gif
+		this.geoInfo_.src = 'img/loader.gif';
+
+		twic.requests.makeRequest('getCoords', { }, function(reply) {
+			editor.onMapCoordsReply_.call(editor, reply);
+		} );
+	} else {
+		this.geoCoords_.enabled = false;
+	}
 };
 
 /**
