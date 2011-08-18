@@ -115,6 +115,10 @@ twic.DBObject.prototype.save = function(callback) {
 		dbobject.exists
 		&& 0 === dbobject.changed_.length
 	) {
+		if (callback) {
+			callback();
+		}
+
 		// nothing was changed
 		return;
 	}
