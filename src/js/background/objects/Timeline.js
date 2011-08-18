@@ -30,12 +30,9 @@ twic.db.obj.Timeline = ( function() {
 				twic.db.execQuery(
 					'insert into timeline (user_id, tweet_id) ' +
 					'values (?, ?) ',
-					[userId, tweetId]
+					[userId, tweetId],
+					addCallback, addCallback
 				);
-
-				if (addCallback) {
-					addCallback();
-				}
 			}
 		);
 	};
