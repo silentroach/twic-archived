@@ -1,6 +1,10 @@
 0.32 (in development):
 	* Bug with status update with shortened link appears shortened at the timeline top is fixed (#81)
 	* Bug with tweet text backup on link attach is fixed (#80)
+	+ Each platform now have separate font-family style, here are default fonts sorted by priority:
+		# Windows: Trebuchet MS, Tahoma
+		# OS X: Lucida Grande, Helvetica
+		# Linux: Ubuntu, Droid Sans
 
 0.31:
 	+ Links shortening for long tweets (#14)

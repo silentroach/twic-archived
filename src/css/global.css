@@ -36,8 +36,25 @@ body {
 	}
 
 body, input, textarea {
-	font-family: "Lucida Grande", "Trebuchet MS", Ubuntu, "Droid Sans";
 	font-size: 10pt;
+	}
+
+body.windows,
+.windows input,
+.windows textarea {
+	font-family: "Trebuchet MS", Tahoma, sans-serif;
+	}
+
+body.osx,
+.osx input,
+.osx textarea {
+	font-family: "Lucida Grande", Helvetica, sans-serif;
+	}
+
+body.linux,
+.linux input,
+.linux textarea {
+	font-family: Ubuntu, "Droid Sans", sans-serif;
 	}
 
 textarea {
