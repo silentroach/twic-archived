@@ -22,7 +22,8 @@ twic.platform = twic.platforms.WINDOWS;
 
 if (navigator.appVersion.indexOf('Mac') >= 0) {
 	twic.platform = twic.platforms.OSX;
-} else {
+} else
+if (navigator.appVersion.indexOf('Windows') < 0) {
 	twic.platform = twic.platforms.LINUX;
 }
 
