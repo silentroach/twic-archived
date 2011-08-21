@@ -163,6 +163,10 @@ twic.utils.url.humanize = function(url, lnks) {
 		url = 'http://' + url;
 	}
 
+	//if (expanded != url) {
+	//	title = title + ' \n ' + url;
+	//}
+
 	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 

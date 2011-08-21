@@ -40,12 +40,11 @@ li.tweet p {
 	}
 	li.tweet p.info {
 		font-size: 8pt;
-		color: grey;
-		opacity: .75;
-		-webkit-transition: opacity 0.2s ease-in-out;
+		color: #b3b2b2;
+		-webkit-transition: color 0.2s ease-in-out;
 		}
 		li.tweet p.info a {
-			color: grey;
+			color: #b3b2b2;
 			text-decoration: none;
 			}
 		li.tweet p.info .geo {
@@ -69,9 +68,10 @@ li.tweet.map p.info .geo {
 	}
 
 li.tweet:hover p.info {
-	opacity: 1;
+	color: gray;
 	}
 	li.tweet:hover p.info a {
+        color: gray;
 		text-decoration: underline;
 		}
 

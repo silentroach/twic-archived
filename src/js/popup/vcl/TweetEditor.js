@@ -99,40 +99,6 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		editor.toggleMap_.call(editor);
 	} );
 
-	if (twic.vcl.TweetEditor.prototype.currentURL_) {
-		editorAttach.addEventListener('click', function() {
-			var
-				url = twic.vcl.TweetEditor.prototype.currentURL_,
-				selStart = editor.editorTextarea_.selectionStart,
-				selEnd = editor.editorTextarea_.selectionEnd,
-				newVal = editor.editorTextarea_.value.substr(0, selStart);
-
-			if (
-				newVal.length > 0
-				&& ' ' !== newVal.substr(-1)
-			) {
-				newVal += ' ';
-			}
-
-			newVal += url;
-
-			if (' ' !== editor.editorTextarea_.value.substr(selEnd).substr(0, 1)) {
-				newVal += ' ';
-			}
-
-			selStart = newVal.length;
-
-			newVal += editor.editorTextarea_.value.substr(selEnd);
-
-			editor.editorTextarea_.value = newVal;
-
-			editor.editorTextarea_.selectionStart = selStart;
-			editor.editorTextarea_.selectionEnd = selStart;
-
-			editor.editorTextarea_.focus();
-		}, false );
-	}
-
 	var checkTweetArea = function() {
 		var val = editor.editorTextarea_.value;
 
@@ -206,12 +172,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		return 'tweetEditor_' + userId + (replyTo ? '_' + replyTo : '');
 	};
 
-	// store the textarea value on each keyup to avoid data loss on popup close
-	this.editorTextarea_.addEventListener('keyup', function(e) {
-		if (13 === e.keyCode) {
-			return false;
-		}
-
+	var keyUpHandler = function() {
 		var
 			val  = editor.editorTextarea_.value,
 			path = getStoragePath();
@@ -227,7 +188,52 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 		} else {
 			storage.setItem(path, val);
 		}
+	};
+
+	// store the textarea value on each keyup to avoid data loss on popup close
+	this.editorTextarea_.addEventListener('keyup', function(e) {
+		if (13 === e.keyCode) {
+			return false;
+		}
+
+		keyUpHandler();
 	}, false );
+
+	if (twic.vcl.TweetEditor.prototype.currentURL_) {
+		editorAttach.addEventListener('click', function() {
+			var
+				url = twic.vcl.TweetEditor.prototype.currentURL_,
+				selStart = editor.editorTextarea_.selectionStart,
+				selEnd = editor.editorTextarea_.selectionEnd,
+				newVal = editor.editorTextarea_.value.substr(0, selStart);
+
+			if (
+				newVal.length > 0
+				&& ' ' !== newVal.substr(-1)
+			) {
+				newVal += ' ';
+			}
+
+			newVal += url;
+
+			if (' ' !== editor.editorTextarea_.value.substr(selEnd).substr(0, 1)) {
+				newVal += ' ';
+			}
+
+			selStart = newVal.length;
+
+			newVal += editor.editorTextarea_.value.substr(selEnd);
+
+			editor.editorTextarea_.value = newVal;
+
+			editor.editorTextarea_.selectionStart = selStart;
+			editor.editorTextarea_.selectionEnd = selStart;
+
+			editor.editorTextarea_.focus();
+
+			keyUpHandler();
+		}, false );
+	}
 
 	// prevent user to press enter
 	this.editorTextarea_.addEventListener('keydown', function(e) {
@@ -291,7 +297,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	var backupText = storage.getItem(getStoragePath());
 	if (backupText) {
 		this.editorTextarea_.value = backupText;
-		// fixme ugly timeout to resize textarea after ui is loaded
+		// timeout to resize it after ui is loaded
 		setTimeout( function() {
 			checkTweetArea();
 		}, 200);
