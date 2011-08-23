@@ -284,9 +284,10 @@ twic.twitter.deleteTweet = function(userId, tweetId, callback) {
  * Update the user status
  * @param {number} id User identifier
  * @param {string} status New status text
+ * @param {Array|false} coords Tweet coords
  * @param {function()} callback Callback function
  */
-twic.twitter.updateStatus = function(id, status, callback) {
+twic.twitter.updateStatus = function(id, status, coords, callback) {
 	var account = twic.accounts.getInfo(id);
 
 	if (!account) {
@@ -298,6 +299,7 @@ twic.twitter.updateStatus = function(id, status, callback) {
 
 	twic.api.updateStatus(
 		status,
+		coords,
 		account.fields['oauth_token'], account.fields['oauth_token_secret'],  // fixme send just account ;)
 		function(tweet) {
 			var
@@ -315,10 +317,11 @@ twic.twitter.updateStatus = function(id, status, callback) {
  * Update the user status
  * @param {number} id User identifier
  * @param {string} status New status text
+ * @param {Array|false} coords Tweet coordinates
  * @param {string} replyTo Reply to tweet identifier
  * @param {!function()} callback Callback function
  */
-twic.twitter.replyStatus = function(id, status, replyTo, callback) {
+twic.twitter.replyStatus = function(id, status, coords, replyTo, callback) {
 	var account = twic.accounts.getInfo(id);
 
 	if (!account) {
@@ -330,6 +333,7 @@ twic.twitter.replyStatus = function(id, status, replyTo, callback) {
 
 	twic.api.replyStatus(
 		status,
+		coords,
 		replyTo,
 		account.fields['oauth_token'], account.fields['oauth_token_secret'],
 		function(tweet) {

@@ -365,16 +365,23 @@ twic.api.getFriendshipInfo = function(source_id, target_id, callback, failedCall
 /**
  * Update user status
  * @param {string} status New user status
+ * @param {Array|false} coords Tweet coordinates
  * @param {string} token OAuth token
  * @param {string} token_secret OAuth token secret
  * @param {function(*)} callback Callback function
  * @param {function(twic.ResponseError)=} failedCallback Failed callback function
  */
-twic.api.updateStatus = function(status, token, token_secret, callback, failedCallback) {
+twic.api.updateStatus = function(status, coords, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('POST', twic.api.BASE_URL + 'statuses/update.json');
 
 	req.setRequestData('include_entities', 1);
 	req.setRequestData('status', status);
+
+	// geoinfo
+	if (coords) {
+		req.setRequestData('lat', coords[0]);
+		req.setRequestData('long', coords[1]);
+	}
 
 	// do not request additional user info cause it is about us
 	req.setRequestData('trim_user', 1);
@@ -401,18 +408,25 @@ twic.api.updateStatus = function(status, token, token_secret, callback, failedCa
 /**
  * Update user status
  * @param {string} status New user status
+ * @param {Array|false} coords Tweet coordinates
  * @param {string} replyTo Reply to tweet identifier
  * @param {string} token OAuth token
  * @param {string} token_secret OAuth token secret
  * @param {function(*)} callback Callback function
  * @param {function(twic.ResponseError)=} failedCallback Failed callback function
  */
-twic.api.replyStatus = function(status, replyTo, token, token_secret, callback, failedCallback) {
+twic.api.replyStatus = function(status, coords, replyTo, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('POST', twic.api.BASE_URL + 'statuses/update.json');
 
 	req.setRequestData('include_entities', 1);
 	req.setRequestData('in_reply_to_status_id', replyTo);
 	req.setRequestData('status', status);
+
+	// geoinfo
+	if (coords) {
+		req.setRequestData('lat', coords[0]);
+		req.setRequestData('long', coords[1]);
+	}
 
 	// do not request additional user info cause it is about us
 	req.setRequestData('trim_user', 1);

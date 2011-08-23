@@ -91,13 +91,13 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 } );
 
 twic.requests.subscribe('sendTweet', function(data, sendResponse) {
-	twic.twitter.updateStatus(data['id'], data['tweet'], function() {
+	twic.twitter.updateStatus(data['id'], data['tweet'], data['coords'], function() {
 		sendResponse({ });
 	} );
 } );
 
 twic.requests.subscribe('replyTweet', function(data, sendResponse) {
-	twic.twitter.replyStatus(data['id'], data['tweet'], data['replyTo'], function() {
+	twic.twitter.replyStatus(data['id'], data['tweet'], data['coords'], data['replyTo'], function() {
 		sendResponse({ });
 	} );
 } );

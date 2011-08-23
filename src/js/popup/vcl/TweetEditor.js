@@ -61,7 +61,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	this.geoInfo_ = twic.dom.expandElement('img.geo.disabled');
 	// @resource img/buttons/map.png
 	this.geoInfo_.src = 'img/buttons/map.png';
-	this.geoInfo_.title = twic.utils.lang.translate('title_button_geo');
+	this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('disabled');
 
 	// @resource img/buttons/attach.png
 	editorAttach.src = 'img/buttons/attach.png';
@@ -144,7 +144,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 * Try to send the tweet
 	 */
 	var tryToSend = function() {
-		/** @type {string} **/ var val = editor.editorTextarea_.value;
+		var
+			/** @type {string} **/ val = editor.editorTextarea_.value,
+			/** @type {Array|false} **/ coords = editor.geoCoords_.enabled ? [editor.geoCoords_.lat, editor.geoCoords_.lng] : false;
 
 		if (val.length > 0) {
 			// loading state
@@ -153,7 +155,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			editorCounter.innerHTML = '&nbsp;';
 			editorSend.disabled = true;
 
-			editor.onTweetSend(editor, val, replyTo, function() {
+			editor.onTweetSend(editor, val, coords, replyTo, function() {
 				editor.reset();
 
 				if (editor.autoRemovable) {
@@ -391,13 +393,18 @@ twic.vcl.TweetEditor.prototype.onMapCoordsReply_ = function(reply) {
 
 	if (!reply) {
 		this.geoCoords_.enabled = false;
+
 		this.geoInfo_.title = twic.utils.lang.translate('title_button_geo_failed');
+		this.geoInfo_.classList.add('disabled');
 	} else {
 		this.geoLoading_ = false;
 
 		this.geoCoords_.enabled = true;
 		this.geoCoords_.lat = reply[0];
 		this.geoCoords_.lng = reply[1];
+
+		this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('enabled');
+		this.geoInfo_.classList.remove('disabled');
 	}
 };
 
@@ -490,10 +497,11 @@ twic.vcl.TweetEditor.prototype.getTextarea = function() {
  * Handler for tweet send process
  * @param {twic.vcl.TweetEditor} editor Editor
  * @param {string} tweetText Tweet text
+ * @param {Array|false} tweetCoords Tweet coordinates
  * @param {string=} replyTo Reply to tweet
  * @param {function()=} callback Callback for reset
  */
-twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweetText, replyTo, callback) { };
+twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweetText, tweetCoords, replyTo, callback) { };
 
 /**
  * Handler for the focus event
