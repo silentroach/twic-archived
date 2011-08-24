@@ -27,6 +27,7 @@ twic.db.obj.User = function() {
 		'statuses_count': 0,
 		'description': '',
 		'location': '',
+		'geo_enabled': 0,
 		'regdate': twic.utils.date.getCurrentTimestamp(),
 		'dt': twic.utils.date.getCurrentTimestamp()
 	};
@@ -45,6 +46,9 @@ twic.db.obj.User = function() {
 		},
 		'is_protected': function(obj) {
 			return (obj['protected']) ? 1 : 0;
+		},
+		'geo_enabled': function(obj) {
+			return (obj['geo_enabled']) ? 1 : 0;
 		}
 	};
 };

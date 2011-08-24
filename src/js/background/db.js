@@ -322,6 +322,16 @@ twic.db.migrations_ = {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);
 		}
+	},
+	'0.10': {
+		ver: '0.11',
+		runme: function(tr, callback) {
+			twic.utils.queueIterator( [
+				'alter table users add geo_enabled int not null default 0'
+			], function(sqlText, callback) {
+				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
+			}, callback)
+		}
 	}
 };
 
@@ -386,7 +396,7 @@ twic.db.isPreparing_ = false;
  * @type {Database}
  * @private
  */
-twic.db.database_;
+twic.db.database_ = null;
 
 /**
  * @private
