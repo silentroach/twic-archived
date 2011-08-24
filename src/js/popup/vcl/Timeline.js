@@ -577,8 +577,8 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 
 	this.tweets_[id] = tweet;
 
-	tweet.onReplySend = function(editor, tweetText, coords, replyTo, callback) {
-		timeline.onReplySend.call(tweet, editor, tweetText, coords, replyTo, callback);
+	tweet.onReplySend = function(editor, tweet, replyTo, callback) {
+		timeline.onReplySend.call(tweet, editor, tweet, replyTo, callback);
 	};
 
 	tweet.onMapShow = function() {
@@ -682,12 +682,11 @@ twic.vcl.Timeline.prototype.getFirstTweetId = function() {
 /**
  * Handler for tweet send process
  * @param {twic.vcl.TweetEditor} editor Editor
- * @param {string} tweetText Tweet text
- * @param {Array|false} coords Tweet coordinates
+ * @param {twic.cobj.Tweet} tweet Tweet common object
  * @param {string=} replyTo Reply to tweet
  * @param {function()=} callback Callback
  */
-twic.vcl.Timeline.prototype.onReplySend = function(editor, tweetText, coords, replyTo, callback) { };
+twic.vcl.Timeline.prototype.onReplySend = function(editor, tweet, replyTo, callback) { };
 
 /**
  * Handler for the retweet

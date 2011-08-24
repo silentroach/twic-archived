@@ -523,8 +523,8 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 	this.replier_.setConstTextIfEmpty(nickList);
 	this.replier_.setFocus();
 
-	this.replier_.onTweetSend = function(editor, tweetText, coords, replyTo, callback) {
-		tweet.onReplySend.call(tweet, editor, tweetText, coords, replyTo, callback);
+	this.replier_.onTweetSend = function(editor, tweet, replyTo, callback) {
+		tweet.onReplySend.call(tweet, editor, tweet, replyTo, callback);
 	};
 
 	this.replier_.onClose = function() {
@@ -582,12 +582,11 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
 /**
  * Handler for tweet send process
  * @param {twic.vcl.TweetEditor} editor Editor
- * @param {string} tweetText Tweet text
- * @param {Array|false} coords Tweet coordinates
+ * @param {twic.cobj.Tweet} tweet Tweet common object
  * @param {string=} replyTo Reply to tweet
  * @param {function()=} callback Callback
  */
-twic.vcl.Tweet.prototype.onReplySend = function(editor, tweetText, coords, replyTo, callback) { };
+twic.vcl.Tweet.prototype.onReplySend = function(editor, tweet, replyTo, callback) { };
 
 /**
  * Handler for the tweet map show

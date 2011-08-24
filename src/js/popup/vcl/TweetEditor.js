@@ -97,7 +97,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	this.geoInfo_.addEventListener('click', function() {
 		editor.toggleMap_.call(editor);
-	} );
+	}, false );
 
 	var checkTweetArea = function() {
 		var val = editor.editorTextarea_.value;
@@ -144,25 +144,33 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 * Try to send the tweet
 	 */
 	var tryToSend = function() {
-		var
-			/** @type {string} **/ val = editor.editorTextarea_.value,
-			/** @type {Array|false} **/ coords = editor.geoCoords_.enabled ? [editor.geoCoords_.lat, editor.geoCoords_.lng] : false;
-
-		if (val.length > 0) {
-			// loading state
-
-			editorWrapper.classList.add(twic.vcl.TweetEditor.sendingClass);
-			editorCounter.innerHTML = '&nbsp;';
-			editorSend.disabled = true;
-
-			editor.onTweetSend(editor, val, coords, replyTo, function() {
-				editor.reset();
-
-				if (editor.autoRemovable) {
-					editor.close();
-				}
-			} );
+		if (editor.editorTextarea_.value.length == 0) {
+			return true;
 		}
+
+		var
+			tweet = new twic.cobj.Tweet();
+
+		tweet.text = editor.editorTextarea_.value;
+
+		if (editor.geoCoords_.enabled) {
+			tweet.coords.enabled = true;
+			tweet.coords.lat = editor.geoCoords_.lat;
+			tweet.coords.lng = editor.geoCoords_.lng;
+		}
+
+		// loading state
+		editorWrapper.classList.add(twic.vcl.TweetEditor.sendingClass);
+		editorCounter.innerHTML = '&nbsp;';
+		editorSend.disabled = true;
+
+		editor.onTweetSend(editor, tweet, replyTo, function() {
+			editor.reset();
+
+			if (editor.autoRemovable) {
+				editor.close();
+			}
+		} );
 	};
 
 	/**
@@ -496,12 +504,11 @@ twic.vcl.TweetEditor.prototype.getTextarea = function() {
 /**
  * Handler for tweet send process
  * @param {twic.vcl.TweetEditor} editor Editor
- * @param {string} tweetText Tweet text
- * @param {Array|false} tweetCoords Tweet coordinates
+ * @param {twic.cobj.Tweet} tweet Tweet common object
  * @param {string=} replyTo Reply to tweet
  * @param {function()=} callback Callback for reset
  */
-twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweetText, tweetCoords, replyTo, callback) { };
+twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweet, replyTo, callback) { };
 
 /**
  * Handler for the focus event

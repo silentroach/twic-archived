@@ -224,14 +224,14 @@ twic.pages.TimelinePage.prototype.update_ = function() {
 /**
  * @private
  * @param {twic.vcl.TweetEditor} editor
- * @param {string} tweetText
- * @param {Array|false} coords Tweet coordinates
+ * @param {twic.cobj.Tweet} tweet Tweet common object
  * @param {string} replyId
  * @param {function()} callback
  */
-twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweetText, coords, replyId, callback) {
+twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyId, callback) {
 	var
-		page = this;
+		page = this,
+		coords = tweet.coords.enabled ? [tweet.coords.lat, tweet.coords.lng] : false;
 
 	var finish = function() {
 		callback();
@@ -241,14 +241,14 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweetText, co
 	if (replyId) {
 		twic.requests.makeRequest('replyTweet', {
 			'id': page.userId_,
-			'tweet': tweetText,
+			'tweet': tweet.text,
 			'coords': coords,
 			'replyTo': replyId
 		}, finish);
 	} else {
 		twic.requests.makeRequest('sendTweet', {
 			'id': page.userId_,
-			'tweet': tweetText,
+			'tweet': tweet.text,
 			'coords': coords
 		}, finish);
 	}
@@ -301,8 +301,8 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
 
 	page.timeline_ = new twic.vcl.Timeline(page.page_);
-	page.timeline_.onReplySend = function(editor, tweetText, coords, replyId, callback) {
-		page.tweetHandler_.call(page, editor, tweetText, coords, replyId, callback);
+	page.timeline_.onReplySend = function(editor, tweet, replyId, callback) {
+		page.tweetHandler_.call(page, editor, tweet, replyId, callback);
 	};
 	page.timeline_.onRetweet = function(userId, tweetId, callback) {
 		page.doRetweet_.call(page, userId, tweetId, callback);
@@ -346,8 +346,8 @@ twic.pages.TimelinePage.prototype.handle = function(data) {
 	page.tweetEditor_.onFocus = function() {
 		page.timelineResetEditor_.call(page);
 	};
-	page.tweetEditor_.onTweetSend = function(editor, tweetText, coords, replyId, callback) {
-		page.tweetHandler_.call(page, editor, tweetText, coords, replyId, callback);
+	page.tweetEditor_.onTweetSend = function(editor, tweet, replyId, callback) {
+		page.tweetHandler_.call(page, editor, tweet, replyId, callback);
 	};
 	page.tweetEditor_.onGetSuggestList = function(startPart, callback) {
 		page.getSuggestList_.call(page, startPart, callback);
