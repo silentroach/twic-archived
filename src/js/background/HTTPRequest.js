@@ -22,6 +22,7 @@ goog.inherits(twic.ResponseError, twic.Error);
 /** @const */ twic.ResponseError.UNKNOWN      = 0;
 /** @const */ twic.ResponseError.UNAUTHORIZED = 1;
 /** @const */ twic.ResponseError.TIMEOUT      = 2;
+/** @const */ twic.ResponseError.NOT_FOUND    = 3;
 
 /**
  * @constructor
@@ -148,6 +149,13 @@ twic.HTTPRequest.prototype.send = function(callback) {
 		var req = this;
 
 		if (4 === req.readyState) {
+			if (404 === req.status) {
+				twic.debug.groupCollapsed(req);
+				twic.debug.error('Not found');
+				twic.debug.groupEnd();
+
+				callback(new twic.ResponseError(twic.ResponseError.NOT_FOUND, req));
+			} else
 			if (401 === req.status) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Unauthorized');
