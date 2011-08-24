@@ -21,6 +21,12 @@ twic.pages.TimelinePage = function() {
 	this.timeline_ = null;
 
 	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.cachedFirstId_ = '';
+
+	/**
 	 * @type {Element}
 	 * @private
 	 */
@@ -139,13 +145,20 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
  */
 twic.pages.TimelinePage.prototype.updateBottom_ = function() {
 	var
-		page = this;
+		page = this,
+		firstId = page.timeline_.getFirstTweetId();
+
+	if (firstId.id === page.cachedFirstId_) {
+		return false;
+	}
 
 	if (page.timeline_.beginUpdate(true, true)) {
 		twic.requests.makeRequest('getTimeline', {
 			'id': page.userId_,
-			'before': page.timeline_.getFirstTweetId()
+			'before': firstId
 		}, function(data) {
+			page.cachedFirstId_ = firstId.id;
+
 			page.buildList_.call(page, data);
 		} );
 	}
@@ -275,7 +288,6 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback
 /**
  * Handler for the scroll event
  */
-/*
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 	if (
 		this.page_.scrollHeight > this.page_.offsetHeight
@@ -284,7 +296,6 @@ twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
 		this.updateBottom_();
 	}
 };
-*/
 
 twic.pages.TimelinePage.prototype.initOnce = function() {
 	var
@@ -293,11 +304,9 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 	twic.Page.prototype.initOnce.call(page);
 
 	page.page_ = twic.dom.findElement('#timeline');
-	/*
 	page.page_.addEventListener('scroll', function(e) {
 		page.scrollHandler_.call(page, e);
 	}, false);
-*/
 	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
 
 	page.timeline_ = new twic.vcl.Timeline(page.page_);

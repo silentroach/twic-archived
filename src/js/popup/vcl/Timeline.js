@@ -444,8 +444,6 @@ twic.vcl.Timeline.prototype.doUnRetweet_ = function(confirmed) {
  */
 twic.vcl.Timeline.prototype.endUpdate = function() {
 	if (this.isLoading_) {
-		this.isLoading_ = false;
-
 		if (
 			this.tweetBuffer_
 			&& this.tweetBuffer_.childNodes.length > 0
@@ -455,6 +453,8 @@ twic.vcl.Timeline.prototype.endUpdate = function() {
 		}
 
 		twic.dom.removeElement(this.loader_);
+
+		this.isLoading_ = false;
 	}
 };
 
