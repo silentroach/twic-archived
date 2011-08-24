@@ -538,7 +538,7 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 	this.wrapper_.classList.add('replying');
 
 	if (this.mapVisible_) {
-		this.mapWrapper_.style.display = 'none';
+		this.toggleMap_();
 	}
 };
 
