@@ -175,7 +175,7 @@ twic.api.getAccessToken = function(pin, callback, failedCallback) {
 /**
  * Get the user info
  * @param {number|string} id User identifier or screen name
- * @param {function(*)} callback Callback function
+ * @param {function(Object)} callback Callback function
  * @param {function(twic.ResponseError)=} failedCallback Failed callback function
  */
 twic.api.getUserInfo = function(id, callback, failedCallback) {
