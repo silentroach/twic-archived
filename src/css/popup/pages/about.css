@@ -19,3 +19,9 @@
 #athanks, #aname, #acontributors, #aauthor {
 	font-weight: bold;
 	}
+
+#aname {
+	font-size: 14pt;
+	margin-bottom: .5em;
+	text-shadow: white 1px 1px 0;
+	}
