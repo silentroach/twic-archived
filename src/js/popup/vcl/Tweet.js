@@ -255,7 +255,7 @@ twic.vcl.Tweet.prototype.updateTime = function() {
 		var
 			dt = new Date(this.unixtime_ * 1000);
 
-		desc = dt.getDay() + ' ' +
+		desc = dt.getDate() + ' ' +
 			twic.utils.lang.translate('time_month_' + (dt.getMonth() + 1));
 	}
 
