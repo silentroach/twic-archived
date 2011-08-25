@@ -523,8 +523,8 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 	this.replier_.setConstTextIfEmpty(nickList);
 	this.replier_.setFocus();
 
-	this.replier_.onTweetSend = function(editor, tweet, replyTo, callback) {
-		tweet.onReplySend.call(tweet, editor, tweet, replyTo, callback);
+	this.replier_.onTweetSend = function(editor, tweetObj, replyTo, callback) {
+		tweet.onReplySend.call(tweet, editor, tweetObj, replyTo, callback);
 	};
 
 	this.replier_.onClose = function() {
