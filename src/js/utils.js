@@ -114,6 +114,42 @@ twic.utils.lang.plural = function(number, endings) {
 twic.utils.url = { };
 
 /**
+ * Mail search pattern
+ * @type {RegExp}
+ * @const
+ * @private
+ */
+twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)/gi;
+
+/**
+ * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
+ * @type {RegExp}
+ * @const
+ * @private
+ */
+twic.utils.url.urlSearchPattern_ = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
+
+/**
+ * Extract domain name from url
+ * @type {RegExp}
+ * @const
+ * @private
+ */
+twic.utils.url.domainExtractPattern_ = /:\/\/(.[^/]+)/;
+
+/**
+ * Links -> icons services hash
+ * @const
+ * @private
+ */
+twic.utils.url.services_ = {
+	'tumblr.com': { name: 'tumblr',     favicon: 'https://tumblr.com/favicon.ico' },
+	'instagr.am': { name: 'instagram',  favicon: 'https://instagr.am/favicon.ico' },
+	'4sq.com':    { name: 'foursquare', favicon: 'https://foursquare.com/favicon.ico' },
+	'flic.kr':    { name: 'flickr',     favicon: 'http://www.flickr.com/favicon.ico' }
+};
+
+/**
  * Humanize the link
  * @param {string} url Url
  * @param {Object.<string, string>=} lnks Shortened links hash
@@ -123,6 +159,8 @@ twic.utils.url.humanize = function(url, lnks) {
 	var
 		links = lnks || { },
 		expanded = url in links ? links[url] : url,
+		domain = twic.utils.url.domainExtractPattern_.exec(expanded),
+		domainName = domain && domain.length > 1 ? domain[1] : '',
 		cutted = expanded
 			.replace(/^(.*?)\/\//, '')         // cutting the protocol
 			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
@@ -130,26 +168,18 @@ twic.utils.url.humanize = function(url, lnks) {
 		title = cutted;
 
 	if (
-		clen > 6
-		&& '4sq.com' === cutted.substr(0, 7)
+		'' !== domainName
+		&& domainName in twic.utils.url.services_
 	) {
-		title = 'foursquare - ' + url;
-		cutted = '<img src="https://foursquare.com/favicon.ico" class="aicon" />';
-	} else
-	if (clen > 9) {
-		if ('tumblr.com' === cutted.substr(0, 10)) {
-			title = 'tumblr - ' + url;
-			cutted = '<img src="https://tumblr.com/favicon.ico" class="aicon" />';
-		} else
-		if ('instagr.am' === cutted.substr(0, 10)) {
-			title = 'instagram - ' + url;
-			cutted = '<img src="https://instagr.am/favicon.ico" class="aicon" />';
-		}
-	}
+		var
+			iconInfo = twic.utils.url.services_[domainName];
 
+		title = iconInfo.name + ' - ' + expanded;
+		cutted = '<img src="' + iconInfo.favicon + '" class="aicon" />';
+	} else
 	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
-	}	else
+	} else
 	if (['/', '\\'].indexOf(cutted.substring(clen - 1)) >= 0) {
 		cutted = cutted.substring(0, clen - 1);
 	}
@@ -169,22 +199,6 @@ twic.utils.url.humanize = function(url, lnks) {
 
 	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
-
-/**
- * Mail search pattern
- * @type {RegExp}
- * @const
- * @private
- */
-twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)/gi;
-
-/**
- * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
- * @type {RegExp}
- * @const
- * @private
- */
-twic.utils.url.urlSearchPattern_ = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
 
 /**
  * Process text replacements
