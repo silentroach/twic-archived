@@ -17,6 +17,10 @@ twic.requests.subscribe('unfollow', function(data, sendResponse) {
 	} );
 } );
 
+twic.requests.subscribe('getUserInfo', function(data, sendResponse) {
+	sendResponse(twic.accounts.getInfo(data['id']).user.fields);
+} );
+
 twic.requests.subscribe('getProfileInfo', function(data, sendResponse) {
 	twic.twitter.getUserInfo( data['name'], function(user) {
 		sendResponse( user.fields );

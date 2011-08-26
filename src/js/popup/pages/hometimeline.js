@@ -232,7 +232,7 @@ twic.pages.TimelinePage.prototype.update_ = function() {
 	}, function(data) {
 		page.buildList_.call(page, data);
 	} );
-};
+ };
 
 /**
  * @private
@@ -333,7 +333,8 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 
 twic.pages.TimelinePage.prototype.handle = function(data) {
 	var
-		page = this;
+		page = this,
+		userId = parseInt(data[0], 10);
 
 	twic.Page.prototype.handle.call(page, data);
 
@@ -347,11 +348,21 @@ twic.pages.TimelinePage.prototype.handle = function(data) {
 
 	page.accountNameElement_.innerHTML = '';
 
-	page.userId_ = parseInt(data[0], 10);
+	page.userId_ = userId;
 
 	page.newTweet_.innerHTML = '';
 
 	page.tweetEditor_ = new twic.vcl.TweetEditor(this.userId_, this.newTweet_);
+	twic.requests.makeRequest('getUserInfo', {
+		'id': userId
+	}, function(info) {
+		var
+			geoEnabled = 1 == info['geo_enabled'];
+
+		page.timeline_.geoEnabled = geoEnabled;
+		page.tweetEditor_.toggleGeo(geoEnabled);
+	} );
+
 	page.tweetEditor_.onFocus = function() {
 		page.timelineResetEditor_.call(page);
 	};

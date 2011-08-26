@@ -33,7 +33,15 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 */
 	this.constStartVal_ = '';
 
+	/**
+	 * @private
+	 */
 	this.suggestBlock_ = twic.dom.expandElement('div');
+
+	/**
+	 * @private
+	 */
+	this.editorWrapper_ = editorWrapper;
 
 	/**
 	 * @type {Element}
@@ -390,6 +398,18 @@ twic.vcl.TweetEditor.prototype.setFocus = function(setstart) {
 twic.vcl.TweetEditor.prototype.setText = function(text) {
 	this.constStartVal_ = '';
 	this.editorTextarea_.value = text;
+};
+
+/**
+ * Enable geolocation info insert
+ * @param {boolean} show Really?
+ */
+twic.vcl.TweetEditor.prototype.toggleGeo = function(show) {
+	if (show) {
+		this.editorWrapper_.classList.add('geo');
+	} else {
+		this.editorWrapper_.classList.remove('geo');
+	}
 };
 
 /**

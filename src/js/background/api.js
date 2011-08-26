@@ -31,11 +31,11 @@ twic.api.ratelimit_reset_ = false;
 /**
  * @type {?string}
  */
-twic.api.oauth_token_;
+twic.api.oauth_token_ = null;
 /**
  * @type {?string}
  */
-twic.api.oauth_token_secret_;
+twic.api.oauth_token_secret_ = null;
 
 /**
  * Get the request limit values from request response headers
@@ -366,7 +366,7 @@ twic.api.getFriendshipInfo = function(source_id, target_id, callback, failedCall
 /**
  * Update user status
  * @param {string} status New user status
- * @param {Array|false} coords Tweet coordinates
+ * @param {Array|boolean} coords Tweet coordinates
  * @param {string} token OAuth token
  * @param {string} token_secret OAuth token secret
  * @param {function(*)} callback Callback function

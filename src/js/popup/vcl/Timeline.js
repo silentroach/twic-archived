@@ -33,7 +33,7 @@ twic.vcl.Timeline = function(parent) {
 	 * @type {?twic.vcl.Timeline.confirmAction}
 	 * @private
 	 */
-	this.confirmerAction = null;
+	this.confirmerAction_ = null;
 
 	/**
 	 * @type {?number}
@@ -81,6 +81,11 @@ twic.vcl.Timeline = function(parent) {
 	 * @private
 	 */
 	this.replyTweet_ = null;
+
+	/**
+	 * @type {boolean}
+	 */
+	this.geoEnabled = false;
 
 	/**
 	 * @type {number}

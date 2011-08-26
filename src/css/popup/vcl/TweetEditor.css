@@ -23,6 +23,12 @@
 			.tweetEditor .rb img {
 				cursor: pointer;
 				}
+				.tweetEditor .rb img.geo {
+					display: none;
+					}
+					.tweetEditor.geo .rb img.geo {
+						display: inline;
+						}
 				.tweetEditor .rb img.disabled {
 					opacity: .5;
 					}
