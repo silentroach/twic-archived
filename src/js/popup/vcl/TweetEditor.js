@@ -460,6 +460,9 @@ twic.vcl.TweetEditor.prototype.toggleMap_ = function() {
 		} );
 	} else {
 		this.geoCoords_.enabled = false;
+
+		this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('disabled');
+		this.geoInfo_.classList.add('disabled');
 	}
 };
 
