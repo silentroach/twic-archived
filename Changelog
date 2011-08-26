@@ -1,4 +1,5 @@
 0.33 (in development):
+	* Better service detector. Now flickr, instagram, foursquare and thumblr links are recognized and replaced with icons
 
 0.32:
 	* Bug with status update with shortened link appears shortened at the timeline top is fixed (#81)
