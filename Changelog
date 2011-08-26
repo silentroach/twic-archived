@@ -1,4 +1,4 @@
-0.33 (in development):
+0.33:
 	* Better service detector. Now flickr, instagram, foursquare and thumblr links are recognized and replaced with icons
 	* Bug with disabling tweet geolocation info is fixed
 
