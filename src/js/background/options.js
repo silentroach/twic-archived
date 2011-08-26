@@ -19,9 +19,9 @@ twic.options.storage_ = {
 	// 48x48 avatar size
 	'avatar_size': '48',
 	// show geo info
-	'tweet_show_geo': false,
+	'tweet_show_geo': true,
 	// show the tweet time
-	'tweet_show_time': false,
+	'tweet_show_time': true,
 	// show the twitter client
 	'tweet_show_client': false
 };

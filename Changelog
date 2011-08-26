@@ -1,4 +1,5 @@
 0.34 (in development):
+	* Showing geoinfo and tweet time options are now turned on by default (can be turned off in options)
 
 0.33:
 	* Better service detector. Now flickr, instagram, foursquare and thumblr links are recognized and replaced with icons
