@@ -284,7 +284,7 @@ twic.twitter.deleteTweet = function(userId, tweetId, callback) {
  * Update the user status
  * @param {number} id User identifier
  * @param {string} status New status text
- * @param {Array|false} coords Tweet coords
+ * @param {Array|boolean} coords Tweet coords
  * @param {function()} callback Callback function
  */
 twic.twitter.updateStatus = function(id, status, coords, callback) {
@@ -317,7 +317,7 @@ twic.twitter.updateStatus = function(id, status, coords, callback) {
  * Update the user status
  * @param {number} id User identifier
  * @param {string} status New status text
- * @param {Array|false} coords Tweet coordinates
+ * @param {Array|boolean} coords Tweet coordinates
  * @param {string} replyTo Reply to tweet identifier
  * @param {!function()} callback Callback function
  */

@@ -409,7 +409,7 @@ twic.api.updateStatus = function(status, coords, token, token_secret, callback, 
 /**
  * Update user status
  * @param {string} status New user status
- * @param {Array|false} coords Tweet coordinates
+ * @param {Array|boolean} coords Tweet coordinates
  * @param {string} replyTo Reply to tweet identifier
  * @param {string} token OAuth token
  * @param {string} token_secret OAuth token secret
