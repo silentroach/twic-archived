@@ -304,6 +304,7 @@ twic.api.deleteTweet = function(id, token, token_secret, callback, failedCallbac
 twic.api.homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('GET', twic.api.BASE_URL + 'statuses/home_timeline/' + id + '.json');
 
+	req.setRequestData('count', 30);
 	req.setRequestData('include_entities', 1);
 
 	if (since_id) {
