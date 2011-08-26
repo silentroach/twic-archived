@@ -9,7 +9,7 @@
 	}
 
 /* make message window font smaller */
-kbd {
+#oauth_pin p {
 	font-size: 16pt;
 	font-family: sans-serif !important;
 	}

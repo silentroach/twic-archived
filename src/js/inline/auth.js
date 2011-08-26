@@ -8,7 +8,7 @@
 ( function() {
 
 	var
-		pinElement  = twic.dom.findElement('kbd'),
+		pinElement  = twic.dom.findElement('#oauth_pin p'),
 		nickElement = twic.dom.findElement('.current-user .name'),
 		descElement = twic.dom.findElement('.action-information');
 
