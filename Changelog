@@ -1,3 +1,5 @@
+0.33 (in development):
+
 0.32:
 	* Bug with status update with shortened link appears shortened at the timeline top is fixed (#81)
 	* Bug with tweet text backup on link attach is fixed (#80)
