@@ -1,4 +1,5 @@
 0.34 (in development):
+	+ Select/remove account for OS X with ⌘ key
 	* Showing geoinfo and tweet time options are now turned on by default (can be turned off in options)
 	* Suggest list font size in replies fixed
 

@@ -51,7 +51,7 @@ goog.inherits(twic.pages.AccountsPage, twic.Page);
  * @private
  */
 twic.pages.AccountsPage.prototype.resetToolbar_ = function() {
-	this.bottomStatus_.innerHTML = twic.utils.lang.translate('title_select_or_remove');
+	this.bottomStatus_.innerHTML = twic.utils.lang.translate('title_select_or_remove' + (twic.platform === twic.platforms.OSX ? '_osx' : ''));
 	this.bottomStatus_.classList.remove('alert');
 };
 
@@ -200,9 +200,16 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 	page.bottomStatus_ = twic.dom.findElement('#accounts_status');
 	page.elementAccountAdd_ = twic.dom.findElement('#button_account_add');
 
-	page.list_.addEventListener('contextmenu', function(e) {
-		page.accountContextClick_.call(page, e);
-	}, false);
+	if (twic.platforms.OSX === twic.platform) {
+		page.list_.addEventListener('click', function(e) {
+			if (e.metaKey) {
+				e.preventDefault();
+				page.accountContextClick_.call(page, e);
+			}
+		} );
+	} else {
+		page.list_.addEventListener('contextmenu', page.accountContextClick_.bind(page), false);
+	}
 
 	page.firstAccountElement_ = twic.dom.findElement('#accounts p');
 
