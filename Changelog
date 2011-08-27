@@ -1,3 +1,5 @@
+0.35 (in development):
+
 0.34:
 	+ Select/remove account for OS X with ⌘ key
 	* Showing geoinfo and tweet time options are now turned on by default (can be turned off in options)
