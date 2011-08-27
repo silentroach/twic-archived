@@ -60,7 +60,7 @@ twic.utils.date.getTimestamp = function(dt) {
  * @return {number} Timestamp
  */
 twic.utils.date.getCurrentTimestamp = function() {
-	return twic.utils.date.getTimestamp(new Date());
+	return Math.round(goog.now() / 1000);
 };
 
 // ------------------------------------------------------------
