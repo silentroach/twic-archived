@@ -206,7 +206,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 				e.preventDefault();
 				page.accountContextClick_.call(page, e);
 			}
-		} );
+		}, false );
 	} else {
 		page.list_.addEventListener('contextmenu', page.accountContextClick_.bind(page), false);
 	}

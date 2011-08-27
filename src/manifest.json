@@ -26,6 +26,7 @@
 			"css/inline/inline.css"
 		],
 		"js" : [
+			"js/3rdparty/closure.base.js",
 			"js/init.js",
 			"js/utils.js",
 			"js/dom.js",
