@@ -52,7 +52,7 @@ goog.inherits(twic.pages.AccountsPage, twic.Page);
  */
 twic.pages.AccountsPage.prototype.resetToolbar_ = function() {
 	this.bottomStatus_.innerHTML = twic.utils.lang.translate('title_select_or_remove' + (twic.platform === twic.platforms.OSX ? '_osx' : ''));
-	this.bottomStatus_.classList.remove('alert');
+	twic.dom.removeClass(this.bottomStatus_, 'alert');
 };
 
 /**
@@ -101,7 +101,7 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
 			this.firstAccountElement_.innerText = twic.utils.lang.translate('add_first_account');
 			this.firstAccountElement_.style.display = 'block';
 
-			this.elementAccountAdd_.classList.add('pulsate');
+			twic.dom.addClass(this.elementAccountAdd_, 'pulsate');
 
 			twic.dom.setVisibility(this.bottomStatus_, false);
 		}
@@ -162,7 +162,7 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
 			bYes      = twic.dom.expandElement('a.button'),
 			bNo       = twic.dom.expandElement('a.button');
 
-		page.elementAccountAdd_.classList.remove('pulsate');
+		twic.dom.removeClass(page.elementAccountAdd_, 'pulsate');
 		page.removingAccountId_ = link.id;
 
 		page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
@@ -185,7 +185,7 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
 		container.appendChild(bNo);
 
 		page.bottomStatus_.appendChild(container);
-		page.bottomStatus_.classList.add('alert');
+		twic.dom.addClass(page.bottomStatus_, 'alert');
 	}
 };
 
@@ -243,7 +243,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 				buttonElement.src = oldSource;
 
 				page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
-				page.bottomStatus_.classList.add('alert');
+				twic.dom.addClass(page.bottomStatus_, 'alert');
 				page.bottomStatus_.style.display = 'block';
 			}
 		} );

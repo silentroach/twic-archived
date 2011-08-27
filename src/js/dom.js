@@ -109,3 +109,21 @@ twic.dom.setVisibility = function(element, visible) {
 	element.style.display = visible ? '' : 'none';
 	return visible;
 };
+
+/**
+ * Add class to element
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.addClass = function(element, className) {
+	element.classList.add(className);
+};
+
+/**
+ * Remove class from element
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.removeClass = function(element, className) {
+	element.classList.remove(className);
+};
