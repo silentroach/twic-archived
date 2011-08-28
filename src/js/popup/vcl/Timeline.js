@@ -151,6 +151,13 @@ twic.vcl.Timeline = function(parent) {
 	this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
 	this.tbDelete_.title = twic.utils.lang.translate('title_delete');
 
+	/**
+	 * @type {Element}
+	 * @private
+	 */
+	this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
+	this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
+
 	var timelineMouseOut = function(e) {
 		if (
 			timeline.tweetButtons_ !== e.toElement
@@ -195,12 +202,13 @@ twic.vcl.Timeline = function(parent) {
 						}
 
 						var
-							vReply     = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
-							vRetweet   = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
-							vUnRetweet = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
-							vDelete    = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete());
+							vReply        = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
+							vRetweet      = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
+							vUnRetweet    = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
+							vDelete       = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete()),
+							vConversation = twic.dom.setVisibility(timeline.tbConversation_, tweet.getCanConversation());
 
-						if (vReply || vRetweet || vUnRetweet || vDelete) {
+						if (vReply || vRetweet || vUnRetweet || vDelete || vConversation) {
 							timeline.tweetButtons_.style.display = 'block';
 							timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
 							timeline.tweetButtons_.style.right = (document.body.clientWidth - timeline.hoveredTweet_.clientWidth) + 'px';
@@ -263,6 +271,11 @@ twic.vcl.Timeline = function(parent) {
 		timeline.doDelete_.call(timeline, e);
 	}, false);
 	buttonHolder.appendChild(this.tbDelete_);
+
+	this.tbConversation_.addEventListener('click', function(e) {
+		timeline.doConversation_.call(timeline, e);
+	}, false);
+	buttonHolder.appendChild(this.tbConversation_);
 
 	this.tweetButtons_.appendChild(buttonHolder);
 
@@ -489,10 +502,10 @@ twic.vcl.Timeline.prototype.hideAndRestoreButtons_ = function() {
  */
 twic.vcl.Timeline.prototype.resetConfirm_ = function() {
 	this.confirmerAction_ = null;
-	this.tweetButtons_.classList.remove('bconfirm');
-	this.tweetButtons_.classList.remove('bdel');
-	this.tweetButtons_.classList.remove('bret');
-	this.tweetButtons_.classList.remove('bunret');
+	twic.dom.removeClass(this.tweetButtons_, 'bconfirm');
+	twic.dom.removeClass(this.tweetButtons_, 'bdel');
+	twic.dom.removeClass(this.tweetButtons_, 'bret');
+	twic.dom.removeClass(this.tweetButtons_, 'bunret');
 };
 
 /**
@@ -502,13 +515,15 @@ twic.vcl.Timeline.prototype.resetButtons_ = function() {
 	this.resetConfirm_();
 
 	// @resource img/buttons/retweet.png
-	this.tbRetweet_.src   = 'img/buttons/retweet.png';
+	this.tbRetweet_.src      = 'img/buttons/retweet.png';
 	// @resource img/buttons/retweet_undo.png
-	this.tbUnRetweet_.src = 'img/buttons/retweet_undo.png';
+	this.tbUnRetweet_.src    = 'img/buttons/retweet_undo.png';
 	// @resource img/buttons/delete.png
-	this.tbDelete_.src    = 'img/buttons/delete.png';
+	this.tbDelete_.src       = 'img/buttons/delete.png';
 	// @resource img/buttons/reply.png
-	this.tbReply_.src     = 'img/buttons/reply.png';
+	this.tbReply_.src        = 'img/buttons/reply.png';
+	// @resource img/buttons/conversation.png
+	this.tbConversation_.src = 'img/buttons/conversation.png';
 };
 
 /**
@@ -542,6 +557,13 @@ twic.vcl.Timeline.prototype.doReply_ = function(e) {
 
 		this.hideButtons_();
 	}
+};
+
+/**
+ * @param {Event} e Mouse event
+ */
+twic.vcl.Timeline.prototype.doConversation_ = function(e) {
+
 };
 
 /**

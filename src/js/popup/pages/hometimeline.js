@@ -9,22 +9,10 @@
  * @constructor
  * @extends twic.Page
  */
-twic.pages.TimelinePage = function() {
-	twic.Page.call(this);
+twic.pages.HomeTimelinePage = function() {
+	twic.pages.TimelinePage.call(this);
 
 	this.remember = true;
-
-	/**
-	 * @type {twic.vcl.Timeline}
-	 * @private
-	 */
-	this.timeline_ = null;
-
-	/**
-	 * @type {string}
-	 * @private
-	 */
-	this.cachedFirstId_ = '';
 
 	/**
 	 * @type {Element}
@@ -57,75 +45,13 @@ twic.pages.TimelinePage = function() {
 	this.userId_ = 0;
 };
 
-goog.inherits(twic.pages.TimelinePage, twic.Page);
-
-/**
- * @private
- */
-twic.pages.TimelinePage.prototype.buildList_ = function(info) {
-	var
-		id       = null,
-		userName = info['account']['name'],
-		data     = info['data'];
-
-	this.accountNameElement_.innerHTML = '@' + userName;
-
-	this.timeline_.setUserId(info['account']['id']);
-	this.timeline_.setUserNick(userName);
-
-	for (id in data) {
-		var
-			item      = data[id],
-			user      = item['user'],
-			retweeted = item['retweeted'],
-			tweet     = this.timeline_.addTweet(id, item['dt']);
-
-		if (retweeted) {
-			tweet.setAuthor(retweeted['id'], retweeted['screen_name'], retweeted['avatar']);
-			tweet.setRetweeter(user['id'], user['screen_name'], user['avatar']);
-
-			// todo refactor with bottom
-			if (retweeted['is_protected']) {
-				tweet.setProtected();
-			}
-		} else {
-			tweet.setAuthor(user['id'], user['screen_name'], user['avatar']);
-
-			if (user['is_protected']) {
-				tweet.setProtected();
-			}
-		}
-
-		if (item['separator']) {
-			tweet.setSeparator();
-		}
-
-		if ('geo' in item) {
-			tweet.setGeo(item['geo']);
-		}
-
-		if ('source' in item) {
-			tweet.setSource(item['source']);
-		}
-
-		if (
-			'links' in item
-			&& item['links'].length > 0
-		) {
-			tweet.setLinks(item['links']);
-		}
-
-		tweet.setText(item['msg']);
-	}
-
-	this.timeline_.endUpdate();
-};
+goog.inherits(twic.pages.HomeTimelinePage, twic.pages.TimelinePage);
 
 /**
  * Update the timeline from the top
  * @private
  */
-twic.pages.TimelinePage.prototype.updateTop_ = function() {
+twic.pages.HomeTimelinePage.prototype.updateTop_ = function() {
 	var
 		page = this;
 
@@ -143,7 +69,7 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
  * Update the timeline from the bottom
  * @private
  */
-twic.pages.TimelinePage.prototype.updateBottom_ = function() {
+twic.pages.HomeTimelinePage.prototype.updateBottom_ = function() {
 	var
 		page = this,
 		firstId = page.timeline_.getFirstTweetId();
@@ -168,57 +94,15 @@ twic.pages.TimelinePage.prototype.updateBottom_ = function() {
  * @private
  * @param {string} text
  */
-twic.pages.TimelinePage.prototype.doOldRetweet_ = function(text) {
+twic.pages.HomeTimelinePage.prototype.doOldRetweet_ = function(text) {
 	this.tweetEditor_.setText(text);
 	this.tweetEditor_.setFocus(true);
 };
 
 /**
  * @private
- * @param {number} userId
- * @param {string} tweetId
- * @param {function()} callback
  */
-twic.pages.TimelinePage.prototype.doRetweet_ = function(userId, tweetId, callback) {
-	var
-		page = this;
-
-	twic.requests.makeRequest('retweet', {
-		'userId': userId,
-		'tweetId': tweetId
-	}, function() {
-		callback();
-
-		page.tweetEditor_.reset();
-		page.updateTop_();
-	} );
-};
-
-/**
- * @private
- * @param {number} userId
- * @param {string} tweetId
- * @param {function()} callback
- */
-twic.pages.TimelinePage.prototype.doDelete_ = function(userId, tweetId, callback) {
-	var
-		page = this;
-
-	twic.requests.makeRequest('delete', {
-		'userId': userId,
-		'tweetId': tweetId
-	}, function() {
-		callback();
-
-		page.tweetEditor_.reset();
-		page.update_();
-	} );
-};
-
-/**
- * @private
- */
-twic.pages.TimelinePage.prototype.update_ = function() {
+twic.pages.HomeTimelinePage.prototype.update_ = function() {
 	var
 		page = this;
 
@@ -241,7 +125,7 @@ twic.pages.TimelinePage.prototype.update_ = function() {
  * @param {string} replyId
  * @param {function()} callback
  */
-twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyId, callback) {
+twic.pages.HomeTimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyId, callback) {
 	var
 		page = this,
 		coords = tweet.coords.enabled ? [tweet.coords.lat, tweet.coords.lng] : false;
@@ -267,71 +151,24 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyI
 	}
 };
 
-/**
- * @private
- */
-twic.pages.TimelinePage.prototype.timelineResetEditor_ = function() {
-	this.timeline_.resetEditor();
-};
-
-/**
- * Suggest list builder
- * @param {string} startPart Nick start part
- * @param {function(Array.<string>)} callback Callback function
- */
-twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback) {
-	twic.requests.makeRequest( 'getNickSuggest', {
-		'nickPart': startPart
-	}, callback );
-};
-
-/**
- * Handler for the scroll event
- */
-twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
-	if (
-		this.page_.scrollHeight > this.page_.offsetHeight
-		&& this.page_.scrollHeight - this.page_.offsetHeight - this.page_.scrollTop < 100
-	) {
-		this.updateBottom_();
-	}
-};
-
-twic.pages.TimelinePage.prototype.initOnce = function() {
+twic.pages.HomeTimelinePage.prototype.initOnce = function() {
 	var
 		page = this;
 
-	twic.Page.prototype.initOnce.call(page);
+	twic.pages.TimelinePage.prototype.initOnce.call(page);
 
-	page.page_ = twic.dom.findElement('#timeline');
-	page.page_.addEventListener('scroll', function(e) {
-		page.scrollHandler_.call(page, e);
-	}, false);
-	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
-
-	page.timeline_ = new twic.vcl.Timeline(page.page_);
-	page.timeline_.onReplySend = function(editor, tweet, replyId, callback) {
-		page.tweetHandler_.call(page, editor, tweet, replyId, callback);
-	};
-	page.timeline_.onRetweet = function(userId, tweetId, callback) {
-		page.doRetweet_.call(page, userId, tweetId, callback);
-	};
 	page.timeline_.onOldRetweet = function(text) {
 		page.doOldRetweet_.call(page, text);
 	};
-	page.timeline_.onDelete  = function(userId, tweetId, callback) {
-		page.doDelete_.call(page, userId, tweetId, callback);
-	};
-	page.timeline_.onReplierGetSuggestList = function(startPart, callback) {
-		page.getSuggestList_.call(page, startPart, callback);
-	};
+
+	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
 
 	page.newTweet_ = twic.dom.findElement('.newtweet', page.page_);
 
 	twic.dom.findElement('.toolbar a', page.page_).innerHTML = twic.utils.lang.translate('toolbar_accounts');
 };
 
-twic.pages.TimelinePage.prototype.handle = function(data) {
+twic.pages.HomeTimelinePage.prototype.handle = function(data) {
 	var
 		page = this,
 		userId = parseInt(data[0], 10);

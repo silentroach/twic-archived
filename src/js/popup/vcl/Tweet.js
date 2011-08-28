@@ -18,6 +18,12 @@ twic.vcl.Tweet = function(id, timeline) {
 	this.id_ = id;
 
 	/**
+	 * @type {string}
+	 * @private
+	 */
+	this.replyTo_ = '';
+
+	/**
 	 * @type {twic.vcl.Timeline}
 	 * @private
 	 */
@@ -220,6 +226,14 @@ twic.vcl.Tweet.prototype.getAuthorNick = function() {
 };
 
 /**
+ * Set the reply to id
+ * @param {string} mmm Tweet id
+ */
+twic.vcl.Tweet.prototype.setReplyTo = function(mmm) {
+	this.replyTo_ = mmm;
+};
+
+/**
  * Update the tweet time
  */
 twic.vcl.Tweet.prototype.updateTime = function() {
@@ -383,6 +397,10 @@ twic.vcl.Tweet.prototype.setAuthor = function(id, nick, av) {
 	this.avatarLink_.href = '#profile#' + nick;
 
 	this.avatar_.src = av;
+};
+
+twic.vcl.Tweet.prototype.getCanConversation = function() {
+	return '' !== this.replyTo_;
 };
 
 /**

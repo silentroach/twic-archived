@@ -75,7 +75,7 @@ document.addEventListener('click', function(e) {
 				0 === e.button
 				&& !e.metaKey
 			) {
-				// left button click, closing the window, special for macos
+				// left button click, closing the window, special for os x
 				window.close();
 			}
 		}
@@ -86,5 +86,6 @@ document.addEventListener('click', function(e) {
 
 twic.router.register('profile', twic.pages.ProfilePage);
 twic.router.register('accounts', twic.pages.AccountsPage);
-twic.router.register('timeline', twic.pages.TimelinePage);
+twic.router.register('timeline', twic.pages.HomeTimelinePage);
+twic.router.register('conversation', twic.pages.ConversationPage);
 twic.router.register('about', twic.pages.AboutPage);

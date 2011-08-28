@@ -45,6 +45,10 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 						'links': { 'length': 0 }
 					};
 
+				if (null !== tweet.fields['reply_to']) {
+					tweetInfo['reply_to'] = tweet.fields['reply_to'];
+				}
+
 			    if (twic.options.getValue('tweet_show_client')) {
 			    	tweetInfo['source'] = tweet.fields['source'];
 			    }
