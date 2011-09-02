@@ -1,4 +1,5 @@
 0.35 (in development):
+	* Bug with two or more shortened urls in tweet is fixed
 
 0.34:
 	+ Select/remove account for OS X with ⌘ key

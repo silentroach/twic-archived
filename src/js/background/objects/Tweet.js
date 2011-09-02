@@ -138,7 +138,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 							url['url'],
 							url['expanded_url']
 						// FIXME make it optional callbacks
-						], onDone, onDone);
+						], callback, callback);
 					}
 				}, onDone )
 			} else {
