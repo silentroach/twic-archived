@@ -242,6 +242,21 @@ twic.text.processUrls = function(text, callback) {
 	} );
 };
 
+twic.text.extractUrls = function(text, callback) {
+	if (!twic.text._initialized) {
+		twic.text._initialize();
+	}
+
+	var
+		urls = [];
+
+	text.replace(twic.text.expr['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
+		urls.push(url);
+	} );
+
+	return urls;
+};
+
 /*
 twttr.txt.extractMentions = function(text) {
 var screenNamesOnly = [],

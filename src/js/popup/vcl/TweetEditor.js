@@ -474,7 +474,7 @@ twic.vcl.TweetEditor.prototype.getCharCount_ = function() {
 	var
 		val = this.editorTextarea_.value,
 		len = val.length,
-		links = twic.utils.url.extractLinks(val),
+		links = twic.text.extractUrls(val),
 		link = '',
 		i;
 

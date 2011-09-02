@@ -122,14 +122,6 @@ twic.utils.url = { };
 twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+)/gi;
 
 /**
- * http://daringfireball.net/2010/07/improved_regex_for_matching_urls
- * @type {RegExp}
- * @const
- * @private
- */
-twic.utils.url.urlSearchPattern_ = /\b((?:[a-z][\w\-]+:(?:\/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))/gi;
-
-/**
  * Extract domain name from url
  * @type {RegExp}
  * @const
@@ -193,10 +185,6 @@ twic.utils.url.humanize = function(url, lnks) {
 		url = 'http://' + url;
 	}
 
-	//if (expanded != url) {
-	//	title = title + ' \n ' + url;
-	//}
-
 	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
@@ -213,13 +201,4 @@ twic.utils.url.processText = function(text, links) {
 	return twic.text.processUrls(result, function(url) {
 		return twic.utils.url.humanize(url, links ? links : { });
 	} );
-};
-
-/**
- * Get all links used in text
- * @param {string} text Text
- * @return {Array}
- */
-twic.utils.url.extractLinks = function(text) {
-	return text.match(twic.utils.url.urlSearchPattern_);
 };
