@@ -45,6 +45,8 @@ twic.text.INVALID_CHARACTERS = [
 
 /**
  * Builds a RegExp
+ * @param {RegExp|string} regex
+ * @param {string=} flags
  * @private
  */
 twic.text._regexSupplant = function(regex, flags) {
@@ -107,6 +109,10 @@ twic.text._addCharsToCharClass = function(charClass, start, end) {
 };
 
 twic.text._initialize = function() {
+	if (twic.text._initialized) {
+		return true;
+	}
+
 	/**
 	 * Space is more than %20, U+3000 for example is the full-width space used with Kanji. Provide a short-hand
 	 * to access both the list of characters and a pattern suitible for use with String#split
@@ -123,8 +129,9 @@ twic.text._initialize = function() {
 		String.fromCharCode(0x202F), // White_Space # Zs       NARROW NO-BREAK SPACE
 		String.fromCharCode(0x205F), // White_Space # Zs       MEDIUM MATHEMATICAL SPACE
 		String.fromCharCode(0x3000)  // White_Space # Zs       IDEOGRAPHIC SPACE
-	],
-		nonLatinHashtagChars = [];
+	];
+
+	var nonLatinHashtagChars = [];
 
 	// White_Space # Cc   [5] <control-0009>..<control-000D>
 	twic.text._addCharsToCharClass(unicode_spaces, 0x009, 0x00D);
@@ -182,7 +189,7 @@ twic.text._initialize = function() {
 	/** ! **/ twic.text.expr['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
 	twic.text.expr['hashtagAlpha'] = twic.text._regexSupplant(/[a-z_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
 	/** ! **/ twic.text.expr['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
-	/** ! **/ twic.text.expr['autoLinkHashtags'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
+	/** ! **/ twic.text.expr['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
 	twic.text.expr['autoLinkUsernamesOrLists'] = /(^|[^a-zA-Z0-9_]|RT:?)([@＠]+)([a-zA-Z0-9_]{1,20})(\/[a-zA-Z][a-zA-Z0-9_\-]{0,24})?/g;
 	twic.text.expr['autoLinkEmoticon'] = /(8\-\#|8\-E|\+\-\(|\`\@|\`O|\&lt;\|:~\(|\}:o\{|:\-\[|\&gt;o\&lt;|X\-\/|\[:-\]\-I\-|\/\/\/\/Ö\\\\\\\\|\(\|:\|\/\)|∑:\*\)|\( \| \))/g;
 
@@ -229,9 +236,7 @@ twic.text._initialize = function() {
 };
 
 twic.text.processUrls = function(text, callback) {
-	if (!twic.text._initialized) {
-		twic.text._initialize();
-	}
+	twic.text._initialize();
 
 	return text.replace(twic.text.expr['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
 		if (protocol) {
@@ -242,13 +247,11 @@ twic.text.processUrls = function(text, callback) {
 	} );
 };
 
-twic.text.extractUrls = function(text, callback) {
-	if (!twic.text._initialized) {
-		twic.text._initialize();
-	}
-
+twic.text.extractUrls = function(text) {
 	var
 		urls = [];
+
+	twic.text._initialize();
 
 	text.replace(twic.text.expr['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
 		urls.push(url);
@@ -257,135 +260,25 @@ twic.text.extractUrls = function(text, callback) {
 	return urls;
 };
 
+twic.text.processHashes = function(text, callback) {
+	twic.text._initialize();
+
+	return text.replace(twic.text.expr['extractHash'], function(match, before, hash, hashText) {
+		return before + callback(hashText);
+	} );
+};
+
+twic.text.processMentions = function(text, callback) {
+	twic.text._initialize();
+
+	return text.replace(twic.text.expr['extractMentions'], function(match, before, atSign, screenName, after) {
+		if (!after.match(twic.text.expr['endScreenNameMatch'])) {
+			return before + callback(screenName);
+		}
+	} );
+};
+
 /*
-twttr.txt.extractMentions = function(text) {
-var screenNamesOnly = [],
-screenNamesWithIndices = twttr.txt.extractMentionsWithIndices(text);
-
-for (var i = 0; i < screenNamesWithIndices.length; i++) {
-var screenName = screenNamesWithIndices[i].screenName;
-screenNamesOnly.push(screenName);
-}
-
-return screenNamesOnly;
-};
-
-twttr.txt.extractMentionsWithIndices = function(text) {
-if (!text) {
-return [];
-}
-
-var possibleScreenNames = [],
-position = 0;
-
-text.replace(twttr.txt.regexen.extractMentions, function(match, before, atSign, screenName, after) {
-if (!after.match(twttr.txt.regexen.endScreenNameMatch)) {
-var startPosition = text.indexOf(atSign + screenName, position);
-position = startPosition + screenName.length + 1;
-possibleScreenNames.push({
-screenName: screenName,
-indices: [startPosition, position]
-});
-}
-});
-
-return possibleScreenNames;
-};
-
-//Extract list or user mentions.
-//(Presence of listSlug indicates a list)
-twttr.txt.extractMentionsOrListsWithIndices = function(text) {
-if (!text) {
-return [];
-}
-
-var possibleNames = [],
-position = 0;
-
-text.replace(twttr.txt.regexen.extractMentionsOrLists, function(match, before, atSign, screenName, slashListname, after) {
-if (!after.match(twttr.txt.regexen.endScreenNameMatch)) {
-slashListname = slashListname || '';
-var startPosition = text.indexOf(atSign + screenName + slashListname, position);
-position = startPosition + screenName.length + slashListname.length + 1;
-possibleNames.push({
-screenName: screenName,
-listSlug: slashListname,
-indices: [startPosition, position]
-});
-}
-});
-
-return possibleNames;
-};
-
-
-twttr.txt.extractUrls = function(text) {
-var urlsOnly = [],
-urlsWithIndices = twttr.txt.extractUrlsWithIndices(text);
-
-for (var i = 0; i < urlsWithIndices.length; i++) {
-urlsOnly.push(urlsWithIndices[i].url);
-}
-
-return urlsOnly;
-};
-
-twttr.txt.extractUrlsWithIndices = function(text) {
-if (!text) {
-return [];
-}
-
-var urls = [],
-position = 0;
-
-text.replace(twttr.txt.regexen.extractUrl, function(match, all, before, url, protocol, domain, path, query) {
-var tldComponents;
-
-if (protocol) {
-var startPosition = text.indexOf(url, position),
-position = startPosition + url.length;
-
-urls.push({
-url: url,
-indices: [startPosition, position]
-});
-}
-});
-
-return urls;
-};
-
-twttr.txt.extractHashtags = function(text) {
-var hashtagsOnly = [],
-hashtagsWithIndices = twttr.txt.extractHashtagsWithIndices(text);
-
-for (var i = 0; i < hashtagsWithIndices.length; i++) {
-hashtagsOnly.push(hashtagsWithIndices[i].hashtag);
-}
-
-return hashtagsOnly;
-};
-
-twttr.txt.extractHashtagsWithIndices = function(text) {
-if (!text) {
-return [];
-}
-
-var tags = [],
-position = 0;
-
-text.replace(twttr.txt.regexen.autoLinkHashtags, function(match, before, hash, hashText) {
-var startPosition = text.indexOf(hash + hashText, position);
-position = startPosition + hashText.length + 1;
-tags.push({
-hashtag: hashText,
-indices: [startPosition, position]
-});
-});
-
-return tags;
-};
-
 // Check the text for any reason that it may not be valid as a Tweet. This is meant as a pre-validation
 // before posting to api.twitter.com. There are several server-side reasons for Tweets to fail but this pre-validation
 // will allow quicker feedback.

@@ -189,18 +189,6 @@ twic.vcl.Tweet = function(id, timeline) {
  * @type {RegExp}
  * @const
  */
-twic.vcl.Tweet.REGEXP_NICK = /([^&\w\/]|^)(@\w+)/gi;
-
-/**
- * @type {RegExp}
- * @const
- */
-twic.vcl.Tweet.REGEXP_HASH = /([^&\w\/]|^)(#([\w\u0080-\uffff]*))/gi;
-
-/**
- * @type {RegExp}
- * @const
- */
 twic.vcl.Tweet.REGEXP_BREAK = /\r?\n/;
 
 /**
@@ -288,31 +276,24 @@ twic.vcl.Tweet.prototype.setText = function(text) {
 	this.rawText_ = text;
 
 	// preparing hashtags
-	txt = txt.replace(
-		twic.vcl.Tweet.REGEXP_HASH,
-		'$1<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23$3">$2</a>'
-	);
+	txt = twic.text.processHashes(txt, function(hash) {
+		return '<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23' + hash + '">#' + hash + '</a>';
+	} );
 
 	// preparing nicks
-	txt = txt.replace(
-		twic.vcl.Tweet.REGEXP_NICK,
-		function(nick) {
-			var n = nick.trim().substring(1);
+	txt = twic.text.processMentions(txt, function(nick) {
+		var
+			nickLowered = nick.toLowerCase();
 
-			if (n.substr(0, 1) == '@') {
-				n = n.substring(1);
-			}
-
-			if (tweet.timelineNick_ === n) {
-				// this tweet is with our mention
-				tweet.wrapper_.classList.add('mention');
-			}
-
-			tweet.mentioned_[n.toLowerCase()] = '@' + n;
-
-			return nick.replace('@' + n, '<a class="nick" href="#profile#' + n.toLowerCase() + '">@' + n + '</a>');
+		if (nick === tweet.timelineNick_) {
+			// this tweet is with our mention
+			tweet.wrapper_.classList.add('mention');
 		}
-	);
+
+		tweet.mentioned_[nickLowered] = '@' + nick;
+
+		return '<a class="nick" href="#profile#' + nickLowered + '">@' + nick + '</a>';
+	} );
 
 	// preparing line breaks
 	txt = txt.replace(
