@@ -70,7 +70,6 @@ twic.text._regexSupplant = function(regex, flags) {
 
 	return new RegExp(regex.replace(/#\{(\w+)\}/g, function(match, name) {
 		var newRegex = twic.text.expr[name] || "";
-		twic.text.expr[name].used = true;
 
 		if (!goog.isString(newRegex)) {
 			newRegex = newRegex.source;
@@ -138,13 +137,11 @@ twic.text._initialize = function() {
 	// White_Space # Zs  [11] EN QUAD..HAIR SPACE
 	twic.text._addCharsToCharClass(unicode_spaces, 0x2000, 0x200A);
 
-	/** ! **/ twic.text.expr['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
-	/** ! **/ twic.text.expr['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
-	/** ! **/ twic.text.expr['punct'] = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
-	/** ! **/ twic.text.expr['atSigns'] = /[@＠]/;
-	/** ! **/ twic.text.expr['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
-	twic.text.expr['listName'] = /[a-zA-Z][a-zA-Z0-9_\-\u0080-\u00ff]{0,24}/;
-	twic.text.expr['extractMentionsOrLists'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(\/[a-zA-Z][a-zA-Z0-9_\-]{0,24})?(?=(.|$))/g);
+	twic.text.expr['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
+	twic.text.expr['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
+	twic.text.expr['punct'] = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
+	twic.text.expr['atSigns'] = /[@＠]/;
+	twic.text.expr['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
 
 	// Cyrillic
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x0400, 0x04ff); // Cyrillic
@@ -176,45 +173,40 @@ twic.text._initialize = function() {
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3005, 0x3005); // Kanji iteration mark
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x303B, 0x303B); // Han iteration mark
 
-	// -- Disabled as it breaks the Regex.
-	//twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x20000, 0x2A6DF); // Kanji (CJK Extension B)
-
 	twic.text.expr['nonLatinHashtagChars'] = twic.text._regexSupplant(nonLatinHashtagChars.join(""));
 	// Latin accented characters (subtracted 0xD7 from the range, it's a confusable multiplication sign. Looks like "x")
-	/** ! **/ twic.text.expr['latinAccentChars'] = twic.text._regexSupplant("ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþş\\303\\277");
+	twic.text.expr['latinAccentChars'] = twic.text._regexSupplant("ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþş\\303\\277");
 
 	twic.text.expr['endScreenNameMatch'] = twic.text._regexSupplant(/^(?:#{atSigns}|[#{latinAccentChars}]|:\/\/)/);
 
 	// A hashtag must contain characters, numbers and underscores, but not all numbers.
-	/** ! **/ twic.text.expr['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
+	twic.text.expr['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
 	twic.text.expr['hashtagAlpha'] = twic.text._regexSupplant(/[a-z_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
-	/** ! **/ twic.text.expr['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
-	/** ! **/ twic.text.expr['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
-	twic.text.expr['autoLinkUsernamesOrLists'] = /(^|[^a-zA-Z0-9_]|RT:?)([@＠]+)([a-zA-Z0-9_]{1,20})(\/[a-zA-Z][a-zA-Z0-9_\-]{0,24})?/g;
-	twic.text.expr['autoLinkEmoticon'] = /(8\-\#|8\-E|\+\-\(|\`\@|\`O|\&lt;\|:~\(|\}:o\{|:\-\[|\&gt;o\&lt;|X\-\/|\[:-\]\-I\-|\/\/\/\/Ö\\\\\\\\|\(\|:\|\/\)|∑:\*\)|\( \| \))/g;
+	twic.text.expr['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
+	twic.text.expr['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
 
 	// URL related hash regex collection
-	/** ! **/ twic.text.expr['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr);
-	/** ! **/ twic.text.expr['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"':!=A-Za-z0-9_@＠]|^|\:)/);
+	twic.text.expr['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr);
+	twic.text.expr['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"':!=A-Za-z0-9_@＠]|^|\:)/);
 
-	/** ! **/ twic.text.expr['validSubdomain'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[_-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]\./);
-	/** ! **/ twic.text.expr['validDomainName'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]/);
-	/** ! **/ twic.text.expr['validDomain'] = twic.text._regexSupplant(/(#{validSubdomain})*#{validDomainName}\.(?:xn--[a-z0-9]{2,}|[a-z]{2,})(?::[0-9]+)?/i);
+	twic.text.expr['validSubdomain'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[_-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]\./);
+	twic.text.expr['validDomainName'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]/);
+	twic.text.expr['validDomain'] = twic.text._regexSupplant(/(#{validSubdomain})*#{validDomainName}\.(?:xn--[a-z0-9]{2,}|[a-z]{2,})(?::[0-9]+)?/i);
 
-	/** ! **/ twic.text.expr['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|#{latinAccentChars}]/i);
+	twic.text.expr['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|#{latinAccentChars}]/i);
 	// Allow URL paths to contain balanced parens
 	//  1. Used in Wikipedia URLs like /Primer_(film)
 	//  2. Used in IIS sessions like /S(dfd346)/
-	/** ! **/ twic.text.expr['wikipediaDisambiguation'] = twic.text._regexSupplant(/(?:\(#{validGeneralUrlPathChars}+\))/i);
+	twic.text.expr['wikipediaDisambiguation'] = twic.text._regexSupplant(/(?:\(#{validGeneralUrlPathChars}+\))/i);
 	// Allow @ in a url, but only in the middle. Catch things like http://example.com/@user
-	/** ! **/ twic.text.expr['validUrlPathChars'] = twic.text._regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.,]?#{validGeneralUrlPathChars}?)/i);
+	twic.text.expr['validUrlPathChars'] = twic.text._regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.,]?#{validGeneralUrlPathChars}?)/i);
 
 	// Valid end-of-path chracters (so /foo. does not gobble the period).
 	// 1. Allow =&# for empty URL parameters and other URL-join artifacts
-	/** ! **/ twic.text.expr['validUrlPathEndingChars'] = twic.text._regexSupplant(/(?:[\+\-a-z0-9=_#\/#{latinAccentChars}]|#{wikipediaDisambiguation})/i);
-	/** ! **/ twic.text.expr['validUrlQueryChars'] = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
-	/** ! **/ twic.text.expr['validUrlQueryEndingChars'] = /[a-z0-9_&=#\/]/i;
-	/** ! **/ twic.text.expr['extractUrl'] = twic.text._regexSupplant(
+	twic.text.expr['validUrlPathEndingChars'] = twic.text._regexSupplant(/(?:[\+\-a-z0-9=_#\/#{latinAccentChars}]|#{wikipediaDisambiguation})/i);
+	twic.text.expr['validUrlQueryChars'] = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
+	twic.text.expr['validUrlQueryEndingChars'] = /[a-z0-9_&=#\/]/i;
+	twic.text.expr['extractUrl'] = twic.text._regexSupplant(
 		'('                                                          + // $1 total match
 		'(#{validPrecedingChars})'                                   + // $2 Preceeding chracter
 		'('                                                          + // $3 URL
@@ -277,108 +269,3 @@ twic.text.processMentions = function(text, callback) {
 		}
 	} );
 };
-
-/*
-// Check the text for any reason that it may not be valid as a Tweet. This is meant as a pre-validation
-// before posting to api.twitter.com. There are several server-side reasons for Tweets to fail but this pre-validation
-// will allow quicker feedback.
-//
-// Returns false if this text is valid. Otherwise one of the following strings will be returned:
-//
-//   "too_long": if the text is too long
-//   "empty": if the text is nil or empty
-//   "invalid_characters": if the text contains non-Unicode or any of the disallowed Unicode characters
-twttr.txt.isInvalidTweet = function(text) {
-if (!text) {
-return "empty";
-}
-
-if (text.length > MAX_LENGTH) {
-return "too_long";
-}
-
-for (var i = 0; i < INVALID_CHARACTERS.length; i++) {
-if (text.indexOf(INVALID_CHARACTERS[i]) >= 0) {
-return "invalid_characters";
-}
-}
-
-return false;
-};
-
-twttr.txt.isValidUsername = function(username) {
-if (!username) {
-return false;
-}
-
-var extracted = twttr.txt.extractMentions(username);
-
-// Should extract the username minus the @ sign, hence the .slice(1)
-return extracted.length === 1 && extracted[0] === username.slice(1);
-};
-
-var VALID_LIST_RE = regexSupplant(/^#{autoLinkUsernamesOrLists}$/);
-
-twttr.txt.isValidList = function(usernameList) {
-var match = usernameList.match(VALID_LIST_RE);
-
-// Must have matched and had nothing before or after
-return !!(match && match[1] == "" && match[4]);
-};
-
-twttr.txt.isValidHashtag = function(hashtag) {
-if (!hashtag) {
-return false;
-}
-
-var extracted = twttr.txt.extractHashtags(hashtag);
-
-// Should extract the hashtag minus the # sign, hence the .slice(1)
-return extracted.length === 1 && extracted[0] === hashtag.slice(1);
-};
-
-twttr.txt.isValidUrl = function(url, unicodeDomains) {
-if (unicodeDomains == null) {
-unicodeDomains = true;
-}
-
-if (!url) {
-return false;
-}
-
-var urlParts = url.match(twttr.txt.regexen.validateUrlUnencoded);
-
-if (!urlParts || urlParts[0] !== url) {
-return false;
-}
-
-var scheme = urlParts[1],
-authority = urlParts[2],
-path = urlParts[3],
-query = urlParts[4],
-fragment = urlParts[5];
-
-if (!(
-isValidMatch(scheme, twttr.txt.regexen.validateUrlScheme) && scheme.match(/^https?$/i) &&
-isValidMatch(path, twttr.txt.regexen.validateUrlPath) &&
-isValidMatch(query, twttr.txt.regexen.validateUrlQuery, true) &&
-isValidMatch(fragment, twttr.txt.regexen.validateUrlFragment, true)
-)) {
-return false;
-}
-
-return (unicodeDomains && isValidMatch(authority, twttr.txt.regexen.validateUrlUnicodeAuthority)) ||
-(!unicodeDomains && isValidMatch(authority, twttr.txt.regexen.validateUrlAuthority));
-};
-
-function isValidMatch(string, regex, optional) {
-if (!optional) {
-// RegExp["$&"] is the text of the last match
-// blank strings are ok, but are falsy, so we check stringiness instead of truthiness
-return ((typeof string === "string") && string.match(regex) && RegExp["$&"] === string);
-}
-
-// RegExp["$&"] is the text of the last match
-return (!string || (string.match(regex) && RegExp["$&"] === string));
-}
-*/
