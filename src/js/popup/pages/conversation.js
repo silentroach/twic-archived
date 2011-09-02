@@ -7,10 +7,10 @@
 
 /**
  * @constructor
- * @extends twic.Page
+ * @extends twic.pages.TimelinePage
  */
 twic.pages.ConversationPage = function() {
 	twic.pages.TimelinePage.call(this);
-}
+};
 
 goog.inherits(twic.pages.ConversationPage, twic.pages.TimelinePage);

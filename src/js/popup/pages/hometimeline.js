@@ -7,7 +7,7 @@
 
 /**
  * @constructor
- * @extends twic.Page
+ * @extends twic.pages.TimelinePage
  */
 twic.pages.HomeTimelinePage = function() {
 	twic.pages.TimelinePage.call(this);

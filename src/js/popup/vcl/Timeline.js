@@ -563,7 +563,7 @@ twic.vcl.Timeline.prototype.doReply_ = function(e) {
  * @param {Event} e Mouse event
  */
 twic.vcl.Timeline.prototype.doConversation_ = function(e) {
-
+	window.location = '#conversation#' + this.hoveredTweet_.id;
 };
 
 /**
