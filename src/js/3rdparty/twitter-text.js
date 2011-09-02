@@ -1,5 +1,5 @@
 /**
-* @preserve Modified Twitter Text (original https://github.com/twitter/twitter-text-js)
+* Modified Twitter Text (original https://github.com/twitter/twitter-text-js)
 */
 
 twic.text = { };
