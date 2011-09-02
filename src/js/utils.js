@@ -210,7 +210,7 @@ twic.utils.url.processText = function(text, links) {
 	var
 		result = text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1');
 
-	return result.replace(twic.utils.url.urlSearchPattern_, function(url) {
+	return twic.text.processUrls(result, function(url) {
 		return twic.utils.url.humanize(url, links ? links : { });
 	} );
 };

@@ -28,6 +28,7 @@
 		"js" : [
 			"js/3rdparty/closure.base.js",
 			"js/init.js",
+			"js/3rdparty/twitter-text.js",
 			"js/utils.js",
 			"js/dom.js",
 			"js/global.js",
