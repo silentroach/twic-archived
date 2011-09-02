@@ -1,4 +1,10 @@
 3rdparty javascript modules:
 
-SHA1 crypt implementation
+Google Closure Library (base module)
+http://code.google.com/closure/library
+
+SHA1 crypt implementation (modified)
 http://pajhome.org.uk/crypt/md5
+
+Twitter text (modified)
+https://github.com/twitter/twitter-text-js
