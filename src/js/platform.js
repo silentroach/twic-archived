@@ -11,8 +11,8 @@
  */
 twic.platforms = {
 	WINDOWS: 'windows',
-	OSX: 'osx',
-	LINUX: 'linux'
+	OSX:     'osx',
+	LINUX:   'linux'
 };
 
 /**

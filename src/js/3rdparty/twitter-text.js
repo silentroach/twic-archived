@@ -4,7 +4,10 @@
 
 twic.text = { };
 
-twic.text.expr = { };
+/**
+ * @private
+ */
+twic.text.expr_ = { };
 
 /**
  * Initialized
@@ -38,7 +41,7 @@ twic.text._regexSupplant = function(regex, flags) {
 	}
 
 	return new RegExp(regex.replace(/#\{(\w+)\}/g, function(match, name) {
-		var newRegex = twic.text.expr[name] || "";
+		var newRegex = twic.text.expr_[name] || "";
 
 		if (!goog.isString(newRegex)) {
 			newRegex = newRegex.source;
@@ -60,9 +63,9 @@ twic.text._stringSupplant = function(str, values) {
 
 /**
  * @private
- * @param charClass
- * @param start
- * @param end
+ * @param {Array} charClass
+ * @param {number} start
+ * @param {number} end
  */
 twic.text._addCharsToCharClass = function(charClass, start, end) {
 	var s = String.fromCharCode(start);
@@ -76,6 +79,9 @@ twic.text._addCharsToCharClass = function(charClass, start, end) {
 	return charClass;
 };
 
+/**
+ * @private
+ */
 twic.text._initialize = function() {
 	if (twic.text._initialized) {
 		return true;
@@ -106,11 +112,11 @@ twic.text._initialize = function() {
 	// White_Space # Zs  [11] EN QUAD..HAIR SPACE
 	twic.text._addCharsToCharClass(unicode_spaces, 0x2000, 0x200A);
 
-	twic.text.expr['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
-	twic.text.expr['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
-	twic.text.expr['punct'] = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
-	twic.text.expr['atSigns'] = /[@＠]/;
-	twic.text.expr['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
+	twic.text.expr_['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
+	twic.text.expr_['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
+	twic.text.expr_['punct'] = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
+	twic.text.expr_['atSigns'] = /[@＠]/;
+	twic.text.expr_['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
 
 	// Cyrillic
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x0400, 0x04ff); // Cyrillic
@@ -142,40 +148,40 @@ twic.text._initialize = function() {
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3005, 0x3005); // Kanji iteration mark
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x303B, 0x303B); // Han iteration mark
 
-	twic.text.expr['nonLatinHashtagChars'] = twic.text._regexSupplant(nonLatinHashtagChars.join(""));
+	twic.text.expr_['nonLatinHashtagChars'] = twic.text._regexSupplant(nonLatinHashtagChars.join(""));
 	// Latin accented characters (subtracted 0xD7 from the range, it's a confusable multiplication sign. Looks like "x")
-	twic.text.expr['latinAccentChars'] = twic.text._regexSupplant("ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþş\\303\\277");
+	twic.text.expr_['latinAccentChars'] = twic.text._regexSupplant("ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþş\\303\\277");
 
-	twic.text.expr['endScreenNameMatch'] = twic.text._regexSupplant(/^(?:#{atSigns}|[#{latinAccentChars}]|:\/\/)/);
+	twic.text.expr_['endScreenNameMatch'] = twic.text._regexSupplant(/^(?:#{atSigns}|[#{latinAccentChars}]|:\/\/)/);
 
 	// A hashtag must contain characters, numbers and underscores, but not all numbers.
-	twic.text.expr['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
-	twic.text.expr['hashtagAlpha'] = twic.text._regexSupplant(/[a-z_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
-	twic.text.expr['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
-	twic.text.expr['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
+	twic.text.expr_['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
+	twic.text.expr_['hashtagAlpha'] = twic.text._regexSupplant(/[a-z_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
+	twic.text.expr_['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
+	twic.text.expr_['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
 
 	// URL related hash regex collection
-	twic.text.expr['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr);
-	twic.text.expr['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"':!=A-Za-z0-9_@＠]|^|\:)/);
+	twic.text.expr_['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr_);
+	twic.text.expr_['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"':!=A-Za-z0-9_@＠]|^|\:)/);
 
-	twic.text.expr['validSubdomain'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[_-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]\./);
-	twic.text.expr['validDomainName'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]/);
-	twic.text.expr['validDomain'] = twic.text._regexSupplant(/(#{validSubdomain})*#{validDomainName}\.(?:xn--[a-z0-9]{2,}|[a-z]{2,})(?::[0-9]+)?/i);
+	twic.text.expr_['validSubdomain'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[_-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]\./);
+	twic.text.expr_['validDomainName'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]/);
+	twic.text.expr_['validDomain'] = twic.text._regexSupplant(/(#{validSubdomain})*#{validDomainName}\.(?:xn--[a-z0-9]{2,}|[a-z]{2,})(?::[0-9]+)?/i);
 
-	twic.text.expr['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|#{latinAccentChars}]/i);
+	twic.text.expr_['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|#{latinAccentChars}]/i);
 	// Allow URL paths to contain balanced parens
 	//  1. Used in Wikipedia URLs like /Primer_(film)
 	//  2. Used in IIS sessions like /S(dfd346)/
-	twic.text.expr['wikipediaDisambiguation'] = twic.text._regexSupplant(/(?:\(#{validGeneralUrlPathChars}+\))/i);
+	twic.text.expr_['wikipediaDisambiguation'] = twic.text._regexSupplant(/(?:\(#{validGeneralUrlPathChars}+\))/i);
 	// Allow @ in a url, but only in the middle. Catch things like http://example.com/@user
-	twic.text.expr['validUrlPathChars'] = twic.text._regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.,]?#{validGeneralUrlPathChars}?)/i);
+	twic.text.expr_['validUrlPathChars'] = twic.text._regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.,]?#{validGeneralUrlPathChars}?)/i);
 
 	// Valid end-of-path chracters (so /foo. does not gobble the period).
 	// 1. Allow =&# for empty URL parameters and other URL-join artifacts
-	twic.text.expr['validUrlPathEndingChars'] = twic.text._regexSupplant(/(?:[\+\-a-z0-9=_#\/#{latinAccentChars}]|#{wikipediaDisambiguation})/i);
-	twic.text.expr['validUrlQueryChars'] = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
-	twic.text.expr['validUrlQueryEndingChars'] = /[a-z0-9_&=#\/]/i;
-	twic.text.expr['extractUrl'] = twic.text._regexSupplant(
+	twic.text.expr_['validUrlPathEndingChars'] = twic.text._regexSupplant(/(?:[\+\-a-z0-9=_#\/#{latinAccentChars}]|#{wikipediaDisambiguation})/i);
+	twic.text.expr_['validUrlQueryChars'] = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
+	twic.text.expr_['validUrlQueryEndingChars'] = /[a-z0-9_&=#\/]/i;
+	twic.text.expr_['extractUrl'] = twic.text._regexSupplant(
 		'('                                                          + // $1 total match
 		'(#{validPrecedingChars})'                                   + // $2 Preceeding chracter
 		'('                                                          + // $3 URL
@@ -199,7 +205,7 @@ twic.text._initialize = function() {
 twic.text.processUrls = function(text, callback) {
 	twic.text._initialize();
 
-	return text.replace(twic.text.expr['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
+	return text.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
 		if (protocol) {
 			return before + callback(url);
 		}
@@ -214,7 +220,7 @@ twic.text.extractUrls = function(text) {
 
 	twic.text._initialize();
 
-	text.replace(twic.text.expr['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
+	text.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
 		urls.push(url);
 	} );
 
@@ -224,7 +230,7 @@ twic.text.extractUrls = function(text) {
 twic.text.processHashes = function(text, callback) {
 	twic.text._initialize();
 
-	return text.replace(twic.text.expr['extractHash'], function(match, before, hash, hashText) {
+	return text.replace(twic.text.expr_['extractHash'], function(match, before, hash, hashText) {
 		return before + callback(hashText);
 	} );
 };
@@ -232,8 +238,8 @@ twic.text.processHashes = function(text, callback) {
 twic.text.processMentions = function(text, callback) {
 	twic.text._initialize();
 
-	return text.replace(twic.text.expr['extractMentions'], function(match, before, atSign, screenName, after) {
-		if (!after.match(twic.text.expr['endScreenNameMatch'])) {
+	return text.replace(twic.text.expr_['extractMentions'], function(match, before, atSign, screenName, after) {
+		if (!after.match(twic.text.expr_['endScreenNameMatch'])) {
 			return before + callback(screenName);
 		}
 	} );
