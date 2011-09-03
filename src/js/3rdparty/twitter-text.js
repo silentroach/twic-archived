@@ -13,37 +13,6 @@ twic.text.expr = { };
 twic.text._initialized = false;
 
 /**
- * @const
- */
-twic.text.HTML_ENTITIES = {
-	'&': '&amp;',
-	'>': '&gt;',
-	'<': '&lt;',
-	'"': '&quot;',
-	"'": '&#39;'
-};
-
-/**
- * Characters not allowed in Tweets
- * @const
- */
-twic.text.INVALID_CHARACTERS = [
-	// BOM
-	String.fromCharCode(0xFFFE),
-	String.fromCharCode(0xFEFF),
-
-	// Special
-	String.fromCharCode(0xFFFF),
-
-	// Directional Change
-	String.fromCharCode(0x202A),
-	String.fromCharCode(0x202B),
-	String.fromCharCode(0x202C),
-	String.fromCharCode(0x202D),
-	String.fromCharCode(0x202E)
-];
-
-/**
  * Builds a RegExp
  * @param {RegExp|string} regex
  * @param {string=} flags
