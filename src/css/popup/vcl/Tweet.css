@@ -4,11 +4,11 @@
  */
 
 li.tweet.mention {
-	background-color: rgba(0, 100, 200, .10);
+	background-color: rgba(0, 100, 200, .07);
 	}
 
 li.tweet.me {
-	background-color: rgba(100, 200, 0, .10);
+	background-color: rgba(100, 200, 0, .07);
 	}
 
 li.tweet.separator {
@@ -45,7 +45,7 @@ li.tweet p {
 		}
 		li.tweet p.info a {
 			color: #b3b2b2;
-			text-decoration: none;
+			-webkit-transition: color 0.2s ease-in-out;
 			}
 		li.tweet p.info .geo {
 			display: inline-block;
@@ -71,8 +71,7 @@ li.tweet:hover p.info {
 	color: gray;
 	}
 	li.tweet:hover p.info a {
-        color: gray;
-		text-decoration: underline;
+    color: gray;
 		}
 
 li.tweet.replying p.info {
