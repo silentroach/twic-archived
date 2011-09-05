@@ -18,4 +18,5 @@ Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 
 * [Google Closure Library](http://code.google.com/closure/library/) (some language enhancements)
 * [SHA1 crypt implementation](http://pajhome.org.uk/crypt/md5)
+* [Twitter Text](https://github.com/twitter/twitter-text-js)
 * [Iconza icons](http://www.iconza.com/)
