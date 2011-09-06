@@ -1,6 +1,6 @@
 # Twic Extension
 
-The [opensource twitter client](https://chrome.google.com/webstore/detail/hglcekhnfbahipbmdceknefmpncbpikg) for Chromium based browsers
+The [opensource twitter client](http://twicext.com) for Chromium based browsers
 
 Please don't forget to:
 
