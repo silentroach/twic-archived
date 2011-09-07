@@ -38,9 +38,7 @@ twic.pages.AboutPage.prototype.initOnce = function() {
 
 	twic.dom.findElement('#acollaborate').innerHTML = twic.utils.lang.translate(
 		'about_collaborate', [
-			'<a href="https://github.com/silentroach/twic/issues" title="github" target="_blank">', '</a>',
-			'<a href="http://groups.google.com/group/twicrome" title="google groups" target="_blank">', '</a>',
-			'<a href="https://github.com/silentroach/twic" title="github" target="_blank">', '</a>'
+			'<a href="http://twicext.com" title="twicext.com" target="_blank">', '</a>'
 		]
 	);
 
