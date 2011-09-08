@@ -8,7 +8,7 @@
 
 	var
 		icon = document.createElement('canvas'),
-		ctx  = icon.getContext('2d');
+		ctx  = icon.etContext('2d');
 
 	icon.setAttribute('width', '19px');
 	icon.setAttribute('height', '19px');
