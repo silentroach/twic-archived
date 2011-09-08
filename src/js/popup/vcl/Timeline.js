@@ -24,6 +24,10 @@ twic.vcl.Timeline = function(parent) {
 	 */
 	this.wrapper_ = twic.dom.expandElement('div.timeline');
 
+	if (!twic.vcl.Timeline.options.avatarSizeDefault) {
+		twic.dom.addClass(this.wrapper_, 'timeline32');
+	}
+
 	/**
 	 * @type {boolean}
 	 */
@@ -327,7 +331,8 @@ twic.vcl.Timeline.confirmAction = {
  * Timeline options
  */
 twic.vcl.Timeline.options = {
-	showTime: false
+	showTime: false,
+	avatarSizeDefault: true
 };
 
 /**

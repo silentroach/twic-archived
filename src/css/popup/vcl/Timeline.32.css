@@ -3,28 +3,28 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-.timeline .avatar {
+.timeline32 .avatar {
 	max-width: 32px;
 	}
 
-.timeline li.tweet p {
+.timeline32 li.tweet p {
 	padding-left: 39px;
 	}
 
-.timeline li.tweet.retweet a.avatar img.avatar {
+.timeline32 li.tweet.retweet a.avatar img.avatar {
 	max-width: 26px;
 	}
 
-.timeline li.tweet.retweet a.avatar.retweeter img.avatar {
+.timeline32 li.tweet.retweet a.avatar.retweeter img.avatar {
 	max-width: 16px;
 	}
 
-.timeline li.tweet.retweet a.avatar.retweeter {
+.timeline32 li.tweet.retweet a.avatar.retweeter {
 	margin-left: -16px;
 	margin-top: 16px;
 	}
 
-.timeline li.tweet .tweetEditor {
+.timeline32 li.tweet .tweetEditor {
 	padding-left: 33px;
 	width: 325px;
 	}
