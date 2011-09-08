@@ -155,8 +155,8 @@ twic.vcl.Timeline = function(parent) {
 	 * @type {Element}
 	 * @private
 	 */
-	this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
-	this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
+	//this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
+	//this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
 
 	var timelineMouseOut = function(e) {
 		if (
@@ -205,10 +205,10 @@ twic.vcl.Timeline = function(parent) {
 							vReply        = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
 							vRetweet      = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
 							vUnRetweet    = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
-							vDelete       = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete()),
-							vConversation = twic.dom.setVisibility(timeline.tbConversation_, tweet.getCanConversation());
+							vDelete       = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete());
+							//vConversation = twic.dom.setVisibility(timeline.tbConversation_, tweet.getCanConversation());
 
-						if (vReply || vRetweet || vUnRetweet || vDelete || vConversation) {
+						if (vReply || vRetweet || vUnRetweet || vDelete) {// || vConversation) {
 							timeline.tweetButtons_.style.display = 'block';
 							timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
 							timeline.tweetButtons_.style.right = (document.body.clientWidth - timeline.hoveredTweet_.clientWidth) + 'px';
@@ -272,10 +272,12 @@ twic.vcl.Timeline = function(parent) {
 	}, false);
 	buttonHolder.appendChild(this.tbDelete_);
 
+	/*
 	this.tbConversation_.addEventListener('click', function(e) {
 		timeline.doConversation_.call(timeline, e);
 	}, false);
 	buttonHolder.appendChild(this.tbConversation_);
+*/
 
 	this.tweetButtons_.appendChild(buttonHolder);
 
@@ -523,7 +525,7 @@ twic.vcl.Timeline.prototype.resetButtons_ = function() {
 	// @resource img/buttons/reply.png
 	this.tbReply_.src        = 'img/buttons/reply.png';
 	// @resource img/buttons/conversation.png
-	this.tbConversation_.src = 'img/buttons/conversation.png';
+	//this.tbConversation_.src = 'img/buttons/conversation.png';
 };
 
 /**
@@ -561,10 +563,10 @@ twic.vcl.Timeline.prototype.doReply_ = function(e) {
 
 /**
  * @param {Event} e Mouse event
- */
+ *
 twic.vcl.Timeline.prototype.doConversation_ = function(e) {
 	window.location = '#conversation#' + this.hoveredTweet_.id;
-};
+};*/
 
 /**
  * Open the confirm dialog in the tweetButtons

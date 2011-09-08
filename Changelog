@@ -1,4 +1,4 @@
-0.35 (in development):
+0.35:
 	* Some style changes (thanks @GrawlCore)
 	+ We are using Twitter Text (https://github.com/twitter/twitter-text-js) to recognize url, mentions and hashes
 	* Bug with two or more shortened urls in tweet is fixed

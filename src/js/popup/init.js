@@ -87,5 +87,5 @@ document.addEventListener('click', function(e) {
 twic.router.register('profile', twic.pages.ProfilePage);
 twic.router.register('accounts', twic.pages.AccountsPage);
 twic.router.register('timeline', twic.pages.HomeTimelinePage);
-twic.router.register('conversation', twic.pages.ConversationPage);
+//twic.router.register('conversation', twic.pages.ConversationPage);
 twic.router.register('about', twic.pages.AboutPage);
