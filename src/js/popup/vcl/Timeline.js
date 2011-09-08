@@ -155,12 +155,10 @@ twic.vcl.Timeline = function(parent) {
 	this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
 	this.tbDelete_.title = twic.utils.lang.translate('title_delete');
 
-	/**
-	 * @type {Element}
-	 * @private
-	 */
-	//this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
-	//this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
+	// @type {Element}
+	// @private
+	// this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
+	// this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
 
 	var timelineMouseOut = function(e) {
 		if (
