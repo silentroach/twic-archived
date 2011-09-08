@@ -7,25 +7,6 @@
 
 /**
  * @constructor
- * @extends twic.Error
- * @param {number} code Error code
- * @param {XMLHttpRequest} req Request
- */
-twic.ResponseError = function(code, req) {
-	this.request = req;
-
-	twic.Error.call(this, code);
-};
-
-goog.inherits(twic.ResponseError, twic.Error);
-
-/** @const */ twic.ResponseError.UNKNOWN      = 0;
-/** @const */ twic.ResponseError.UNAUTHORIZED = 1;
-/** @const */ twic.ResponseError.TIMEOUT      = 2;
-/** @const */ twic.ResponseError.NOT_FOUND    = 3;
-
-/**
- * @constructor
  * @param {string} method Method (GET, POST)
  * @param {string} url Url
  */
