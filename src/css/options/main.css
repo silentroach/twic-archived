@@ -5,7 +5,7 @@
 
 body {
 	padding: 1em;
-	width: 300px;
+	width: 400px;
 	margin: 1em auto;
 	}
 
@@ -13,17 +13,30 @@ body {
 	border-bottom: 1px solid rgba(0, 0, 0, .1);
 	padding-bottom: 4px;
 	}
-	#tabs li span {
-		-webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, .2);
-		padding: 2px 7px;
-		padding-bottom: 2px;
-		border-top-left-radius: 2px;
-		border-top-right-radius: 2px;
-		margin: 0 5px;
+	#tabs li {
+		display: inline;
 		}
-		#tabs li.active span {
-			border-bottom: 3px solid #f7f7f7;
+		#tabs li span {
+			-webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, .2);
+			padding: 2px 7px;
+			padding-bottom: 4px;
+			border-top-left-radius: 2px;
+			border-top-right-radius: 2px;
+			color: gray;
+			cursor: pointer;
+			background-color: rgba(192, 192, 192, .1);
+			-webkit-transition: background-color .2s ease-in-out;
 			}
+			#tabs li span:hover {
+				background-color: initial;
+				}
+			#tabs li.active span {
+				border-bottom: 3px solid #f7f7f7;
+				padding-bottom: 2px;
+				color: black;
+				cursor: default;
+				background-color: initial;
+				}
 
 #content {
 	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
