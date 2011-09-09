@@ -100,6 +100,21 @@ twic.dom.isChildOf = function(element, parent) {
 };
 
 /**
+ * Find closest parent by attribute
+ * @param {Element} element Element
+ * @param {string} attrName Attribute name
+ */
+twic.dom.findClosestParentByAttr = function(element, attrName) {
+	if (element.getAttribute(attrName)) {
+		return element;
+	}
+
+	if (element.parentElement) {
+		return twic.dom.findClosestParentByAttr(element.parentElement, attrName);
+	}
+};
+
+/**
  * Change visibility for the element
  * @param {Element} element Element
  * @param {boolean} visible Is it visible?
@@ -108,6 +123,15 @@ twic.dom.isChildOf = function(element, parent) {
 twic.dom.setVisibility = function(element, visible) {
 	element.style.display = visible ? '' : 'none';
 	return visible;
+};
+
+/**
+ * Has class?
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.hasClass = function(element, className) {
+	return element.classList.contains(className);
 };
 
 /**
