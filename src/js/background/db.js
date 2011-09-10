@@ -158,7 +158,7 @@ twic.db.executeGroup_ = function(db, sqlObjArray, successCallback, failedCallbac
  */
 twic.db.migrations_ = {
 	'0': {
-		ver: '0.4',
+		ver: '0.5',
 		runme: function(tr, callback) {
 			twic.utils.queueIterator( [
 				/**
@@ -177,6 +177,7 @@ twic.db.migrations_ = {
 					'regdate int not null, ' +
 					'description varchar(255) not null default \'\', ' +
 					'location varchar(255) not null default \'\', ' +
+					'screen_name_lower varchar(32) not null default \'\', ' +
 					'dt int not null' +
 				')',
 
@@ -231,21 +232,8 @@ twic.db.migrations_ = {
 				/**
 				 * Indexes
 				 */
-				'create index idx_users_name on users (screen_name)',
+				'create index idx_users_name on users (screen_name_lower)',
 				'create index idx_tweets on tweets (dt desc, id desc)'
-			], function(sqlText, callback) {
-				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-			}, callback);
-		}
-	},
-	'0.4': {
-		ver: '0.5',
-		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
-				'alter table users add screen_name_lower varchar(32) not null default \'\'',
-				'update users set screen_name_lower = screen_name',
-				'drop index idx_users_name',
-				'create index idx_users_name on users (screen_name_lower)'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);
