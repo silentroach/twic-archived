@@ -135,10 +135,10 @@ twic.utils.url.domainExtractPattern_ = /:\/\/(.[^/]+)/;
  * @private
  */
 twic.utils.url.services_ = {
-	'tumblr.com': { name: 'tumblr',     favicon: 'https://tumblr.com/favicon.ico' },
-	'instagr.am': { name: 'instagram',  favicon: 'https://instagr.am/favicon.ico' },
-	'4sq.com':    { name: 'foursquare', favicon: 'https://foursquare.com/favicon.ico' },
-	'flic.kr':    { name: 'flickr',     favicon: 'http://www.flickr.com/favicon.ico' }
+	'tumblr.com': 'tumblr',
+	'instagr.am': 'instagram',
+	'4sq.com':    'foursquare',
+	'flic.kr':    'flickr'
 };
 
 /**
@@ -164,10 +164,10 @@ twic.utils.url.humanize = function(url, lnks) {
 		&& domainName in twic.utils.url.services_
 	) {
 		var
-			iconInfo = twic.utils.url.services_[domainName];
+			iconClass = twic.utils.url.services_[domainName];
 
-		title = iconInfo.name + ' - ' + expanded;
-		cutted = '<img src="' + iconInfo.favicon + '" class="aicon" />';
+		title = iconClass + ' - ' + expanded;
+		cutted = '<img class="aicon ' + iconClass + '" />';
 	} else
 	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';

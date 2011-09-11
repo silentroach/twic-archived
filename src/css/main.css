@@ -51,3 +51,15 @@ a.direct {
 	margin-bottom: 3px;
 	vertical-align: middle;
 	}
+	.aicon.tumblr {
+		background-image: url('/img/services/tumblr.png');
+		}
+	.aicon.instagram {
+		background-image: url('/img/services/instagram.png');
+		}
+	.aicon.foursquare {
+		background-image: url('/img/services/foursquare.png');
+		}
+	.aicon.flickr {
+		background-image: url('/img/services/flickr.png');
+		}
