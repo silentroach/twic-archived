@@ -83,7 +83,8 @@ twic.db.obj.Tweet.prototype.remove = function(callback) {
 	// lets remove some tweet crap
 	async.forEach( [
 		'delete from timeline where tweet_id = ?',
-		'delete from links where tweet_id = ?'
+		'delete from links where tweet_id = ?',
+		'delete from media where tweet_id = ?'
 	], function(sqlText, callback) {
 		twic.db.execQuery(sqlText, [self.fields['id']], callback, callback);
 	}, function() {
