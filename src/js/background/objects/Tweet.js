@@ -81,7 +81,7 @@ twic.db.obj.Tweet.prototype.remove = function(callback) {
 		self = this;
 
 	// lets remove some tweet crap
-	twic.utils.queueIterator( [
+	async.forEach( [
 		'delete from timeline where tweet_id = ?',
 		'delete from links where tweet_id = ?'
 	], function(sqlText, callback) {
@@ -116,31 +116,69 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 		}
 	};
 
-	twic.DBObject.prototype.save.call(self, function() {
-		twic.db.execQuery('delete from links where tweet_id = ?', [self.fields['id']], function() {
+	var processUrls = function(urls, callback) {
+		var
+			i;
+
+		async.forEachSeries(urls, function(url, callback) {
 			if (
-				'entities' in self.jsonObj
-				&& 'urls' in self.jsonObj['entities']
-				&& self.jsonObj['entities']['urls'].length > 0
+				'url' in url
+				&& 'expanded_url' in url
+				&& !goog.isNull(url['expanded_url'])
+			) {
+				twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
+					self.fields['id'],
+					url['url'],
+					url['expanded_url']
+				// FIXME make it optional callbacks
+				], callback, callback);
+			}
+		}, callback )
+	};
+
+	var processMedia = function(meta, callback) {
+		var
+			i;
+
+		async.forEachSeries(meta, function(media, callback) {
+			if ('url' in media
+				&& 'expanded_url' in media
+				&& !goog.isNull(media['expanded_url'])
 			) {
 				var
-					urls = self.jsonObj['entities']['urls'],
-					i;
+					previewLink = 'media_url_https' in media
+						? media['media_url_https'] : media['media_url'];
 
-				twic.utils.queueIterator(urls, function(url, callback) {
-					if (
-						'url' in url
-						&& 'expanded_url' in url
-						&& !goog.isNull(url['expanded_url'])
+				twic.db.execQuery('insert into media (tweet_id, lnk, preview, expanded) values (?, ?, ?, ?)', [
+					self.fields['id'],
+					media['url'],
+					previewLink,
+					media['expanded_url']
+				// FIXME make it optional callbacks
+				], callback, callback);
+			}
+		}, callback )
+	};
+
+	twic.DBObject.prototype.save.call(self, function() {
+		twic.db.execQuery('delete from links where tweet_id = ?', [self.fields['id']], function() {
+			if ('entities' in self.jsonObj) {
+				async.forEach(['urls', 'media'], function(entity, callback) {
+					if (entity in self.jsonObj['entities']
+						&& self.jsonObj['entities'][entity].length > 0
 					) {
-						twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
-							self.fields['id'],
-							url['url'],
-							url['expanded_url']
-						// FIXME make it optional callbacks
-						], callback, callback);
+						if ('urls' === entity) {
+							processUrls(self.jsonObj['entities'][entity], callback);
+						} else
+						if ('media' === entity) {
+							processMedia(self.jsonObj['entities'][entity], callback);
+						} else {
+							callback();
+						}
+					} else {
+						callback();
 					}
-				}, onDone )
+				}, onDone );
 			} else {
 				onDone();
 			}

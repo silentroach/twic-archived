@@ -34,7 +34,7 @@
 
 	keys = twic.dom.findElements('input[data-key]');
 
-	twic.utils.queueIterator(keys, function(item, callback) {
+	async.forEach(keys, function(item, callback) {
 		twic.options.get(item.getAttribute('data-key'), function(val) {
 			if (val) {
 				item.setAttribute('checked', 'checked');

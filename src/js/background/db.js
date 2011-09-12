@@ -140,7 +140,7 @@ twic.db.execute_ = function(db, sqlText, sqlParams, successCallback, failedCallb
  */
 twic.db.executeGroup_ = function(db, sqlObjArray, successCallback, failedCallback) {
 	db.transaction( function(tr) {
-		twic.utils.queueIterator(sqlObjArray, function(obj, callback) {
+		async.forEachSeries(sqlObjArray, function(obj, callback) {
 			twic.db.executeTransaction_(tr, obj.sql, obj.params, callback, failedCallback);
 		}, successCallback);
 	}, function(error) {
@@ -160,7 +160,7 @@ twic.db.migrations_ = {
 	'0': {
 		ver: '0.5',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				/**
 				 * users info
 				 */
@@ -242,7 +242,7 @@ twic.db.migrations_ = {
 	'0.5': {
 		ver: '0.6',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				'create table options (' +
 					'key varchar(32) not null, ' +
 					'val varchar(32) not null, ' +
@@ -256,7 +256,7 @@ twic.db.migrations_ = {
 	'0.6': {
 		ver: '0.7',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				'alter table tweets add source text not null default \'\'',
 				'alter table users add is_protected int not null default 0'
 			], function(sqlText, callback) {
@@ -267,7 +267,7 @@ twic.db.migrations_ = {
 	'0.7': {
 		ver: '0.8',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				// kill this shit
 				'drop table friends',
 				/**
@@ -287,7 +287,7 @@ twic.db.migrations_ = {
 	'0.8': {
 		ver: '0.9',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				// tweet links
 				'create table links (' +
 					'tweet_id varchar(32) not null, ' +
@@ -304,7 +304,7 @@ twic.db.migrations_ = {
 	'0.9': {
 		ver: '0.10',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				'alter table tweets add geo text null'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
@@ -314,11 +314,29 @@ twic.db.migrations_ = {
 	'0.10': {
 		ver: '0.11',
 		runme: function(tr, callback) {
-			twic.utils.queueIterator( [
+			async.forEachSeries( [
 				'alter table users add geo_enabled int not null default 0'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback)
+		}
+	},
+	'0.11': {
+		ver: '0.12',
+		runme: function(tr, callback) {
+			async.forEachSeries( [
+				// tweet links
+				'create table media (' +
+					'tweet_id varchar(32) not null, ' +
+					'lnk text not null, ' +
+					'preview text not null, ' +
+					'expanded text not null ' +
+				')',
+				// indexes for tweet links
+				'create index idx_media_tweet on media (tweet_id)'
+			], function(sqlText, callback) {
+				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
+			}, callback);
 		}
 	}
 };
