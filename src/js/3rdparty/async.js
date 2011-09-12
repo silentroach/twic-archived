@@ -12,13 +12,13 @@ var async = { };
  * @param {function(*=)} callback Finished callback
  */
 async.forEach = function (arr, iterator, callback) {
-    if (!arr.length) {
-        return callback();
-    }
+	if (!arr.length) {
+		return callback();
+	}
 
     var
-    	i = 0,
-    	completed = 0;
+		i = 0,
+		completed = 0;
 
 	for (i; i < arr.length; i++) {
 		iterator(arr[i], function (err) {

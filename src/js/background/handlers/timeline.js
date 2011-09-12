@@ -42,7 +42,8 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 						'retweeted': retweeted ? retweeted.getPart(['id', 'screen_name', 'avatar', 'is_protected']) : null,
 						'separator': 0 === --unreadCount,
 						'dt': tweet.fields['dt'],
-						'links': { 'length': 0 }
+						'links': { 'length': 0 },
+						'media': { 'length': 0 }
 					};
 
 				if (null !== tweet.fields['reply_to']) {
@@ -75,19 +76,40 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 				  } );
 		    };
 
-		    twic.db.openQuery('select * from links where tweet_id in (' + ids.join(',') + ')', [], function(rows) {
-					var i;
+		    async.forEach( [
+				function(callback) {
+					twic.db.openQuery('select * from links where tweet_id in (' + ids.join(',') + ')', [], function(rows) {
+						var i;
 
-					for (i = 0; i < rows.length; ++i) {
-						var
-							row = rows.item(i);
+						for (i = 0; i < rows.length; ++i) {
+							var
+								row = rows.item(i);
 
-						reply[row['tweet_id']]['links'][row['lnk']] = row['expanded'];
-						++reply[row['tweet_id']]['links']['length'];
-					}
+							reply[row['tweet_id']]['links'][row['lnk']] = row['expanded'];
+							++reply[row['tweet_id']]['links']['length'];
+						}
 
-					send();
-		    }, send );
+						callback();
+					}, callback );
+				},
+				function(callback) {
+					twic.db.openQuery('select * from media where tweet_id in (' + ids.join(',') + ')', [], function(rows) {
+						var i;
+
+						for (i = 0; i < rows.length; ++i) {
+							var
+								row = rows.item(i);
+
+							reply[row['tweet_id']]['media'][row['lnk']] = [row['preview'], row['expanded']];
+							++reply[row['tweet_id']]['media']['length'];
+						}
+
+						callback();
+					}, callback );
+				}
+			], function(func, callback) {
+				func(callback);
+			}, send );
 	    }, options);
 
 		account.setValue('unread_tweets_count', 0);
