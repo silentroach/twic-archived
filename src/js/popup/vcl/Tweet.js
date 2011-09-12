@@ -581,23 +581,26 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
  */
 twic.vcl.Tweet.prototype.setImages = function(previews) {
 	var
-		tweet = this;
+		tweet = this,
+		i = 0;
 
-	previews.forEach( function(img) {
+	for (i; i < previews.length; i++) {
 		var
+			img = previews[i],
 			previewSpan = twic.dom.expandElement('span.button.img');
 
+		console.dir(img); /*
 		previewSpan.data['preview'] = img['preview'];
 		previewSpan.data['link']    = img['link'];
-
+*/
 		previewSpan.innerHTML = '&nbsp;&nbsp;';
-
+/*
 		previewSpan.addEventListener('click', function(e) {
 			tweet.togglePreview_.call(tweet, previewSpan.data);
 		}, false );
-
+*/
 		twic.dom.insertFirst(this.otherInfo_, previewSpan);
-	} );
+	}
 };
 
 /**
