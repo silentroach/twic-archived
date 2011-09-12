@@ -586,13 +586,10 @@ twic.vcl.Tweet.prototype.setImages = function(previews) {
 
 	for (i; i < previews.length; i++) {
 		var
-			img = previews[i],
 			previewSpan = twic.dom.expandElement('span.button.img');
 
-		console.dir(img); /*
-		previewSpan.data['preview'] = img['preview'];
-		previewSpan.data['link']    = img['link'];
-*/
+		previewSpan.dataset['lnk'] = previews[i];
+
 		previewSpan.innerHTML = '&nbsp;&nbsp;';
 /*
 		previewSpan.addEventListener('click', function(e) {
