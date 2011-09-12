@@ -44,6 +44,12 @@ li.tweet p {
 		line-height: 15px;
 		-webkit-transition: color 0.2s ease-in-out;
 		}
+		li.tweet:hover p.info {
+			color: gray;
+			}
+			li.tweet:hover p.info a {
+				color: gray;
+				}
 		li.tweet p.info a {
 			color: #b3b2b2;
 			-webkit-transition: color 0.2s ease-in-out;
@@ -62,7 +68,7 @@ li.tweet p {
 				width: 21px;
 				}
 
-li.tweet .map {
+li.tweet .infoWrapper {
 	display: none;
 	height: 200px;
 	width: 100%;
@@ -73,13 +79,6 @@ li.tweet .map {
 li.tweet.map p.info .geo {
 	opacity: 1;
 	}
-
-li.tweet:hover p.info {
-	color: gray;
-	}
-	li.tweet:hover p.info a {
-    color: gray;
-		}
 
 li.tweet.replying p.info {
 	display: none;
