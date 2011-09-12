@@ -115,8 +115,7 @@ twic.text._initialize = function() {
 	twic.text.expr_['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
 	twic.text.expr_['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
 	twic.text.expr_['punct'] = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
-	twic.text.expr_['atSigns'] = /[@＠]/;
-	twic.text.expr_['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
+	twic.text.expr_.extractMentions = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])([@＠])([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
 
 	// Cyrillic
 	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x0400, 0x04ff); // Cyrillic
@@ -152,13 +151,13 @@ twic.text._initialize = function() {
 	// Latin accented characters (subtracted 0xD7 from the range, it's a confusable multiplication sign. Looks like "x")
 	twic.text.expr_['latinAccentChars'] = twic.text._regexSupplant("ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþş\\303\\277");
 
-	twic.text.expr_['endScreenNameMatch'] = twic.text._regexSupplant(/^(?:#{atSigns}|[#{latinAccentChars}]|:\/\/)/);
+	twic.text.expr_.endScreenNameMatch = twic.text._regexSupplant(/^(?:[@＠]|[#{latinAccentChars}]|:\/\/)/);
 
 	// A hashtag must contain characters, numbers and underscores, but not all numbers.
 	twic.text.expr_['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
 	twic.text.expr_['hashtagAlpha'] = twic.text._regexSupplant(/[a-z_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
 	twic.text.expr_['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
-	twic.text.expr_['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
+	twic.text.expr_.extractHash = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
 
 	// URL related hash regex collection
 	twic.text.expr_['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr_);
@@ -181,7 +180,7 @@ twic.text._initialize = function() {
 	twic.text.expr_['validUrlPathEndingChars'] = twic.text._regexSupplant(/(?:[\+\-a-z0-9=_#\/#{latinAccentChars}]|#{wikipediaDisambiguation})/i);
 	twic.text.expr_['validUrlQueryChars'] = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
 	twic.text.expr_['validUrlQueryEndingChars'] = /[a-z0-9_&=#\/]/i;
-	twic.text.expr_['extractUrl'] = twic.text._regexSupplant(
+	twic.text.expr_.extractUrl = twic.text._regexSupplant(
 		'('                                                          + // $1 total match
 		'(#{validPrecedingChars})'                                   + // $2 Preceeding chracter
 		'('                                                          + // $3 URL
@@ -205,7 +204,7 @@ twic.text._initialize = function() {
 twic.text.processUrls = function(text, callback) {
 	twic.text._initialize();
 
-	return text.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
+	return text.replace(twic.text.expr_.extractUrl, function(match, all, before, url, protocol, domain, path, query) {
 		if (protocol) {
 			return before + callback(url);
 		}
@@ -220,7 +219,7 @@ twic.text.extractUrls = function(text) {
 
 	twic.text._initialize();
 
-	text.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
+	text.replace(twic.text.expr_.extractUrl, function(match, all, before, url, protocol, domain, path, query) {
 		urls.push(url);
 	} );
 
@@ -230,7 +229,7 @@ twic.text.extractUrls = function(text) {
 twic.text.processHashes = function(text, callback) {
 	twic.text._initialize();
 
-	return text.replace(twic.text.expr_['extractHash'], function(match, before, hash, hashText) {
+	return text.replace(twic.text.expr_.extractHash, function(match, before, hash, hashText) {
 		return before + callback(hashText);
 	} );
 };
@@ -238,8 +237,8 @@ twic.text.processHashes = function(text, callback) {
 twic.text.processMentions = function(text, callback) {
 	twic.text._initialize();
 
-	return text.replace(twic.text.expr_['extractMentions'], function(match, before, atSign, screenName, after) {
-		if (!after.match(twic.text.expr_['endScreenNameMatch'])) {
+	return text.replace(twic.text.expr_.extractMentions, function(match, before, atSign, screenName, after) {
+		if (!after.match(twic.text.expr_.endScreenNameMatch)) {
 			return before + callback(screenName);
 		}
 	} );
