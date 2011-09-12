@@ -41,19 +41,26 @@ li.tweet p {
 	li.tweet p.info {
 		font-size: 8pt;
 		color: #b3b2b2;
+		line-height: 15px;
 		-webkit-transition: color 0.2s ease-in-out;
 		}
 		li.tweet p.info a {
 			color: #b3b2b2;
 			-webkit-transition: color 0.2s ease-in-out;
 			}
-		li.tweet p.info .geo {
-			display: inline-block;
-			width: 13px;
-			background: transparent url('/img/buttons/marker_map.png') no-repeat 1px 2px;
-			cursor: pointer;
-			opacity: .5;
+		li.tweet p.info .button {
+				display: inline-block;
+				cursor: pointer;
+				opacity: .5;
 			}
+			li.tweet p.info .button.geo {
+				background: transparent url('/img/buttons/marker_map.png') no-repeat -4px 2px;
+				width: 14px;
+				}
+			li.tweet p.info .button.img {
+				background: transparent url('/img/buttons/img.png') no-repeat 0 2px;
+				width: 21px;
+				}
 
 li.tweet .map {
 	display: none;

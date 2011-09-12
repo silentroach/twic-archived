@@ -562,7 +562,7 @@ twic.vcl.Tweet.prototype.setSource = function(newSource) {
 twic.vcl.Tweet.prototype.setGeo = function(info) {
 	var
 		tweet = this,
-		markerSpan = twic.dom.expandElement('span.geo');
+		markerSpan = twic.dom.expandElement('span.button.geo');
 
 	markerSpan.innerHTML = '&nbsp;&nbsp;';
 
@@ -572,11 +572,32 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
 
 	this.geo_ = info;
 
-	if (this.unixtime_) {
-		this.otherInfo_.insertBefore(markerSpan, this.timeSpan_);
-	} else {
-		this.otherInfo_.appendChild(markerSpan);
-	}
+	twic.dom.insertFirst(this.otherInfo_, markerSpan);
+};
+
+/**
+ * Set image info
+ * @param {Array.<string>} previews Preview urls
+ */
+twic.vcl.Tweet.prototype.setImages = function(previews) {
+	var
+		tweet = this;
+
+	previews.forEach( function(img) {
+		var
+			previewSpan = twic.dom.expandElement('span.button.img');
+
+		previewSpan.data['preview'] = img['preview'];
+		previewSpan.data['link']    = img['link'];
+
+		previewSpan.innerHTML = '&nbsp;&nbsp;';
+
+		previewSpan.addEventListener('click', function(e) {
+			tweet.togglePreview_.call(tweet, previewSpan.data);
+		}, false );
+
+		twic.dom.insertFirst(this.otherInfo_, previewSpan);
+	} );
 };
 
 /**
