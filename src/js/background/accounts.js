@@ -5,6 +5,8 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// TODO store unread tweets counter just local
+
 twic.accounts = { };
 
 /**
