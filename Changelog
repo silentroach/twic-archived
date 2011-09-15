@@ -1,5 +1,6 @@
 0.36 (in development):
 	* Fixed bug with disappeared services icons
+	* Fixed bug with international hashtags
 
 0.35:
 	* Some style changes (thanks @GrawlCore)
