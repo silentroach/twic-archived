@@ -90,10 +90,3 @@ twic.cache.gc_ = function() {
 };
 
 setInterval(twic.cache.gc_, 1000 * 60 * 10);
-
-
-
-
-
-
-
