@@ -277,7 +277,7 @@ twic.vcl.Tweet.prototype.setText = function(text) {
 
 	// preparing hashtags
 	txt = twic.text.processHashes(txt, function(hash) {
-		return '<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23' + hash + '">#' + hash + '</a>';
+		return '<a class="hash" target="_blank" href="http://search.twitter.com/search?q=%23' + encodeURIComponent(hash) + '">#' + hash + '</a>';
 	} );
 
 	// preparing nicks

@@ -5,26 +5,12 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// TODO make suggest unique for each account
+
 ( function() {
 
 	var
-		/** @const **/ cacheTime = 10 * 60 * 1000,
-		cache = { };
-
-	// cleanup for suggest cache every cacheTime
-	setInterval( function() {
-		var
-			now = twic.utils.date.getCurrentTimestamp(),
-			part = '';
-
-		twic.debug.info('Suggest cleanup');
-
-		for (part in cache) {
-			if (now - cache[part].dt > cacheTime / 1000) {
-				delete cache[part];
-			}
-		}
-	}, cacheTime );
+		/** @const **/ cacheTime = 10 * 60;
 
 	/**
 	 * Get the nick suggest list
@@ -33,11 +19,11 @@
 	 */
 	var getNickSuggestList = function(part, callback) {
 		var
-			now = twic.utils.date.getCurrentTimestamp();
+			cacheKey = 'suggest_' + part,
+			result = twic.cache.get(cacheKey);
 
-		if (part in cache) {
-			cache[part].dt = now;
-			callback( cache[part].result );
+		if (null !== result) {
+			callback(result);
 			return true;
 		}
 
@@ -53,10 +39,7 @@
 					result.push(rows.item(i)['screen_name']);
 				}
 
-				cache[part] = {
-					dt: now,
-					result: result
-				};
+				twic.cache.set(cacheKey, result, cacheTime);
 
 				callback( result );
 			}
