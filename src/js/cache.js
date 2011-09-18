@@ -19,7 +19,7 @@ twic.cache.cacheElement_ = function() {
 /**
  * Key-value storage
  * @private
- * @var {Object.<twic.cache.cacheElement_>}
+ * @type {Object.<twic.cache.cacheElement_>}
  */
 twic.cache.storage_ = { };
 

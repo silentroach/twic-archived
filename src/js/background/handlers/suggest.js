@@ -19,7 +19,7 @@
 	 */
 	var getNickSuggestList = function(part, callback) {
 		var
-			cacheKey = 'suggest_' + part;
+			cacheKey = 'suggest_' + part,
 			result = twic.cache.get(cacheKey);
 
 		if (null !== result) {
