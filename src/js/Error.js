@@ -33,4 +33,4 @@ goog.inherits(twic.ResponseError, twic.Error);
 /** @const */ twic.ResponseError.UNAUTHORIZED  = 1;
 /** @const */ twic.ResponseError.TIMEOUT       = 2;
 /** @const */ twic.ResponseError.NOT_FOUND     = 3;
-/** @const */ twic.ResponseError.NO_CONNECTOIN = 4;
+/** @const */ twic.ResponseError.NO_CONNECTION = 4;
