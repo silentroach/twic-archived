@@ -130,6 +130,11 @@ twic.HTTPRequest.prototype.send = function(callback) {
 		var req = this;
 
 		if (4 === req.readyState) {
+			if (0 === req.status) {
+				twic.debug.error('No connection');
+
+				callback(new twic.ResponseError(twic.ResponseError.NO_CONNECTION, req));
+			} else
 			if (404 === req.status) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Not found');

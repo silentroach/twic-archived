@@ -29,7 +29,8 @@ twic.ResponseError = function(code, req) {
 
 goog.inherits(twic.ResponseError, twic.Error);
 
-/** @const */ twic.ResponseError.UNKNOWN      = 0;
-/** @const */ twic.ResponseError.UNAUTHORIZED = 1;
-/** @const */ twic.ResponseError.TIMEOUT      = 2;
-/** @const */ twic.ResponseError.NOT_FOUND    = 3;
+/** @const */ twic.ResponseError.UNKNOWN       = 0;
+/** @const */ twic.ResponseError.UNAUTHORIZED  = 1;
+/** @const */ twic.ResponseError.TIMEOUT       = 2;
+/** @const */ twic.ResponseError.NOT_FOUND     = 3;
+/** @const */ twic.ResponseError.NO_CONNECTOIN = 4;
