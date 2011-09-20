@@ -1,6 +1,7 @@
 0.36 (in development):
 	* Fixed bug with disappeared services icons
 	* Fixed bug with international hashtags
+	* Twitter Text upgrade
 	+ Automatic tweet editor width positioning
 
 0.35:
