@@ -589,9 +589,9 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
 twic.vcl.Tweet.prototype.setImages = function(previews) {
 	var
 		tweet = this,
-		i = 0;
+		i;
 
-	for (i; i < previews.length; i++) {
+	for (i = 0; i < previews.length; i++) {
 		var
 			previewSpan = twic.dom.expandElement('span.button.img'),
 			previewUrl = previews[i];

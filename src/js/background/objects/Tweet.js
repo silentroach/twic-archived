@@ -161,34 +161,47 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 		}, callback )
 	};
 
+	var processEntities = function() {
+		if ('entities' in self.jsonObj) {
+			async.forEach(['urls', 'media'], function(entity, callback) {
+				if (entity in self.jsonObj['entities']
+					&& self.jsonObj['entities'][entity].length > 0
+				) {
+					if ('urls' === entity) {
+						processUrls(self.jsonObj['entities'][entity], callback);
+					} else
+					if ('media' === entity) {
+						processMedia(self.jsonObj['entities'][entity], callback);
+					} else {
+						callback();
+					}
+				} else {
+					callback();
+				}
+			}, onDone );
+		} else {
+			onDone();
+		}
+	};
+
 	twic.DBObject.prototype.save.call(self, function(changed) {
-		if (!changed) {
+		if (null === changed) {
 			onDone();
 			return;
 		}
 
-		twic.db.execQuery('delete from links where tweet_id = ?', [self.fields['id']], function() {
-			if ('entities' in self.jsonObj) {
-				async.forEach(['urls', 'media'], function(entity, callback) {
-					if (entity in self.jsonObj['entities']
-						&& self.jsonObj['entities'][entity].length > 0
-					) {
-						if ('urls' === entity) {
-							processUrls(self.jsonObj['entities'][entity], callback);
-						} else
-						if ('media' === entity) {
-							processMedia(self.jsonObj['entities'][entity], callback);
-						} else {
-							callback();
-						}
-					} else {
-						callback();
-					}
-				}, onDone );
-			} else {
-				onDone();
-			}
-		}, callback);
+		if (!changed) {
+			// for insert
+			processEntities();
+		} else {
+			// for update
+			twic.db.execQueries( [
+				{ sql: 'delete from links where tweet_id = ?', params: [self.fields['id']] },
+				{ sql: 'delete from media where tweet_id = ?', params: [self.fields['id']] }
+			], function() {
+				processEntities();
+			}, callback);
+		}
 	} );
 };
 

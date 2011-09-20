@@ -17,10 +17,10 @@ async.forEach = function (arr, iterator, callback) {
 	}
 
     var
-		i = 0,
-		completed = 0;
+		completed = 0,
+		i;
 
-	for (i; i < arr.length; i++) {
+	for (i = 0; i < arr.length; i++) {
 		iterator(arr[i], function (err) {
 			if (err) {
 				callback(err);

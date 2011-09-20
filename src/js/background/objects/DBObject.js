@@ -104,19 +104,23 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj, callback) {
 
 /**
  * Save object to database, simple SQL generator for insert and update statements
- * @param {function(boolean)=} callback Callback function
+ * @param {function(?boolean)=} callback Callback function, param:
+ *   null  - nothing was changed
+ *   true  - update (exists)
+ *   false - insert
  */
 twic.DBObject.prototype.save = function(callback) {
 	var
 		dbobject = this,
+		exists = dbobject.exists,
 		hasId = dbobject.fields['id'];
 
 	if (
-		dbobject.exists
+		exists
 		&& 0 === dbobject.changed_.length
 	) {
 		if (callback) {
-			callback(false);
+			callback(null);
 		}
 
 		// nothing was changed
@@ -134,7 +138,7 @@ twic.DBObject.prototype.save = function(callback) {
 		if (
 			key !== 'id'
 			&& (
-				!dbobject.exists
+				!exists
 				|| dbobject.changed_.indexOf(key) >= 0
 			)
 		) {
@@ -148,10 +152,10 @@ twic.DBObject.prototype.save = function(callback) {
 		vals.push(dbobject.fields['id']);
 	}
 
-	sql += dbobject.exists ? 'update ' : 'insert into ';
+	sql += exists ? 'update ' : 'insert into ';
 	sql += dbobject.table + ' ';
 
-	if (dbobject.exists) {
+	if (exists) {
 		var
 			setters = [],
 			i;
@@ -174,7 +178,7 @@ twic.DBObject.prototype.save = function(callback) {
 		dbobject.changed_ = [];
 
 		if (callback) {
-			callback(true);
+			callback(exists);
 		}
 	} );
 };
