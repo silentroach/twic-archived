@@ -161,7 +161,12 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 		}, callback )
 	};
 
-	twic.DBObject.prototype.save.call(self, function() {
+	twic.DBObject.prototype.save.call(self, function(changed) {
+		if (!changed) {
+			onDone();
+			return;
+		}
+
 		twic.db.execQuery('delete from links where tweet_id = ?', [self.fields['id']], function() {
 			if ('entities' in self.jsonObj) {
 				async.forEach(['urls', 'media'], function(entity, callback) {

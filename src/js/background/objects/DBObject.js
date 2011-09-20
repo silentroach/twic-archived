@@ -104,7 +104,7 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj, callback) {
 
 /**
  * Save object to database, simple SQL generator for insert and update statements
- * @param {function()=} callback Callback function
+ * @param {function(boolean)=} callback Callback function
  */
 twic.DBObject.prototype.save = function(callback) {
 	var
@@ -116,7 +116,7 @@ twic.DBObject.prototype.save = function(callback) {
 		&& 0 === dbobject.changed_.length
 	) {
 		if (callback) {
-			callback();
+			callback(false);
 		}
 
 		// nothing was changed
@@ -174,7 +174,7 @@ twic.DBObject.prototype.save = function(callback) {
 		dbobject.changed_ = [];
 
 		if (callback) {
-			callback();
+			callback(true);
 		}
 	} );
 };
