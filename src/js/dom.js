@@ -140,3 +140,13 @@ twic.dom.addClass = function(element, className) {
 twic.dom.removeClass = function(element, className) {
 	element.classList.remove(className);
 };
+
+/**
+ * Is element has class?
+ * @param {Element} element Element
+ * @param {string} className Class name
+ * @return {Boolean}
+ */
+twic.dom.hasClass = function(element, className) {
+	return element.classList.contains(className);
+}

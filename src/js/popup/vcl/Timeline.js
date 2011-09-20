@@ -617,6 +617,10 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		timeline.hideButtons_.call(timeline);
 	};
 
+	tweet.onGalleryShow = function() {
+		timeline.hideButtons_.call(timeline);
+	};
+
 	if (
 		this.isLoading_
 		&& this.tweetBuffer_
@@ -750,8 +754,3 @@ twic.vcl.Timeline.prototype.onOldRetweet = function(tweetText) { };
 twic.vcl.Timeline.prototype.onReplierGetSuggestList = function(startPart, callback) {
 	callback( [ ] );
 };
-
-/**
- * Handler for the map show
- */
-twic.vcl.Timeline.prototype.onMapShow = function() { };
