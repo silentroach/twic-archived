@@ -525,9 +525,9 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 
 		tweet.onMapShow.call(tweet);
 
-		twic.dom.addClass(this.infoWrapper_, 'map');
+		twic.dom.addClass(this.wrapper_, 'map');
 	} else {
-		twic.dom.removeClass(this.infoWrapper_, 'map');
+		twic.dom.removeClass(this.wrapper_, 'map');
 	}
 
 	this.mapVisible_ = !this.mapVisible_;
@@ -536,12 +536,19 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 /**
  * Toggle the preview image
  */
-twic.vcl.Tweet.prototype.togglePreview_ = function() {
+twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 	var
 		tweet = this;
 
 	if (!this.infoGallery_) {
+		var
+			img = twic.dom.expandElement('img');
+
 		this.infoGallery_ = twic.dom.expandElement('div.gallery');
+
+		img.setAttribute('src', this.images_[0]);
+		this.infoGallery_.appendChild(img);
+
 		this.infoWrapper_.appendChild(this.infoGallery_);
 	}
 
@@ -550,9 +557,9 @@ twic.vcl.Tweet.prototype.togglePreview_ = function() {
 
 		tweet.onGalleryShow.call(tweet);
 
-		twic.dom.addClass(this.infoWrapper_, 'gallery');
+		twic.dom.addClass(this.wrapper_, 'gallery');
 	} else {
-		twic.dom.removeClass(this.infoWrapper_, 'gallery');
+		twic.dom.removeClass(this.wrapper_, 'gallery');
 	}
 
 	this.galleryVisible_ = !this.galleryVisible_;
@@ -652,7 +659,7 @@ twic.vcl.Tweet.prototype.setImages = function(previews) {
 	previewSpan.innerHTML = '&nbsp;&nbsp;';
 
 	previewSpan.addEventListener('click', function(e) {
-		tweet.togglePreview_.call(tweet);
+		tweet.toggleGallery_.call(tweet);
 	}, false );
 
 	twic.dom.insertFirst(this.otherInfo_, previewSpan);

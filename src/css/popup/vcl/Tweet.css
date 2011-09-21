@@ -70,19 +70,26 @@ li.tweet p {
 
 li.tweet .infoWrapper {
 	display: none;
-	height: 200px;
 	width: 100%;
-	border: 1px solid silver;
 	margin-bottom: 3px;
-	padding: 3px 0;
 	text-align: center;
+	background: url('/img/loader.gif') no-repeat center center;
 	}
-	li.tweet .infoWrapper img {
-		max-width: 360px;
+	li.tweet .infoWrapper .map {
+		height: 200px;
+		border: 1px solid silver;
+		}
+	li.tweet .infoWrapper .gallery img {
+		max-width: 365px;
 		}
 
-li.tweet.map p.info .geo {
+li.tweet.map p.info .geo,
+li.tweet.gallery p.info .img {
 	opacity: 1;
+	}
+li.tweet.map .infoWrapper,
+li.tweet.gallery .infoWrapper {
+	display: block;
 	}
 
 li.tweet.replying p.info {
