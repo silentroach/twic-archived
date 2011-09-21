@@ -73,6 +73,7 @@ li.tweet .infoWrapper {
 	width: 100%;
 	margin-bottom: 3px;
 	text-align: center;
+	padding-top: .5em;
 	background: url('/img/loader.gif') no-repeat center center;
 	}
 	li.tweet .infoWrapper .map {
@@ -80,7 +81,7 @@ li.tweet .infoWrapper {
 		border: 1px solid silver;
 		}
 	li.tweet .infoWrapper .gallery img {
-		max-width: 365px;
+		max-width: 380px;
 		}
 
 li.tweet.map p.info .geo,
