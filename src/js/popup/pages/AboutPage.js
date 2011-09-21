@@ -17,11 +17,11 @@ goog.inherits(twic.pages.AboutPage, twic.Page);
 
 twic.pages.AboutPage.prototype.initOnce = function() {
 	var
-		appDetails = chrome.app.getDetails();
+		appDetails = chrome['app']['getDetails']();
 
 	twic.inject.js('http://api.flattr.com/js/0.6/load.js?mode=auto');
 
-	twic.dom.findElement('#aname').innerHTML = twic.name + ' ' + appDetails.version;
+	twic.dom.findElement('#aname').innerHTML = twic.name + ' ' + appDetails['version'];
 	twic.dom.findElement('#awhat').innerHTML = twic.utils.lang.translate('about_what');
 
 	twic.dom.findElement('#about .toolbar p').innerHTML = twic.utils.lang.translate('toolbar_about');

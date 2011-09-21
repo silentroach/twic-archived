@@ -513,13 +513,6 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 	var
 		tweet = this;
 
-	if (!this.infoMap_) {
-		this.infoMap_ = twic.dom.expandElement('div.map');
-		this.infoWrapper_.appendChild(this.infoMap_);
-
-		this.map_ = new twic.vcl.Map(this.infoMap_, this.geo_[0], this.geo_[1]);
-	}
-
 	if (!this.mapVisible_) {
 		this.resetExtraInfo_();
 
@@ -528,6 +521,13 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 		twic.dom.addClass(this.wrapper_, 'map');
 	} else {
 		twic.dom.removeClass(this.wrapper_, 'map');
+	}
+
+	if (!this.infoMap_) {
+		this.infoMap_ = twic.dom.expandElement('div.map');
+		this.infoWrapper_.appendChild(this.infoMap_);
+
+		this.map_ = new twic.vcl.Map(this.infoMap_, this.geo_[0], this.geo_[1]);
 	}
 
 	this.mapVisible_ = !this.mapVisible_;

@@ -2,6 +2,7 @@
 	* Fixed bug with disappeared services icons
 	* Fixed bug with international hashtags
 	* Twitter Text upgrade
+	* Fixed bug with two or more maps opened in the same timeline
 	+ Automatic tweet editor width positioning (special for Chrome 14 with native scrollbars on OS X Lion)
 	+ Tweet pictures inline preview
 
