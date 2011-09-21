@@ -115,7 +115,13 @@ twic.utils.url.services_ = {
 twic.utils.url.humanize = function(url, lnks) {
 	var
 		links = lnks || { },
-		expanded = url in links ? links[url] : url,
+		expanded = url in links ? links[url] : url;
+
+	if (!expanded) {
+		return '';
+	}
+
+	var
 		domain = twic.utils.url.domainExtractPattern_.exec(expanded),
 		domainName = domain && domain.length > 1 ? domain[1] : '',
 		cutted = expanded

@@ -99,13 +99,16 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 
 						for (i = 0; i < rows.length; ++i) {
 							var
-								row = rows.item(i);
+								row = rows.item(i),
+								link = false;
 
 							if (showImages) {
 								reply[row['tweet_id']]['media'][reply[row['tweet_id']]['media']['length']++] = row['preview'];
+							} else {
+								link = row['expanded'];
 							}
 
-							reply[row['tweet_id']]['links'][row['lnk']] = row['expanded'];
+							reply[row['tweet_id']]['links'][row['lnk']] = link;
 							++reply[row['tweet_id']]['links']['length'];
 						}
 
