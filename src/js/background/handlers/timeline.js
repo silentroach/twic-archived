@@ -103,7 +103,10 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 								link = false;
 
 							if (showImages) {
-								reply[row['tweet_id']]['media'][reply[row['tweet_id']]['media']['length']++] = row['preview'];
+								reply[row['tweet_id']]['media'][reply[row['tweet_id']]['media']['length']++] = [
+									row['preview'],
+									row['expanded']
+								];
 							} else {
 								link = row['expanded'];
 							}

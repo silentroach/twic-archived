@@ -542,12 +542,18 @@ twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 
 	if (!this.infoGallery_) {
 		var
-			img = twic.dom.expandElement('img');
+			img = twic.dom.expandElement('img'),
+			imgLink = twic.dom.expandElement('a'),
+			imageInfo = this.images_[0];
+
+		img.setAttribute('src', imageInfo[0]);
+
+		imgLink.setAttribute('href', imageInfo[1]);
+		imgLink.setAttribute('target', '_blank');
+		imgLink.appendChild(img);
 
 		this.infoGallery_ = twic.dom.expandElement('div.gallery');
-
-		img.setAttribute('src', this.images_[0]);
-		this.infoGallery_.appendChild(img);
+		this.infoGallery_.appendChild(imgLink);
 
 		this.infoWrapper_.appendChild(this.infoGallery_);
 	}

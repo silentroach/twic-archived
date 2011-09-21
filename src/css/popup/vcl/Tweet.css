@@ -58,6 +58,7 @@ li.tweet p {
 				display: inline-block;
 				cursor: pointer;
 				opacity: .5;
+				-webkit-user-select: none;
 			}
 			li.tweet p.info .button.geo {
 				background: transparent url('/img/buttons/marker_map.png') no-repeat -4px 2px;
