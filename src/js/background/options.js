@@ -20,6 +20,8 @@ twic.options.storage_ = {
 	'avatar_size': '48',
 	// show geo info
 	'tweet_show_geo': true,
+	// show images previews
+	'tweet_show_images': true,
 	// show the tweet time
 	'tweet_show_time': true,
 	// show the twitter client

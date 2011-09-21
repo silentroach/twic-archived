@@ -29,7 +29,8 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 		    var
 			    reply = { },
 			    ids = [],
-			    tweetId = '';
+			    tweetId = '',
+			    showImages = twic.options.getValue('tweet_show_images');
 
 		    for (tweetId in tweets.items) {
 			    var
@@ -100,7 +101,9 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 							var
 								row = rows.item(i);
 
-							reply[row['tweet_id']]['media'][reply[row['tweet_id']]['media']['length']++] = row['preview'];
+							if (showImages) {
+								reply[row['tweet_id']]['media'][reply[row['tweet_id']]['media']['length']++] = row['preview'];
+							}
 
 							reply[row['tweet_id']]['links'][row['lnk']] = row['expanded'];
 							++reply[row['tweet_id']]['links']['length'];
