@@ -27,11 +27,11 @@ a.nick, a.hash {
 p.loader {
 	text-align: center;
 	height: 30px;
-	background: url('/img/loader.gif') no-repeat center center;
+	background: transparent url('/img/loader.gif') no-repeat center center;
 	}
 
 .loading {
-	background: url('/img/loader.gif') no-repeat left center !important;
+	background: transparent url('/img/loader.gif') no-repeat left center !important;
 	}
 
 a.direct {
@@ -52,14 +52,14 @@ a.direct {
 	vertical-align: middle;
 	}
 	.aicon.tumblr {
-		background-image: url('/img/services/tumblr.png');
+		background: transparent url('/img/services/tumblr.png') no-repeat 50% 50%;
 		}
 	.aicon.instagram {
-		background-image: url('/img/services/instagram.png');
+		background: transparent url('/img/services/instagram.png') no-repeat 50% 50%;
 		}
 	.aicon.foursquare {
-		background-image: url('/img/services/foursquare.png');
+		background: transparent url('/img/services/foursquare.png') no-repeat 50% 50%;
 		}
 	.aicon.flickr {
-		background-image: url('/img/services/flickr.png');
+		background: transparent url('/img/services/flickr.png') no-repeat 50% 50%;
 		}
