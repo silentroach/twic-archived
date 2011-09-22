@@ -397,7 +397,7 @@ twic.twitter.updateHomeTimeline = function(userId) {
 	 */
 	var updateSinceId = function(since_id) {
 		// try to get the home timeline from api
-		twic.api.homeTimeline(
+		twic.api.getHomeTimeline(
 			userId, since_id,
 			account.fields['oauth_token'], account.fields['oauth_token_secret'],
 			function(data) {
@@ -473,7 +473,7 @@ twic.twitter.updateHomeTimeline = function(userId) {
 	) {
 		updateSinceId(twic.twitter.cachedLastId_[userId]);
 	} else {
-	// we need to find the last tweet id not to fetch the all timeline from api
+		// we need to find the last tweet id not to fetch the all timeline from api
 		twic.db.openQuery(
 			'select t.id ' +
 			'from tweets t inner join timeline tl on (t.id = tl.tweet_id) ' +

@@ -158,12 +158,10 @@ twic.db.executeGroup_ = function(db, sqlObjArray, successCallback, failedCallbac
  */
 twic.db.migrations_ = {
 	'0': {
-		ver: '0.5',
+		ver: '0.6',
 		runme: function(tr, callback) {
 			async.forEachSeries( [
-				/**
-				 * users info
-				 */
+				// users info
 				'create table users (' +
 					'id int not null primary key, ' +
 					'name varchar(128) not null, ' +
@@ -180,10 +178,7 @@ twic.db.migrations_ = {
 					'screen_name_lower varchar(32) not null default \'\', ' +
 					'dt int not null' +
 				')',
-
-				/**
-				 * twic accounts
-				 */
+				// twic accounts
 				'create table accounts (' +
 					'id int not null primary key, ' +
 					'oauth_token text not null, ' +
@@ -191,10 +186,7 @@ twic.db.migrations_ = {
 					'unread_tweets_count int not null default 0, ' +
 					'unread_messages_count int not null default 0' +
 				')',
-
-				/**
-				 * tweets storage
-				 */
+				// tweets storage
 				'create table tweets (' +
 					// id is varchar cause of something wrong in javascript
 					// parseInt(49765561487458304) => 49765561487458300
@@ -207,19 +199,13 @@ twic.db.migrations_ = {
 					// can be entity encoded
 					'msg text not null' +
 				')',
-
-				/**
-				 * timeline table for each account
-				 */
+				// timeline table for each account
 				'create table timeline (' +
 					'user_id int not null, ' +
 					'tweet_id varchar(32) not null, ' +
 					'primary key (user_id asc, tweet_id desc)' +
 				')',
-
-				/**
-				 * friends info cache
-				 */
+				// friends info cache
 				'create table friends (' +
 					'source_user_id int not null, ' +
 					'target_user_id int not null, ' +
@@ -228,21 +214,10 @@ twic.db.migrations_ = {
 					'dt int not null, ' +
 					'primary key (source_user_id, target_user_id)' +
 				')',
-
-				/**
-				 * Indexes
-				 */
+				// indexes
 				'create index idx_users_name on users (screen_name_lower)',
-				'create index idx_tweets on tweets (dt desc, id desc)'
-			], function(sqlText, callback) {
-				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-			}, callback);
-		}
-	},
-	'0.5': {
-		ver: '0.6',
-		runme: function(tr, callback) {
-			async.forEachSeries( [
+				'create index idx_tweets on tweets (dt desc, id desc)',
+				// options
 				'create table options (' +
 					'key varchar(32) not null, ' +
 					'val varchar(32) not null, ' +
@@ -270,9 +245,7 @@ twic.db.migrations_ = {
 			async.forEachSeries( [
 				// kill this shit
 				'drop table friends',
-				/**
-				 * friends info cache
-				 */
+				// friends info cache
 				'create table friends (' +
 					'id text not null, ' +         // (str)minID_(str)maxID
 					'following text not null, ' +  // 1_0
@@ -334,6 +307,21 @@ twic.db.migrations_ = {
 				')',
 				// indexes for tweet links
 				'create index idx_media_tweet on media (tweet_id)'
+			], function(sqlText, callback) {
+				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
+			}, callback);
+		}
+	},
+	'0.12': {
+		ver: '0.13',
+		runme: function(tr, callback) {
+			async.forEachSeries( [
+				// mentions table
+				'create table mentions (' +
+					'user_id int not null, ' +
+					'tweet_id varchar(32) not null, ' +
+					'primary key (user_id asc, tweet_id desc)' +
+				')',
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);
