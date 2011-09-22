@@ -384,6 +384,7 @@ twic.db.cleanup = function() {
 	twic.db.execQueries( [
 		{ sql: 'delete from timeline where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
 		{ sql: 'delete from links where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
+		{ sql: 'delete from media where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
 		{ sql: 'delete from tweets where dt < ?', params: [cutDate] },
 		{ sql: 'delete from users where dt < ? and id not in (select id from accounts)', params: [cutDate] },
 		{ sql: 'delete from friends where dt < ?', params: [cutDate] }
