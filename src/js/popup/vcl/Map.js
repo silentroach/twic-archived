@@ -12,7 +12,7 @@ window['map_init'] = false;
  */
 twic.vcl.Map = function(container, lat, lng) {
 	var drawMap = function() {
-		twic.dom.setVisibility(container, true);
+		container.style.display = 'block';
 
 		var
 			latLng = new google.maps.LatLng(lat, lng);
