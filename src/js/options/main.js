@@ -35,11 +35,11 @@
 		var
 			checked = element['checked'],
 			children = twic.dom.findElements('ul li', element.parentNode),
-			inputs = null;
-			i = n = 0;
+			inputs = null,
+			i, n;
 
 		if (children.length > 0) {
-			for (n; n < children.length; ++n) {
+			for (n = 0; n < children.length; ++n) {
 				if (checked) {
 					twic.dom.removeClass(children[n], 'disabled');
 				} else {
@@ -48,7 +48,7 @@
 
 				inputs = twic.dom.findElements('input', children[n]);
 
-				for (i; i < inputs.length; ++i) {
+				for (i = 0; i < inputs.length; ++i) {
 					if (checked) {
 						inputs[i].removeAttribute('disabled');
 					} else {
