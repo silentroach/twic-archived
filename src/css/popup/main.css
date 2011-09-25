@@ -43,6 +43,9 @@ a.direct {
 	margin-bottom: 3px;
 	vertical-align: middle;
 	}
+	.aicon:hover {
+		text-decoration: none;
+		}
 	.aicon.tumblr {
 		background: transparent url('/img/services/tumblr.png') no-repeat 50% 50%;
 		}
