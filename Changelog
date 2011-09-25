@@ -1,5 +1,6 @@
 0.37 (in development):
 	* Fixed bug when links and media is not recognized in retweets
+	* Fixed bug with services icon strange border
 
 0.36:
 	* Fixed bug with disappeared services icons

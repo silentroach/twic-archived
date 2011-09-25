@@ -128,7 +128,8 @@ twic.utils.url.humanize = function(url, lnks) {
 			.replace(/^(.*?)\/\//, '')         // cutting the protocol
 			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
 		clen = cutted.length,
-		title = cutted;
+		title = cutted,
+		classes = '';
 
 	if (
 		'' !== domainName
@@ -138,7 +139,8 @@ twic.utils.url.humanize = function(url, lnks) {
 			iconClass = twic.utils.url.services_[domainName];
 
 		title = iconClass + ' - ' + expanded;
-		cutted = '<img class="aicon ' + iconClass + '" />';
+		classes = ' class="aicon ' + iconClass + '"';
+		cutted = '&nbsp;';
 	} else
 	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
@@ -156,7 +158,7 @@ twic.utils.url.humanize = function(url, lnks) {
 		url = 'http://' + url;
 	}
 
-	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
+	return '<a target="_blank"' + classes + ' href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
 /**
