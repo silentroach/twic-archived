@@ -172,6 +172,12 @@ twic.vcl.Tweet = function(id, timeline) {
 	 * @type {Element}
 	 * @private
 	 */
+	this.timeLink_ = null;
+
+	/**
+	 * @type {Element}
+	 * @private
+	 */
 	this.otherInfo_ = twic.dom.expandElement('p.info');
 
 	/**
@@ -288,7 +294,11 @@ twic.vcl.Tweet.prototype.updateTime = function() {
 			twic.utils.lang.translate('time_month_' + (dt.getMonth() + 1));
 	}
 
-	this.timeSpan_.innerText = desc;
+	if (this.timeLink_) {
+		this.timeLink_.innerText = desc;
+	} else {
+		this.timeSpan_.innerText = desc;
+	}
 };
 
 /**
@@ -334,9 +344,16 @@ twic.vcl.Tweet.prototype.setText = function(text) {
 /**
  * Set the time
  * @param {number} newUnixTime New unix time
+ * @param {boolean} asLink Show tweet time as link
  */
-twic.vcl.Tweet.prototype.setUnixTime = function(newUnixTime) {
+twic.vcl.Tweet.prototype.setUnixTime = function(newUnixTime, asLink) {
 	this.unixtime_ = newUnixTime;
+
+	if (asLink) {
+		this.timeLink_ = twic.dom.expandElement('a');
+
+		this.timeSpan_.appendChild(this.timeLink_);
+	}
 
 	this.updateTime();
 	this.otherInfo_.appendChild(this.timeSpan_);
@@ -399,6 +416,12 @@ twic.vcl.Tweet.prototype.setAuthor = function(id, nick, av) {
 
 	if (this.authorId_ === this.timelineId_) {
 		this.wrapper_.classList.add('me');
+	}
+
+	// FIXME holy shit!
+	if (this.timeLink_) {
+		this.timeLink_.setAttribute('href', 'https://twitter.com/#!/' + nick + '/status/' + this.id_);
+		this.timeLink_.setAttribute('target', '_blank');
 	}
 
 	this.avatarLink_.title = '@' + nick;

@@ -330,6 +330,7 @@ twic.vcl.Timeline.confirmAction = {
  */
 twic.vcl.Timeline.options = {
 	showTime: false,
+	showTimeAsLink: false,
 	avatarSizeDefault: true
 };
 
@@ -604,7 +605,7 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		tweet = new twic.vcl.Tweet(id, this);
 
 	if (twic.vcl.Timeline.options.showTime) {
-		tweet.setUnixTime(ts);
+		tweet.setUnixTime(ts, twic.vcl.Timeline.options.showTimeAsLink);
 	}
 
 	this.tweets_[id] = tweet;
