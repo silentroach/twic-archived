@@ -55,8 +55,11 @@
 	};
 
 	document.addEventListener('change', function(e) {
-		if ('INPUT' === e.target.nodeName) {
-			twic.options.set(e.target.getAttribute('data-key'), e.target['checked']);
+		var
+			trg = e.target;
+
+		if ('INPUT' === trg.nodeName) {
+			twic.options.set(trg.getAttribute('data-key'), trg['checked']);
 		}
 	}, false );
 

@@ -14,9 +14,10 @@
 
 	twic.dom.findElement('span[data-desc=tweet]').innerText = twic.utils.lang.translate('options_tweet_info');
 
-	twic.dom.findElement('label[for=tweet_show_geo]').innerText    = twic.utils.lang.translate('options_tweet_show_geo');
-	twic.dom.findElement('label[for=tweet_show_images]').innerText = twic.utils.lang.translate('options_tweet_show_images');
-	twic.dom.findElement('label[for=tweet_show_time]').innerText   = twic.utils.lang.translate('options_tweet_show_time');
-	twic.dom.findElement('label[for=tweet_show_client]').innerText = twic.utils.lang.translate('options_tweet_show_client');
+	twic.dom.findElement('label[for=tweet_show_geo]').innerText       = twic.utils.lang.translate('options_tweet_show_geo');
+	twic.dom.findElement('label[for=tweet_show_images]').innerText    = twic.utils.lang.translate('options_tweet_show_images');
+	twic.dom.findElement('label[for=tweet_show_time]').innerText      = twic.utils.lang.translate('options_tweet_show_time');
+	twic.dom.findElement('label[for=tweet_show_time_link]').innerText = twic.utils.lang.translate('options_tweet_show_time_link');
+	twic.dom.findElement('label[for=tweet_show_client]').innerText    = twic.utils.lang.translate('options_tweet_show_client');
 
 }() );
