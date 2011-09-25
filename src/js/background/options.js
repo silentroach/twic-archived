@@ -24,6 +24,8 @@ twic.options.storage_ = {
 	'tweet_show_images': true,
 	// show the tweet time
 	'tweet_show_time': true,
+	// show the tweet time as a link
+	'tweet_show_time_link': false,
 	// show the twitter client
 	'tweet_show_client': false
 };
