@@ -284,6 +284,7 @@ twic.vcl.Timeline = function(parent) {
 	this.tweetButtons_.appendChild(buttonHolder);
 
 	confirmer.addEventListener('click', function(e) {
+		e.preventDefault();
 		timeline.doReallyConfirm_.call(timeline, e);
 	}, false);
 	this.tweetButtons_.appendChild(confirmer);

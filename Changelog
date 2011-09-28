@@ -1,4 +1,5 @@
 0.39 (in development):
+	* Fixed bug with back button on profile page after some action with confirmation (#78)
 
 0.38:
 	* Fixed bug when links and media are not recognized in retweets
