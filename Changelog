@@ -1,6 +1,6 @@
 0.39 (in development):
 
-0.37:
+0.38:
 	* Fixed bug when links and media are not recognized in retweets
 	* Fixed bug with services icon strange border
 	* Even better links recognition
