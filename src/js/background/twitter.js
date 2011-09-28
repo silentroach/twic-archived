@@ -15,6 +15,13 @@ twic.twitter = { };
 twic.twitter.cachedLastId_ = { };
 
 /**
+ * User identifier => last mention tweet identifier
+ * @type {Object.<number,string>}
+ * @private
+ */
+twic.twitter.cachedLastMentionId_ = { };
+
+/**
  * Reset the last tweet id
  * @param {number} userId User ID
  */
@@ -377,6 +384,121 @@ twic.twitter.retweet = function(id, tweetId, callback) {
 	);
 };
 
+twic.twitter.updateMentions = function(userId) {
+	var
+		account = twic.accounts.getInfo(userId);
+
+	if (!account) {
+		// it is not our account. wtf?
+		twic.debug.error('Can\'t find account in updateMentions', userId);
+		return false;
+	}
+
+	/**
+	 * @param {?string} since_id
+	 */
+	var updateSinceId = function(since_id) {
+		// try to get the home timeline from api
+		twic.api.getMentions(
+			userId, since_id,
+			account.fields['oauth_token'], account.fields['oauth_token_secret'],
+			function(data) {
+				var
+					users = [],
+					i,
+					tweetUserId = 0;
+
+				if (data.length === 0) {
+					// no updates
+					return;
+				}
+
+/*
+				var incrementUnreadTweets = function() {
+					// increment the unread tweets count if it is new
+					// todo think about doing it only once per timeline update
+					account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
+					account.save();
+				};
+*/
+
+				if (data.length > 0) {
+					// updating the last tweet cache
+					twic.twitter.cachedLastMentionId_[userId] = data[0]['id_str'];
+				}
+
+				for (i = 0; i < data.length; ++i) {
+					var
+						/** @type {Object} */ tweet   = data[i],
+						/** @type {string} */ tweetId = tweet['id_str'];
+
+					tweetUserId = tweet['user']['id'];
+
+					// add the user to check it after
+					if (!users[tweetUserId]) {
+						users[tweetUserId] = tweet['user'];
+					}
+
+					// the same thing for retweeted_status.user if it is retweet
+					if (
+						tweet['retweeted_status']
+						&& !users[tweet['retweeted_status']['user']['id']]
+					) {
+						users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
+					}
+
+					var tweetObj = new twic.db.obj.Tweet();
+					tweetObj.updateFromJSON(tweetId, tweet);
+
+					twic.db.obj.Mentions.pushUserMentionTweet(
+						userId, tweetId,
+						// only increment the unread tweets count if tweet user id isn't me
+						null//tweetUserId !== userId ? incrementUnreadTweets : undefined
+					);
+				}
+
+				// trying to save all the new users
+				for (tweetUserId in users) {
+					var
+						 /**
+						 * @type {Object}
+						 */
+						user = users[tweetUserId];
+
+					var userObj = new twic.db.obj.User();
+					userObj.updateFromJSON(tweetUserId, user);
+				}
+			}
+		);
+	};
+
+	if (
+		twic.twitter.cachedLastMentionId_[userId]
+	) {
+		updateSinceId(twic.twitter.cachedLastMentionId_[userId]);
+	} else {
+		// we need to find the last tweet id not to fetch the all timeline from api
+		twic.db.openQuery(
+			'select t.id ' +
+			'from tweets t inner join mentions tl on (t.id = tl.tweet_id) ' +
+			'where tl.user_id = ? order by t.dt desc, t.id desc limit 1 ', [userId],
+			function(rows) {
+				var
+					/** @type {string} **/ since_id = '';
+
+				if (rows.length > 0) {
+					// nice to see you, since_id
+					since_id = rows.item(0)['id'];
+				}
+
+				updateSinceId(since_id);
+
+				twic.twitter.cachedLastMentionId_[userId] = since_id;
+			}
+		);
+	}
+};
+
 /**
  * Update user home timeline
  * @param {number} userId User identifier
@@ -384,7 +506,8 @@ twic.twitter.retweet = function(id, tweetId, callback) {
  * todo add callback?
  */
 twic.twitter.updateHomeTimeline = function(userId) {
-	var account = twic.accounts.getInfo(userId);
+	var
+		account = twic.accounts.getInfo(userId);
 
 	if (!account) {
 		// it is not our account. wtf?

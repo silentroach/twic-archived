@@ -364,13 +364,14 @@ twic.db.migrate_ = function(db, ver, callback) {
  */
 twic.db.cleanup = function() {
 	var
-		// week is enough for data to store
-		cutDate = twic.utils.date.getCurrentTimestamp() - 60 * 60 * 24 * 7;
+		// month is enough for data to store
+		cutDate = twic.utils.date.getCurrentTimestamp() - 60 * 60 * 24 * 7 * 4;
 
 	twic.debug.groupCollapsed('Cleanup');
 
 	twic.db.execQueries( [
 		{ sql: 'delete from timeline where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
+		{ sql: 'delete from mentions where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
 		{ sql: 'delete from links where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
 		{ sql: 'delete from media where tweet_id in (select id from tweets where dt < ?)', params: [cutDate] },
 		{ sql: 'delete from tweets where dt < ?', params: [cutDate] },
