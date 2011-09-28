@@ -57,12 +57,21 @@ twic.db.obj.Tweet = function() {
 			return null;
 		},
 		'geo': function(obj) {
-			if (obj['geo']
-				&& 'Point' === obj['geo']['type']
-				&& 'coordinates' in obj['geo']
-			) {
-				return obj['geo']['coordinates'].join(',');
+			var checkCoordinates = function(obj) {
+				if ('geo' in obj
+					&& obj['geo']
+					&& 'Point' === obj['geo']['type']
+					&& 'coordinates' in obj['geo']
+				) {
+					return obj['geo']['coordinates'].join(',');
+				}
+			};
+
+			if ('retweeted_status' in obj) {
+				checkCoordinates(obj['retweeted_status']);
 			}
+
+			checkCoordinates(obj);
 
 			return null;
 		}
@@ -162,26 +171,35 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 	};
 
 	var processEntities = function() {
-		if ('entities' in self.jsonObj) {
-			async.forEach(['urls', 'media'], function(entity, callback) {
-				if (entity in self.jsonObj['entities']
-					&& self.jsonObj['entities'][entity].length > 0
-				) {
-					if ('urls' === entity) {
-						processUrls(self.jsonObj['entities'][entity], callback);
-					} else
-					if ('media' === entity) {
-						processMedia(self.jsonObj['entities'][entity], callback);
+		var
+			objects = [self.jsonObj];
+
+		if ('retweeted_status' in self.jsonObj) {
+			objects.push(self.jsonObj['retweeted_status']);
+		}
+
+		async.forEach(objects, function(object, callback) {
+			if ('entities' in object) {
+				async.forEach(['urls', 'media'], function(entity, callback) {
+					if (entity in object['entities']
+						&& object['entities'][entity].length > 0
+					) {
+						if ('urls' === entity) {
+							processUrls(object['entities'][entity], callback);
+						} else
+						if ('media' === entity) {
+							processMedia(object['entities'][entity], callback);
+						} else {
+							callback();
+						}
 					} else {
 						callback();
 					}
-				} else {
-					callback();
-				}
-			}, onDone );
-		} else {
-			onDone();
-		}
+				}, callback );
+			} else {
+				callback();
+			}
+		}, onDone );
 	};
 
 	twic.DBObject.prototype.save.call(self, function(changed) {

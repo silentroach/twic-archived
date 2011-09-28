@@ -213,11 +213,7 @@ twic.text.processUrls = function(text, callback) {
 	twic.text._initialize();
 
 	return text.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
-		if (protocol) {
-			return before + callback(url);
-		}
-
-		return '';
+		return before + callback(url);
 	} );
 };
 

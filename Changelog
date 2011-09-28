@@ -1,3 +1,11 @@
+0.39 (in development):
+
+0.38:
+	* Fixed bug when links and media are not recognized in retweets
+	* Fixed bug with services icon strange border
+	* Even better links recognition
+	+ New option to create a link to the tweet on twitter.com from time mark
+
 0.36:
 	* Fixed bug with disappeared services icons
 	* Fixed bug with international hashtags
