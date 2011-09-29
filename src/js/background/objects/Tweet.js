@@ -128,7 +128,8 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 
 	var processUrls = function(urls, callback) {
 		var
-			i;
+			i,
+			linksHash = { };
 
 		async.forEachSeries(urls, function(url, callback) {
 			if (
@@ -136,19 +137,29 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 				&& 'expanded_url' in url
 				&& !goog.isNull(url['expanded_url'])
 			) {
-				twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
-					self.fields['id'],
-					url['url'],
-					url['expanded_url']
-				// FIXME make it optional callbacks
-				], callback, callback);
+				var
+					hash = hash = self.fields['id'] + '_' + url['url'];
+
+				if (hash in linksHash) {
+					callback();
+				} else {
+					linksHash[hash] = 1;
+
+					twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
+						self.fields['id'],
+						url['url'],
+						url['expanded_url']
+					// FIXME make it optional callbacks
+					], callback, callback);
+				}
 			}
 		}, callback )
 	};
 
 	var processMedia = function(meta, callback) {
 		var
-			i;
+			i,
+			mediaHash = { };
 
 		async.forEachSeries(meta, function(media, callback) {
 			if ('url' in media
@@ -157,15 +168,22 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 			) {
 				var
 					previewLink = 'media_url_https' in media
-						? media['media_url_https'] : media['media_url'];
+						? media['media_url_https'] : media['media_url'],
+					hash = self.fields['id'] + '_' + previewLink;
 
-				twic.db.execQuery('insert into media (tweet_id, lnk, preview, expanded) values (?, ?, ?, ?)', [
-					self.fields['id'],
-					media['url'],
-					previewLink,
-					media['expanded_url']
-				// FIXME make it optional callbacks
-				], callback, callback);
+				if (hash in mediaHash) {
+					callback();
+				} else {
+					mediaHash[hash] = 1;
+
+					twic.db.execQuery('insert into media (tweet_id, lnk, preview, expanded) values (?, ?, ?, ?)', [
+						self.fields['id'],
+						media['url'],
+						previewLink,
+						media['expanded_url']
+					// FIXME make it optional callbacks
+					], callback, callback);
+				}
 			}
 		}, callback )
 	};
