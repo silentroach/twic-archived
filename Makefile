@@ -6,7 +6,6 @@ help:
 	@@echo "Build targets:"
 	@@echo
 	@@echo "* extension   build the extension"
-	@@echo
 	@@echo "  todo        build todo list"
 	@@echo
 	@@echo "  all         make targets marked with asterisk"

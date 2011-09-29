@@ -40,20 +40,20 @@ body, input, textarea {
 	}
 
 body.windows,
-.windows input,
-.windows textarea {
+body.windows input,
+body.windows textarea {
 	font-family: "Trebuchet MS", Tahoma, sans-serif;
 	}
 
 body.osx,
-.osx input,
-.osx textarea {
+body.osx input,
+body.osx textarea {
 	font-family: "Lucida Grande", Helvetica, sans-serif;
 	}
 
 body.linux,
-.linux input,
-.linux textarea {
+body.linux input,
+body.linux textarea {
 	font-family: Ubuntu, "Droid Sans", sans-serif;
 	}
 
@@ -81,3 +81,13 @@ a {
 	a:hover {
 		text-decoration: underline;
 		}
+
+.clearer {
+	clear: both;
+	}
+
+img.avatar {
+	border-radius: 3px;
+	max-width: 48px;
+	}
+

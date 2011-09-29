@@ -23,6 +23,45 @@
 		}
 	};
 
+	var onElementChange = function(element) {
+		if ('INPUT' === element.nodeName) {
+			twic.options.set(element.getAttribute('data-key'), element['checked']);
+
+			checkInnerChecks(element);
+		}
+	};
+
+	var checkInnerChecks = function(element) {
+		var
+			checked = element['checked'],
+			children = twic.dom.findElements('ul li', element.parentNode),
+			inputs = null,
+			i, n;
+
+		if (children.length > 0) {
+			for (n = 0; n < children.length; ++n) {
+				if (checked) {
+					twic.dom.removeClass(children[n], 'disabled');
+				} else {
+					twic.dom.addClass(children[n], 'disabled');
+				}
+
+				inputs = twic.dom.findElements('input', children[n]);
+
+				for (i = 0; i < inputs.length; ++i) {
+					if (checked) {
+						inputs[i].removeAttribute('disabled');
+					} else {
+						inputs[i].setAttribute('disabled', 'disabled');
+						inputs[i]['checked'] = false;
+
+						onElementChange(inputs[i]);
+					}
+				}
+			}
+		}
+	};
+
 	for (i = 0; i < keys.length; ++i) {
 		var
 			optKey = keys[i];
@@ -34,12 +73,13 @@
 
 	keys = twic.dom.findElements('input[data-key]');
 
-	twic.utils.queueIterator(keys, function(item, callback) {
+	async.forEach(keys, function(item, callback) {
 		twic.options.get(item.getAttribute('data-key'), function(val) {
 			if (val) {
 				item.setAttribute('checked', 'checked');
 			}
 
+			checkInnerChecks(item);
 			callback();
 		} );
 	}, function() { } );
@@ -55,9 +95,7 @@
 	};
 
 	document.addEventListener('change', function(e) {
-		if ('INPUT' === e.target.nodeName) {
-			twic.options.set(e.target.getAttribute('data-key'), e.target['checked']);
-		}
+		onElementChange(e.target);
 	}, false );
 
 	document.addEventListener('click', function(e) {

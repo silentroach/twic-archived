@@ -171,6 +171,7 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
 		bYes.href      = '#';
 
 		bYes.addEventListener('click', function(e) {
+			e.preventDefault();
 			page.removeAccount_.call(page);
 		}, false);
 
@@ -178,6 +179,7 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
 		bNo.href       = '#';
 
 		bNo.addEventListener('click', function(e) {
+			e.preventDefault();
 			page.resetToolbar_.call(page, e);
 		}, false);
 
@@ -234,7 +236,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 
 		// @resource img/loader.gif
 		buttonElement.src = 'img/loader.gif';
-		trg.href = '#';
+		trg.href = '#accounts';
 
 		twic.requests.makeRequest('accountAdd', { }, function(reply) {
 			if (twic.global.SUCCESS === reply['result']) {

@@ -4,8 +4,8 @@
  */
 
 .tweetEditor {
-	width: 362px;
-	margin-left: 2px;
+	margin-left: 4px;
+	margin-right: 12px;
 	}
 	.tweetEditor .rb {
 		float: right;

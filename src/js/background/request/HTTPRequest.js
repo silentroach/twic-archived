@@ -7,25 +7,6 @@
 
 /**
  * @constructor
- * @extends twic.Error
- * @param {number} code Error code
- * @param {XMLHttpRequest} req Request
- */
-twic.ResponseError = function(code, req) {
-	this.request = req;
-
-	twic.Error.call(this, code);
-};
-
-goog.inherits(twic.ResponseError, twic.Error);
-
-/** @const */ twic.ResponseError.UNKNOWN      = 0;
-/** @const */ twic.ResponseError.UNAUTHORIZED = 1;
-/** @const */ twic.ResponseError.TIMEOUT      = 2;
-/** @const */ twic.ResponseError.NOT_FOUND    = 3;
-
-/**
- * @constructor
  * @param {string} method Method (GET, POST)
  * @param {string} url Url
  */
@@ -134,7 +115,7 @@ twic.HTTPRequest.prototype.setRequestData = function(key, value) {
 
 /**
  * Send the request
- * @param {function(?twic.ResponseError, XMLHttpRequest=)} callback Callback
+ * @param {function(?twic.ResponseError, XMLHttpRequest)} callback Callback
  * todo send method can't be shortened by Closure Compiler, don't know why
  */
 twic.HTTPRequest.prototype.send = function(callback) {
@@ -149,26 +130,33 @@ twic.HTTPRequest.prototype.send = function(callback) {
 		var req = this;
 
 		if (4 === req.readyState) {
+			var
+				error = null;
+
+			if (0 === req.status) {
+				twic.debug.error('No connection');
+				error = new twic.ResponseError(twic.ResponseError.NO_CONNECTION, req);
+			} else
 			if (404 === req.status) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Not found');
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.NOT_FOUND, req));
+				error = new twic.ResponseError(twic.ResponseError.NOT_FOUND, req);
 			} else
 			if (401 === req.status) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Unauthorized');
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.UNAUTHORIZED, req));
+				error = new twic.ResponseError(twic.ResponseError.UNAUTHORIZED, req);
 			} else
 			if ('' === req.responseText) {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Empty reply');
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.TIMEOUT, req));
+				error = new twic.ResponseError(twic.ResponseError.TIMEOUT, req);
 			} else
 			if (200 === req.status) {
 				twic.debug.groupCollapsed('http request to ' + self.url_ + ' finished');
@@ -178,8 +166,6 @@ twic.HTTPRequest.prototype.send = function(callback) {
 					twic.debug.info(req.responseText);
 				}
 				twic.debug.groupEnd();
-
-				callback(null, req);
 			} else {
 				twic.debug.groupCollapsed(req);
 				twic.debug.error('Unknown status');
@@ -187,8 +173,10 @@ twic.HTTPRequest.prototype.send = function(callback) {
 				twic.debug.log(req.responseText);
 				twic.debug.groupEnd();
 
-				callback(new twic.ResponseError(twic.ResponseError.UNKNOWN, req));
+				error = new twic.ResponseError(twic.ResponseError.UNKNOWN, req);
 			}
+
+			callback(error, req);
 		}
 	};
 

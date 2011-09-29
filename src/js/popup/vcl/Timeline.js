@@ -24,6 +24,10 @@ twic.vcl.Timeline = function(parent) {
 	 */
 	this.wrapper_ = twic.dom.expandElement('div.timeline');
 
+	if (!twic.vcl.Timeline.options.avatarSizeDefault) {
+		twic.dom.addClass(this.wrapper_, 'timeline32');
+	}
+
 	/**
 	 * @type {boolean}
 	 */
@@ -151,12 +155,10 @@ twic.vcl.Timeline = function(parent) {
 	this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
 	this.tbDelete_.title = twic.utils.lang.translate('title_delete');
 
-	/**
-	 * @type {Element}
-	 * @private
-	 */
-	//this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
-	//this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
+	// @type {Element}
+	// @private
+	// this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
+	// this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
 
 	var timelineMouseOut = function(e) {
 		if (
@@ -282,6 +284,7 @@ twic.vcl.Timeline = function(parent) {
 	this.tweetButtons_.appendChild(buttonHolder);
 
 	confirmer.addEventListener('click', function(e) {
+		e.preventDefault();
 		timeline.doReallyConfirm_.call(timeline, e);
 	}, false);
 	this.tweetButtons_.appendChild(confirmer);
@@ -327,7 +330,9 @@ twic.vcl.Timeline.confirmAction = {
  * Timeline options
  */
 twic.vcl.Timeline.options = {
-	showTime: false
+	showTime: false,
+	showTimeAsLink: false,
+	avatarSizeDefault: true
 };
 
 /**
@@ -601,7 +606,7 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		tweet = new twic.vcl.Tweet(id, this);
 
 	if (twic.vcl.Timeline.options.showTime) {
-		tweet.setUnixTime(ts);
+		tweet.setUnixTime(ts, twic.vcl.Timeline.options.showTimeAsLink);
 	}
 
 	this.tweets_[id] = tweet;
@@ -611,6 +616,10 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 	};
 
 	tweet.onMapShow = function() {
+		timeline.hideButtons_.call(timeline);
+	};
+
+	tweet.onGalleryShow = function() {
 		timeline.hideButtons_.call(timeline);
 	};
 
@@ -747,8 +756,3 @@ twic.vcl.Timeline.prototype.onOldRetweet = function(tweetText) { };
 twic.vcl.Timeline.prototype.onReplierGetSuggestList = function(startPart, callback) {
 	callback( [ ] );
 };
-
-/**
- * Handler for the map show
- */
-twic.vcl.Timeline.prototype.onMapShow = function() { };

@@ -44,6 +44,19 @@ twic.dom.findElements = function(selector, context) {
 };
 
 /**
+ * Insert element into container on the first place
+ * @param {Element} container Container
+ * @param {Element} element Element
+ */
+twic.dom.insertFirst = function(container, element) {
+	if (container.firstChild) {
+		container.insertBefore(element, container.firstChild);
+	} else {
+		container.appendChild(element);
+	}
+};
+
+/**
  * Expand the expression
  * @param {string} expr Expression
  * @return {Element}
@@ -127,3 +140,13 @@ twic.dom.addClass = function(element, className) {
 twic.dom.removeClass = function(element, className) {
 	element.classList.remove(className);
 };
+
+/**
+ * Is element has class?
+ * @param {Element} element Element
+ * @param {string} className Class name
+ * @return {Boolean}
+ */
+twic.dom.hasClass = function(element, className) {
+	return element.classList.contains(className);
+}

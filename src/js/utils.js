@@ -7,41 +7,6 @@
 
 twic.utils = { };
 
-/**
- * Iterate array in the iterator function in series
- * @param {Array|NodeList} arr Array of functions to execute
- * @param {function(*, function())} iterator Iterator with callback
- * @param {function(*=)} callback Finished callback
- */
-twic.utils.queueIterator = function(arr, iterator, callback) {
-	if (!arr.length) {
-		return callback();
-	}
-
-	var
-		aLen = arr.length,
-		completed = 0;
-
-	var iterate = function () {
-		iterator(arr[completed], function (err) {
-			if (err) {
-				callback(err);
-				callback = function () {};
-			} else {
-				++completed;
-
-				if (completed === aLen) {
-					callback();
-				} else {
-					iterate();
-				}
-			}
-		} );
-	};
-
-	iterate();
-};
-
 // ------------------------------------------------------------
 
 twic.utils.date = { };
@@ -135,10 +100,10 @@ twic.utils.url.domainExtractPattern_ = /:\/\/(.[^/]+)/;
  * @private
  */
 twic.utils.url.services_ = {
-	'tumblr.com': { name: 'tumblr',     favicon: 'https://tumblr.com/favicon.ico' },
-	'instagr.am': { name: 'instagram',  favicon: 'https://instagr.am/favicon.ico' },
-	'4sq.com':    { name: 'foursquare', favicon: 'https://foursquare.com/favicon.ico' },
-	'flic.kr':    { name: 'flickr',     favicon: 'http://www.flickr.com/favicon.ico' }
+	'tumblr.com': 'tumblr',
+	'instagr.am': 'instagram',
+	'4sq.com':    'foursquare',
+	'flic.kr':    'flickr'
 };
 
 /**
@@ -150,24 +115,32 @@ twic.utils.url.services_ = {
 twic.utils.url.humanize = function(url, lnks) {
 	var
 		links = lnks || { },
-		expanded = url in links ? links[url] : url,
+		expanded = url in links ? links[url] : url;
+
+	if (!expanded) {
+		return '';
+	}
+
+	var
 		domain = twic.utils.url.domainExtractPattern_.exec(expanded),
 		domainName = domain && domain.length > 1 ? domain[1] : '',
 		cutted = expanded
 			.replace(/^(.*?)\/\//, '')         // cutting the protocol
 			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
 		clen = cutted.length,
-		title = cutted;
+		title = cutted,
+		classes = '';
 
 	if (
 		'' !== domainName
 		&& domainName in twic.utils.url.services_
 	) {
 		var
-			iconInfo = twic.utils.url.services_[domainName];
+			iconClass = twic.utils.url.services_[domainName];
 
-		title = iconInfo.name + ' - ' + expanded;
-		cutted = '<img src="' + iconInfo.favicon + '" class="aicon" />';
+		title = iconClass + ' - ' + expanded;
+		classes = ' class="aicon ' + iconClass + '"';
+		cutted = '&nbsp;';
 	} else
 	if (clen > 30) {
 		cutted = cutted.substring(0, 30) + '&hellip;';
@@ -185,7 +158,7 @@ twic.utils.url.humanize = function(url, lnks) {
 		url = 'http://' + url;
 	}
 
-	return '<a target="_blank" href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
+	return '<a target="_blank"' + classes + ' href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
 /**

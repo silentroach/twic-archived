@@ -11,27 +11,18 @@ div.page {
 	overflow-y: auto;
 	}
 
-img.avatar {
-	border-radius: 3px;
-	max-width: 48px;
-	}
-
 a.nick, a.hash {
 	text-shadow: rgba(255, 255, 255, 0.8) 0px 1px 0px;
-	}
-
-.clearer {
-	clear: both;
 	}
 
 p.loader {
 	text-align: center;
 	height: 30px;
-	background: url('/img/loader.gif') no-repeat center center;
+	background: transparent url('/img/loader.gif') no-repeat center center;
 	}
 
 .loading {
-	background: url('/img/loader.gif') no-repeat left center !important;
+	background: transparent url('/img/loader.gif') no-repeat left center !important;
 	}
 
 a.direct {
@@ -46,8 +37,24 @@ a.direct {
 		}
 
 .aicon {
+	display: inline-block;
 	width: 16px;
 	height: 16px;
 	margin-bottom: 3px;
 	vertical-align: middle;
 	}
+	.aicon:hover {
+		text-decoration: none;
+		}
+	.aicon.tumblr {
+		background: transparent url('/img/services/tumblr.png') no-repeat 50% 50%;
+		}
+	.aicon.instagram {
+		background: transparent url('/img/services/instagram.png') no-repeat 50% 50%;
+		}
+	.aicon.foursquare {
+		background: transparent url('/img/services/foursquare.png') no-repeat 50% 50%;
+		}
+	.aicon.flickr {
+		background: transparent url('/img/services/flickr.png') no-repeat 50% 50%;
+		}
