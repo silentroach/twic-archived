@@ -4,7 +4,6 @@
 		<title></title>
 
 		<link rel="stylesheet" type="text/css" href="css/global.css" />
-		<link rel="stylesheet" type="text/css" href="css/main.css" />
 		<link rel="stylesheet" type="text/css" href="css/options/main.css" />
 	</head>
 	<body>
@@ -29,12 +28,22 @@
 							<li><span class="desc" data-desc="tweet"></span>
 								<ul>
 									<li>
+										<input id="tweet_show_images" data-key="tweet_show_images" type="checkbox" />
+										<label for="tweet_show_images"></label>
+									</li>
+									<li>
 										<input id="tweet_show_geo" data-key="tweet_show_geo" type="checkbox" />
 										<label for="tweet_show_geo"></label>
 									</li>
 									<li>
 										<input id="tweet_show_time" data-key="tweet_show_time" type="checkbox" />
 										<label for="tweet_show_time"></label>
+										<ul>
+											<li>
+												<input id="tweet_show_time_link" data-key="tweet_show_time_link" type="checkbox" />
+												<label for="tweet_show_time_link"></label>
+											</li>
+										</ul>
 									</li>
 									<li>
 										<input id="tweet_show_client" data-key="tweet_show_client" type="checkbox" />
@@ -56,6 +65,7 @@
 		<script src="js/init.js"></script>
 		<script src="js/3rdparty/closure.base.js"></script>
 		<script src="js/3rdparty/twitter-text.js"></script>
+		<script src="js/3rdparty/async.js"></script>
 		<script src="js/platform.js"></script>
 		<script src="js/debug.js"></script>
 		<script src="js/utils.js"></script>

@@ -5,6 +5,8 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
+// TODO store unread tweets counter just local
+
 twic.accounts = { };
 
 /**
@@ -59,7 +61,7 @@ twic.accounts.updateCounter_ = function() {
 	} );
 
 	chrome.browserAction.setBadgeText( {
-		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
+		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '∞')
 	} );
 };
 

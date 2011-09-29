@@ -161,14 +161,20 @@ twic.text._initialize = function() {
 	twic.text.expr_['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
 
 	// URL related hash regex collection
+	twic.text.expr_['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"'!=A-Za-z0-9_@＠\.]|^)/);
+
 	twic.text.expr_['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr_);
-	twic.text.expr_['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"':!=A-Za-z0-9_@＠]|^|\:)/);
+	twic.text.expr_['validDomainChars'] = twic.text._regexSupplant(/[^#{invalidDomainChars}]/);
+	twic.text.expr_['validSubdomain'] = twic.text._regexSupplant(/(?:(?:#{validDomainChars}(?:[_-]|#{validDomainChars})*)?#{validDomainChars}\.)/);
+	twic.text.expr_['validDomainName'] = twic.text._regexSupplant(/(?:(?:#{validDomainChars}(?:-|#{validDomainChars})*)?#{validDomainChars}\.)/);
+	twic.text.expr_['validGTLD'] = twic.text._regexSupplant(/(?:(?:aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel)(?=[^a-zA-Z]|$))/);
+	twic.text.expr_['validCCTLD'] = twic.text._regexSupplant(/(?:(?:ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)(?=[^a-zA-Z]|$))/);
+	twic.text.expr_['validPunycode'] = twic.text._regexSupplant(/(?:xn--[0-9a-z]+)/);
+	twic.text.expr_['validDomain'] = twic.text._regexSupplant(/(?:#{validSubdomain}*#{validDomainName}(?:#{validGTLD}|#{validCCTLD}|#{validPunycode}))/);
 
-	twic.text.expr_['validSubdomain'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[_-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]\./);
-	twic.text.expr_['validDomainName'] = twic.text._regexSupplant(/(?:[^#{invalidDomainChars}](?:[-]|[^#{invalidDomainChars}])*)?[^#{invalidDomainChars}]/);
-	twic.text.expr_['validDomain'] = twic.text._regexSupplant(/(#{validSubdomain})*#{validDomainName}\.(?:xn--[a-z0-9]{2,}|[a-z]{2,})(?::[0-9]+)?/i);
+	twic.text.expr_['validPortNumber'] = twic.text._regexSupplant(/[0-9]+/);
 
-	twic.text.expr_['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|#{latinAccentChars}]/i);
+	twic.text.expr_['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|&#{latinAccentChars}]/i);
 	// Allow URL paths to contain balanced parens
 	//  1. Used in Wikipedia URLs like /Primer_(film)
 	//  2. Used in IIS sessions like /S(dfd346)/
@@ -185,16 +191,17 @@ twic.text._initialize = function() {
 		'('                                                          + // $1 total match
 		'(#{validPrecedingChars})'                                   + // $2 Preceeding chracter
 		'('                                                          + // $3 URL
-		'(https?:\\/\\/)'                                            + // $4 Protocol
-		'(#{validDomain})'                                           + // $5 Domain(s) and optional post number
-		'(\\/'                                                       + // $6 URL Path
+		'(https?:\\/\\/)?'                                           + // $4 Protocol (optional)
+		'(#{validDomain})'                                           + // $5 Domain(s)
+		'(?::(#{validPortNumber}))?'                                 + // $6 Port number (optional)
+		'(\\/'                                                       + // $7 URL Path
 		'(?:'                                                        +
 		'#{validUrlPathChars}+#{validUrlPathEndingChars}|'           +
 		'#{validUrlPathChars}+#{validUrlPathEndingChars}?|'          +
 		'#{validUrlPathEndingChars}'                                 +
 		')?'                                                         +
 		')?'                                                         +
-		'(\\?#{validUrlQueryChars}*#{validUrlQueryEndingChars})?'    + // $7 Query String
+		'(\\?#{validUrlQueryChars}*#{validUrlQueryEndingChars})?'    + // $8 Query String
 		')'                                                          +
 		')'
 	, "gi");
@@ -206,11 +213,7 @@ twic.text.processUrls = function(text, callback) {
 	twic.text._initialize();
 
 	return text.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
-		if (protocol) {
-			return before + callback(url);
-		}
-
-		return '';
+		return before + callback(url);
 	} );
 };
 

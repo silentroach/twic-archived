@@ -41,38 +41,58 @@ li.tweet p {
 	li.tweet p.info {
 		font-size: 8pt;
 		color: #b3b2b2;
+		line-height: 15px;
 		-webkit-transition: color 0.2s ease-in-out;
 		}
+		li.tweet:hover p.info {
+			color: gray;
+			}
+			li.tweet:hover p.info a {
+				color: gray;
+				}
 		li.tweet p.info a {
 			color: #b3b2b2;
 			-webkit-transition: color 0.2s ease-in-out;
 			}
-		li.tweet p.info .geo {
-			display: inline-block;
-			width: 13px;
-			background: transparent url('/img/buttons/marker_map.png') no-repeat 1px 2px;
-			cursor: pointer;
-			opacity: .5;
+		li.tweet p.info .button {
+				display: inline-block;
+				cursor: pointer;
+				opacity: .5;
+				-webkit-user-select: none;
 			}
+			li.tweet p.info .button.geo {
+				background: transparent url('/img/buttons/marker_map.png') no-repeat -4px 2px;
+				width: 14px;
+				}
+			li.tweet p.info .button.img {
+				background: transparent url('/img/buttons/img.png') no-repeat 0 2px;
+				width: 21px;
+				}
 
-li.tweet .map {
+li.tweet .infoWrapper {
 	display: none;
-	height: 200px;
 	width: 100%;
-	border: 1px solid silver;
 	margin-bottom: 3px;
+	text-align: center;
+	padding-top: .5em;
+	background: url('/img/loader.gif') no-repeat center center;
 	}
+	li.tweet .infoWrapper .map {
+		height: 200px;
+		border: 1px solid silver;
+		}
+	li.tweet .infoWrapper .gallery img {
+		max-width: 380px;
+		}
 
-li.tweet.map p.info .geo {
+li.tweet.map p.info .geo,
+li.tweet.gallery p.info .img {
 	opacity: 1;
 	}
-
-li.tweet:hover p.info {
-	color: gray;
+li.tweet.map .infoWrapper,
+li.tweet.gallery .infoWrapper {
+	display: block;
 	}
-	li.tweet:hover p.info a {
-    color: gray;
-		}
 
 li.tweet.replying p.info {
 	display: none;
@@ -86,5 +106,5 @@ li.tweet a.avatar {
 
 li.tweet .tweetEditor {
 	padding-left: 49px;
-	width: 310px;
+	margin-right: 8px;
 	}

@@ -44,6 +44,12 @@ body {
 	#content ul {
 		padding: .7em;
 		}
+		#content ul li.disabled {
+			color: silver;
+			}
+		#content ul ul ul ul {
+			padding: 0 0 0 1.5em;
+			}
 
 #ui ul.avatars li {
 	display: inline;

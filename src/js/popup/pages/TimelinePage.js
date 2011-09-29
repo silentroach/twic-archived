@@ -111,6 +111,13 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 			tweet.setLinks(item['links']);
 		}
 
+		if (
+			'media' in item
+			&& item['media'].length > 0
+		) {
+			tweet.setImages(item['media']);
+		}
+
 		tweet.setText(item['msg']);
 	}
 

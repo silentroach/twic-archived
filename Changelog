@@ -1,4 +1,19 @@
-0.36 (in development):
+0.39 (in development):
+	* Fixed bug with back button on profile page after some action with confirmation (#78)
+
+0.38:
+	* Fixed bug when links and media are not recognized in retweets
+	* Fixed bug with services icon strange border
+	* Even better links recognition
+	+ New option to create a link to the tweet on twitter.com from time mark
+
+0.36:
+	* Fixed bug with disappeared services icons
+	* Fixed bug with international hashtags
+	* Twitter Text upgrade
+	* Fixed bug with two or more maps opened in the same timeline
+	+ Automatic tweet editor width positioning (special for Chrome 14 with native scrollbars on OS X Lion)
+	+ Tweet pictures inline preview
 
 0.35:
 	* Some style changes (thanks @GrawlCore)

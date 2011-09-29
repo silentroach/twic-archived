@@ -56,17 +56,13 @@ twic.requests.handle = function(request, sender, sendResponse) {
 		method
 		&& subscription
 	) {
-		twic.debug.groupCollapsed('request ' + method + ' received');
-		twic.debug.dir(data);
-		twic.debug.groupEnd();
-
 		for (i = 0; i < subscription.length; ++i) {
 			subscription[i](data, sendResponse);
 		}
 	} else {
 		sendResponse({});
 
-		twic.debug.groupCollapsed('request received');
+		twic.debug.groupCollapsed('failed request received');
 		twic.debug.error('failed or handler not found');
 		twic.debug.dir(request);
 		twic.debug.groupEnd();

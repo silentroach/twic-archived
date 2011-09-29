@@ -81,3 +81,13 @@ a {
 	a:hover {
 		text-decoration: underline;
 		}
+
+.clearer {
+	clear: both;
+	}
+
+img.avatar {
+	border-radius: 3px;
+	max-width: 48px;
+	}
+
