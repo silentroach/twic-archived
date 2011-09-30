@@ -149,7 +149,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 				// FIXME make it optional callbacks
 				], callback, callback);
 			}
-		}, callback )
+		}, callback );
 	};
 
 	var processMedia = function(meta, callback) {
@@ -179,7 +179,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 				// FIXME make it optional callbacks
 				], callback, callback);
 			}
-		}, callback )
+		}, callback );
 	};
 
 	var processEntities = function() {

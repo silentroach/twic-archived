@@ -149,4 +149,4 @@ twic.dom.removeClass = function(element, className) {
  */
 twic.dom.hasClass = function(element, className) {
 	return element.classList.contains(className);
-}
+};
