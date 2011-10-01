@@ -92,7 +92,7 @@ twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+
  * @const
  * @private
  */
-twic.utils.url.domainExtractPattern_ = /:\/\/(.[^/]+)/;
+twic.utils.url.domainExtractPattern_ = /:\/\/(.[^\/]+)/;
 
 /**
  * Links -> icons services hash

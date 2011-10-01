@@ -152,7 +152,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	 * Try to send the tweet
 	 */
 	var tryToSend = function() {
-		if (editor.editorTextarea_.value.length == 0) {
+		if (0 === editor.editorTextarea_.value.length) {
 			return true;
 		}
 
@@ -378,8 +378,8 @@ chrome.tabs.getSelected( null, function(tab) {
 
 // ------------------------------------------
 
-/** @const **/ twic.vcl.TweetEditor.overloadClass = 'overload',
-/** @const **/ twic.vcl.TweetEditor.focusedClass  = 'focused',
+/** @const **/ twic.vcl.TweetEditor.overloadClass = 'overload';
+/** @const **/ twic.vcl.TweetEditor.focusedClass  = 'focused';
 /** @const **/ twic.vcl.TweetEditor.sendingClass  = 'sending';
 /** @const **/ twic.vcl.TweetEditor.MAXCOUNT = 140;
 

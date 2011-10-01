@@ -128,8 +128,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 
 	var processUrls = function(urls, callback) {
 		var
-			i,
-			linksHash = { };
+			i;
 
 		async.forEachSeries(urls, function(url, callback) {
 			if (
@@ -137,29 +136,25 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 				&& 'expanded_url' in url
 				&& !goog.isNull(url['expanded_url'])
 			) {
-				var
-					hash = hash = self.fields['id'] + '_' + url['url'];
+				twic.db.execQuery(
+					'insert into links (tweet_id, lnk, expanded) ' +
+					'select ?, ?, ? ' +
+					'where not exists(select 1 from links where tweet_id = ? and lnk = ?)', [
+					self.fields['id'],
+					url['url'],
+					url['expanded_url'],
 
-				if (hash in linksHash) {
-					callback();
-				} else {
-					linksHash[hash] = 1;
-
-					twic.db.execQuery('insert into links (tweet_id, lnk, expanded) values (?, ?, ?)', [
-						self.fields['id'],
-						url['url'],
-						url['expanded_url']
-					// FIXME make it optional callbacks
-					], callback, callback);
-				}
+					self.fields['id'],
+					url['url']
+				// FIXME make it optional callbacks
+				], callback, callback);
 			}
-		}, callback )
+		}, callback );
 	};
 
 	var processMedia = function(meta, callback) {
 		var
-			i,
-			mediaHash = { };
+			i;
 
 		async.forEachSeries(meta, function(media, callback) {
 			if ('url' in media
@@ -168,24 +163,23 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 			) {
 				var
 					previewLink = 'media_url_https' in media
-						? media['media_url_https'] : media['media_url'],
-					hash = self.fields['id'] + '_' + previewLink;
+						? media['media_url_https'] : media['media_url'];
 
-				if (hash in mediaHash) {
-					callback();
-				} else {
-					mediaHash[hash] = 1;
+				twic.db.execQuery(
+					'insert into media (tweet_id, lnk, preview, expanded) ' +
+					'select ?, ?, ?, ? ' +
+					'where not exists(select 1 from media where tweet_id = ? and lnk = ?) ', [
+					self.fields['id'],
+					media['url'],
+					previewLink,
+					media['expanded_url'],
 
-					twic.db.execQuery('insert into media (tweet_id, lnk, preview, expanded) values (?, ?, ?, ?)', [
-						self.fields['id'],
-						media['url'],
-						previewLink,
-						media['expanded_url']
-					// FIXME make it optional callbacks
-					], callback, callback);
-				}
+					self.fields['id'],
+					media['url']
+				// FIXME make it optional callbacks
+				], callback, callback);
 			}
-		}, callback )
+		}, callback );
 	};
 
 	var processEntities = function() {
