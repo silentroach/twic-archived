@@ -217,6 +217,22 @@ twic.text.processUrls = function(text, callback) {
 	} );
 };
 
+twic.text.getUrlParts = function(link) {
+	var
+		result = false;
+
+	twic.text._initialize();
+
+	link.replace(twic.text.expr_['extractUrl'], function(match, all, before, url, protocol, domain, path, query) {
+		result = {
+			domain: domain,
+			query: query
+		};
+	} );
+
+	return result;
+};
+
 twic.text.extractUrls = function(text) {
 	var
 		urls = [];

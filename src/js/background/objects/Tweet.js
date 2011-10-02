@@ -166,12 +166,14 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 		async.forEach(objects, function(object, callback) {
 			if ('entities' in object) {
 				var
-					entities = object['entities'];
+					entities = object['entities'],
+					tmpText = self.fields['msg'],
+					idx;
 
 				if ('media' in entities) {
 					var
 						mediaItems = entities['media'],
-						idx, mediaItem;
+						mediaItem;
 
 					for (idx in mediaItems) {
 						mediaItem = mediaItems[idx];
@@ -194,7 +196,7 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 				if ('urls' in entities) {
 					var
 						urlItems = entities['urls'],
-						idx, urlItem;
+						urlItem;
 
 					for (idx in urlItems) {
 						urlItem = urlItems[idx];
@@ -204,7 +206,22 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 							&& 'expanded_url' in urlItem
 							&& !goog.isNull(urlItem['expanded_url'])
 						) {
-							links[ urlItem['url'] ] = urlItem['expanded_url'];
+							var
+								expandedUrl = urlItem['expanded_url'],
+								urlInfo = twic.text.getUrlParts(expandedUrl);
+
+							links[ urlItem['url'] ] = expandedUrl;
+
+							if (urlInfo) {
+								var
+									thumb = twic.services.getThumbnail(urlInfo.domain, urlInfo.query);
+
+								if (thumb) {
+									media[ urlItem['url'] ] = [
+										thumb, expandedUrl
+									];
+								}
+							}
 						}
 					}
 				}
