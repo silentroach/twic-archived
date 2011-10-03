@@ -7,6 +7,16 @@
 
 twic.services = { };
 
+/**
+ * @private
+ */
+twic.services.alternativeDomains_ = {
+	'yfrog.us': 'yfrog.com'
+};
+
+/**
+ * @private
+ */
 twic.services.list_ = {
 	'tumblr.com': {
 		className: 'tumblr'
@@ -37,7 +47,20 @@ twic.services.list_ = {
 				parts = query.split('/');
 
 			if (parts.length > 0) {
-				return 'http://yfrog.com/' + parts.pop() + '.th.jpg';
+				var
+					lastPart = parts.pop();
+
+				if (
+					lastPart.length > 4
+					// j - jpeg
+					// p - png
+					// b - bmp
+					// t - tiff
+					// g - gif
+					&& ['j', 'p', 'b', 't', 'g'].indexOf(lastPart.substr(-1)) >= 0
+				) {
+					return 'https://yfrog.com/' + parts.pop() + ':iphone';
+				}
 			}
 
 			return false;
@@ -53,6 +76,10 @@ twic.services.list_ = {
 };
 
 twic.services.getThumbnail = function(domain, query) {
+	if (domain in twic.services.alternativeDomains_) {
+		domain = twic.services.alternativeDomains_[domain];
+	}
+
 	if (domain in twic.services.list_) {
 		var
 			service = twic.services.list_[domain];
@@ -66,6 +93,10 @@ twic.services.getThumbnail = function(domain, query) {
 };
 
 twic.services.getClassNameByDomain = function(domain) {
+	if (domain in twic.services.alternativeDomains_) {
+		domain = twic.services.alternativeDomains_[domain];
+	}
+
 	if (domain in twic.services.list_) {
 		return twic.services.list_[domain].className;
 	}
