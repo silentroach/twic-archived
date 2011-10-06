@@ -41,7 +41,13 @@ twic.services.list_ = {
 			var
 				parts = query.split('/');
 
-			if (parts.length > 0) {
+			if (
+				parts.length === 1
+				|| (
+					parts.length === 2
+					&& 'gallery' === parts[0]
+				)
+			) {
 				var
 					lastPart = parts.pop(),
 					lastParts = lastPart.split('.'),
@@ -120,8 +126,14 @@ twic.services.getThumbnail = function(domain, query) {
 		var
 			service = twic.services.list_[domain];
 
-		if (service.thumbnail) {
-			return service.thumbnail(query);
+		if (
+			service.thumbnail
+			&& query.length > 1
+		) {
+			return service.thumbnail(
+				// cutting first slash
+				query.substr(1)
+			);
 		}
 	}
 
