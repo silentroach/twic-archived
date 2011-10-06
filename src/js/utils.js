@@ -158,7 +158,7 @@ twic.utils.url.humanize = function(url, lnks) {
 		url = 'http://' + url;
 	}
 
-	return '<a target="_blank"' + classes + ' href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
+	return '<a target="_blank"' + classes + ' href="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
 /**
