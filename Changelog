@@ -1,4 +1,5 @@
 0.40 (in development):
+	* Better links handling with middle mouse key or with Meta key pressed in OS X
 
 0.39:
 	* Fixed bug with back button on profile page after some action with confirmation (#78)
