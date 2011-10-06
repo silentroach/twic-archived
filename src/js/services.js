@@ -11,7 +11,8 @@ twic.services = { };
  * @private
  */
 twic.services.alternativeDomains_ = {
-	'yfrog.us': 'yfrog.com'
+	'yfrog.us': 'yfrog.com',
+	'imgur.com': 'i.imgur.com'
 };
 
 /**
@@ -33,7 +34,29 @@ twic.services.list_ = {
 	},
 	'flic.kr': {
 		className: 'flickr'
-	},/*
+	},
+	'i.imgur.com': {
+		className: 'imgur',
+		thumbnail: function(query) {
+			var
+				parts = query.split('/');
+
+			if (parts.length > 0) {
+				var
+					lastPart = parts.pop(),
+					lastParts = lastPart.split('.'),
+					ext = lastParts.length > 1 ? lastParts.pop() : 'jpg',
+					pictureName = lastParts.pop();
+
+				if (pictureName.length > 3) {
+					return 'http://i.imgur.com/' + pictureName + (pictureName.substr(-1) == 'l' ? '' : 'l') + '.' + ext;
+				}
+			}
+
+			return false;
+		}
+	},
+	/*
 	'twitpic.com': {
 		className: 'twitpic',
 		thumbnail: function(query) {
