@@ -65,14 +65,27 @@ twic.services.list_ = {
 
 			return false;
 		}
-	}
-	/*
+	},
 	'img.ly': {
 		className: 'imgly',
 		thumbnail: function(query) {
-			return 'http://img.ly/show/thumb/' + query;
+			var
+				parts = query.split('/');
+
+			if (parts.length > 0) {
+				var
+					lastPart = parts.pop();
+
+				if (
+					lastPart.length > 3
+				) {
+					return 'http://img.ly/show/medium/' + lastPart;
+				}
+			}
+
+			return false;
 		}
-	}*/
+	}
 };
 
 twic.services.getThumbnail = function(domain, query) {
