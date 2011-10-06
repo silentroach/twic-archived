@@ -59,7 +59,7 @@ twic.services.list_ = {
 					// g - gif
 					&& ['j', 'p', 'b', 't', 'g'].indexOf(lastPart.substr(-1)) >= 0
 				) {
-					return 'https://yfrog.com/' + parts.pop() + ':iphone';
+					return 'https://yfrog.com/' + lastPart + ':iphone';
 				}
 			}
 

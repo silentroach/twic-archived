@@ -100,15 +100,13 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 						for (i = 0; i < rows.length; ++i) {
 							var
 								row = rows.item(i),
-								link = false;
+								link = row['expanded'];
 
 							if (showImages) {
 								reply[row['tweet_id']]['media'][reply[row['tweet_id']]['media']['length']++] = [
 									row['preview'],
-									row['expanded']
+									link
 								];
-							} else {
-								link = row['expanded'];
 							}
 
 							reply[row['tweet_id']]['links'][row['lnk']] = link;
