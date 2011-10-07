@@ -25,13 +25,22 @@ twic.services.list_ = {
 	'tumblr.com': {
 		className: 'tumblr'
 	},
-	/*
 	'instagr.am': {
 		className: 'instagram',
 		thumbnail: function(query) {
-			return 'http://instagr.am/' + query + '/media?size=t';
+			var
+				parts = query.split('/');
+
+			if (
+				2 === parts.length
+				&& 'p' === parts[0]
+			) {
+				return 'http://instagr.am/' + query + '/media?size=l';
+			}
+
+			return false;
 		}
-	},*/
+	},
 	'4sq.com': {
 		className: 'foursquare'
 	},
@@ -140,8 +149,8 @@ twic.services.getThumbnail = function(domain, query) {
 			&& query.length > 1
 		) {
 			return service.thumbnail(
-				// cutting first slash
-				query.substr(1)
+				// trimming last, first and double slashes
+				query.replace(/^\/|\/$/g, '')
 			);
 		}
 	}

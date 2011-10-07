@@ -1,10 +1,11 @@
 0.40 (in development):
 	* Better links handling with middle mouse key or with Meta key pressed in OS X
 	+ Support for image preview for services:
-	  - imgur.com
-	  - yfrog.com
-	  - img.ly
-	  - twitpic.com
+		- imgur.com
+		- yfrog.com
+		- img.ly
+		- twitpic.com
+		- instagr.am
 
 0.39:
 	* Fixed bug with back button on profile page after some action with confirmation (#78)
