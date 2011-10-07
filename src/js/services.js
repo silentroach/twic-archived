@@ -81,7 +81,7 @@ twic.services.list_ = {
 				parts = query.split('/');
 
 			if (1 === parts.length) {
-				return 'http://twitpic.com/show/thumb/' + parts.pop();
+				return 'http://twitpic.com/show/large/' + parts.pop();
 			}
 
 			return false;
