@@ -12,7 +12,10 @@ twic.services = { };
  */
 twic.services.alternativeDomains_ = {
 	'yfrog.us': 'yfrog.com',
-	'imgur.com': 'i.imgur.com'
+	'www.yfrog.com': 'yfrog.com',
+	'imgur.com': 'i.imgur.com',
+	'flic.kr': 'flickr.com',
+	'www.flickr.com': 'flickr.com'
 };
 
 /**
@@ -32,7 +35,7 @@ twic.services.list_ = {
 	'4sq.com': {
 		className: 'foursquare'
 	},
-	'flic.kr': {
+	'flickr.com': {
 		className: 'flickr'
 	},
 	'i.imgur.com': {
