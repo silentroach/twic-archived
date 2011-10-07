@@ -434,7 +434,10 @@ twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
 		timeline = this;
 
 	if (this.hoveredTweet_) {
-		if (!confirmed || !goog.isBoolean(confirmed)) {
+		if (
+			!confirmed
+			|| !goog.isBoolean(confirmed)
+		) {
 			this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_DELETE);
 			return;
 		}
