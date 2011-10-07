@@ -131,9 +131,9 @@ twic.utils.url.humanize = function(url, lnks) {
 	}
 
 	// simple links for mailto
-	if (-1 !== url.indexOf('mailto:')) {
-		return '<a target="_blank" href="' + url + '">' + cutted + '</a>';
-	} else
+	//if (-1 !== url.indexOf('mailto:')) {
+	//	return '<a target="_blank" href="' + url + '">' + cutted + '</a>';
+	//} else
 	// fix url without schema
 	if (-1 === url.indexOf('://')) {
 		url = 'http://' + url;
@@ -149,10 +149,10 @@ twic.utils.url.humanize = function(url, lnks) {
  * @return {string}
  */
 twic.utils.url.processText = function(text, links) {
-	var
-		result = text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1');
+	//var
+	//	result = text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1');
 
-	return twic.text.processUrls(result, function(url) {
+	return twic.text.processUrls(text, function(url) {
 		return twic.utils.url.humanize(url, links ? links : { });
 	} );
 };

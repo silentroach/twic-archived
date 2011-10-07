@@ -63,29 +63,28 @@ twic.text._stringSupplant = function(str, values) {
 
 /**
  * @private
- * @param {Array} charClass
- * @param {number} start
- * @param {number} end
- */
-twic.text._addCharsToCharClass = function(charClass, start, end) {
-	var s = String.fromCharCode(start);
-
-	if (end !== start) {
-		s += "-" + String.fromCharCode(end);
-	}
-
-	charClass.push(s);
-
-	return charClass;
-};
-
-/**
- * @private
  */
 twic.text._initialize = function() {
 	if (twic.text._initialized) {
 		return true;
 	}
+
+	/**
+	 * @param {Array} charClass
+	 * @param {number} start
+	 * @param {number} end
+	 */
+	var addCharsToCharClass = function(charClass, start, end) {
+		var s = String.fromCharCode(start);
+
+		if (end !== start) {
+			s += "-" + String.fromCharCode(end);
+		}
+
+		charClass.push(s);
+
+		return charClass;
+	};
 
 	/**
 	 * Space is more than %20, U+3000 for example is the full-width space used with Kanji. Provide a short-hand
@@ -108,9 +107,9 @@ twic.text._initialize = function() {
 	var nonLatinHashtagChars = [];
 
 	// White_Space # Cc   [5] <control-0009>..<control-000D>
-	twic.text._addCharsToCharClass(unicode_spaces, 0x009, 0x00D);
+	addCharsToCharClass(unicode_spaces, 0x009, 0x00D);
 	// White_Space # Zs  [11] EN QUAD..HAIR SPACE
-	twic.text._addCharsToCharClass(unicode_spaces, 0x2000, 0x200A);
+	addCharsToCharClass(unicode_spaces, 0x2000, 0x200A);
 
 	twic.text.expr_['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
 	twic.text.expr_['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
@@ -119,34 +118,34 @@ twic.text._initialize = function() {
 	twic.text.expr_['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
 
 	// Cyrillic
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x0400, 0x04ff); // Cyrillic
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x0500, 0x0527); // Cyrillic Supplement
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x2de0, 0x2dff); // Cyrillic Extended A
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xa640, 0xa69f); // Cyrillic Extended B
+	addCharsToCharClass(nonLatinHashtagChars, 0x0400, 0x04ff); // Cyrillic
+	addCharsToCharClass(nonLatinHashtagChars, 0x0500, 0x0527); // Cyrillic Supplement
+	addCharsToCharClass(nonLatinHashtagChars, 0x2de0, 0x2dff); // Cyrillic Extended A
+	addCharsToCharClass(nonLatinHashtagChars, 0xa640, 0xa69f); // Cyrillic Extended B
 	// Hangul (Korean)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x1100, 0x11ff); // Hangul Jamo
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3130, 0x3185); // Hangul Compatibility Jamo
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xA960, 0xA97F); // Hangul Jamo Extended-A
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xAC00, 0xD7AF); // Hangul Syllables
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xD7B0, 0xD7FF); // Hangul Jamo Extended-B
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xFFA1, 0xFFDC); // half-width Hangul
+	addCharsToCharClass(nonLatinHashtagChars, 0x1100, 0x11ff); // Hangul Jamo
+	addCharsToCharClass(nonLatinHashtagChars, 0x3130, 0x3185); // Hangul Compatibility Jamo
+	addCharsToCharClass(nonLatinHashtagChars, 0xA960, 0xA97F); // Hangul Jamo Extended-A
+	addCharsToCharClass(nonLatinHashtagChars, 0xAC00, 0xD7AF); // Hangul Syllables
+	addCharsToCharClass(nonLatinHashtagChars, 0xD7B0, 0xD7FF); // Hangul Jamo Extended-B
+	addCharsToCharClass(nonLatinHashtagChars, 0xFFA1, 0xFFDC); // half-width Hangul
 	// Japanese and Chinese
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x30A1, 0x30FA); // Katakana (full-width)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x30FC, 0x30FE); // Katakana Chouon and iteration marks (full-width)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xFF66, 0xFF9F); // Katakana (half-width)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xFF70, 0xFF70); // Katakana Chouon (half-width)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xFF10, 0xFF19); // \
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xFF21, 0xFF3A); //  - Latin (full-width)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0xFF41, 0xFF5A); // /
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3041, 0x3096); // Hiragana
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3099, 0x309E); // Hiragana voicing and iteration mark
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3400, 0x4DBF); // Kanji (CJK Extension A)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x4E00, 0x9FFF); // Kanji (Unified)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x2A700, 0x2B73F); // Kanji (CJK Extension C)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x2B740, 0x2B81F); // Kanji (CJK Extension D)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x2F800, 0x2FA1F); // Kanji (CJK supplement)
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x3005, 0x3005); // Kanji iteration mark
-	twic.text._addCharsToCharClass(nonLatinHashtagChars, 0x303B, 0x303B); // Han iteration mark
+	addCharsToCharClass(nonLatinHashtagChars, 0x30A1, 0x30FA); // Katakana (full-width)
+	addCharsToCharClass(nonLatinHashtagChars, 0x30FC, 0x30FE); // Katakana Chouon and iteration marks (full-width)
+	addCharsToCharClass(nonLatinHashtagChars, 0xFF66, 0xFF9F); // Katakana (half-width)
+	addCharsToCharClass(nonLatinHashtagChars, 0xFF70, 0xFF70); // Katakana Chouon (half-width)
+	addCharsToCharClass(nonLatinHashtagChars, 0xFF10, 0xFF19); // \
+	addCharsToCharClass(nonLatinHashtagChars, 0xFF21, 0xFF3A); //  - Latin (full-width)
+	addCharsToCharClass(nonLatinHashtagChars, 0xFF41, 0xFF5A); // /
+	addCharsToCharClass(nonLatinHashtagChars, 0x3041, 0x3096); // Hiragana
+	addCharsToCharClass(nonLatinHashtagChars, 0x3099, 0x309E); // Hiragana voicing and iteration mark
+	addCharsToCharClass(nonLatinHashtagChars, 0x3400, 0x4DBF); // Kanji (CJK Extension A)
+	addCharsToCharClass(nonLatinHashtagChars, 0x4E00, 0x9FFF); // Kanji (Unified)
+	addCharsToCharClass(nonLatinHashtagChars, 0x2A700, 0x2B73F); // Kanji (CJK Extension C)
+	addCharsToCharClass(nonLatinHashtagChars, 0x2B740, 0x2B81F); // Kanji (CJK Extension D)
+	addCharsToCharClass(nonLatinHashtagChars, 0x2F800, 0x2FA1F); // Kanji (CJK supplement)
+	addCharsToCharClass(nonLatinHashtagChars, 0x3005, 0x3005); // Kanji iteration mark
+	addCharsToCharClass(nonLatinHashtagChars, 0x303B, 0x303B); // Han iteration mark
 
 	twic.text.expr_['nonLatinHashtagChars'] = twic.text._regexSupplant(nonLatinHashtagChars.join(""));
 	// Latin accented characters (subtracted 0xD7 from the range, it's a confusable multiplication sign. Looks like "x")
