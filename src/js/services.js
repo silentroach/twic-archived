@@ -62,13 +62,19 @@ twic.services.list_ = {
 			return false;
 		}
 	},
-	/*
 	'twitpic.com': {
 		className: 'twitpic',
 		thumbnail: function(query) {
-			return 'http://twitpic.com/show/thumb/' + query;
+			var
+				parts = query.split('/');
+
+			if (1 === parts.length) {
+				return 'http://twitpic.com/show/thumb/' + parts.pop();
+			}
+
+			return false;
 		}
-	},*/
+	},
 	'yfrog.com': {
 		className: 'yfrog',
 		thumbnail: function(query) {

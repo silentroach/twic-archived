@@ -67,3 +67,6 @@ a.direct {
 	.aicon.imgur {
 		background: transparent url('/img/services/imgur.png') no-repeat 50% 50%;
 		}
+	.aicon.twitpic {
+		background: transparent url('/img/services/twitpic.png') no-repeat 50% 50%;
+		}
