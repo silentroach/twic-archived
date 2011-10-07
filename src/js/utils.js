@@ -94,16 +94,8 @@ twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+
  */
 twic.utils.url.domainExtractPattern_ = /:\/\/(.[^\/]+)/;
 
-/**
- * Links -> icons services hash
- * @const
- * @private
- */
-twic.utils.url.services_ = {
-	'tumblr.com': 'tumblr',
-	'instagr.am': 'instagram',
-	'4sq.com':    'foursquare',
-	'flic.kr':    'flickr'
+twic.utils.url.extractDomain = function(url) {
+	return twic.utils.url.domainExtractPattern_.exec(url);
 };
 
 /**
@@ -115,31 +107,20 @@ twic.utils.url.services_ = {
 twic.utils.url.humanize = function(url, lnks) {
 	var
 		links = lnks || { },
-		expanded = url in links ? links[url] : url;
-
-	if (!expanded) {
-		return '';
-	}
-
-	var
-		domain = twic.utils.url.domainExtractPattern_.exec(expanded),
+		expanded = url in links ? links[url] : url,
+		domain = twic.utils.url.extractDomain(expanded),
 		domainName = domain && domain.length > 1 ? domain[1] : '',
 		cutted = expanded
 			.replace(/^(.*?)\/\//, '')         // cutting the protocol
 			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
 		clen = cutted.length,
 		title = cutted,
+		className = twic.services.getClassNameByDomain(domainName),
 		classes = '';
 
-	if (
-		'' !== domainName
-		&& domainName in twic.utils.url.services_
-	) {
-		var
-			iconClass = twic.utils.url.services_[domainName];
-
-		title = iconClass + ' - ' + expanded;
-		classes = ' class="aicon ' + iconClass + '"';
+	if (className) {
+		title = className + ' - ' + expanded;
+		classes = ' class="aicon ' + className + '"';
 		cutted = '&nbsp;';
 	} else
 	if (clen > 30) {

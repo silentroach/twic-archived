@@ -126,65 +126,38 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 		}
 	};
 
-	var processUrls = function(urls, callback) {
-		var
-			i;
-
-		async.forEachSeries(urls, function(url, callback) {
-			if (
-				'url' in url
-				&& 'expanded_url' in url
-				&& !goog.isNull(url['expanded_url'])
-			) {
-				twic.db.execQuery(
-					'insert into links (tweet_id, lnk, expanded) ' +
-					'select ?, ?, ? ' +
-					'where not exists(select 1 from links where tweet_id = ? and lnk = ?)', [
-					self.fields['id'],
-					url['url'],
-					url['expanded_url'],
-
-					self.fields['id'],
-					url['url']
-				// FIXME make it optional callbacks
-				], callback, callback);
-			}
+	var saveLinks = function(links, callback) {
+		async.forEachSeries(links, function(link, callback) {
+			twic.db.execQuery(
+				'insert into links (tweet_id, lnk, expanded) ' +
+				'values (?, ?, ?) ', [
+				self.fields['id'],
+				link[0],
+				link[1]
+			// FIXME make it optional callbacks
+			], callback, callback);
 		}, callback );
 	};
 
-	var processMedia = function(meta, callback) {
-		var
-			i;
-
-		async.forEachSeries(meta, function(media, callback) {
-			if ('url' in media
-				&& 'expanded_url' in media
-				&& !goog.isNull(media['expanded_url'])
-			) {
-				var
-					previewLink = 'media_url_https' in media
-						? media['media_url_https'] : media['media_url'];
-
-				twic.db.execQuery(
-					'insert into media (tweet_id, lnk, preview, expanded) ' +
-					'select ?, ?, ?, ? ' +
-					'where not exists(select 1 from media where tweet_id = ? and lnk = ?) ', [
-					self.fields['id'],
-					media['url'],
-					previewLink,
-					media['expanded_url'],
-
-					self.fields['id'],
-					media['url']
-				// FIXME make it optional callbacks
-				], callback, callback);
-			}
+	var saveMedia = function(media, callback) {
+		async.forEachSeries(media, function(mediaItem, callback) {
+			twic.db.execQuery(
+				'insert into media (tweet_id, lnk, preview, expanded) ' +
+				'values (?, ?, ?, ?) ', [
+				self.fields['id'],
+				mediaItem[0],
+				mediaItem[1][0],
+				mediaItem[1][1]
+			// FIXME make it optional callbacks
+			], callback, callback);
 		}, callback );
 	};
 
 	var processEntities = function() {
 		var
-			objects = [self.jsonObj];
+			objects = [self.jsonObj],
+			links = { },
+			media = { };
 
 		if ('retweeted_status' in self.jsonObj) {
 			objects.push(self.jsonObj['retweeted_status']);
@@ -192,26 +165,91 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 
 		async.forEach(objects, function(object, callback) {
 			if ('entities' in object) {
-				async.forEach(['urls', 'media'], function(entity, callback) {
-					if (entity in object['entities']
-						&& object['entities'][entity].length > 0
-					) {
-						if ('urls' === entity) {
-							processUrls(object['entities'][entity], callback);
-						} else
-						if ('media' === entity) {
-							processMedia(object['entities'][entity], callback);
-						} else {
-							callback();
+				var
+					entities = object['entities'],
+					tmpText = self.fields['msg'],
+					idx;
+
+				if ('media' in entities) {
+					var
+						mediaItems = entities['media'],
+						mediaItem;
+
+					for (idx in mediaItems) {
+						mediaItem = mediaItems[idx];
+
+						if ('url' in mediaItem
+							&& 'expanded_url' in mediaItem
+							&& !goog.isNull(mediaItem['expanded_url'])
+						) {
+							var
+								previewLink = 'media_url_https' in mediaItem
+									? mediaItem['media_url_https'] : mediaItem['media_url'];
+
+							media[ mediaItem['url'] ] = [
+								previewLink, mediaItem['expanded_url']
+							];
 						}
-					} else {
-						callback();
 					}
-				}, callback );
-			} else {
-				callback();
+				}
+
+				if ('urls' in entities) {
+					var
+						urlItems = entities['urls'],
+						urlItem;
+
+					for (idx in urlItems) {
+						urlItem = urlItems[idx];
+
+						if (
+							'url' in urlItem
+							&& 'expanded_url' in urlItem
+							&& !goog.isNull(urlItem['expanded_url'])
+						) {
+							var
+								expandedUrl = urlItem['expanded_url'],
+								urlInfo = twic.text.getUrlParts(expandedUrl);
+
+							links[ urlItem['url'] ] = expandedUrl;
+
+							if (urlInfo) {
+								var
+									thumb = twic.services.getThumbnail(urlInfo.domain, urlInfo.query);
+
+								if (thumb) {
+									media[ urlItem['url'] ] = [
+										thumb, expandedUrl
+									];
+								}
+							}
+						}
+					}
+				}
 			}
-		}, onDone );
+
+			callback();
+		}, function() {
+			// lets save links and media
+			var
+				linksArray = [],
+				mediaArray = [],
+				linkItem,
+				mediaItem;
+
+			for (linkItem in links) {
+				linksArray.push( [ linkItem, links[linkItem] ]);
+			}
+
+			for (mediaItem in media) {
+				mediaArray.push( [ mediaItem, media[mediaItem] ]);
+			}
+
+			saveLinks(linksArray, function() {
+				saveMedia(mediaArray, function() {
+					onDone();
+				} );
+			} );
+		} );
 	};
 
 	twic.DBObject.prototype.save.call(self, function(changed) {
