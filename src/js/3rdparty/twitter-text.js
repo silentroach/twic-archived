@@ -104,6 +104,12 @@ twic.text._initialize = function() {
 		String.fromCharCode(0x3000)  // White_Space # Zs       IDEOGRAPHIC SPACE
 	];
 
+	var invalid_chars = [
+		String.fromCharCode(0xFFFE),
+		String.fromCharCode(0xFEFF), // BOM
+		String.fromCharCode(0xFFFF), // Special
+	];
+
 	var nonLatinHashtagChars = [];
 
 	// White_Space # Cc   [5] <control-0009>..<control-000D>
@@ -111,8 +117,12 @@ twic.text._initialize = function() {
 	// White_Space # Zs  [11] EN QUAD..HAIR SPACE
 	addCharsToCharClass(unicode_spaces, 0x2000, 0x200A);
 
-	twic.text.expr_['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(""));
-	twic.text.expr_['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join("") + "]");
+	// Directional change
+	addCharsToCharClass(invalid_chars, 0x202A, 0x202E);
+
+	twic.text.expr_['spaces_group'] = twic.text._regexSupplant(unicode_spaces.join(''));
+	twic.text.expr_['spaces'] = twic.text._regexSupplant("[" + unicode_spaces.join('') + ']');
+	twic.text.expr_['invalid_chars_group'] = twic.text._regexSupplant(invalid_chars.join(''));
 	twic.text.expr_['punct'] = /\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~/;
 	twic.text.expr_['atSigns'] = /[@＠]/;
 	twic.text.expr_['extractMentions'] = twic.text._regexSupplant(/(^|[^a-zA-Z0-9_])(#{atSigns})([a-zA-Z0-9_]{1,20})(?=(.|$))/g);
@@ -154,7 +164,7 @@ twic.text._initialize = function() {
 	twic.text.expr_['endScreenNameMatch'] = twic.text._regexSupplant(/^(?:#{atSigns}|[#{latinAccentChars}]|:\/\/)/);
 
 	// A hashtag must contain characters, numbers and underscores, but not all numbers.
-	twic.text.expr_['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|「|」|。|、|\.|!|！|\?|？|,)/);
+	twic.text.expr_['hashtagBoundary'] = twic.text._regexSupplant(/(?:^|$|#{spaces}|[「」。、.,!！?？:;"'])/);
 	twic.text.expr_['hashtagAlpha'] = twic.text._regexSupplant(/[a-z_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
 	twic.text.expr_['hashtagAlphaNumeric'] = twic.text._regexSupplant(/[a-z0-9_#{latinAccentChars}#{nonLatinHashtagChars}]/i);
 	twic.text.expr_['extractHash'] = twic.text._regexSupplant(/(#{hashtagBoundary})(#|＃)(#{hashtagAlphaNumeric}*#{hashtagAlpha}#{hashtagAlphaNumeric}*)/gi);
@@ -162,7 +172,7 @@ twic.text._initialize = function() {
 	// URL related hash regex collection
 	twic.text.expr_['validPrecedingChars'] = twic.text._regexSupplant(/(?:[^-\/"'!=A-Za-z0-9_@＠\.]|^)/);
 
-	twic.text.expr_['invalidDomainChars'] = twic.text._stringSupplant("\u00A0#{punct}#{spaces_group}", twic.text.expr_);
+	twic.text.expr_['invalidDomainChars'] = twic.text._stringSupplant("#{punct}#{spaces_group}#{invalid_chars_group}", twic.text.expr_);
 	twic.text.expr_['validDomainChars'] = twic.text._regexSupplant(/[^#{invalidDomainChars}]/);
 	twic.text.expr_['validSubdomain'] = twic.text._regexSupplant(/(?:(?:#{validDomainChars}(?:[_-]|#{validDomainChars})*)?#{validDomainChars}\.)/);
 	twic.text.expr_['validDomainName'] = twic.text._regexSupplant(/(?:(?:#{validDomainChars}(?:-|#{validDomainChars})*)?#{validDomainChars}\.)/);
@@ -173,37 +183,37 @@ twic.text._initialize = function() {
 
 	twic.text.expr_['validPortNumber'] = twic.text._regexSupplant(/[0-9]+/);
 
-	twic.text.expr_['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+\$\/%#\[\]\-_,~|&#{latinAccentChars}]/i);
+	twic.text.expr_['validGeneralUrlPathChars'] = twic.text._regexSupplant(/[a-z0-9!\*';:=\+,\.\$\/%#\[\]\-_~|&#{latinAccentChars}]/i);
 	// Allow URL paths to contain balanced parens
 	//  1. Used in Wikipedia URLs like /Primer_(film)
 	//  2. Used in IIS sessions like /S(dfd346)/
-	twic.text.expr_['wikipediaDisambiguation'] = twic.text._regexSupplant(/(?:\(#{validGeneralUrlPathChars}+\))/i);
-	// Allow @ in a url, but only in the middle. Catch things like http://example.com/@user
-	twic.text.expr_['validUrlPathChars'] = twic.text._regexSupplant(/(?:#{wikipediaDisambiguation}|@#{validGeneralUrlPathChars}+\/|[\.,]?#{validGeneralUrlPathChars}?)/i);
-
+	twic.text.expr_['validUrlBalancedParens'] = twic.text._regexSupplant(/\(#{validGeneralUrlPathChars}+\)/i);
 	// Valid end-of-path chracters (so /foo. does not gobble the period).
 	// 1. Allow =&# for empty URL parameters and other URL-join artifacts
-	twic.text.expr_['validUrlPathEndingChars'] = twic.text._regexSupplant(/(?:[\+\-a-z0-9=_#\/#{latinAccentChars}]|#{wikipediaDisambiguation})/i);
+	twic.text.expr_['validUrlPathEndingChars'] = twic.text._regexSupplant(/[\+\-a-z0-9=_#\/#{latinAccentChars}]|(?:#{validUrlBalancedParens})/i);
+	// Allow @ in a url, but only in the middle. Catch things like http://example.com/@user/
+	twic.text.expr_['validUrlPath'] = twic.text._regexSupplant('(?:' +
+	'(?:' +
+		'#{validGeneralUrlPathChars}*' +
+			'(?:#{validUrlBalancedParens}#{validGeneralUrlPathChars}*)*' +
+			'#{validUrlPathEndingChars}'+
+		')|(?:@#{validGeneralUrlPathChars}+\/)'+
+	')', 'i');
+
 	twic.text.expr_['validUrlQueryChars'] = /[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~|]/i;
 	twic.text.expr_['validUrlQueryEndingChars'] = /[a-z0-9_&=#\/]/i;
 	twic.text.expr_['extractUrl'] = twic.text._regexSupplant(
-		'('                                                          + // $1 total match
-		'(#{validPrecedingChars})'                                   + // $2 Preceeding chracter
-		'('                                                          + // $3 URL
-		'(https?:\\/\\/)?'                                           + // $4 Protocol (optional)
-		'(#{validDomain})'                                           + // $5 Domain(s)
-		'(?::(#{validPortNumber}))?'                                 + // $6 Port number (optional)
-		'(\\/'                                                       + // $7 URL Path
-		'(?:'                                                        +
-		'#{validUrlPathChars}+#{validUrlPathEndingChars}|'           +
-		'#{validUrlPathChars}+#{validUrlPathEndingChars}?|'          +
-		'#{validUrlPathEndingChars}'                                 +
-		')?'                                                         +
-		')?'                                                         +
-		'(\\?#{validUrlQueryChars}*#{validUrlQueryEndingChars})?'    + // $8 Query String
-		')'                                                          +
-		')'
-	, "gi");
+	'('                                                                + // $1 total match
+		'(#{validPrecedingChars})'                                     + // $2 Preceeding chracter
+		'('                                                            + // $3 URL
+			'(https?:\\/\\/)?'                                         + // $4 Protocol (optional)
+			'(#{validDomain})'                                         + // $5 Domain(s)
+			'(?::(#{validPortNumber}))?'                               + // $6 Port number (optional)
+			'(\\/#{validUrlPath}*)?'                                   + // $7 URL Path
+			'(\\?#{validUrlQueryChars}*#{validUrlQueryEndingChars})?'  + // $8 Query String
+		')' +
+	')'
+	, 'gi');
 
 	twic.text._initialized = true;
 };
