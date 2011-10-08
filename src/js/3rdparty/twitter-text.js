@@ -107,7 +107,7 @@ twic.text._initialize = function() {
 	var invalid_chars = [
 		String.fromCharCode(0xFFFE),
 		String.fromCharCode(0xFEFF), // BOM
-		String.fromCharCode(0xFFFF), // Special
+		String.fromCharCode(0xFFFF)  // Special
 	];
 
 	var nonLatinHashtagChars = [];
