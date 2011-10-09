@@ -565,18 +565,24 @@ twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 
 	if (!this.infoGallery_) {
 		var
-			img = twic.dom.expandElement('img'),
-			imgLink = twic.dom.expandElement('a'),
-			imageInfo = this.images_[0];
-
-		img.setAttribute('src', imageInfo[0]);
-
-		imgLink.setAttribute('href', imageInfo[1]);
-		imgLink.setAttribute('target', '_blank');
-		imgLink.appendChild(img);
+			i;
 
 		this.infoGallery_ = twic.dom.expandElement('div.gallery');
-		this.infoGallery_.appendChild(imgLink);
+
+		for (i = 0; i < this.images_.length; ++i) {
+			var
+				img = twic.dom.expandElement('img'),
+				imgLink = twic.dom.expandElement('a'),
+				imageInfo = this.images_[i];
+
+			img.setAttribute('src', imageInfo[0]);
+
+			imgLink.setAttribute('href', imageInfo[1]);
+			imgLink.setAttribute('target', '_blank');
+			imgLink.appendChild(img);
+
+			this.infoGallery_.appendChild(imgLink);
+		}
 
 		this.infoWrapper_.appendChild(this.infoGallery_);
 	}
