@@ -2,7 +2,7 @@
 	"name": "Twic",
 	"description": "__MSG_about_what__",
 	"default_locale": "en",
-	"version": "0.40",
+	"version": "0.41",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
 		"popup": "popup.html#accounts",
