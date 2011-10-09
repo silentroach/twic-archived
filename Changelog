@@ -1,4 +1,4 @@
-0.40 (in development):
+0.40:
 	* Better links handling with middle mouse key or with Meta key pressed in OS X
 	+ Support for image preview for services:
 		- imgur.com
