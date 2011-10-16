@@ -315,7 +315,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 	}
 
 	page.elementName_.innerHTML = data['name'];
-	page.elementNick_.innerHTML = data['screen_name'];
+	page.elementNick_.innerHTML = '@' + data['screen_name'];
 
 	page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
 
