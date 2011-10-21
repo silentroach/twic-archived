@@ -43,6 +43,7 @@ li.tweet p {
 		color: #b3b2b2;
 		line-height: 15px;
 		-webkit-transition: color 0.2s ease-in-out;
+		-webkit-user-select: none;
 		}
 		li.tweet:hover p.info {
 			color: gray;
