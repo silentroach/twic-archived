@@ -20,7 +20,7 @@
 	background-color: white;
 	padding: 2px 5px 0px 2px;
 	border-top-left-radius: 5px;
-	-webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .3);
+	-webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .1);
 	opacity: .5;
 	-webkit-transition: opacity 0.2s ease-in-out;
 	-webkit-transition: background-color 0.2s ease-in-out;
