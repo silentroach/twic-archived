@@ -24,12 +24,6 @@ twic.pages.HomeTimelinePage = function() {
 	 * @type {Element}
 	 * @private
 	 */
-	this.accountNameElement_ = null;
-
-	/**
-	 * @type {Element}
-	 * @private
-	 */
 	this.newTweet_ = null;
 
 	/**
@@ -161,7 +155,10 @@ twic.pages.HomeTimelinePage.prototype.initOnce = function() {
 		page.doOldRetweet_.call(page, text);
 	};
 
-	page.accountNameElement_ = twic.dom.findElement('.toolbar p', page.page_);
+	page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.page_);
+	page.elementDirect_.title = twic.utils.lang.translate('title_directly');
+	page.directLinkBase_      = page.elementDirect_.href;
+	page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.page_);
 
 	page.newTweet_ = twic.dom.findElement('.newtweet', page.page_);
 

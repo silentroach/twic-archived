@@ -394,7 +394,7 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
 			page.timelineUserId_ = null;
 		}
 	} else {
-		page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p').innerHTML;
+		page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p span').innerHTML;
 		page.toolbarTimeline_.href += '#' + prev.join('#');
 		// fixme shitcode
 		page.timelineUserId_ = parseInt(prev[0], 10);
