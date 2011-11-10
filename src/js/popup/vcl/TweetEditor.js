@@ -256,6 +256,19 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	// prevent user to press enter
 	this.editorTextarea_.addEventListener('keydown', function(e) {
 		switch (e.keyCode) {
+			// backspace
+			case 8:
+				// do not allow to remove the constant part
+				var constStartValLength = editor.constStartVal_.length;
+
+				if (
+					constStartValLength > 0
+					&& editor.editorTextarea_.value.length <= constStartValLength
+				) {
+					e.preventDefault();
+				}
+
+				break;
 			// enter
 			case 13:
 				e.preventDefault();

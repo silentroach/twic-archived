@@ -1,4 +1,5 @@
 0.41 (in development):
+	* Avoid flicker while using backspace in reply
 	+ Ability to change the space after user nick in reply with some punctuation symbol
 	+ Ability to view the home timeline directly on twitter.com
 
