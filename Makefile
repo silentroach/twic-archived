@@ -14,14 +14,14 @@ todo:
 	@@if test ! -z ${NODEJS}; then \
 		${NODEJS} ${TOOLS_DIR}/todo.js \
 	else \
-		echo "You must have NodeJS installed."; \
+		echo "You have to install NodeJS first."; \
 	fi
 
 extension:
 	@@if test ! -z ${NODEJS}; then \
 		${NODEJS} ${TOOLS_DIR}/builder/builder.js --manifest ${SRC_DIR}/manifest.json \
 	else \
-		echp "You must have NodeJS installed."; \
+		echp "You have to install NodeJS first."; \
 	fi
 
 all: extension
