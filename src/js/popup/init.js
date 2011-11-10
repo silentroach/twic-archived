@@ -45,7 +45,7 @@ document.addEventListener('click', function(e) {
 
 		if (
 			attr
-			&& '_blank' == trg
+			&& '_blank' === trg
 		) {
 			e.preventDefault();
 

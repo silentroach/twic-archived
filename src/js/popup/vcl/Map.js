@@ -15,21 +15,19 @@ twic.vcl.Map = function(container, lat, lng) {
 		container.style.display = 'block';
 
 		var
-			latLng = new google.maps.LatLng(lat, lng);
-
-		var map = new google.maps.Map(container, {
-			'zoom': 13,
-			'center': latLng,
-			'mapTypeId': google.maps.MapTypeId.ROADMAP,
-			'streetViewControl': false
-		} );
-
-		new google.maps.Marker( {
-			'map': map,
-			'position': latLng,
-			// @resource img/marker_map.gif
-			'icon': '/img/marker_map.gif'
-		} );
+			latLng = new google.maps.LatLng(lat, lng),
+			map = new google.maps.Map(container, {
+				'zoom': 13,
+				'center': latLng,
+				'mapTypeId': google.maps.MapTypeId.ROADMAP,
+				'streetViewControl': false
+			} ),
+			marker = new google.maps.Marker( {
+				'map': map,
+				'position': latLng,
+				// @resource img/marker_map.gif
+				'icon': '/img/marker_map.gif'
+			} );
 	};
 
 	if (window['map_init']) {
