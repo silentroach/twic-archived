@@ -199,7 +199,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		if (
 			val === ''
-			|| val === editor.constStartVal_
+			|| val === editor.constStartVal_.trim()
 			|| val.length < editor.constStartVal_.length
 		) {
 			storage.removeItem(path);
@@ -500,10 +500,16 @@ twic.vcl.TweetEditor.prototype.getCharCount_ = function() {
 /**
  * Set the constant editor text
  * @param {string} text Constant tweet part
+ * @param {boolean} spaceAfter Insert space after constant part
  */
-twic.vcl.TweetEditor.prototype.setConstTextIfEmpty = function(text) {
-	if (this.editorTextarea_.value === '') {
+twic.vcl.TweetEditor.prototype.setConstTextIfEmpty = function(text, spaceAfter) {
+	if ('' === this.editorTextarea_.value) {
 		this.constStartVal_ = text;
+
+		if (spaceAfter) {
+			text += ' ';
+		}
+
 		this.editorTextarea_.value = text;
 	}
 };

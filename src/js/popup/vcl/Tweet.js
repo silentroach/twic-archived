@@ -627,7 +627,7 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 	this.replier_ = new twic.vcl.TweetEditor(this.timelineId_, this.replyWrapper_, this.id_);
 	this.replier_.toggleGeo(this.timeline_.geoEnabled);
 	this.replier_.autoRemovable = true;
-	this.replier_.setConstTextIfEmpty(nickList);
+	this.replier_.setConstTextIfEmpty(nickList.trim(), true);
 	this.replier_.setFocus();
 
 	this.replier_.onTweetSend = function(editor, tweetObj, replyTo, callback) {
