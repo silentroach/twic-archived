@@ -207,19 +207,29 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
 							&& !goog.isNull(urlItem['expanded_url'])
 						) {
 							var
-								expandedUrl = urlItem['expanded_url'],
-								urlInfo = twic.text.getUrlParts(expandedUrl);
+								expandedUrl = urlItem['expanded_url'];
 
-							links[ urlItem['url'] ] = expandedUrl;
-
-							if (urlInfo) {
+							if (
+								['jpg', 'png', 'gif', 'bmp'].indexOf(expandedUrl.split('.').pop()) >= 0
+							) {
+								media[ urlItem['url'] ] = [
+									expandedUrl, expandedUrl
+								];
+							} else {
 								var
-									thumb = twic.services.getThumbnail(urlInfo.domain, urlInfo.query);
+									urlInfo = twic.text.getUrlParts(expandedUrl);
 
-								if (thumb) {
-									media[ urlItem['url'] ] = [
-										thumb, expandedUrl
-									];
+								links[ urlItem['url'] ] = expandedUrl;
+
+								if (urlInfo) {
+									var
+										thumb = twic.services.getThumbnail(urlInfo.domain, urlInfo.query);
+
+									if (thumb) {
+										media[ urlItem['url'] ] = [
+											thumb, expandedUrl
+										];
+									}
 								}
 							}
 						}
