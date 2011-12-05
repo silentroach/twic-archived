@@ -1,4 +1,5 @@
 0.42 (in development):
+	+ Using metaKey as a modifiers in OS X
 	* Geolocation getter is now limited for 5 seconds
 
 0.41:

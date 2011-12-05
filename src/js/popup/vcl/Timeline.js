@@ -132,14 +132,14 @@ twic.vcl.Timeline = function(parent) {
 	 * @private
 	 */
 	this.tbReply_ = twic.dom.expandElement('img.tb_reply');
-	this.tbReply_.title = twic.utils.lang.translate('title_reply');
+	this.tbReply_.title = twic.utils.lang.translate('title_reply' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
 	/**
 	 * @type {Element}
 	 * @private
 	 */
 	this.tbRetweet_ = twic.dom.expandElement('img.tb_retweet');
-	this.tbRetweet_.title = twic.utils.lang.translate('title_retweet');
+	this.tbRetweet_.title = twic.utils.lang.translate('title_retweet' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
 	/**
 	 * @type {Element}
@@ -373,7 +373,7 @@ twic.vcl.Timeline.prototype.doButtonLoad_ = function(button) {
 
 /**
  * Retweet
- * @param {Event|boolean|null} confirmed Is it confirmed?
+ * @param {MouseEvent|boolean|null} confirmed Is it confirmed?
  * @private
  */
 twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
@@ -382,7 +382,9 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
 
 	if (this.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
-			if (confirmed && confirmed.ctrlKey) {
+			if (confirmed
+				&& twic.events.isMouseEventAndModifier(confirmed)
+			) {
 				// oldstyle retweet
 				var
 					tweet = this.tweets_[this.hoveredTweet_.id];
@@ -426,7 +428,7 @@ twic.vcl.Timeline.prototype.doReallyConfirm_ = function() {
 
 /**
  * Remove tweet
- * @param {Event|boolean|null} confirmed Is it confirmed?
+ * @param {MouseEvent|boolean|null} confirmed Is it confirmed?
  * @private
  */
 twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
@@ -453,7 +455,7 @@ twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
 
 /**
  * Remove tweet
- * @param {Event|boolean|null} confirmed Is it confirmed?
+ * @param {MouseEvent|boolean|null} confirmed Is it confirmed?
  * @private
  */
 twic.vcl.Timeline.prototype.doUnRetweet_ = function(confirmed) {
@@ -550,7 +552,7 @@ twic.vcl.Timeline.prototype.clear = function() {
 };
 
 /**
- * @param {Event} e Mouse event
+ * @param {MouseEvent} e Mouse event
  * @private
  */
 twic.vcl.Timeline.prototype.doReply_ = function(e) {
@@ -563,7 +565,7 @@ twic.vcl.Timeline.prototype.doReply_ = function(e) {
 		this.resetEditor();
 
 		this.replyTweet_ = this.tweets_[this.hoveredTweet_.id];
-		this.replyTweet_.reply(e && e.ctrlKey);
+		this.replyTweet_.reply(e && twic.events.isMouseEventAndModifier(e));
 
 		this.hideButtons_();
 	}

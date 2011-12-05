@@ -84,7 +84,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 	editorSend.type  = 'button';
 	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
-	editorSend.title = twic.utils.lang.translate('title_button_send');
+	editorSend.title = twic.utils.lang.translate('title_button_send' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
 	rightButtons.appendChild(this.geoInfo_);
 	rightButtons.appendChild(editorAttach);
