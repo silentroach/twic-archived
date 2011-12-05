@@ -79,7 +79,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		editorAttach.classList.add('disabled');
 	} else {
-		editorAttach.title = twic.utils.lang.translate('title_attach_link');
+		editorAttach.title = twic.utils.lang.translate('title_attach_link' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 	}
 
 	editorSend.type  = 'button';
@@ -218,9 +218,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}, false );
 
 	if (twic.vcl.TweetEditor.prototype.currentURL_) {
-		editorAttach.addEventListener('click', function() {
+		editorAttach.addEventListener('click', function(e) {
 			var
 				url = twic.vcl.TweetEditor.prototype.currentURL_,
+				title = twic.vcl.TweetEditor.prototype.currentTitle_,
 				selStart = editor.editorTextarea_.selectionStart,
 				selEnd = editor.editorTextarea_.selectionEnd,
 				newVal = editor.editorTextarea_.value.substr(0, selStart);
@@ -232,7 +233,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 				newVal += ' ';
 			}
 
-			newVal += url;
+			newVal += url + (
+				twic.events.isMouseEventAndModifier(e) && '' !== title ? ' ' + title : ''
+			);
 
 			if (' ' !== editor.editorTextarea_.value.substr(selEnd).substr(0, 1)) {
 				newVal += ' ';
@@ -368,10 +371,17 @@ twic.vcl.TweetEditor.options = {
  */
 twic.vcl.TweetEditor.prototype.currentURL_ = false;
 
+/**
+ * Current title to paste it into the tweet
+ * @private
+ */
+twic.vcl.TweetEditor.prototype.currentTitle_ = '';
+
 chrome.tabs.getSelected( null, function(tab) {
 	if (tab) {
 		var
-			url = tab.url.trim();
+			url = tab.url.trim(),
+			title = tab.title.trim();
 
 		if (
 			url.length > 4
@@ -385,6 +395,7 @@ chrome.tabs.getSelected( null, function(tab) {
 			}
 
 			twic.vcl.TweetEditor.prototype.currentURL_ = url;
+			twic.vcl.TweetEditor.prototype.currentTitle_ = title;
 		}
 	}
 } );
