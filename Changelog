@@ -1,3 +1,5 @@
+0.42 (in development):
+
 0.41:
 	* Avoid flicker while using backspace in reply
 	+ Ability to change the space after user nick in reply with some punctuation symbol
