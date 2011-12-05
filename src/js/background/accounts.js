@@ -95,14 +95,11 @@ twic.accounts.updateList_ = function(callback) {
 			usrs.load(rows, 'u');
 
 			for (id in accs.items) {
-				var
-					objId = parseInt(id, 10),
-					tmp = accs.items[objId];
+				var tmp = accs.items[id];
+				tmp.user = usrs.items[id];
 
-				tmp.user = usrs.items[objId];
-
-				twic.accounts.items_[objId] = tmp;
-				twic.accounts.items_[objId].onUnreadTweetsCountChanged = twic.accounts.updateCounter_;
+				twic.accounts.items_[id] = tmp;
+				twic.accounts.items_[id].onUnreadTweetsCountChanged = twic.accounts.updateCounter_;
 			}
 
 			twic.accounts.updateCounter_();

@@ -42,12 +42,14 @@ twic.DBObjectList.prototype.load = function(result, alias) {
 
 	for (i = 0; i < result.length; ++i) {
 		var
-			/** @type {twic.DBObject} **/ obj = new objList.ctor_(),
-			/** @type {number} **/        id = obj.fields['id'];
+			/**
+			 * @type {twic.DBObject}
+			 **/
+			obj = new objList.ctor_();
 
 		obj.loadFromRow(result.item(i), alias);
 
-		objList.items[id] = obj;
+		objList.items[obj.fields['id']] = obj;
 	}
 };
 
@@ -59,7 +61,7 @@ twic.DBObjectList.prototype.load = function(result, alias) {
 twic.DBObjectList.prototype.pushUnique = function(row, alias) {
 	var
 		objList = this,
-		/** @type {number} **/ id = row[(alias ? alias + '_' : '') + 'id'];
+		id = row[(alias ? alias + '_' : '') + 'id'];
 
 	if (
 		!id
