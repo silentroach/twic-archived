@@ -19,8 +19,6 @@ twic.pages.AboutPage.prototype.initOnce = function() {
 	var
 		appDetails = chrome['app']['getDetails']();
 
-	twic.inject.js('http://api.flattr.com/js/0.6/load.js?mode=auto');
-
 	twic.dom.findElement('#aname').innerHTML = twic.name + ' ' + appDetails['version'];
 	twic.dom.findElement('#awhat').innerHTML = twic.utils.lang.translate('about_what');
 
