@@ -22,3 +22,11 @@
 	margin-bottom: .5em;
 	text-shadow: white 1px 1px 0;
 	}
+
+/** u18n **/
+#awhat:before            { content: '__MSG_about_what__' }
+#about .toolbar p:before { content: '__MSG_toolbar_about__' }
+#about .toolbar a:before { content: '__MSG_toolbar_accounts__' }
+#aauthor:before          { content: '__MSG_about_author__' }
+#acontributors:before    { content: '__MSG_about_contributors__' }
+#athanks:before          { content: '__MSG_about_thanks__' }
