@@ -276,7 +276,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			case 13:
 				e.preventDefault();
 
-				if (e.ctrlKey) {
+				if (twic.events.isMouseEventAndModifier(e)) {
 					e.stopPropagation();
 
 					if (
