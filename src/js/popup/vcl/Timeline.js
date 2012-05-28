@@ -161,10 +161,9 @@ twic.vcl.Timeline = function(parent) {
 	// this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
 
 	var timelineMouseOut = function(e) {
-		if (
-			timeline.tweetButtons_ !== e.toElement
-			&& !twic.dom.isChildOf(e.toElement, timeline.tweetButtons_)
-			&& !twic.dom.isChildOf(e.toElement, timeline.list_)
+		if (timeline.tweetButtons_ !== e.toElement &&
+			!twic.dom.isChildOf(e.toElement, timeline.tweetButtons_) &&
+			!twic.dom.isChildOf(e.toElement, timeline.list_)
 		) {
 			timeline.hideButtons_();
 		}
@@ -174,15 +173,16 @@ twic.vcl.Timeline = function(parent) {
 		var find = e.target;
 
 		if (!timeline.buttonPressed_) {
-			while (
-				find
-				&& 'LI' !== find.nodeName
-				&& find.parentNode
+			while (find &&
+				'LI' !== find.nodeName &&
+				find.parentNode
 			) {
 				find = find.parentNode;
 			}
 
-			if (find && find !== timeline.hoveredTweet_) {
+			if (find && 
+				find !== timeline.hoveredTweet_
+			) {
 				var
 					tweet = timeline.tweets_[find.id];
 
@@ -193,7 +193,6 @@ twic.vcl.Timeline = function(parent) {
 						timeline.hoveredTweet_ = find;
 
 						timeline.resetButtons_();
-
 						twic.dom.setVisibility(timeline.tweetButtons_, false);
 
 						var
@@ -222,11 +221,7 @@ twic.vcl.Timeline = function(parent) {
 	};
 
 	var timelineMouseDownFunc = function() {
-		if (timeline.hoveredTweet_) {
-			twic.dom.setVisibility(timeline.tweetButtons_, false);
-			timeline.hoveredTweet_ = null;
-		}
-
+		timeline.hideButtons_();
 		timeline.buttonPressed_ = true;
 	};
 
@@ -239,10 +234,9 @@ twic.vcl.Timeline = function(parent) {
 			clearTimeout(timeline.clickTimer_);
 			timeline.clickTimer_ = null;
 
-			if (
-				!timeline.buttonPressed_
-				&& timeline.hoveredTweet_
-				&& timeline.replyTweet_
+			if (!timeline.buttonPressed_ &&
+				timeline.hoveredTweet_ &&
+				timeline.replyTweet_
 			) {
 				timeline.replyTweet_.resetEditor();
 				timeline.hideButtons_();
@@ -380,30 +374,30 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
 	var
 		timeline = this;
 
-	if (this.hoveredTweet_) {
+	if (timeline.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
 			if (confirmed
 				&& twic.events.isEventWithModifier(confirmed)
 			) {
 				// oldstyle retweet
 				var
-					tweet = this.tweets_[this.hoveredTweet_.id];
+					tweet = this.tweets_[timeline.hoveredTweet_.id];
 
 				// wow, so ugly (it is Event here)
 				confirmed.stopPropagation();
 
-				this.onOldRetweet('RT @' + tweet.getAuthorNick() + ' ' + tweet.getRawText());
-				this.hideAndRestoreButtons_();
+				timeline.onOldRetweet('RT @' + tweet.getAuthorNick() + ' ' + tweet.getRawText());
+				timeline.hideAndRestoreButtons_();
 				return;
 			}
 
-			this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_RETWEET);
+			timeline.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_RETWEET);
 			return;
 		}
 
-		this.doButtonLoad_(this.tbRetweet_);
+		timeline.doButtonLoad_(timeline.tbRetweet_);
 
-		this.onRetweet(this.userId_, this.hoveredTweet_.id, function() {
+		timeline.onRetweet(timeline.userId_, timeline.hoveredTweet_.id, function() {
 			timeline.hideAndRestoreButtons_.call(timeline);
 		} );
 	}
@@ -494,9 +488,10 @@ twic.vcl.Timeline.prototype.endUpdate = function() {
  */
 twic.vcl.Timeline.prototype.hideButtons_ = function() {
 	if (this.hoveredTweet_) {
-		twic.dom.setVisibility(this.tweetButtons_, false);
 		this.hoveredTweet_ = null;
 	}
+
+	twic.dom.setVisibility(this.tweetButtons_, false);
 };
 
 /**
@@ -556,9 +551,8 @@ twic.vcl.Timeline.prototype.clear = function() {
  * @private
  */
 twic.vcl.Timeline.prototype.doReply_ = function(e) {
-	if (
-		null === this.confirmerAction_
-		&& this.hoveredTweet_
+	if (null === this.confirmerAction_ &&
+		this.hoveredTweet_
 	) {
 		e.stopPropagation();
 
@@ -588,13 +582,13 @@ twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
 
 	this.tweetButtons_.classList.add('bconfirm');
 
-	if (what === twic.vcl.Timeline.confirmAction.ACTION_DELETE) {
+	if (twic.vcl.Timeline.confirmAction.ACTION_DELETE === what) {
 		this.tweetButtons_.classList.add('bdel');
 	} else
-	if (what === twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET) {
+	if (twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET === what) {
 		this.tweetButtons_.classList.add('bunret');
 	} else
-	if (what === twic.vcl.Timeline.confirmAction.ACTION_RETWEET) {
+	if (twic.vcl.Timeline.confirmAction.ACTION_RETWEET === what) {
 		this.tweetButtons_.classList.add('bret');
 	}
 };
@@ -628,15 +622,13 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		timeline.hideButtons_.call(timeline);
 	};
 
-	if (
-		this.isLoading_
-		&& this.tweetBuffer_
+	if (this.isLoading_ &&
+		this.tweetBuffer_
 	) {
 		this.tweetBuffer_.appendChild(tweet.getElement());
 	} else {
-		if (
-			ts > this.lastTweetId_['ts']
-			&& id > this.lastTweetId_['id']
+		if (ts > this.lastTweetId_['ts'] &&
+			id > this.lastTweetId_['id']
 		) {
 			this.list_.insertBefore(tweet.getElement(), this.list_.childNodes[0]);
 		} else {
@@ -644,19 +636,16 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		}
 	}
 
-	if (
-		ts > this.lastTweetId_['ts']
-		&& id > this.lastTweetId_['id']
+	if (ts > this.lastTweetId_['ts'] &&
+		id > this.lastTweetId_['id']
 	) {
 		this.lastTweetId_['id'] = id;
 		this.lastTweetId_['ts'] = ts;
 	}
 
-	if (
-		0 === this.firstTweetId_['ts']
-		|| (
-			id < this.firstTweetId_['id']
-			&& ts < this.firstTweetId_['ts']
+	if (0 === this.firstTweetId_['ts'] || 
+		(id < this.firstTweetId_['id'] && 
+			ts < this.firstTweetId_['ts']
 		)
 	) {
 		this.firstTweetId_['id'] = id;

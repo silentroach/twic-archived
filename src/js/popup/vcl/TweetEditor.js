@@ -291,9 +291,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}, false );
 
 	var handleOutClick = function(e) {
-		if (
-			editorWrapper.classList.contains(twic.vcl.TweetEditor.focusedClass)
-			&& !twic.dom.isChildOf(e.target, editorWrapper)
+		if (editorWrapper.classList.contains(twic.vcl.TweetEditor.focusedClass) &&
+			!twic.dom.isChildOf(e.target, editorWrapper)
 		) {
 			editorWrapper.classList.remove(twic.vcl.TweetEditor.focusedClass);
 		}
