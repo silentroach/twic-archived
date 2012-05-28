@@ -180,7 +180,7 @@ twic.vcl.Timeline = function(parent) {
 				find = find.parentNode;
 			}
 
-			if (find && 
+			if (find &&
 				find !== timeline.hoveredTweet_
 			) {
 				var
@@ -643,8 +643,8 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 		this.lastTweetId_['ts'] = ts;
 	}
 
-	if (0 === this.firstTweetId_['ts'] || 
-		(id < this.firstTweetId_['id'] && 
+	if (0 === this.firstTweetId_['ts'] ||
+		(id < this.firstTweetId_['id'] &&
 			ts < this.firstTweetId_['ts']
 		)
 	) {
