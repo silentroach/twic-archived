@@ -57,23 +57,30 @@ twic.db.obj.Tweet = function() {
 			return null;
 		},
 		'geo': function(obj) {
+			var 
+				coords;
+
 			var checkCoordinates = function(obj) {
-				if ('geo' in obj
-					&& obj['geo']
-					&& 'Point' === obj['geo']['type']
-					&& 'coordinates' in obj['geo']
+				if ('geo' in obj && 
+					obj['geo'] && 
+					'Point' === obj['geo']['type'] && 
+					'coordinates' in obj['geo']
 				) {
 					return obj['geo']['coordinates'].join(',');
 				}
+
+				return null;
 			};
 
 			if ('retweeted_status' in obj) {
-				checkCoordinates(obj['retweeted_status']);
+				coords = checkCoordinates(obj['retweeted_status']);
 			}
 
-			checkCoordinates(obj);
+			if (!coords) {
+				coords = checkCoordinates(obj);
+			}
 
-			return null;
+			return coords;
 		}
 	};
 };
