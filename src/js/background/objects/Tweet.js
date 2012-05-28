@@ -57,13 +57,13 @@ twic.db.obj.Tweet = function() {
 			return null;
 		},
 		'geo': function(obj) {
-			var 
+			var
 				coords;
 
 			var checkCoordinates = function(obj) {
-				if ('geo' in obj && 
-					obj['geo'] && 
-					'Point' === obj['geo']['type'] && 
+				if ('geo' in obj &&
+					obj['geo'] &&
+					'Point' === obj['geo']['type'] &&
 					'coordinates' in obj['geo']
 				) {
 					return obj['geo']['coordinates'].join(',');

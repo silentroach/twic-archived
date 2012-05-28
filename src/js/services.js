@@ -67,7 +67,9 @@ twic.services.list_ = {
 					pictureName = lastParts.pop();
 
 				if (pictureName.length > 3) {
-					return 'http://i.imgur.com/' + pictureName + (pictureName.substr(-1) == 'l' ? '' : 'l') + '.' + ext;
+					return 'http://i.imgur.com/' + pictureName +
+						(pictureName.substr(-1) === 'l' ? '' : 'l') +
+						'.' + ext;
 				}
 			}
 

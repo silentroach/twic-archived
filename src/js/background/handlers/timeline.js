@@ -55,10 +55,9 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 			    	tweetInfo['source'] = tweet.fields['source'];
 			    }
 
-				if (
-					tweet.fields['geo']
-					&& 1 == user.fields['geo_enabled']
-					&& twic.options.getValue('tweet_show_geo')
+				if (tweet.fields['geo'] &&
+					1 == user.fields['geo_enabled'] &&
+					twic.options.getValue('tweet_show_geo')
 				) {
 					tweetInfo['geo'] = tweet.fields['geo'].split(',');
 				}
