@@ -383,7 +383,7 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
 	if (this.hoveredTweet_) {
 		if (!confirmed || !goog.isBoolean(confirmed)) {
 			if (confirmed
-				&& twic.events.isMouseEventAndModifier(confirmed)
+				&& twic.events.isEventWithModifier(confirmed)
 			) {
 				// oldstyle retweet
 				var
@@ -565,7 +565,7 @@ twic.vcl.Timeline.prototype.doReply_ = function(e) {
 		this.resetEditor();
 
 		this.replyTweet_ = this.tweets_[this.hoveredTweet_.id];
-		this.replyTweet_.reply(e && twic.events.isMouseEventAndModifier(e));
+		this.replyTweet_.reply(e && twic.events.isEventWithModifier(e));
 
 		this.hideButtons_();
 	}

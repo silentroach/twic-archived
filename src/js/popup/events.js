@@ -8,10 +8,10 @@
 twic.events = { };
 
 /**
- * @param {MouseEvent} event Mouse event
+ * @param {MouseEvent|KeyboardEvent} event Mouse or keyboard event
  * @return {boolean}
  */
-twic.events.isMouseEventAndModifier = function(event) {
+twic.events.isEventWithModifier = function(event) {
 	if (twic.platforms.OSX === twic.platform) {
 		return event.metaKey;
 	} else {

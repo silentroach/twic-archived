@@ -197,10 +197,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		checkTweetArea();
 
-		if (
-			val === ''
-			|| val === editor.constStartVal_.trim()
-			|| val.length < editor.constStartVal_.length
+		if (val === '' || 
+			val === editor.constStartVal_.trim() || 
+			val.length < editor.constStartVal_.length
 		) {
 			storage.removeItem(path);
 		} else {
@@ -234,7 +233,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			}
 
 			newVal += url + (
-				twic.events.isMouseEventAndModifier(e) && '' !== title ? ' ' + title : ''
+				twic.events.isEventWithModifier(e) && '' !== title ? ' ' + title : ''
 			);
 
 			if (' ' !== editor.editorTextarea_.value.substr(selEnd).substr(0, 1)) {
@@ -276,7 +275,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 			case 13:
 				e.preventDefault();
 
-				if (twic.events.isMouseEventAndModifier(e)) {
+				if (twic.events.isEventWithModifier(e)) {
 					e.stopPropagation();
 
 					if (
