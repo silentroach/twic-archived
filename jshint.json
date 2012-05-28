@@ -23,7 +23,8 @@
 			"async",
 			"goog",
 			"google",
-			"chrome"
+			"chrome",
+			"webkitNotifications"
     ],
 
 
