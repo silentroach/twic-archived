@@ -275,7 +275,7 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyI
 };
 
 /**
- * @private
+ * @protected
  */
 twic.pages.TimelinePage.prototype.timelineResetEditor_ = function() {
 	this.timeline_.resetEditor();
