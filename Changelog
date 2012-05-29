@@ -1,3 +1,8 @@
+0.45: (in development)
+
+0.44:
+	* Nothing changed, just for WebStore to pass
+
 0.43:
 	* Fixed switching between images and map tweet info
 	* Fixed bug when trying to reply with Meta+Enter on OS X
