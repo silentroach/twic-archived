@@ -537,6 +537,16 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 		tweet = this,
 		mapContainer;
 
+	if (!this.mapVisible_) {
+		this.resetExtraInfo_();
+
+		tweet.onMapShow.call(tweet);
+
+		twic.dom.addClass(this.wrapper_, 'map');
+	} else {
+		twic.dom.removeClass(this.wrapper_, 'map');
+	}
+
 	if (!this.infoMap_) {
 		this.infoMap_ = twic.dom.expandElement('div.map');
 
@@ -548,16 +558,6 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 		this.map_ = new twic.vcl.Map(mapContainer, this.geo_[0], this.geo_[1]);
 	}
 
-	if (!this.mapVisible_) {
-		this.resetExtraInfo_();
-
-		tweet.onMapShow.call(tweet);
-
-		twic.dom.addClass(this.wrapper_, 'map');
-	} else {
-		twic.dom.removeClass(this.wrapper_, 'map');
-	}
-
 	this.mapVisible_ = !this.mapVisible_;
 };
 
@@ -567,6 +567,16 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 	var
 		tweet = this;
+
+	if (!this.galleryVisible_) {
+		this.resetExtraInfo_();
+
+		tweet.onGalleryShow.call(tweet);
+
+		twic.dom.addClass(this.wrapper_, 'gallery');
+	} else {
+		twic.dom.removeClass(this.wrapper_, 'gallery');
+	}
 
 	if (!this.infoGallery_) {
 		var
@@ -590,16 +600,6 @@ twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 		}
 
 		this.infoWrapper_.appendChild(this.infoGallery_);
-	}
-
-	if (!this.galleryVisible_) {
-		this.resetExtraInfo_();
-
-		tweet.onGalleryShow.call(tweet);
-
-		twic.dom.addClass(this.wrapper_, 'gallery');
-	} else {
-		twic.dom.removeClass(this.wrapper_, 'gallery');
 	}
 
 	this.galleryVisible_ = !this.galleryVisible_;

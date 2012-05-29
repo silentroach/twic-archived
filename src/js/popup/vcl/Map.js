@@ -38,6 +38,6 @@ twic.vcl.Map = function(container, lat, lng) {
 			drawMap();
 		};
 
-		twic.inject.js('https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false&callback=initMap');
+		twic.inject.js('https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=true&callback=initMap');
 	}
 };
