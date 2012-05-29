@@ -1,4 +1,4 @@
-0.43 (in development):
+0.43:
 	* Fixed switching between images and map tweet info
 	* Fixed bug when trying to reply with Meta+Enter on OS X
 	* Fixed bug with geoinfo in tweets
