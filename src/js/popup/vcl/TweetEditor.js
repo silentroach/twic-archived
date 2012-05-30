@@ -71,8 +71,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	this.geoInfo_.src = 'img/buttons/map.png';
 	this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('disabled');
 
-	// @resource img/buttons/attach.png
-	editorAttach.src = 'img/buttons/attach.png';
+	// @resource img/buttons/link.png
+	editorAttach.src = 'img/buttons/link.png';
 
 	if (!twic.vcl.TweetEditor.prototype.currentURL_) {
 		editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
