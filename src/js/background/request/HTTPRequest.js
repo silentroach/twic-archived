@@ -21,7 +21,7 @@ twic.HTTPRequest = function(method, url) {
 	/**
 	 * URL
 	 * @type {string}
-	 * @private
+	 * @protected
 	 */
 	this.url_ = url;
 

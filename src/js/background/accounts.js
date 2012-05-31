@@ -62,7 +62,7 @@ twic.accounts.updateCounter_ = function() {
 	} );
 
 	chrome.browserAction.setBadgeText( {
-		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '∞')
+		'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
 	} );
 };
 

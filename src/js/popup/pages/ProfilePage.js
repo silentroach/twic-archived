@@ -315,7 +315,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 	}
 
 	page.elementName_.innerHTML = data['name'];
-	page.elementNick_.innerHTML = data['screen_name'];
+	page.elementNick_.innerHTML = '@' + data['screen_name'];
 
 	page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
 
@@ -394,7 +394,7 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
 			page.timelineUserId_ = null;
 		}
 	} else {
-		page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p').innerHTML;
+		page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p span').innerHTML;
 		page.toolbarTimeline_.href += '#' + prev.join('#');
 		// fixme shitcode
 		page.timelineUserId_ = parseInt(prev[0], 10);

@@ -42,7 +42,7 @@ body, input, textarea {
 body.windows,
 body.windows input,
 body.windows textarea {
-	font-family: "Trebuchet MS", Tahoma, sans-serif;
+	font-family: Tahoma, Verdana, sans-serif;
 	}
 
 body.osx,

@@ -56,7 +56,12 @@ twic.db.obj.Friend.prototype.save = function(callback) {
  * @param {function()} nfcallback Object not found callback
  */
 twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, nfcallback) {
-	twic.DBObject.prototype.loadById.call(this, [sourceId, targetId].sort().join('_'), callback, nfcallback);
+	twic.DBObject.prototype.loadById.call(
+		this,
+		[sourceId, targetId].sort().join('_'),
+		callback,
+		nfcallback
+	);
 };
 
 /**

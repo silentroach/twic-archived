@@ -1,4 +1,36 @@
-0.39 (in development):
+0.45: (in development)
+	+ New icons for tweet editor
+
+0.44:
+	* Nothing changed, just for WebStore to pass
+
+0.43:
+	* Fixed switching between images and map tweet info
+	* Fixed bug when trying to reply with Meta+Enter on OS X
+	* Fixed bug with geoinfo in tweets
+	- No more donate button
+
+0.42:
+	+ Showing inline preview for raw linked images
+	+ Ability to insert the page title with url on attach button click with modifier key
+	+ Using metaKey as a modifier in OS X
+	* Geolocation getter is now limited for 5 seconds
+
+0.41:
+	* Avoid flicker while using backspace in reply
+	+ Ability to change the space after user nick in reply with some punctuation symbol
+	+ Ability to view the home timeline directly on twitter.com
+
+0.40:
+	* Better links handling with middle mouse key or with Meta key pressed in OS X
+	+ Support for image preview for services:
+		- imgur.com
+		- yfrog.com
+		- img.ly
+		- twitpic.com
+		- instagr.am
+
+0.39:
 	* Fixed bug with back button on profile page after some action with confirmation (#78)
 
 0.38:

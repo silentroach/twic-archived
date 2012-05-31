@@ -2,7 +2,7 @@
 	"name": "Twic",
 	"description": "__MSG_about_what__",
 	"default_locale": "en",
-	"version": "0.39",
+	"version": "0.44",
 	"update_url": "http://clients2.google.com/service/update2/crx",
 	"browser_action": {
 		"popup": "popup.html#accounts",
@@ -29,6 +29,7 @@
 			"js/init.js",
 			"js/3rdparty/closure.base.js",
 			"js/3rdparty/twitter-text.js",
+			"js/services.js",
 			"js/utils.js",
 			"js/dom.js",
 			"js/global.js",

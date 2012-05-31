@@ -1,32 +1,12 @@
 var
 	fs  = require('fs'),
 	sys = require('util'),
-
-	commentPattern = /[//|*] ?(fixme|todo)(.*?)$/mig;
+	child = require('child_process');
 
 var checkFile = function(filename) {
-	var
-		content    = fs.readFileSync(filename, 'utf-8'),
-		introduced = false,
-		comments;
-
-	while (comments = commentPattern.exec(content)) {
-		var
-			comment = comments[2].trim(),
-			idx     = content.substring(0, comments.index).split("\n").length;
-
-		if (!introduced) {
-			sys.print("\033[1m" + filename + "\033[0m\n");
-
-			introduced = true;
-		}
-
-		sys.print('  Line ' + idx + ': ' + comment + "\n");
-	}
-
-	if (introduced) {
-		sys.print("\n");
-	}
+	child.exec('jshint ' + filename + ' --config jshint.json', function(error, stdout, stderr) {
+		sys.print(stdout);
+	} );
 };
 
 var checkDir = function(path) {

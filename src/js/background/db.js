@@ -291,7 +291,7 @@ twic.db.migrations_ = {
 				'alter table users add geo_enabled int not null default 0'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-			}, callback)
+			}, callback);
 		}
 	},
 	'0.11': {
