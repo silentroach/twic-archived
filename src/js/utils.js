@@ -107,7 +107,7 @@ twic.utils.url.extractDomain = function(url) {
 twic.utils.url.humanize = function(url, lnks) {
 	var
 		links = lnks || { },
-		expanded = url in links ? links[url] : url,
+		expanded = url in links && links[url] ? links[url] : url,
 		domain = twic.utils.url.extractDomain(expanded),
 		domainName = domain && domain.length > 1 ? domain[1] : '',
 		cutted = expanded

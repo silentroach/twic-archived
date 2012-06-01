@@ -38,7 +38,10 @@ var prepareTweetInfo = function(tweet, user, users, isSeparator) {
 };
 
 var fetchData = function(ids, reply, callback) {
-	async.forEach( [
+	var
+		showImages = twic.options.getValue('tweet_show_images');
+
+	async.forEachSeries( [
 		function(callback) {
 			twic.db.openQuery('select * from links where tweet_id in (' + ids.join(',') + ')', [], function(rows) {
 				var i;
@@ -68,9 +71,9 @@ var fetchData = function(ids, reply, callback) {
 							row['preview'],
 							row['expanded']
 						];
-					} else {
-						link = row['expanded'];
 					}
+
+					link = row['expanded'];
 
 					reply[row['tweet_id']]['links'][row['lnk']] = link;
 					++reply[row['tweet_id']]['links']['length'];
@@ -108,8 +111,7 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
 			var
 				reply = { },
 				ids = [],
-				tweetId = '',
-				showImages = twic.options.getValue('tweet_show_images');
+				tweetId = '';
 
 			for (tweetId in tweets.items) {
 				var
