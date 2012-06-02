@@ -12,19 +12,23 @@
 	font-size: 9pt;
 	-webkit-transition: background-color 0.2s ease-in-out;
 	}
-	.toolbar a.icon {
-		margin: 0 10px;
+	.toolbar a {
+		/* removing focus outline */
+		outline : 0;
 		}
-	.toolbar a.button {
-		text-decoration: none;
-		color: white;
-		margin-right: .2em;
-		border-bottom: 1px solid #585858;
-		border-radius: 5px;
-		padding: 0px 5px;
-		background-color: #757575;
-		font-weight: bold;
-		}
+		.toolbar a.icon {
+			margin: 0 10px;
+			}
+		.toolbar a.button {
+			text-decoration: none;
+			color: white;
+			margin-right: .2em;
+			border-bottom: 1px solid #585858;
+			border-radius: 5px;
+			padding: 0px 5px;
+			background-color: #757575;
+			font-weight: bold;
+			}
 	.toolbar p {
 		display: inline;
 		float: right;
