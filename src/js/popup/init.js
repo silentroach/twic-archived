@@ -7,22 +7,6 @@
 
 // some handlers
 
-setTimeout( function() {
-
-	// try to switch to the page we remember before popup was closed
-	var lastLocation = window.localStorage.getItem('location');
-
-	if (lastLocation) {
-		twic.debug.info('Last stored location:', lastLocation);
-
-		// go to the previous remembered location
-		window.location = window.location.pathname + '#' + lastLocation;
-	}
-
-	window.onhashchange();
-
-}, 100 );
-
 // handling clicks on links with "data-url" property
 // special hack to allow users to open links in
 // background with middle mouse click (or with metaKey + click in MacOS)
@@ -74,3 +58,16 @@ twic.router.register('timeline', twic.pages.HomeTimelinePage);
 twic.router.register('mentions', twic.pages.MentionsPage);
 //twic.router.register('conversation', twic.pages.ConversationPage);
 twic.router.register('about', twic.pages.AboutPage);
+
+// try to switch to the page we remember before popup was closed
+
+var lastLocation = window.localStorage.getItem('location');
+
+if (lastLocation) {
+	twic.debug.info('Last stored location:', lastLocation);
+
+	// go to the previous remembered location
+	window.location = window.location.pathname + '#' + lastLocation;
+}
+
+window.onhashchange();
