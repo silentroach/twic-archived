@@ -321,7 +321,7 @@ twic.db.migrations_ = {
 					'user_id int not null, ' +
 					'tweet_id varchar(32) not null, ' +
 					'primary key (user_id asc, tweet_id desc)' +
-				')',
+				')'
 			], function(sqlText, callback) {
 				twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
 			}, callback);

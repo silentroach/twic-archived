@@ -452,7 +452,7 @@ twic.twitter.updateMentions = function(userId) {
 					twic.db.obj.Mentions.pushUserMentionTweet(
 						userId, tweetId,
 						// only increment the unread tweets count if tweet user id isn't me
-						null//tweetUserId !== userId ? incrementUnreadTweets : undefined
+						null //tweetUserId !== userId ? incrementUnreadTweets : undefined
 					);
 				}
 
