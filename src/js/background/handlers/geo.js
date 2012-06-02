@@ -39,6 +39,8 @@
 		}, function(error) {
 			lastPos.result = false;
 			sendResponse( false );
+		}, {
+			"timeout": 5000
 		} );
 	} );
 

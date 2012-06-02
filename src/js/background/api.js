@@ -301,7 +301,7 @@ twic.api.deleteTweet = function(id, token, token_secret, callback, failedCallbac
  * @param {function(*)} callback Callback function
  * @param {function(twic.ResponseError)=} failedCallback Failed callback function
  */
-twic.api.homeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
+twic.api.getHomeTimeline = function(id, since_id, token, token_secret, callback, failedCallback) {
 	var req = new twic.OAuthRequest('GET', twic.api.BASE_URL + 'statuses/home_timeline/' + id + '.json');
 
 	req.setRequestData('count', 30);
@@ -311,7 +311,45 @@ twic.api.homeTimeline = function(id, since_id, token, token_secret, callback, fa
 		req.setRequestData('since_id', since_id);
 	}
 
-	twic.debug.info('updating home time line for ' + id + (since_id ? ' since id ' + since_id : ''));
+	twic.debug.info('updating home timeline for ' + id + (since_id ? ' since id ' + since_id : ''));
+
+	req.send( function(error, req) {
+		if (!error) {
+			var data = JSON.parse(req.responseText);
+
+			if (
+				data
+				&& callback
+			) {
+				callback(data);
+			}
+		} else
+		if (failedCallback) {
+			failedCallback(error);
+		}
+	}, token, token_secret );
+};
+
+/**
+ * Get user timeline
+ * @param {number} id User identifier
+ * @param {?string} since_id Since id
+ * @param {string} token OAuth token
+ * @param {string} token_secret OAuth token secret
+ * @param {function(*)} callback Callback function
+ * @param {function(twic.ResponseError)=} failedCallback Failed callback function
+ */
+twic.api.getMentions = function(id, since_id, token, token_secret, callback, failedCallback) {
+	var req = new twic.OAuthRequest('GET', twic.api.BASE_URL + 'statuses/mentions.json');
+
+	req.setRequestData('count', 10);
+	req.setRequestData('include_entities', 1);
+
+	if (since_id) {
+		req.setRequestData('since_id', since_id);
+	}
+
+	twic.debug.info('updating mentions for ' + id + (since_id ? ' since id ' + since_id : ''));
 
 	req.send( function(error, req) {
 		if (!error) {

@@ -43,6 +43,7 @@ li.tweet p {
 		color: #b3b2b2;
 		line-height: 15px;
 		-webkit-transition: color 0.2s ease-in-out;
+		-webkit-user-select: none;
 		}
 		li.tweet:hover p.info {
 			color: gray;
@@ -77,7 +78,7 @@ li.tweet .infoWrapper {
 	padding-top: .5em;
 	background: url('/img/loader.gif') no-repeat center center;
 	}
-	li.tweet .infoWrapper .map {
+	li.tweet .infoWrapper .mapWrapper {
 		height: 200px;
 		border: 1px solid silver;
 		}
@@ -89,8 +90,17 @@ li.tweet.map p.info .geo,
 li.tweet.gallery p.info .img {
 	opacity: 1;
 	}
+
+li.tweet .infoWrapper,
+li.tweet .infoWrapper .map,
+li.tweet .infoWrapper .gallery {
+	display: none;
+	}
+
 li.tweet.map .infoWrapper,
-li.tweet.gallery .infoWrapper {
+li.tweet.map .infoWrapper .map,
+li.tweet.gallery .infoWrapper,
+li.tweet.gallery .infoWrapper .gallery {
 	display: block;
 	}
 

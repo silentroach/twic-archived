@@ -58,3 +58,15 @@ a.direct {
 	.aicon.flickr {
 		background: transparent url('/img/services/flickr.png') no-repeat 50% 50%;
 		}
+	.aicon.yfrog {
+		background: transparent url('/img/services/yfrog.png') no-repeat 50% 50%;
+		}
+	.aicon.imgly {
+		background: transparent url('/img/services/imgly.png') no-repeat 50% 50%;
+		}
+	.aicon.imgur {
+		background: transparent url('/img/services/imgur.png') no-repeat 50% 50%;
+		}
+	.aicon.twitpic {
+		background: transparent url('/img/services/twitpic.png') no-repeat 50% 50%;
+		}

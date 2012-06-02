@@ -24,14 +24,6 @@
 		}
 	};
 
-	var onElementChange = function(element) {
-		if ('INPUT' === element.nodeName) {
-			twic.options.set(element.getAttribute('data-key'), element['checked']);
-
-			checkInnerChecks(element);
-		}
-	};
-
 	var checkInnerChecks = function(element) {
 		var
 			checked = element['checked'],
@@ -60,6 +52,14 @@
 					}
 				}
 			}
+		}
+	};
+
+	var onElementChange = function(element) {
+		if ('INPUT' === element.nodeName) {
+			twic.options.set(element.getAttribute('data-key'), element['checked']);
+
+			checkInnerChecks(element);
 		}
 	};
 

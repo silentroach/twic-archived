@@ -19,7 +19,7 @@ twic.Page = function() {
 };
 
 /**
- * Code to prepare page for the first time 
+ * Code to prepare page for the first time
  */
 twic.Page.prototype.initOnce = function() { };
 

@@ -534,7 +534,8 @@ twic.vcl.Tweet.prototype.resetExtraInfo_ = function() {
  */
 twic.vcl.Tweet.prototype.toggleMap_ = function() {
 	var
-		tweet = this;
+		tweet = this,
+		mapContainer;
 
 	if (!this.mapVisible_) {
 		this.resetExtraInfo_();
@@ -548,9 +549,13 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 
 	if (!this.infoMap_) {
 		this.infoMap_ = twic.dom.expandElement('div.map');
+
+		mapContainer = twic.dom.expandElement('div.mapWrapper');
+		this.infoMap_.appendChild(mapContainer);
+
 		this.infoWrapper_.appendChild(this.infoMap_);
 
-		this.map_ = new twic.vcl.Map(this.infoMap_, this.geo_[0], this.geo_[1]);
+		this.map_ = new twic.vcl.Map(mapContainer, this.geo_[0], this.geo_[1]);
 	}
 
 	this.mapVisible_ = !this.mapVisible_;
@@ -563,24 +568,6 @@ twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 	var
 		tweet = this;
 
-	if (!this.infoGallery_) {
-		var
-			img = twic.dom.expandElement('img'),
-			imgLink = twic.dom.expandElement('a'),
-			imageInfo = this.images_[0];
-
-		img.setAttribute('src', imageInfo[0]);
-
-		imgLink.setAttribute('href', imageInfo[1]);
-		imgLink.setAttribute('target', '_blank');
-		imgLink.appendChild(img);
-
-		this.infoGallery_ = twic.dom.expandElement('div.gallery');
-		this.infoGallery_.appendChild(imgLink);
-
-		this.infoWrapper_.appendChild(this.infoGallery_);
-	}
-
 	if (!this.galleryVisible_) {
 		this.resetExtraInfo_();
 
@@ -589,6 +576,30 @@ twic.vcl.Tweet.prototype.toggleGallery_ = function() {
 		twic.dom.addClass(this.wrapper_, 'gallery');
 	} else {
 		twic.dom.removeClass(this.wrapper_, 'gallery');
+	}
+
+	if (!this.infoGallery_) {
+		var
+			i;
+
+		this.infoGallery_ = twic.dom.expandElement('div.gallery');
+
+		for (i = 0; i < this.images_.length; ++i) {
+			var
+				img = twic.dom.expandElement('img'),
+				imgLink = twic.dom.expandElement('a'),
+				imageInfo = this.images_[i];
+
+			img.setAttribute('src', imageInfo[0]);
+
+			imgLink.setAttribute('href', imageInfo[1]);
+			imgLink.setAttribute('target', '_blank');
+			imgLink.appendChild(img);
+
+			this.infoGallery_.appendChild(imgLink);
+		}
+
+		this.infoWrapper_.appendChild(this.infoGallery_);
 	}
 
 	this.galleryVisible_ = !this.galleryVisible_;
@@ -621,7 +632,7 @@ twic.vcl.Tweet.prototype.reply = function(all) {
 	this.replier_ = new twic.vcl.TweetEditor(this.timelineId_, this.replyWrapper_, this.id_);
 	this.replier_.toggleGeo(this.timeline_.geoEnabled);
 	this.replier_.autoRemovable = true;
-	this.replier_.setConstTextIfEmpty(nickList);
+	this.replier_.setConstTextIfEmpty(nickList.trim(), true);
 	this.replier_.setFocus();
 
 	this.replier_.onTweetSend = function(editor, tweetObj, replyTo, callback) {

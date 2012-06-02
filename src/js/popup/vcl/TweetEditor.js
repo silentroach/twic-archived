@@ -71,20 +71,20 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	this.geoInfo_.src = 'img/buttons/map.png';
 	this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('disabled');
 
-	// @resource img/buttons/attach.png
-	editorAttach.src = 'img/buttons/attach.png';
+	// @resource img/buttons/link.png
+	editorAttach.src = 'img/buttons/link.png';
 
 	if (!twic.vcl.TweetEditor.prototype.currentURL_) {
 		editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
 
 		editorAttach.classList.add('disabled');
 	} else {
-		editorAttach.title = twic.utils.lang.translate('title_attach_link');
+		editorAttach.title = twic.utils.lang.translate('title_attach_link' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 	}
 
 	editorSend.type  = 'button';
 	editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
-	editorSend.title = twic.utils.lang.translate('title_button_send');
+	editorSend.title = twic.utils.lang.translate('title_button_send' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
 	rightButtons.appendChild(this.geoInfo_);
 	rightButtons.appendChild(editorAttach);
@@ -197,10 +197,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
 		checkTweetArea();
 
-		if (
-			val === ''
-			|| val === editor.constStartVal_
-			|| val.length < editor.constStartVal_.length
+		if (val === '' ||
+			val === editor.constStartVal_.trim() ||
+			val.length < editor.constStartVal_.length
 		) {
 			storage.removeItem(path);
 		} else {
@@ -218,9 +217,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}, false );
 
 	if (twic.vcl.TweetEditor.prototype.currentURL_) {
-		editorAttach.addEventListener('click', function() {
+		editorAttach.addEventListener('click', function(e) {
 			var
 				url = twic.vcl.TweetEditor.prototype.currentURL_,
+				title = twic.vcl.TweetEditor.prototype.currentTitle_,
 				selStart = editor.editorTextarea_.selectionStart,
 				selEnd = editor.editorTextarea_.selectionEnd,
 				newVal = editor.editorTextarea_.value.substr(0, selStart);
@@ -232,7 +232,9 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 				newVal += ' ';
 			}
 
-			newVal += url;
+			newVal += url + (
+				twic.events.isEventWithModifier(e) && '' !== title ? ' ' + title : ''
+			);
 
 			if (' ' !== editor.editorTextarea_.value.substr(selEnd).substr(0, 1)) {
 				newVal += ' ';
@@ -256,11 +258,24 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	// prevent user to press enter
 	this.editorTextarea_.addEventListener('keydown', function(e) {
 		switch (e.keyCode) {
+			// backspace
+			case 8:
+				// do not allow to remove the constant part
+				var constStartValLength = editor.constStartVal_.length;
+
+				if (
+					constStartValLength > 0
+					&& editor.editorTextarea_.value.length <= constStartValLength
+				) {
+					e.preventDefault();
+				}
+
+				break;
 			// enter
 			case 13:
 				e.preventDefault();
 
-				if (e.ctrlKey) {
+				if (twic.events.isEventWithModifier(e)) {
 					e.stopPropagation();
 
 					if (
@@ -276,9 +291,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 	}, false );
 
 	var handleOutClick = function(e) {
-		if (
-			editorWrapper.classList.contains(twic.vcl.TweetEditor.focusedClass)
-			&& !twic.dom.isChildOf(e.target, editorWrapper)
+		if (editorWrapper.classList.contains(twic.vcl.TweetEditor.focusedClass) &&
+			!twic.dom.isChildOf(e.target, editorWrapper)
 		) {
 			editorWrapper.classList.remove(twic.vcl.TweetEditor.focusedClass);
 		}
@@ -355,10 +369,17 @@ twic.vcl.TweetEditor.options = {
  */
 twic.vcl.TweetEditor.prototype.currentURL_ = false;
 
+/**
+ * Current title to paste it into the tweet
+ * @private
+ */
+twic.vcl.TweetEditor.prototype.currentTitle_ = '';
+
 chrome.tabs.getSelected( null, function(tab) {
 	if (tab) {
 		var
-			url = tab.url.trim();
+			url = tab.url.trim(),
+			title = tab.title.trim();
 
 		if (
 			url.length > 4
@@ -372,6 +393,7 @@ chrome.tabs.getSelected( null, function(tab) {
 			}
 
 			twic.vcl.TweetEditor.prototype.currentURL_ = url;
+			twic.vcl.TweetEditor.prototype.currentTitle_ = title;
 		}
 	}
 } );
@@ -500,10 +522,16 @@ twic.vcl.TweetEditor.prototype.getCharCount_ = function() {
 /**
  * Set the constant editor text
  * @param {string} text Constant tweet part
+ * @param {boolean} spaceAfter Insert space after constant part
  */
-twic.vcl.TweetEditor.prototype.setConstTextIfEmpty = function(text) {
-	if (this.editorTextarea_.value === '') {
+twic.vcl.TweetEditor.prototype.setConstTextIfEmpty = function(text, spaceAfter) {
+	if ('' === this.editorTextarea_.value) {
 		this.constStartVal_ = text;
+
+		if (spaceAfter) {
+			text += ' ';
+		}
+
 		this.editorTextarea_.value = text;
 	}
 };

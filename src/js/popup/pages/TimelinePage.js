@@ -26,25 +26,37 @@ twic.pages.TimelinePage = function() {
 
 	/**
 	 * @type {Element}
-	 * @private
+	 * @protected
 	 */
 	this.page_ = null;
 
 	/**
 	 * @type {Element}
-	 * @private
+	 * @protected
 	 */
 	this.accountNameElement_ = null;
 
 	/**
+	 * @type {Element}
+	 * @protected
+	 */
+	this.elementDirect_ = null;
+
+	/**
+	 * @type {string}
+	 * @protected
+	 */
+	this.directLinkBase_ = '';
+
+	/**
 	 * @type {twic.vcl.TweetEditor}
-	 * @private
+	 * @protected
 	 */
 	this.tweetEditor_ = null;
 
 	/**
 	 * @type {number}
-	 * @private
+	 * @protected
 	 */
 	this.userId_ = 0;
 };
@@ -52,7 +64,7 @@ twic.pages.TimelinePage = function() {
 goog.inherits(twic.pages.TimelinePage, twic.Page);
 
 /**
- * @private
+ * @protected
  */
 twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 	var
@@ -61,6 +73,7 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 		data     = info['data'];
 
 	this.accountNameElement_.innerHTML = '@' + userName;
+	this.elementDirect_.href = this.directLinkBase_ + userName;
 
 	this.timeline_.setUserId(info['account']['id']);
 	this.timeline_.setUserNick(userName);
@@ -126,7 +139,7 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
 
 /**
  * Update the timeline from the top
- * @private
+ * @protected
  */
 twic.pages.TimelinePage.prototype.updateTop_ = function() {
 	var
@@ -144,7 +157,7 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
 
 /**
  * Update the timeline from the bottom
- * @private
+ * @protected
  */
 twic.pages.TimelinePage.prototype.updateBottom_ = function() {
 	var
@@ -210,7 +223,7 @@ twic.pages.TimelinePage.prototype.doDelete_ = function(userId, tweetId, callback
 };
 
 /**
- * @private
+ * @protected
  */
 twic.pages.TimelinePage.prototype.update_ = function() {
 	var
@@ -229,7 +242,7 @@ twic.pages.TimelinePage.prototype.update_ = function() {
  };
 
 /**
- * @private
+ * @protected
  * @param {twic.vcl.TweetEditor} editor
  * @param {twic.cobj.Tweet} tweet Tweet common object
  * @param {string} replyId
@@ -262,7 +275,7 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyI
 };
 
 /**
- * @private
+ * @protected
  */
 twic.pages.TimelinePage.prototype.timelineResetEditor_ = function() {
 	this.timeline_.resetEditor();

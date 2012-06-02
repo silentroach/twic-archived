@@ -6,23 +6,19 @@ help:
 	@@echo "Build targets:"
 	@@echo
 	@@echo "* extension   build the extension"
+	@@echo "  hint        test the code with jshint"
 	@@echo "  todo        build todo list"
 	@@echo
 	@@echo "  all         make targets marked with asterisk"
 
 todo:
-	@@if test ! -z ${NODEJS}; then \
-		${NODEJS} ${TOOLS_DIR}/todo.js \
-	else \
-		echo "You must have NodeJS installed."; \
-	fi
+	${NODEJS} ${TOOLS_DIR}/todo.js
+
+hint:
+	${NODEJS} ${TOOLS_DIR}/jshint.js | grep -v "Mixed spaces and tabs"
 
 extension:
-	@@if test ! -z ${NODEJS}; then \
-		${NODEJS} ${TOOLS_DIR}/builder/builder.js --manifest ${SRC_DIR}/manifest.json \
-	else \
-		echp "You must have NodeJS installed."; \
-	fi
+	${NODEJS} ${TOOLS_DIR}/builder/builder.js --manifest ${SRC_DIR}/manifest.json
 
 all: extension
 

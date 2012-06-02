@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="css/popup/vcl/Timeline.32.css" />
 		<link rel="stylesheet" type="text/css" href="css/popup/pages/accounts.css" />
 		<link rel="stylesheet" type="text/css" href="css/popup/pages/hometimeline.css" />
+		<link rel="stylesheet" type="text/css" href="css/popup/pages/mentions.css" />
 		<link rel="stylesheet" type="text/css" href="css/popup/pages/profile.css" />
 		<link rel="stylesheet" type="text/css" href="css/popup/pages/about.css" />
 	</head>
@@ -34,11 +35,21 @@
 		<div id="timeline" class="page">
 			<div class="toolbar">
 				<a href="#accounts" class="button"></a>
-				<p></p>
+				<p>
+					<span></span>
+					<a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
+				</p>
 
 				<div class="clearer"></div>
 			</div>
 			<div class="newtweet"></div>
+		</div>
+
+		<!-- mentions page !-->
+		<div id="mentions" class="page">
+			<div class="toolbar">
+
+			</div>
 		</div>
 
 		<!-- conversation page !-->
@@ -60,7 +71,6 @@
 			<div class="info">
 				<p id="aname"></p>
 				<p id="awhat"></p>
-				<p><a href="#profile#twic_ext">@twic_ext</a></p>
 				<br />
 
 				<p id="acollaborate"></p>
@@ -86,10 +96,9 @@
 				<p>
 					<a href="#profile#Chakrygin">@Chakrygin</a>,
 					<a href="#profile#coloristka">@coloristka</a>,
-					<a href="#profile#olimo">@olimo</a>
+					<a href="#profile#olimo">@olimo</a>,
+					<a href="#profile#ru_rodweb">@ru_rodweb</a>
 				</p>
-
-				<a class="FlattrButton" style="display:none;" href="https://chrome.google.com/webstore/detail/hglcekhnfbahipbmdceknefmpncbpikg"></a>
 			</div>
 		</div>
 
@@ -133,14 +142,17 @@
 		<script src="js/3rdparty/closure.base.js"></script>
 		<script src="js/3rdparty/twitter-text.js"></script>
 		<script src="js/global.js"></script>
+		<script src="js/services.js"></script>
 		<script src="js/utils.js"></script>
 		<script src="js/dom.js"></script>
 		<script src="js/debug.js"></script>
 		<script src="js/requests.js"></script>
 		<script src="js/options.js"></script>
+		<script src="js/platform.js"></script>
 		<script src="js/popup/inject.js"></script>
 		<script src="js/popup/options.js"></script>
 		<script src="js/popup/cobj.js"></script>
+		<script src="js/popup/events.js"></script>
 		<script src="js/popup/vcl/init.js"></script>
 		<script src="js/popup/vcl/Suggest.js"></script>
 		<script src="js/popup/vcl/TweetEditor.js"></script>
@@ -152,10 +164,10 @@
 		<script src="js/popup/pages/AccountsPage.js"></script>
 		<script src="js/popup/pages/TimelinePage.js"></script>
 		<script src="js/popup/pages/HomeTimelinePage.js"></script>
+		<script src="js/popup/pages/MentionsPage.js"></script>
 		<script src="js/popup/pages/ConversationPage.js"></script>
 		<script src="js/popup/pages/ProfilePage.js"></script>
 		<script src="js/popup/pages/AboutPage.js"></script>
 		<script src="js/popup/init.js"></script>
-		<script src="js/platform.js"></script>
 	</body>
 </html>

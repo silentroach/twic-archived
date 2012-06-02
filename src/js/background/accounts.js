@@ -23,6 +23,7 @@ twic.accounts.scheduler_ = function() {
 
 	for (i in twic.accounts.items_) {
 		twic.twitter.updateHomeTimeline(twic.accounts.items_[i].fields['id']);
+		twic.twitter.updateMentions(twic.accounts.items_[i].fields['id']);
 	}
 };
 

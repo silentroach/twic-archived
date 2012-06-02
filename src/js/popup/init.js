@@ -40,19 +40,17 @@ document.addEventListener('click', function(e) {
 		&& e.button < 2
 	) {
 		var
-			attr = link.attributes.getNamedItem('data-url');
+			attr = link.getAttribute('href'),
+			trg  = link.getAttribute('target');
 
-		if (attr) {
-			if (
-				1 === e.button
-				|| e.metaKey
-			) {
-				// middle button click
-				e.preventDefault();
-			}
+		if (
+			attr
+			&& '_blank' === trg
+		) {
+			e.preventDefault();
 
 			chrome.tabs.create( {
-				'url': attr.value,
+				'url': attr,
 				// only select the new tab if left button is pressed
 				'selected': 0 === e.button
 			} );
@@ -73,5 +71,6 @@ document.addEventListener('click', function(e) {
 twic.router.register('profile', twic.pages.ProfilePage);
 twic.router.register('accounts', twic.pages.AccountsPage);
 twic.router.register('timeline', twic.pages.HomeTimelinePage);
+twic.router.register('mentions', twic.pages.MentionsPage);
 //twic.router.register('conversation', twic.pages.ConversationPage);
 twic.router.register('about', twic.pages.AboutPage);
