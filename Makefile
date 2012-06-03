@@ -15,7 +15,9 @@ todo:
 	${NODEJS} ${TOOLS_DIR}/todo.js
 
 hint:
-	${NODEJS} ${TOOLS_DIR}/jshint.js
+	@@for File in `find . -name '*.js' | grep -v "/tools/" | grep -v "3rdparty"`; do \
+	    jshint $${File} --config jshint.json; \
+	done
 
 extension:
 	${NODEJS} ${TOOLS_DIR}/builder/builder.js --manifest ${SRC_DIR}/manifest.json
