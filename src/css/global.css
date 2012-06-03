@@ -6,20 +6,20 @@
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, code, em, img, small, strike, strong, sub, sup, b, u, i, center,
 dl, dt, dd, ol, ul, li, fieldset, form, label, legend, canvas {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	vertical-align: baseline;
-	}
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    }
 
 body {
-	line-height: 1;
-	}
+    line-height: 1;
+    }
 
 ol, ul {
-	list-style: none;
-	}
+    list-style: none;
+    }
 
 /**
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
@@ -27,67 +27,67 @@ ol, ul {
  */
 
 body {
-	margin: 0px;
-	padding: 0px;
-	background-color: #f7f7f7;
-	line-height: 1.3;
-	overflow: hidden;
-	-webkit-user-select: none;
-	}
+    margin: 0px;
+    padding: 0px;
+    background-color: #f7f7f7;
+    line-height: 1.3;
+    overflow: hidden;
+    -webkit-user-select: none;
+    }
 
 body, input, textarea {
-	font-size: 10pt;
-	}
+    font-size: 10pt;
+    }
 
 body.windows,
 body.windows input,
 body.windows textarea {
-	font-family: Tahoma, Verdana, sans-serif;
-	}
+    font-family: Tahoma, Verdana, sans-serif;
+    }
 
 body.osx,
 body.osx input,
 body.osx textarea {
-	font-family: "Lucida Grande", Helvetica, sans-serif;
-	}
+    font-family: "Lucida Grande", Helvetica, sans-serif;
+    }
 
 body.linux,
 body.linux input,
 body.linux textarea {
-	font-family: Ubuntu, "Droid Sans", sans-serif;
-	}
+    font-family: Ubuntu, "Droid Sans", sans-serif;
+    }
 
 textarea {
-	overflow: hidden;
-	}
+    overflow: hidden;
+    }
 
 input {
-	-webkit-user-select: none;
-	}
+    -webkit-user-select: none;
+    }
 
 strong {
-	font-weight: bold;
-	}
+    font-weight: bold;
+    }
 
 p {
-	-webkit-user-select: text;
-	}
+    -webkit-user-select: text;
+    }
 
 a {
-	color: #556188;
-	text-decoration: none;
-	cursor: pointer;
-	}
-	a:hover {
-		text-decoration: underline;
-		}
+    color: #556188;
+    text-decoration: none;
+    cursor: pointer;
+    }
+    a:hover {
+        text-decoration: underline;
+        }
 
 .clearer {
-	clear: both;
-	}
+    clear: both;
+    }
 
 img.avatar {
-	border-radius: 3px;
-	max-width: 48px;
-	}
+    border-radius: 3px;
+    max-width: 48px;
+    }
 

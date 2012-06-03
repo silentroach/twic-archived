@@ -4,64 +4,64 @@
  */
 
 #accounts {
-	text-align: center;
-	}
-	#accounts ul {
-		margin: 10px 0;
-		}
-		#accounts ul li {
-			display: inline-block;
-			padding: 10px;
-			}
-			#accounts ul li a {
-				display: block;
-				text-decoration: none;
-				opacity: .8;
-				-webkit-transition: all 0.5s ease-in-out;
-				}
-				#accounts ul li a:hover {
-					opacity: 1;
-					}
-				/* unread tweets count */
-				#accounts ul li a .utweets {
-					color: black;
-					background-color: white;
-					border: 1px solid gray;
-					font-size: 8pt;
-					padding: 0 4px;
-					border-radius: 3px;
-					margin-left: -10px;
-					}
+    text-align: center;
+    }
+    #accounts ul {
+        margin: 10px 0;
+        }
+        #accounts ul li {
+            display: inline-block;
+            padding: 10px;
+            }
+            #accounts ul li a {
+                display: block;
+                text-decoration: none;
+                opacity: .8;
+                -webkit-transition: all 0.5s ease-in-out;
+                }
+                #accounts ul li a:hover {
+                    opacity: 1;
+                    }
+                /* unread tweets count */
+                #accounts ul li a .utweets {
+                    color: black;
+                    background-color: white;
+                    border: 1px solid gray;
+                    font-size: 8pt;
+                    padding: 0 4px;
+                    border-radius: 3px;
+                    margin-left: -10px;
+                    }
 
 #accounts p {
-	font-size: 12pt;
-	padding: 1em;
-	display: none;
-	}
+    font-size: 12pt;
+    padding: 1em;
+    display: none;
+    }
 
 #accounts .toolbar:first-child {
-	padding-bottom: .4em;
-	}
+    padding-bottom: .4em;
+    }
 
 #accounts .toolbar.bottom .container {
-	padding: .5em 0;
-	}
+    padding: .5em 0;
+    }
 
 /* pulsate the icon when no acount registered */
 #button_account_add.pulsate img {
-	-webkit-animation-name: pulsate;
-	-webkit-animation-duration: 1s;
-	-webkit-animation-timing-function: ease-in-out;
-	-webkit-animation-iteration-count: infinite;
-	}
-	@-webkit-keyframes pulsate {
-		0% {
-			opacity: .5;
-			}
-		50% {
-			opacity: 1;
-			}
-		100% {
-			opacity: .5;
-			}
-		}
+    -webkit-animation-name: pulsate;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    }
+    @-webkit-keyframes pulsate {
+        0% {
+            opacity: .5;
+            }
+        50% {
+            opacity: 1;
+            }
+        100% {
+            opacity: .5;
+            }
+        }
