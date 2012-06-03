@@ -138,15 +138,6 @@ twic.dom.setVisibility = function(element, visible) {
 };
 
 /**
- * Has class?
- * @param {Element} element Element
- * @param {string} className Class name
- */
-twic.dom.hasClass = function(element, className) {
-    return element.classList.contains(className);
-};
-
-/**
  * Add class to element
  * @param {Element} element Element
  * @param {string} className Class name
