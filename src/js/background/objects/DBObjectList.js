@@ -11,23 +11,23 @@
  */
 twic.DBObjectList = function(ctor) {
 
-	/**
-	 * DBObject constructor
-	 * @private
-	 */
-	this.ctor_ = ctor;
+    /**
+     * DBObject constructor
+     * @private
+     */
+    this.ctor_ = ctor;
 
-	/**
-	 * @type {Object.<number,twic.DBObject>}
-	 */
-	this.items = { };
+    /**
+     * @type {Object.<number,twic.DBObject>}
+     */
+    this.items = { };
 };
 
 /**
  * Clear the object list
  */
 twic.DBObjectList.prototype.clear = function() {
-	this.items = { };
+    this.items = { };
 };
 
 /**
@@ -36,21 +36,21 @@ twic.DBObjectList.prototype.clear = function() {
  * @param {string} alias Alias
  */
 twic.DBObjectList.prototype.load = function(result, alias) {
-	var
-		objList = this,
-		i;
+    var
+        objList = this,
+        i;
 
-	for (i = 0; i < result.length; ++i) {
-		var
-			/**
-			 * @type {twic.DBObject}
-			 **/
-			obj = new objList.ctor_();
+    for (i = 0; i < result.length; ++i) {
+        var
+            /**
+             * @type {twic.DBObject}
+             **/
+            obj = new objList.ctor_();
 
-		obj.loadFromRow(result.item(i), alias);
+        obj.loadFromRow(result.item(i), alias);
 
-		objList.items[obj.fields['id']] = obj;
-	}
+        objList.items[obj.fields['id']] = obj;
+    }
 };
 
 /**
@@ -59,19 +59,19 @@ twic.DBObjectList.prototype.load = function(result, alias) {
  * @param {string} alias Alias for fields
  */
 twic.DBObjectList.prototype.pushUnique = function(row, alias) {
-	var
-		objList = this,
-		id = row[(alias ? alias + '_' : '') + 'id'];
+    var
+        objList = this,
+        id = row[(alias ? alias + '_' : '') + 'id'];
 
-	if (
-		!id
-		|| objList.items[id]
-	) {
-		return;
-	}
+    if (
+        !id
+        || objList.items[id]
+    ) {
+        return;
+    }
 
-	var obj = new objList.ctor_();
-	obj.loadFromRow(row, alias);
+    var obj = new objList.ctor_();
+    obj.loadFromRow(row, alias);
 
-	objList.items[id] = obj;
+    objList.items[id] = obj;
 };

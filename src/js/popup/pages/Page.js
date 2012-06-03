@@ -11,11 +11,11 @@ twic.pages = { };
  * @constructor
  */
 twic.Page = function() {
-	/**
-	 * Remember this page as last?
-	 * @type {boolean}
-	 */
-	this.remember = false;
+    /**
+     * Remember this page as last?
+     * @type {boolean}
+     */
+    this.remember = false;
 };
 
 /**

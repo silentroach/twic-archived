@@ -11,10 +11,10 @@ twic.cobj = { };
  * @constructor
  */
 twic.cobj.Tweet = function() {
-	/** @type {string} */ this.text = '';
-	this.coords = {
-		/** @type {boolean} */ enabled: false,
-		/** @type {number}  */ lat: 0,
-		/** @type {number}  */ lng: 0
-	};
+    /** @type {string} */ this.text = '';
+    this.coords = {
+        /** @type {boolean} */ enabled: false,
+        /** @type {number}  */ lat: 0,
+        /** @type {number}  */ lng: 0
+    };
 };

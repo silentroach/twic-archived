@@ -8,16 +8,16 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Account = function() {
-	twic.DBObject.call(this);
+    twic.DBObject.call(this);
 
-	this.table = 'accounts';
-	this.fields = {
-		'id': 0,
-		'oauth_token': '',
-		'oauth_token_secret': '',
-		'unread_tweets_count': 0,
-		'unread_messages_count': 0
-	};
+    this.table = 'accounts';
+    this.fields = {
+        'id': 0,
+        'oauth_token': '',
+        'oauth_token_secret': '',
+        'unread_tweets_count': 0,
+        'unread_messages_count': 0
+    };
 };
 
 goog.inherits(twic.db.obj.Account, twic.DBObject);
@@ -28,10 +28,10 @@ twic.db.obj.Account.prototype.onUnreadTweetsCountChanged = function(newCount) { 
 twic.db.obj.Account.prototype.onUnreadMessagesCountChanged = function(newCount) { };
 
 twic.db.obj.Account.prototype.onFieldChanged = function(fieldName, newValue) {
-	if (fieldName === 'unread_tweets_count') {
-		this.onUnreadTweetsCountChanged(newValue);
-	} else
-	if (fieldName === 'unread_messages_count') {
-		this.onUnreadMessagesCountChanged(newValue);
-	}
+    if (fieldName === 'unread_tweets_count') {
+        this.onUnreadTweetsCountChanged(newValue);
+    } else
+    if (fieldName === 'unread_messages_count') {
+        this.onUnreadMessagesCountChanged(newValue);
+    }
 };

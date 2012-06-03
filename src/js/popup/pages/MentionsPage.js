@@ -10,7 +10,7 @@
  * @extends twic.pages.TimelinePage
  */
 twic.pages.MentionsPage = function() {
-	twic.pages.TimelinePage.call(this);
+    twic.pages.TimelinePage.call(this);
 
 };
 

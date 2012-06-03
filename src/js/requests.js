@@ -20,14 +20,14 @@ twic.requests.subscriptions_ = { };
  * @param {function(*)=} callback Callback function
  */
 twic.requests.makeRequest = function(method, data, callback) {
-	chrome.extension.sendRequest( {
-		'method': method,
-		'data': data
-	}, function(reply) {
-		if (callback) {
-			callback(reply);
-		}
-	} );
+    chrome.extension.sendRequest( {
+        'method': method,
+        'data': data
+    }, function(reply) {
+        if (callback) {
+            callback(reply);
+        }
+    } );
 };
 
 /**
@@ -36,35 +36,35 @@ twic.requests.makeRequest = function(method, data, callback) {
  * @param {function(Object, function(Object))} callback Callback function
  */
 twic.requests.subscribe = function(event, callback) {
-	if (!twic.requests.subscriptions_[event]) {
-		twic.requests.subscriptions_[event] = [];
-	}
+    if (!twic.requests.subscriptions_[event]) {
+        twic.requests.subscriptions_[event] = [];
+    }
 
-	twic.debug.info('subscribe for ' + event);
+    twic.debug.info('subscribe for ' + event);
 
-	twic.requests.subscriptions_[event].push(callback);
+    twic.requests.subscriptions_[event].push(callback);
 };
 
 twic.requests.handle = function(request, sender, sendResponse) {
-	var
-		method = request['method'],
-		subscription = twic.requests.subscriptions_[method],
-		data = request['data'] || {},
-		i;
+    var
+        method = request['method'],
+        subscription = twic.requests.subscriptions_[method],
+        data = request['data'] || {},
+        i;
 
-	if (method
-		&& subscription
-	) {
-		for (i = 0; i < subscription.length; ++i) {
-			subscription[i](data, sendResponse);
-		}
-	} else {
-		sendResponse({});
+    if (method
+        && subscription
+    ) {
+        for (i = 0; i < subscription.length; ++i) {
+            subscription[i](data, sendResponse);
+        }
+    } else {
+        sendResponse({});
 
-		twic.debug.groupCollapsed('failed request received');
-		twic.debug.error('failed or handler not found');
-		twic.debug.dir(request);
-		twic.debug.groupEnd();
-	}
+        twic.debug.groupCollapsed('failed request received');
+        twic.debug.error('failed or handler not found');
+        twic.debug.dir(request);
+        twic.debug.groupEnd();
+    }
 };
 

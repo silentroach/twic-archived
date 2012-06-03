@@ -7,5 +7,5 @@
 
 // todo make sendResponse our own method to send it if it was not sent in callback?
 chrome.extension.onRequest.addListener( function(request, sender, sendResponse) {
-	twic.requests.handle(request, sender, sendResponse);
+    twic.requests.handle(request, sender, sendResponse);
 } );

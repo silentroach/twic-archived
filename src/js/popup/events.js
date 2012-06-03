@@ -12,9 +12,9 @@ twic.events = { };
  * @return {boolean}
  */
 twic.events.isEventWithModifier = function(event) {
-	if (twic.platforms.OSX === twic.platform) {
-		return event.metaKey;
-	} else {
-		return event.ctrlKey;
-	}
+    if (twic.platforms.OSX === twic.platform) {
+        return event.metaKey;
+    } else {
+        return event.ctrlKey;
+    }
 };

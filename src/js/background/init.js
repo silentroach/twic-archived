@@ -6,20 +6,20 @@
  */
 
 ( function() {
-	var
-		nowDate = (new Date()).toDateString(),
-		cleanupMarkItem = 'lastCleanup',
-		configCheckItem = 'lastConfigCheck';
+    var
+        nowDate = (new Date()).toDateString(),
+        cleanupMarkItem = 'lastCleanup',
+        configCheckItem = 'lastConfigCheck';
 
-	if (nowDate !== window.localStorage.getItem(cleanupMarkItem)) {
-		window.localStorage.setItem(cleanupMarkItem, nowDate);
+    if (nowDate !== window.localStorage.getItem(cleanupMarkItem)) {
+        window.localStorage.setItem(cleanupMarkItem, nowDate);
 
-		twic.db.cleanup();
-	}
+        twic.db.cleanup();
+    }
 
-	if (nowDate !== window.localStorage.getItem(configCheckItem)) {
-		window.localStorage.setItem(configCheckItem, nowDate);
+    if (nowDate !== window.localStorage.getItem(configCheckItem)) {
+        window.localStorage.setItem(configCheckItem, nowDate);
 
-		twic.twitter.checkConfig();
-	}
+        twic.twitter.checkConfig();
+    }
 }() );

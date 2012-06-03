@@ -12,21 +12,21 @@ twic.notifier = { };
  * @param {string} description Description
  */
 twic.notifier.show = function(title, description) {
-	var
-		notification = webkitNotifications.createNotification(
-			// @resource img/icons/48.png
-			'/img/icons/48.png',
-			title,
-			description
-		);
-		
-	notification.show();
-	
-	// hide it after 5 seconds
-	
-	setTimeout( function() {
-		if (notification) {
-			notification.cancel();
-		}
-	}, 5000 );
+    var
+        notification = webkitNotifications.createNotification(
+            // @resource img/icons/48.png
+            '/img/icons/48.png',
+            title,
+            description
+        );
+        
+    notification.show();
+    
+    // hide it after 5 seconds
+    
+    setTimeout( function() {
+        if (notification) {
+            notification.cancel();
+        }
+    }, 5000 );
 };
