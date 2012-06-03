@@ -10,9 +10,9 @@
  * @enum {string}
  */
 twic.platforms = {
-	WINDOWS: 'windows',
-	OSX:     'osx',
-	LINUX:   'linux'
+    WINDOWS: 'windows',
+    OSX:     'osx',
+    LINUX:   'linux'
 };
 
 /**
@@ -21,10 +21,10 @@ twic.platforms = {
 twic.platform = twic.platforms.WINDOWS;
 
 if (navigator.appVersion.indexOf('Mac') >= 0) {
-	twic.platform = twic.platforms.OSX;
+    twic.platform = twic.platforms.OSX;
 } else
 if (navigator.appVersion.indexOf('Windows') < 0) {
-	twic.platform = twic.platforms.LINUX;
+    twic.platform = twic.platforms.LINUX;
 }
 
 document.body.classList.add(twic.platform);

@@ -17,11 +17,11 @@ twic.debug.ENABLED = true;
  * @param {...*} args
  */
 twic.debug.log = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.log.apply(console, arguments);
+    console.log.apply(console, arguments);
 };
 
 /**

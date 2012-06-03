@@ -11,11 +11,11 @@ twic.services = { };
  * @private
  */
 twic.services.alternativeDomains_ = {
-	'yfrog.us': 'yfrog.com',
-	'www.yfrog.com': 'yfrog.com',
-	'imgur.com': 'i.imgur.com',
-	'flic.kr': 'flickr.com',
-	'www.flickr.com': 'flickr.com'
+    'yfrog.us': 'yfrog.com',
+    'www.yfrog.com': 'yfrog.com',
+    'imgur.com': 'i.imgur.com',
+    'flic.kr': 'flickr.com',
+    'www.flickr.com': 'flickr.com'
 };
 
 /**

@@ -52,8 +52,7 @@ twic.requests.handle = function(request, sender, sendResponse) {
 		data = request['data'] || {},
 		i;
 
-	if (
-		method
+	if (method
 		&& subscription
 	) {
 		for (i = 0; i < subscription.length; ++i) {
