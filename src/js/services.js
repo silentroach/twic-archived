@@ -31,8 +31,7 @@ twic.services.list_ = {
             var
                 parts = query.split('/');
 
-            if (
-                2 === parts.length
+            if (2 === parts.length
                 && 'p' === parts[0]
             ) {
                 return 'http://instagr.am/' + query + '/media?size=l';
@@ -53,10 +52,8 @@ twic.services.list_ = {
             var
                 parts = query.split('/');
 
-            if (
-                parts.length === 1
-                || (
-                    parts.length === 2
+            if (parts.length === 1
+                || (parts.length === 2
                     && 'gallery' === parts[0]
                 )
             ) {
@@ -99,8 +96,7 @@ twic.services.list_ = {
                 var
                     lastPart = parts.pop();
 
-                if (
-                    lastPart.length > 4
+                if (lastPart.length > 4
                     // j - jpeg
                     // p - png
                     // b - bmp
@@ -125,9 +121,7 @@ twic.services.list_ = {
                 var
                     lastPart = parts.pop();
 
-                if (
-                    lastPart.length > 3
-                ) {
+                if (lastPart.length > 3) {
                     return 'http://img.ly/show/medium/' + lastPart;
                 }
             }
@@ -146,8 +140,7 @@ twic.services.getThumbnail = function(domain, query) {
         var
             service = twic.services.list_[domain];
 
-        if (
-            service.thumbnail
+        if (service.thumbnail
             && query.length > 1
         ) {
             return service.thumbnail(

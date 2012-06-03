@@ -227,8 +227,7 @@ twic.requests.subscribe('accountList', function(data, sendResponse) {
 } );
 
 twic.requests.subscribe('accountAuth', function(data, sendResponse) {
-    if (
-        !data['pin']
+    if (!data['pin']
         || !data['user_nick']
     ) {
         sendResponse( {

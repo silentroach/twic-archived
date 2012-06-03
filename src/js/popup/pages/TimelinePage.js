@@ -296,8 +296,7 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback
  * Handler for the scroll event
  */
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
-    if (
-        this.page_.scrollHeight > this.page_.offsetHeight
+    if (this.page_.scrollHeight > this.page_.offsetHeight
         && this.page_.scrollHeight - this.page_.offsetHeight - this.page_.scrollTop < 100
     ) {
         this.updateBottom_();

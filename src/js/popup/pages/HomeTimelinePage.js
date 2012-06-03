@@ -59,8 +59,7 @@ twic.pages.HomeTimelinePage.prototype.handle = function(data) {
 
     twic.Page.prototype.handle.call(page, data);
 
-    if (
-        !data.length
+    if (!data.length
         || 1 !== data.length
     ) {
         window.location.hash = '#accounts';

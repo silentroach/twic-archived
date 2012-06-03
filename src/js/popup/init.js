@@ -18,8 +18,7 @@ document.addEventListener('click', function(e) {
                 ? e.target.parentElement
                 : null;
 
-    if (
-        link
+    if (link
         // only for left and middle mouse buttons
         && e.button < 2
     ) {
@@ -27,8 +26,7 @@ document.addEventListener('click', function(e) {
             attr = link.getAttribute('href'),
             trg  = link.getAttribute('target');
 
-        if (
-            attr
+        if (attr
             && '_blank' === trg
         ) {
             e.preventDefault();
@@ -39,8 +37,7 @@ document.addEventListener('click', function(e) {
                 'selected': 0 === e.button
             } );
 
-            if (
-                0 === e.button
+            if (0 === e.button
                 && !e.metaKey
             ) {
                 // left button click, closing the window, special for os x

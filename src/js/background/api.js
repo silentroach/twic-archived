@@ -317,8 +317,7 @@ twic.api.getHomeTimeline = function(id, since_id, token, token_secret, callback,
         if (!error) {
             var data = JSON.parse(req.responseText);
 
-            if (
-                data
+            if (data
                 && callback
             ) {
                 callback(data);
@@ -355,8 +354,7 @@ twic.api.getMentions = function(id, since_id, token, token_secret, callback, fai
         if (!error) {
             var data = JSON.parse(req.responseText);
 
-            if (
-                data
+            if (data
                 && callback
             ) {
                 callback(data);
@@ -386,8 +384,7 @@ twic.api.getFriendshipInfo = function(source_id, target_id, callback, failedCall
         if (!error) {
             var data = JSON.parse(req.responseText);
 
-            if (
-                data
+            if (data
                 && data['relationship']
                 && data['relationship']['source']
                 && callback
@@ -431,8 +428,7 @@ twic.api.updateStatus = function(status, coords, token, token_secret, callback, 
         if (!error) {
             var data = JSON.parse(req.responseText);
 
-            if (
-                data
+            if (data
                 && callback
             ) {
                 callback(data);
@@ -476,8 +472,7 @@ twic.api.replyStatus = function(status, coords, replyTo, token, token_secret, ca
         if (!error) {
             var data = JSON.parse(req.responseText);
 
-            if (
-                data
+            if (data
                 && callback
             ) {
                 callback(data);

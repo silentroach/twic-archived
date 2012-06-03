@@ -150,8 +150,7 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
 };
 
 twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
-    if (
-        e.srcElement
+    if (e.srcElement
         && e.srcElement.tagName === 'IMG'
         && e.srcElement.className === 'avatar'
     ) {

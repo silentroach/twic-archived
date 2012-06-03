@@ -52,17 +52,14 @@ twic.utils.lang.plural = function(number, endings) {
         mod100 = number % 100,
         res = '';
 
-    if (
-        mod10 === 1
+    if (mod10 === 1
         && mod100 !== 11
     ) {
         res = twic.utils.lang.translate(endings[0]);
     } else
-    if (
-        mod10 >= 2
+    if (mod10 >= 2
         && mod10 <= 4
-        && (
-            mod100 < 10
+        && (mod100 < 10
             || mod100 >= 20
         )
     ) {

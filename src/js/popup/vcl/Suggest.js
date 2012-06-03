@@ -79,8 +79,7 @@ twic.vcl.Suggest.prototype.onListClick_ = function(e) {
         trgEl = trgEl.parentElement;
     }
 
-    if (
-        selEl
+    if (selEl
         && selEl !== trgEl
     ) {
         selEl.classList.remove('selected');
@@ -95,8 +94,7 @@ twic.vcl.Suggest.prototype.onKeyDown_ = function(e) {
     switch (e.keyCode) {
         // enter
         case 13:
-            if (
-                this.visible_
+            if (this.visible_
                 && this.focused_
             ) {
                 this.select_();
@@ -105,8 +103,7 @@ twic.vcl.Suggest.prototype.onKeyDown_ = function(e) {
             break;
         // left
         case 37:
-            if (
-                this.visible_
+            if (this.visible_
                 && this.focused_
             ) {
                 e.preventDefault();
@@ -116,8 +113,7 @@ twic.vcl.Suggest.prototype.onKeyDown_ = function(e) {
             break;
         // up
         case 38:
-            if (
-                this.visible_
+            if (this.visible_
                 && this.focused_
             ) {
                 e.preventDefault();
@@ -127,8 +123,7 @@ twic.vcl.Suggest.prototype.onKeyDown_ = function(e) {
             break;
         // right
         case 39:
-            if (
-                this.visible_
+            if (this.visible_
                 && this.focused_
             ) {
                 e.preventDefault();
@@ -165,8 +160,7 @@ twic.vcl.Suggest.prototype.move_ = function(onRight) {
         trg = onRight ? selectedElement.nextElementSibling : selectedElement.previousElementSibling;
     }
 
-    if (
-        !selectedElement
+    if (!selectedElement
         || !trg
     ) {
         trg = onRight ? this.nickList_.firstElementChild : this.nickList_.lastElementChild;
@@ -253,8 +247,7 @@ twic.vcl.Suggest.prototype.extractNickPart_ = function() {
             part: ''
         };
 
-    while (
-        pos > -1
+    while (pos > -1
         && '@' !== nickChar
         && ' ' !== nickChar
     ) {
@@ -264,15 +257,13 @@ twic.vcl.Suggest.prototype.extractNickPart_ = function() {
         nickPart = nickChar + nickPart;
     }
 
-    if (
-        pos > 0
+    if (pos > 0
         && ' ' !== val.substr(pos, 1)
     ) {
         return res;
     }
 
-    if (
-        0 === nickPart.length
+    if (0 === nickPart.length
         || '@' !== nickPart.substr(0, 1)
     ) {
         return res;

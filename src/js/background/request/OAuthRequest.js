@@ -153,8 +153,7 @@ twic.OAuthRequest.prototype.send = function(callback, token, token_secret) {
         for (i = 0; i < checkFields.length; ++i) {
             checkHeader = req.getResponseHeader(checkFields[i]);
 
-            if (
-                checkHeader
+            if (checkHeader
                 && !goog.isString(checkHeader)
             ) {
                 remoteDate = Date.parse(checkHeader);
@@ -179,8 +178,7 @@ twic.OAuthRequest.prototype.send = function(callback, token, token_secret) {
     };
 
     var sendRequest = function() {
-        if (
-            token
+        if (token
             && token_secret
         ) {
             self.sign(token, token_secret);
@@ -190,8 +188,7 @@ twic.OAuthRequest.prototype.send = function(callback, token, token_secret) {
 
         // parent sender with own callback checker
         twic.HTTPRequest.prototype.send.call(self, function(error, req) {
-            if (
-                error
+            if (error
                 && twic.ResponseError.UNAUTHORIZED === error.code
                 && !isRetry
                 && checkTimestamp(error.request)

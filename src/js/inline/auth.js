@@ -12,8 +12,7 @@
         nickElement = twic.dom.findElement('.current-user .name'),
         descElement = twic.dom.findElement('.action-information');
 
-    if (
-        !pinElement
+    if (!pinElement
         || !descElement
         || !descElement.innerText.match(twic.name)
     ) {
@@ -24,8 +23,7 @@
         pin = parseInt(pinElement.innerText.trim(), 10),
         userNick = nickElement.innerText.trim();
 
-    if (
-        !pin
+    if (!pin
         || !userNick
     ) {
         // parse int from the page failed

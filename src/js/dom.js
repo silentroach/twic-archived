@@ -70,8 +70,7 @@ twic.dom.expandElement = function(expr) {
 
     res = expExpr.exec(expr);
 
-    while (
-        res
+    while (res
         && res.length > 2
     ) {
         part = res[2];

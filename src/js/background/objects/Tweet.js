@@ -208,17 +208,14 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
                     for (idx in urlItems) {
                         urlItem = urlItems[idx];
 
-                        if (
-                            'url' in urlItem
+                        if ('url' in urlItem
                             && 'expanded_url' in urlItem
                             && !goog.isNull(urlItem['expanded_url'])
                         ) {
                             var
                                 expandedUrl = urlItem['expanded_url'];
 
-                            if (
-                                ['jpg', 'png', 'gif', 'bmp'].indexOf(expandedUrl.split('.').pop()) >= 0
-                            ) {
+                            if (['jpg', 'png', 'gif', 'bmp'].indexOf(expandedUrl.split('.').pop()) >= 0) {
                                 media[ urlItem['url'] ] = [
                                     expandedUrl, expandedUrl
                                 ];

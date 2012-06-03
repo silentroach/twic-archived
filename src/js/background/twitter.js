@@ -439,8 +439,7 @@ twic.twitter.updateMentions = function(userId) {
                     }
 
                     // the same thing for retweeted_status.user if it is retweet
-                    if (
-                        tweet['retweeted_status']
+                    if (tweet['retweeted_status']
                         && !users[tweet['retweeted_status']['user']['id']]
                     ) {
                         users[tweet['retweeted_status']['user']['id']] = tweet['retweeted_status']['user'];
@@ -471,9 +470,7 @@ twic.twitter.updateMentions = function(userId) {
         );
     };
 
-    if (
-        twic.twitter.cachedLastMentionId_[userId]
-    ) {
+    if (twic.twitter.cachedLastMentionId_[userId]) {
         updateSinceId(twic.twitter.cachedLastMentionId_[userId]);
     } else {
         // we need to find the last tweet id not to fetch the all timeline from api
@@ -590,9 +587,7 @@ twic.twitter.updateHomeTimeline = function(userId) {
         );
     };
 
-    if (
-        twic.twitter.cachedLastId_[userId]
-    ) {
+    if (twic.twitter.cachedLastId_[userId]) {
         updateSinceId(twic.twitter.cachedLastId_[userId]);
     } else {
         // we need to find the last tweet id not to fetch the all timeline from api

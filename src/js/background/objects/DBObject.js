@@ -115,8 +115,7 @@ twic.DBObject.prototype.save = function(callback) {
         exists = dbobject.exists,
         hasId = dbobject.fields['id'];
 
-    if (
-        exists
+    if (exists
         && 0 === dbobject.changed_.length
     ) {
         if (callback) {
@@ -191,9 +190,7 @@ twic.DBObject.prototype.save = function(callback) {
 twic.DBObject.prototype.setValue = function(fieldname, value) {
     var dbobject = this;
 
-    if (
-        dbobject.fields[fieldname] !== value
-    ) {
+    if (dbobject.fields[fieldname] !== value) {
         // change the value
         dbobject.fields[fieldname] = value;
 

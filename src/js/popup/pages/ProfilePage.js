@@ -330,8 +330,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
         // trying to find the coordinates
         var coords = twic.pages.ProfilePage.REGEXP_COORDS.exec(loc);
 
-        if (
-            coords
+        if (coords
             && 3 === coords.length
         ) {
             var
@@ -400,8 +399,7 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
         page.timelineUserId_ = parseInt(prev[0], 10);
     }
 
-    if (
-        !data.length
+    if (!data.length
         || 1 !== data.length
     ) {
         // todo return to the accounts list screen

@@ -23,13 +23,13 @@ twic.router.frames_ = ( function() {
         tmp = document.querySelectorAll('div.page'),
         res = { },
         i;
-    
+
     for (i = 0; i < tmp.length; ++i) {
         var frame = tmp[i];
 
         res[frame.id] = frame;
     }
-    
+
     return res;
 }() );
 
@@ -85,17 +85,17 @@ twic.router.register = function(urlPart, pageCtor) {
 twic.router.changeFrame_ = function(targetFrameName, data) {
     var
         page = null;
-    
+
     if (twic.router.currentFrame_) {
         twic.dom.setVisibility(twic.router.frames_[twic.router.currentFrame_], false);
     }
 
     twic.router.currentFrame_ = targetFrameName;
-    
+
     if (!(targetFrameName in twic.router.pages_)) {
         page = new twic.router.handlers_[targetFrameName]();
         page.initOnce();
-        
+
         twic.router.pages_[targetFrameName] = page;
     } else {
         page = twic.router.pages_[targetFrameName];
@@ -103,7 +103,7 @@ twic.router.changeFrame_ = function(targetFrameName, data) {
 
     twic.router.frames_[targetFrameName].style.display = 'block';
     page.handle.call(page, data);
-    
+
     if (page.remember) {
         window.localStorage.setItem('location', twic.router.location_.join('#'));
     }
@@ -120,8 +120,7 @@ window.onhashchange = function() {
 
     var trg = twic.router.location_[0];
 
-    if (
-        trg
+    if (trg
         && twic.router.currentFrame_ !== trg
         && trg in twic.router.handlers_
     ) {

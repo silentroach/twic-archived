@@ -26,8 +26,7 @@ var prepareTweetInfo = function(tweet, user, users, isSeparator) {
         tweetInfo['source'] = tweet.fields['source'];
     }
 
-    if (
-        tweet.fields['geo']
+    if (tweet.fields['geo']
         && 1 == user.fields['geo_enabled']
         && twic.options.getValue('tweet_show_geo')
     ) {

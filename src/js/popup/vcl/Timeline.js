@@ -407,8 +407,7 @@ twic.vcl.Timeline.prototype.doRetweet_ = function(confirmed) {
  * Really confirm
  */
 twic.vcl.Timeline.prototype.doReallyConfirm_ = function() {
-    if (
-        this.confirmerAction_ === twic.vcl.Timeline.confirmAction.ACTION_DELETE
+    if (this.confirmerAction_ === twic.vcl.Timeline.confirmAction.ACTION_DELETE
         || this.confirmerAction_ === twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET
     ) {
         this.doDelete_(true);
@@ -430,8 +429,7 @@ twic.vcl.Timeline.prototype.doDelete_ = function(confirmed) {
         timeline = this;
 
     if (this.hoveredTweet_) {
-        if (
-            !confirmed
+        if (!confirmed
             || !goog.isBoolean(confirmed)
         ) {
             this.doConfirm_(twic.vcl.Timeline.confirmAction.ACTION_DELETE);
