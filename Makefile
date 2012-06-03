@@ -15,7 +15,7 @@ todo:
 	${NODEJS} ${TOOLS_DIR}/todo.js
 
 hint:
-	${NODEJS} ${TOOLS_DIR}/jshint.js | grep -v "Mixed spaces and tabs"
+	${NODEJS} ${TOOLS_DIR}/jshint.js
 
 extension:
 	${NODEJS} ${TOOLS_DIR}/builder/builder.js --manifest ${SRC_DIR}/manifest.json
