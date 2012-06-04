@@ -1,173 +1,177 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="css/global.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/main.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/toolbar.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/vcl/Suggest.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/vcl/TweetEditor.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/vcl/Tweet.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/vcl/Timeline.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/vcl/Timeline.32.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/pages/accounts.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/pages/hometimeline.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/pages/mentions.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/pages/profile.css" />
-		<link rel="stylesheet" type="text/css" href="css/popup/pages/about.css" />
-	</head>
-	<body>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/global.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/toolbar.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/vcl/Suggest.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/vcl/TweetEditor.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/vcl/Tweet.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/vcl/Timeline.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/vcl/Timeline.32.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/pages/accounts.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/pages/hometimeline.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/pages/mentions.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/pages/profile.css" />
+        <link rel="stylesheet" type="text/css" href="css/popup/pages/about.css" />
+    </head>
+    <body>
 
-		<!-- accounts page !-->
-		<div id="accounts" class="page">
-			<div class="toolbar">
-				<a href="#" id="button_account_add" class="icon"><img src="img/buttons/add.png" /></a>
-				<a href="/options.html" id="button_settings" class="icon" target="_blank"><img src="img/buttons/settings.png" /></a>
-				<a href="#about" id="button_about" class="icon"><img src="img/buttons/about.png" /></a>
-			</div>
+        <!-- accounts page !-->
+        <div id="accounts" class="page">
+            <div class="toolbar">
+                <a href="#" id="button_account_add" class="icon"><img src="img/buttons/add.png" /></a>
+                <a href="/options.html" id="button_settings" class="icon" target="_blank"><img src="img/buttons/settings.png" /></a>
+                <a href="#about" id="button_about" class="icon"><img src="img/buttons/about.png" /></a>
+            </div>
 
-			<p></p>
-			<ul></ul>
+            <p></p>
+            <ul></ul>
 
-			<div class="toolbar bottom" id="accounts_status"></div>
-		</div>
+            <div class="toolbar bottom" id="accounts_status"></div>
+        </div>
 
-		<!-- timeline page !-->
-		<div id="timeline" class="page">
-			<div class="toolbar">
-				<a href="#accounts" class="button"></a>
-				<p>
-					<span></span>
-					<a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
-				</p>
+        <!-- timeline page !-->
+        <div id="timeline" class="page">
+            <div class="toolbar">
+                <a href="#accounts" class="button"></a>
+                <p>
+                    <span></span>
+                    <a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
+                </p>
 
-				<div class="clearer"></div>
-			</div>
-			<div class="newtweet"></div>
-		</div>
+                <div class="clearer"></div>
+            </div>
+            <div class="newtweet"></div>
+        </div>
 
-		<!-- mentions page !-->
-		<div id="mentions" class="page">
-			<div class="toolbar">
+        <!-- mentions page !-->
+        <div id="mentions" class="page">
+            <div class="toolbar">
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<!-- conversation page !-->
-		<div id="conversation" class="page">
-			<div class="toolbar">
+        <!-- conversation page !-->
+        <div id="conversation" class="page">
+            <div class="toolbar">
 
-			</div>
-		</div>
+            </div>
+        </div>
 
-		<!-- about page !-->
-		<div id="about" class="page">
-			<div class="toolbar">
-				<a href="#accounts" class="button"></a>
-				<p></p>
+        <!-- about page !-->
+        <div id="about" class="page">
+            <div class="toolbar">
+                <a href="#accounts" class="button"></a>
+                <p></p>
 
-				<div class="clearer"></div>
-			</div>
+                <div class="clearer"></div>
+            </div>
 
-			<div class="info">
-				<p id="aname"></p>
-				<p id="awhat"></p>
-				<br />
+            <div class="info">
+                <p id="aname"></p>
+                <p id="awhat"></p>
+                <br />
 
-				<p id="acollaborate"></p>
-				<br />
-				<p id="atranslate"></p>
-				<br />
+                <p id="acollaborate"></p>
+                <br />
+                <p id="atranslate"></p>
+                <br />
 
-				<p id="aauthor"></p>
-				<p><a href="#profile#silentroach">@silentroach</a></p>
-				<br />
+                <p id="aauthor"></p>
+                <p><a href="#profile#silentroach">@silentroach</a></p>
+                <br />
 
-				<p id="acontributors"></p>
-				<p><a href="#profile#GrawlCore">@GrawlCore</a>, <a href="#profile#Stammru">@Stammru</a></p>
-				<br />
+                <p id="acontributors"></p>
+                <p><a href="#profile#GrawlCore">@GrawlCore</a>, <a href="#profile#Stammru">@Stammru</a></p>
+                <br />
 
-				<p id="athanks"></p>
-				<p><a href="#profile#twitter">@twitter</a>, <a href="#profile#iconza">@iconza</a></p>
-				<p><a href="http://code.google.com/closure/library/" target="_blank">Google Closure Library</a></p>
-				<p><a href="https://github.com/twitter/twitter-text-js" target="_blank">Twitter Text</a></p>
-				<p><a href="http://pajhome.org.uk/" target="_blank">Paul Johnston</a> - <a href="http://pajhome.org.uk/crypt/md5/sha1.html" target="_blank">SHA1</a></p>
-				<br />
+                <p id="athanks"></p>
+                <p><a href="#profile#twitter">@twitter</a>, <a href="#profile#iconza">@iconza</a></p>
+                <p><a href="http://code.google.com/closure/library/" target="_blank">Google Closure Library</a></p>
+                <p><a href="https://github.com/twitter/twitter-text-js" target="_blank">Twitter Text</a></p>
+                <p><a href="http://pajhome.org.uk/" target="_blank">Paul Johnston</a> - <a href="http://pajhome.org.uk/crypt/md5/sha1.html" target="_blank">SHA1</a></p>
+                <br />
 
-				<p>
-					<a href="#profile#Chakrygin">@Chakrygin</a>,
-					<a href="#profile#coloristka">@coloristka</a>,
-					<a href="#profile#olimo">@olimo</a>,
-					<a href="#profile#ru_rodweb">@ru_rodweb</a>
-				</p>
-			</div>
-		</div>
+                <p>
+                    <a href="#profile#Chakrygin">@Chakrygin</a>,
+                    <a href="#profile#coloristka">@coloristka</a>,
+                    <a href="#profile#olimo">@olimo</a>,
+                    <a href="#profile#ru_rodweb">@ru_rodweb</a>
+                </p>
+            </div>
+        </div>
 
-		<!-- profile page !-->
-		<div id="profile" class="page">
-			<div class="toolbar">
-				<a href="" class="button"></a>
-				<p>
-					<span></span>
-					<a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
-				</p>
+        <!-- profile page !-->
+        <div id="profile" class="page">
+            <div class="toolbar">
+                <a href="" class="button"></a>
+                <p>
+                    <span></span>
+                    <a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
+                </p>
 
-				<div class="clearer"></div>
-			</div>
+                <div class="clearer"></div>
+            </div>
 
-			<div class="info">
-				<img class="avatar" />
-				<p class="props">
-					<img src="img/props/protected.png" class="protected" />
-				</p>
+            <div class="info">
+                <img class="avatar" />
+                <p class="props">
+                    <img src="img/props/protected.png" class="protected" />
+                </p>
 
-				<p class="name"></p>
-				<p class="url"></p>
+                <p class="name"></p>
+                <p class="url"></p>
 
-				<p class="bio"></p>
-				<p class="location"></p>
+                <p class="bio"></p>
+                <p class="location"></p>
 
-				<div class="clearer"></div>
+                <div class="clearer"></div>
 
-				<div class="map"></div>
+                <div class="map"></div>
 
-				<p class="loader"></p>
+                <p class="loader"></p>
 
-				<div id="followings">
-					<p><span></span></p>
-				</div>
-			</div>
-		</div>
+                <div id="followings">
+                    <p><span></span></p>
+                </div>
+            </div>
+        </div>
 
-		<script src="js/init.js"></script>
-		<script src="js/3rdparty/closure.base.js"></script>
-		<script src="js/3rdparty/twitter-text.js"></script>
-		<script src="js/global.js"></script>
-		<script src="js/services.js"></script>
-		<script src="js/utils.js"></script>
-		<script src="js/dom.js"></script>
-		<script src="js/debug.js"></script>
-		<script src="js/requests.js"></script>
-		<script src="js/options.js"></script>
-		<script src="js/platform.js"></script>
-		<script src="js/popup/inject.js"></script>
-		<script src="js/popup/options.js"></script>
-		<script src="js/popup/cobj.js"></script>
-		<script src="js/popup/events.js"></script>
-		<script src="js/popup/vcl/init.js"></script>
-		<script src="js/popup/vcl/Suggest.js"></script>
-		<script src="js/popup/vcl/TweetEditor.js"></script>
-		<script src="js/popup/vcl/Tweet.js"></script>
-		<script src="js/popup/vcl/Timeline.js"></script>
-		<script src="js/popup/vcl/Map.js"></script>
-		<script src="js/popup/router.js"></script>
-		<script src="js/popup/pages/Page.js"></script>
-		<script src="js/popup/pages/AccountsPage.js"></script>
-		<script src="js/popup/pages/TimelinePage.js"></script>
-		<script src="js/popup/pages/HomeTimelinePage.js"></script>
-		<script src="js/popup/pages/MentionsPage.js"></script>
-		<script src="js/popup/pages/ConversationPage.js"></script>
-		<script src="js/popup/pages/ProfilePage.js"></script>
-		<script src="js/popup/pages/AboutPage.js"></script>
-		<script src="js/popup/init.js"></script>
-	</body>
+        <script src="js/init.js"></script>
+        <script src="js/3rdparty/closure.base.js"></script>
+        <script src="js/3rdparty/twitter-text.js"></script>
+        <script src="js/global.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/dom.js"></script>
+        <script src="js/debug.js"></script>
+        <script src="js/requests.js"></script>
+        <script src="js/options.js"></script>
+        <script src="js/platform.js"></script>
+        <script src="js/popup/inject.js"></script>
+        <script src="js/popup/cobj.js"></script>
+        <script src="js/popup/events.js"></script>
+        <script src="js/popup/vcl/init.js"></script>
+        <script src="js/popup/vcl/Suggest.js"></script>
+        <script src="js/popup/vcl/TweetEditor.js"></script>
+        <script src="js/popup/vcl/Tweet.js"></script>
+        <script src="js/popup/vcl/Timeline.js"></script>
+        <script src="js/popup/vcl/Map.js"></script>
+        <script src="js/popup/router.js"></script>
+        <script src="js/popup/pages/Page.js"></script>
+        <script src="js/popup/pages/AccountsPage.js"></script>
+        <script src="js/popup/pages/TimelinePage.js"></script>
+        <script src="js/popup/pages/HomeTimelinePage.js"></script>
+        <script src="js/popup/pages/MentionsPage.js"></script>
+        <script src="js/popup/pages/ConversationPage.js"></script>
+        <script src="js/popup/pages/ProfilePage.js"></script>
+        <script src="js/popup/pages/AboutPage.js"></script>
+
+        <!-- options will fetch some data for VCL !-->
+        <script src="js/popup/options.js"></script>
+        <!-- do not move it !-->
+
+        <script src="js/popup/init.js"></script>
+    </body>
 </html>
