@@ -375,7 +375,7 @@ twic.vcl.TweetEditor.prototype.currentURL_ = false;
  */
 twic.vcl.TweetEditor.prototype.currentTitle_ = '';
 
-chrome.tabs.getSelected( null, function(tab) {
+chrome.tabs.getSelected(null, function(tab) {
     if (tab) {
         var
             url = tab.url.trim(),
@@ -383,8 +383,7 @@ chrome.tabs.getSelected( null, function(tab) {
 
         if (
             url.length > 4
-            && (
-                'http' === url.substr(0, 4)
+            && ('http' === url.substr(0, 4)
                 || 'ftp' === url.substr(0, 3)
             )
         ) {
@@ -507,7 +506,7 @@ twic.vcl.TweetEditor.prototype.getCharCount_ = function() {
             len -= link.length;
 
             if (link.length > 7
-                && 'https://' === link.substr(0, 7)
+                && 'https://' === link.substr(0, 8)
             ) {
                 len += twic.vcl.TweetEditor.options.short_url_length_https;
             } else {
