@@ -26,11 +26,11 @@ p.loader {
     }
 
 a.direct {
-    opacity: .5;
+    opacity: .6;
     -webkit-transition: opacity 0.2s ease-in-out;
     -webkit-user-select: none;
     vertical-align: middle;
-    margin-left: .3em;
+    margin-left: .1em;
     }
     a.direct:hover {
         opacity: 1;
