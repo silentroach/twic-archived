@@ -1,4 +1,5 @@
 0.45: (in development)
+    * New Twitter icon
     * Tweet length calculator is fixed for text with https links
     * Default Windows fonts is Segoe UI, Trebuchet MS, Tahoma, Verdana
     + New icons for tweet editor
