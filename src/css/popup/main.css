@@ -3,13 +3,17 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-div.page {
+.page {
     display: none;
     width: 390px;
     max-height: 600px;
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: #f7f7f7;
     }
+    body.osx .page {
+        border-radius: 6px;
+        }
 
 a.nick, a.hash {
     text-shadow: rgba(255, 255, 255, 0.8) 0px 1px 0px;
