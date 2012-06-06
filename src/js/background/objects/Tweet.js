@@ -215,7 +215,10 @@ twic.db.obj.Tweet.prototype.save = function(callback) {
                             var
                                 expandedUrl = urlItem['expanded_url'];
 
-                            if (['jpg', 'png', 'gif', 'bmp'].indexOf(expandedUrl.split('.').pop()) >= 0) {
+                            if (['jpg', 'jpeg', 'png', 'gif', 'bmp'].indexOf(
+                                    expandedUrl.split('.').pop()
+                                ) >= 0
+                            ) {
                                 media[ urlItem['url'] ] = [
                                     expandedUrl, expandedUrl
                                 ];
