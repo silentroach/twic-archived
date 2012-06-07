@@ -43,6 +43,7 @@
 		"notifications",
 		"tabs",
 		"geolocation",
+		"chrome://favicon/",
 
 		"https://api.twitter.com/1/*",
 		"https://twitter.com/oauth/*"

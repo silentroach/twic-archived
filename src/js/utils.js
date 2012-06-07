@@ -112,13 +112,13 @@ twic.utils.url.humanize = function(url, lnks) {
             .replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
         clen = cutted.length,
         title = cutted,
-        className = twic.services.getClassNameByDomain(domainName),
+        faviconUrl = twic.services.getUrlByDomain(domainName),
         classes = '';
 
-    if (className) {
-        title = className + ' - ' + expanded;
-        classes = ' class="aicon ' + className + '"';
-        cutted = '&nbsp;';
+    if (faviconUrl) {
+        title = domainName + ' - ' + expanded;
+        classes = ' class="aicon"';
+        cutted = '<img src="chrome://favicon/' + faviconUrl + '" />';
     } else
     if (clen > 30) {
         cutted = cutted.substring(0, 30) + '&hellip;';

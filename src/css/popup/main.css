@@ -50,27 +50,3 @@ a.direct {
     .aicon:hover {
         text-decoration: none;
         }
-    .aicon.tumblr {
-        background: transparent url('/img/services/tumblr.png') no-repeat 50% 50%;
-        }
-    .aicon.instagram {
-        background: transparent url('/img/services/instagram.png') no-repeat 50% 50%;
-        }
-    .aicon.foursquare {
-        background: transparent url('/img/services/foursquare.png') no-repeat 50% 50%;
-        }
-    .aicon.flickr {
-        background: transparent url('/img/services/flickr.png') no-repeat 50% 50%;
-        }
-    .aicon.yfrog {
-        background: transparent url('/img/services/yfrog.png') no-repeat 50% 50%;
-        }
-    .aicon.imgly {
-        background: transparent url('/img/services/imgly.png') no-repeat 50% 50%;
-        }
-    .aicon.imgur {
-        background: transparent url('/img/services/imgur.png') no-repeat 50% 50%;
-        }
-    .aicon.twitpic {
-        background: transparent url('/img/services/twitpic.png') no-repeat 50% 50%;
-        }

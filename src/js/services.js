@@ -23,10 +23,10 @@ twic.services.alternativeDomains_ = {
  */
 twic.services.list_ = {
     'tumblr.com': {
-        className: 'tumblr'
+        url: 'https://www.tumblr.com/'
     },
     'instagr.am': {
-        className: 'instagram',
+        url: 'http://instagr.am/',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -41,13 +41,13 @@ twic.services.list_ = {
         }
     },
     '4sq.com': {
-        className: 'foursquare'
+        url: 'https://foursquare.com/'
     },
     'flickr.com': {
-        className: 'flickr'
+        url: 'http://www.flickr.com/'
     },
     'i.imgur.com': {
-        className: 'imgur',
+        url: 'http://imgur.com/',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -74,7 +74,7 @@ twic.services.list_ = {
         }
     },
     'twitpic.com': {
-        className: 'twitpic',
+        url: 'http://twitpic.com/',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -87,7 +87,7 @@ twic.services.list_ = {
         }
     },
     'yfrog.com': {
-        className: 'yfrog',
+        url: 'http://yfrog.com/',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -112,7 +112,7 @@ twic.services.list_ = {
         }
     },
     'img.ly': {
-        className: 'imgly',
+        url: 'http://img.ly/',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -153,13 +153,13 @@ twic.services.getThumbnail = function(domain, query) {
     return false;
 };
 
-twic.services.getClassNameByDomain = function(domain) {
+twic.services.getUrlByDomain = function(domain) {
     if (domain in twic.services.alternativeDomains_) {
         domain = twic.services.alternativeDomains_[domain];
     }
 
     if (domain in twic.services.list_) {
-        return twic.services.list_[domain].className;
+        return twic.services.list_[domain].url;
     }
 
     return false;
