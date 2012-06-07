@@ -21,6 +21,7 @@ twic.vcl.Timeline = function(parent) {
 
     /**
      * @type {Element}
+     * @private
      */
     this.wrapper_ = twic.dom.expandElement('div.timeline');
 
@@ -29,7 +30,14 @@ twic.vcl.Timeline = function(parent) {
     }
 
     /**
+     * @type {Element}
+     * @private
+     */
+    this.container_ = parent;
+
+    /**
      * @type {boolean}
+     * @private
      */
     this.buttonPressed_ = false;
 
@@ -50,6 +58,12 @@ twic.vcl.Timeline = function(parent) {
      * @private
      */
     this.list_ = twic.dom.expandElement('ul');
+
+    /**
+     * @type {Timer}
+     * @private
+     */
+    this.hoverTimer_ = null;
 
     /**
      * @type {Element}
@@ -77,6 +91,7 @@ twic.vcl.Timeline = function(parent) {
 
     /**
      * @type {DocumentFragment}
+     * @private
      */
     this.tweetBuffer_ = null;
 
@@ -190,29 +205,13 @@ twic.vcl.Timeline = function(parent) {
                     if (tweet.isReplying()) {
                         timeline.hideButtons_();
                     } else {
-                        timeline.hoveredTweet_ = find;
-
-                        timeline.resetButtons_();
-                        twic.dom.setVisibility(timeline.tweetButtons_, false);
-
-                        var
-                            hackTop = timeline.hoveredTweet_.offsetTop - parent.scrollTop + timeline.hoveredTweet_.clientHeight + 1;
-
-                        if (hackTop > parent.clientHeight) {
-                            return;
-                        }
-
-                        var
-                            vReply        = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
-                            vRetweet      = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
-                            vUnRetweet    = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
-                            vDelete       = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete());
-                            //vConversation = twic.dom.setVisibility(timeline.tbConversation_, tweet.getCanConversation());
-
-                        if (vReply || vRetweet || vUnRetweet || vDelete) {// || vConversation) {
-                            timeline.tweetButtons_.style.display = 'block';
-                            timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
-                            timeline.tweetButtons_.style.right = (document.body.clientWidth - timeline.hoveredTweet_.clientWidth) + 'px';
+                        if (timeline.hoveredTweet_) {
+                            timeline.hoverTweet_(find, tweet);
+                        } else {
+                            clearTimeout(timeline.hoverTimer_);
+                            timeline.hoverTimer_ = setTimeout( function() {
+                                timeline.hoverTweet_(find, tweet);
+                            }, 150);
                         }
                     }
                 }
@@ -295,7 +294,9 @@ twic.vcl.Timeline = function(parent) {
     this.list_.addEventListener('mouseout',  timelineMouseOut, false);
 
     parent.addEventListener('scroll', function(e) {
-        timeline.hideButtons_.call(timeline, e);
+        if (timeline.hoveredTweet_) {
+            timeline.hideButtons_.call(timeline, e);
+        }
     }, false);
 
     // update times every minute
@@ -352,6 +353,34 @@ twic.vcl.Timeline.prototype.beginUpdate = function(isBottom, noBuffer) {
         return true;
     } else {
         return false;
+    }
+};
+
+twic.vcl.Timeline.prototype.hoverTweet_ = function(element, tweet) {
+    var
+        timeline = this,
+        hackTop = element.offsetTop - timeline.container_.scrollTop + element.clientHeight + 1;
+
+    timeline.hoveredTweet_ = element;
+
+    timeline.resetButtons_();
+    twic.dom.setVisibility(timeline.tweetButtons_, false);
+
+    if (hackTop > timeline.container_.clientHeight) {
+        return;
+    }
+
+    var
+        vReply        = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
+        vRetweet      = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
+        vUnRetweet    = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
+        vDelete       = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete());
+        //vConversation = twic.dom.setVisibility(timeline.tbConversation_, tweet.getCanConversation());
+
+    if (vReply || vRetweet || vUnRetweet || vDelete) {// || vConversation) {
+        timeline.tweetButtons_.style.display = 'block';
+        timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
+        timeline.tweetButtons_.style.right = (document.body.clientWidth - element.clientWidth) + 'px';
     }
 };
 
@@ -485,11 +514,19 @@ twic.vcl.Timeline.prototype.endUpdate = function() {
  * @private
  */
 twic.vcl.Timeline.prototype.hideButtons_ = function() {
-    if (this.hoveredTweet_) {
-        this.hoveredTweet_ = null;
+    var
+        timeline = this;
+
+    if (timeline.hoveredTweet_) {
+        timeline.hoveredTweet_ = null;
     }
 
-    twic.dom.setVisibility(this.tweetButtons_, false);
+    if (timeline.hoverTimer_) {
+        clearTimeout(timeline.hoverTimer_);
+        timeline.hoverTimer_ = null;
+    }
+
+    twic.dom.setVisibility(timeline.tweetButtons_, false);
 };
 
 /**
