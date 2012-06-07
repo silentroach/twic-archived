@@ -58,8 +58,8 @@
         display: none;
         min-width: 24px; /* for animation to exists when it is empty */
         opacity: .3;
-        -webkit-transition: opacity 0.2s ease-in-out;
-        -webkit-transition: color 0.2s ease-in-out;
+        transition: opacity 0.2s ease-in-out;
+        transition: color 0.2s ease-in-out;
         }
 
 /** too much characters in the textarea **/

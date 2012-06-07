@@ -31,7 +31,7 @@ p.loader {
 
 a.direct {
     opacity: .6;
-    -webkit-transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
     -webkit-user-select: none;
     vertical-align: middle;
     margin-left: .1em;

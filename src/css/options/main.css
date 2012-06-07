@@ -25,7 +25,7 @@ body {
             color: gray;
             cursor: pointer;
             background-color: rgba(192, 192, 192, .1);
-            -webkit-transition: background-color .2s ease-in-out;
+            transition: background-color .2s ease-in-out;
             }
             #tabs li span:hover {
                 background-color: initial;
@@ -61,7 +61,7 @@ body {
     }
     #content ul.options li img {
         border: 1px solid rgba(0, 0, 0, .1);
-        -webkit-transition: border .2s ease-in-out;
+        transition: border .2s ease-in-out;
         }
         #content ul.options li.selected img {
             border: 1px solid black;
