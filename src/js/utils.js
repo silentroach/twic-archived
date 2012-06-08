@@ -116,7 +116,6 @@ twic.utils.url.humanize = function(url, lnks) {
         classes = '';
 
     if (faviconUrl) {
-        title = domainName + ' - ' + expanded;
         classes = ' class="aicon"';
         cutted = '<img src="chrome://favicon/' + faviconUrl + '" />';
     } else
