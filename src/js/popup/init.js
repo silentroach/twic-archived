@@ -34,11 +34,11 @@ document.addEventListener('click', function(e) {
             chrome.tabs.create( {
                 'url': attr,
                 // only select the new tab if left button is pressed
-                'selected': 0 === e.button
+                'active': 0 === e.button && !twic.events.isEventWithModifier(e)
             } );
 
             if (0 === e.button
-                && !e.metaKey
+                && !twic.events.isEventWithModifier(e)
             ) {
                 // left button click, closing the window, special for os x
                 window.close();
