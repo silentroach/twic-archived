@@ -17,47 +17,76 @@ twic.vcl.Suggest = function(editor) {
      * @type {Element}
      * @private
      */
-    this.nickList_ = twic.dom.expandElement('ul.suggest');
+    suggest.nickList_ = twic.dom.expandElement('ul.suggest');
 
     /**
      * @type {twic.vcl.TweetEditor}
      * @private
      */
-    this.editor_ = editor;
+    suggest.editor_ = editor;
 
-    this.textarea_ = editor.getTextarea();
+    /**
+     * @type {Element}
+     * @private
+     */
+    suggest.textarea_ = editor.getTextarea();
 
-    this.visible_ = false;
-    this.focused_ = false;
-    this.part_ = '';
+    /**
+     * @type {boolean}
+     * @private
+     */
+    suggest.visible_ = false;
 
-    editor.getSuggestBlock().appendChild(this.nickList_);
+    /**
+     * @type {boolean}
+     * @private
+     */
+    suggest.focused_ = false;
 
+    /**
+     * @type {string}
+     * @private
+     */
+    suggest.part_ = '';
 
-    this.nickList_.addEventListener('click', function(e) {
+    editor.getSuggestBlock().appendChild(
+        suggest.nickList_
+    );
+
+    // ----------------------------------------------------
+
+    suggest.nickList_.addEventListener('click', function(e) {
         suggest.onListClick_.call(suggest, e);
-    }, false );
+    }, false);
 
     // prevent user to press enter
-    this.textarea_.addEventListener('keydown', function(e) {
+    suggest.textarea_.addEventListener('keydown', function(e) {
         suggest.onKeyDown_.call(suggest, e);
-    }, false );
-
-    this.textarea_.addEventListener('keyup', function(e) {
-        suggest.check_.call(suggest);
+    }, false);
+    suggest.textarea_.addEventListener('keyup', function(e) {
+        suggest.check_.call(suggest, e);
     }, false);
 };
 
+/**
+ * Get the selected suggest item
+ * @private
+ * @return {Element}
+ */
 twic.vcl.Suggest.prototype.getSelectedElement_ = function() {
     return twic.dom.findElement('.selected', this.nickList_);
 };
 
+/**
+ * Reset the selected suggest item
+ * @private
+ */
 twic.vcl.Suggest.prototype.resetSelection_ = function() {
     var
         selectedElement = this.getSelectedElement_();
 
     if (selectedElement) {
-        selectedElement.classList.remove('selected');
+        twic.dom.removeClass(selectedElement, 'selected');
     }
 
     this.focused_ = false;
@@ -65,6 +94,7 @@ twic.vcl.Suggest.prototype.resetSelection_ = function() {
 
 /**
  * Handler for the suggest list click
+ * @private
  * @param {Event} e
  */
 twic.vcl.Suggest.prototype.onListClick_ = function(e) {
@@ -90,6 +120,11 @@ twic.vcl.Suggest.prototype.onListClick_ = function(e) {
     this.select_();
 };
 
+/**
+ * Handling the keydown event
+ * @private
+ * @param {KeyboardEvent} e Event
+ */
 twic.vcl.Suggest.prototype.onKeyDown_ = function(e) {
     switch (e.keyCode) {
         // enter
@@ -175,11 +210,19 @@ twic.vcl.Suggest.prototype.move_ = function(onRight) {
     }
 };
 
+/**
+ * Handle the focus event
+ * @private
+ */
 twic.vcl.Suggest.prototype.focus_ = function() {
     this.focused_ = true;
     this.move_(true);
 };
 
+/**
+ * Remove the suggest box
+ * @private
+ */
 twic.vcl.Suggest.prototype.remove_ = function() {
     twic.dom.setVisibility(this.nickList_, false);
     this.nickList_.innerHTML = '';

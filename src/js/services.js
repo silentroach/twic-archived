@@ -131,6 +131,12 @@ twic.services.list_ = {
     }
 };
 
+/**
+ * Get the thumbnail for service image url
+ * @param {string} domain Domain
+ * @param {string} query Query
+ * @return {string|null}
+ */
 twic.services.getThumbnail = function(domain, query) {
     if (domain in twic.services.alternativeDomains_) {
         domain = twic.services.alternativeDomains_[domain];
@@ -150,9 +156,14 @@ twic.services.getThumbnail = function(domain, query) {
         }
     }
 
-    return false;
+    return null;
 };
 
+/**
+ * Get service url for chrome://favicon/[url] by domain
+ * @param {string} domain Domain
+ * @return {string|null}
+ */
 twic.services.getUrlByDomain = function(domain) {
     if (domain in twic.services.alternativeDomains_) {
         domain = twic.services.alternativeDomains_[domain];
@@ -162,5 +173,5 @@ twic.services.getUrlByDomain = function(domain) {
         return twic.services.list_[domain].url;
     }
 
-    return false;
+    return null;
 };

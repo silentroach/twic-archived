@@ -175,76 +175,6 @@ twic.vcl.Timeline = function(parent) {
     // this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
     // this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
 
-    var timelineMouseOut = function(e) {
-        if (timeline.tweetButtons_ !== e.toElement &&
-            !twic.dom.isChildOf(e.toElement, timeline.tweetButtons_) &&
-            !twic.dom.isChildOf(e.toElement, timeline.list_)
-        ) {
-            timeline.hideButtons_();
-        }
-    };
-
-    var timelineMouseMove = function(e) {
-        var find = e.target;
-
-        if (!timeline.buttonPressed_) {
-            while (find &&
-                'LI' !== find.nodeName &&
-                find.parentNode
-            ) {
-                find = find.parentNode;
-            }
-
-            if (find &&
-                find !== timeline.hoveredTweet_
-            ) {
-                var
-                    tweet = timeline.tweets_[find.id];
-
-                if (tweet) {
-                    if (tweet.isReplying()) {
-                        timeline.hideButtons_();
-                    } else {
-                        if (timeline.hoveredTweet_) {
-                            timeline.hoverTweet_(find, tweet);
-                        } else {
-                            clearTimeout(timeline.hoverTimer_);
-                            timeline.hoverTimer_ = setTimeout( function() {
-                                timeline.hoverTweet_(find, tweet);
-                            }, 150);
-                        }
-                    }
-                }
-            }
-        }
-    };
-
-    var timelineMouseDownFunc = function() {
-        timeline.hideButtons_();
-        timeline.buttonPressed_ = true;
-    };
-
-    var timelineMouseDown = function(e) {
-        timeline.clickTimer_ = setTimeout(timelineMouseDownFunc, 250);
-    };
-
-    var timelineMouseUp = function(e) {
-        if (timeline.clickTimer_) {
-            clearTimeout(timeline.clickTimer_);
-            timeline.clickTimer_ = null;
-
-            if (!timeline.buttonPressed_ &&
-                timeline.hoveredTweet_ &&
-                timeline.replyTweet_
-            ) {
-                timeline.replyTweet_.resetEditor();
-                timeline.hideButtons_();
-            }
-        }
-
-        timeline.buttonPressed_ = false;
-    };
-
     // init
 
     this.tbReply_.addEventListener('click', function(e) {
@@ -288,10 +218,18 @@ twic.vcl.Timeline = function(parent) {
 
     this.resetButtons_();
 
-    this.list_.addEventListener('mousedown', timelineMouseDown, false);
-    this.list_.addEventListener('mouseup',   timelineMouseUp, false);
-    this.list_.addEventListener('mousemove', timelineMouseMove, false);
-    this.list_.addEventListener('mouseout',  timelineMouseOut, false);
+    timeline.list_.addEventListener('mousedown', function(e) {
+        timeline.mouseDown_.call(timeline, e);
+    }, false);
+    timeline.list_.addEventListener('mouseup',  function(e) {
+        timeline.mouseUp_.call(timeline, e);
+    }, false);
+    timeline.list_.addEventListener('mousemove', function(e) {
+        timeline.mouseMove_.call(timeline, e);
+    }, false);
+    timeline.list_.addEventListener('mouseout',  function(e) {
+        timeline.mouseOut_.call(timeline, e);
+    }, false);
 
     parent.addEventListener('scroll', function(e) {
         if (timeline.hoveredTweet_) {
@@ -300,15 +238,10 @@ twic.vcl.Timeline = function(parent) {
     }, false);
 
     // update times every minute
-    setInterval( function() {
-        var
-            id = '';
-
-        for (id in timeline.tweets_) {
-            timeline.tweets_[id].updateTime();
-        }
-    }, 1000 * 60 );
-
+    setInterval(
+        timeline.updateTweetsTime_.bind(timeline),
+        1000 * 60
+    );
 };
 
 /**
@@ -328,6 +261,20 @@ twic.vcl.Timeline.options = {
     showTime: false,
     showTimeAsLink: false,
     avatarSizeDefault: true
+};
+
+/**
+ * Update all the tweets time
+ * @private
+ */
+twic.vcl.Timeline.prototype.updateTweetsTime_ = function() {
+    var
+        timeline = this,
+        id = '';
+
+    for (id in timeline.tweets_) {
+        timeline.tweets_[id].updateTime();
+    }
 };
 
 /**
@@ -382,6 +329,107 @@ twic.vcl.Timeline.prototype.hoverTweet_ = function(element, tweet) {
         timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
         timeline.tweetButtons_.style.right = (document.body.clientWidth - element.clientWidth) + 'px';
     }
+};
+
+/**
+ * Handling the timeline mouseout event
+ * @param {MouseEvent} e Event
+ * @private
+ */
+twic.vcl.Timeline.prototype.mouseOut_ = function(e) {
+    var
+        timeline = this;
+
+    if (timeline.tweetButtons_ !== e.toElement &&
+        !twic.dom.isChildOf(e.toElement, timeline.tweetButtons_) &&
+        !twic.dom.isChildOf(e.toElement, timeline.list_)
+    ) {
+        timeline.hideButtons_();
+    }
+};
+
+/**
+ * Handling the timeline mousemove event
+ * @param {MouseEvent} e Event
+ * @private
+ */
+twic.vcl.Timeline.prototype.mouseMove_ = function(e) {
+    var
+        timeline = this,
+        find = e.target;
+
+    if (!timeline.buttonPressed_) {
+        while (find &&
+            'LI' !== find.nodeName &&
+            find.parentNode
+        ) {
+            find = find.parentNode;
+        }
+
+        if (find &&
+            find !== timeline.hoveredTweet_
+        ) {
+            var
+                tweet = timeline.tweets_[find.id];
+
+            if (tweet) {
+                if (tweet.isReplying()) {
+                    timeline.hideButtons_();
+                } else {
+                    if (timeline.hoveredTweet_) {
+                        timeline.hoverTweet_(find, tweet);
+                    } else {
+                        clearTimeout(timeline.hoverTimer_);
+                        timeline.hoverTimer_ = setTimeout( function() {
+                            timeline.hoverTweet_(find, tweet);
+                        }, 150);
+                    }
+                }
+            }
+        }
+    }
+};
+
+/**
+ * Handling the timeline mouseup event
+ * @param {MouseEvent} e Event
+ * @private
+ */
+twic.vcl.Timeline.prototype.mouseUp_ = function(e) {
+    var
+        timeline = this;
+
+    if (timeline.clickTimer_) {
+        clearTimeout(timeline.clickTimer_);
+        timeline.clickTimer_ = null;
+
+        if (!timeline.buttonPressed_ &&
+            timeline.hoveredTweet_ &&
+            timeline.replyTweet_
+        ) {
+            timeline.replyTweet_.resetEditor();
+            timeline.hideButtons_();
+        }
+    }
+
+    timeline.buttonPressed_ = false;
+};
+
+/**
+ * Handling the timeline mousedown event
+ * @param {MouseEvent} e Event
+ * @private
+ */
+twic.vcl.Timeline.prototype.mouseDown_ = function(e) {
+    var
+        timeline = this;
+
+    var timerfunc = function() {
+        timeline.hideButtons_();
+        timeline.buttonPressed_ = true;
+    };
+
+    timeline.clickTimer_ = setTimeout(timerfunc, 250);
 };
 
 /**
@@ -753,7 +801,9 @@ twic.vcl.Timeline.prototype.getFirstTweetId = function() {
  * @param {string=} replyTo Reply to tweet
  * @param {function()=} callback Callback
  */
-twic.vcl.Timeline.prototype.onReplySend = function(editor, tweet, replyTo, callback) { };
+twic.vcl.Timeline.prototype.onReplySend = function(editor, tweet, replyTo, callback) {
+    callback();
+};
 
 /**
  * Handler for the retweet
@@ -761,7 +811,9 @@ twic.vcl.Timeline.prototype.onReplySend = function(editor, tweet, replyTo, callb
  * @param {string} tweetId Tweet id
  * @param {function()=} callback Callback
  */
-twic.vcl.Timeline.prototype.onRetweet = function(userId, tweetId, callback) { };
+twic.vcl.Timeline.prototype.onRetweet = function(userId, tweetId, callback) {
+    callback();
+};
 
 /**
  * Handler for the delete
@@ -769,7 +821,9 @@ twic.vcl.Timeline.prototype.onRetweet = function(userId, tweetId, callback) { };
  * @param {string} tweetId Tweet id
  * @param {function()=} callback Callback
  */
-twic.vcl.Timeline.prototype.onDelete = function(userId, tweetId, callback) { };
+twic.vcl.Timeline.prototype.onDelete = function(userId, tweetId, callback) {
+    callback();
+};
 
 /**
  * Handler for the oldstyle retweet

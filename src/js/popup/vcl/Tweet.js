@@ -418,7 +418,6 @@ twic.vcl.Tweet.prototype.setAuthor = function(id, nick, av) {
         this.wrapper_.classList.add('me');
     }
 
-    // FIXME holy shit!
     if (this.timeLink_) {
         this.timeLink_.setAttribute('href', 'https://twitter.com/#!/' + nick + '/status/' + this.id_);
         this.timeLink_.setAttribute('target', '_blank');
@@ -712,7 +711,9 @@ twic.vcl.Tweet.prototype.setImages = function(previews) {
  * @param {string=} replyTo Reply to tweet
  * @param {function()=} callback Callback
  */
-twic.vcl.Tweet.prototype.onReplySend = function(editor, tweet, replyTo, callback) { };
+twic.vcl.Tweet.prototype.onReplySend = function(editor, tweet, replyTo, callback) {
+    callback();
+};
 
 /**
  * Handler for the tweet map show

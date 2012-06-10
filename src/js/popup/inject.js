@@ -43,15 +43,25 @@ twic.inject.css = function(file) {
 
 /**
  * @param {string} file Filename
+ * @param {function()=} callback Callback
  */
-twic.inject.js = function(file) {
+twic.inject.js = function(file, callback) {
     if (file in twic.inject.injected_) {
+        if (callback) {
+            callback();
+        }
+
         return false;
     } else {
         twic.inject.injected_[file] = 1;
     }
 
     var scriptElement = twic.dom.expandElement('script');
+
+    if (callback) {
+        scriptElement.onload = callback;
+    }
+
     scriptElement.src = file;
     document.body.appendChild(scriptElement);
 };

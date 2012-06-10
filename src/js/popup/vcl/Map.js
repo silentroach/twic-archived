@@ -3,8 +3,6 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-window['map_init'] = false;
-
 /**
  * Map element
  * @constructor
@@ -30,14 +28,9 @@ twic.vcl.Map = function(container, lat, lng) {
             } );
     };
 
-    if (window['map_init']) {
-        drawMap();
-    } else {
-        window['initMap'] = function() {
-            window['map_init'] = true;
-            drawMap();
-        };
-
-        twic.inject.js('https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=true&callback=initMap');
-    }
+    twic.inject.js(
+        'https://maps.googleapis.com/maps/api/js?sensor=false&language='
+        + chrome.app.getDetails().current_locale,
+        drawMap
+    );
 };
