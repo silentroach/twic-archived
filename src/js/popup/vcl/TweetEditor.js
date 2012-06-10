@@ -58,7 +58,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     editor.userId_ = userId;
 
     /**
-     * @type {string=}
+     * @type {string|undefined}
      * @private
      */
     editor.replyTo_ = replyTo;
@@ -76,7 +76,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     editor.buttonAttach_ = editorAttach;
 
     /**
-     * @type {Boolean}
+     * @type {boolean}
      * @private
      */
     editor.isAttachAbilityChecked_ = false;
@@ -305,24 +305,24 @@ twic.vcl.TweetEditor.options = {
 
 /**
  * Current tab url is already checked
- * @type {Boolean}
+ * @type {boolean}
  * @private
  */
-twic.vcl.TweetEditor.prototype.currentTabChecked_ = false;
+twic.vcl.TweetEditor.currentTabChecked_ = false;
 
 /**
  * Current url to paste it into the tweet
- * @type {Boolean}
+ * @type {boolean|string}
  * @private
  */
-twic.vcl.TweetEditor.prototype.currentURL_ = false;
+twic.vcl.TweetEditor.currentURL_ = false;
 
 /**
  * Current title to paste it into the tweet
- * @type {Boolean}
+ * @type {boolean|string}
  * @private
  */
-twic.vcl.TweetEditor.prototype.currentTitle_ = '';
+twic.vcl.TweetEditor.currentTitle_ = '';
 
 // ------------------------------------------
 
@@ -352,8 +352,8 @@ twic.vcl.TweetEditor.prototype.checkLinkAttachAbility_ = function() {
         twic.dom.removeClass(editor.buttonAttach_, 'disabled');
     };
 
-    if (!twic.vcl.TweetEditor.prototype.currentTabChecked_) {
-        twic.vcl.TweetEditor.prototype.currentTabChecked_ = true;
+    if (!twic.vcl.TweetEditor.currentTabChecked_) {
+        twic.vcl.TweetEditor.currentTabChecked_ = true;
 
         chrome.tabs.getSelected(null, function(tab) {
             if (tab) {
@@ -370,15 +370,15 @@ twic.vcl.TweetEditor.prototype.checkLinkAttachAbility_ = function() {
                         url = url.substring(0, url.length - 1);
                     }
 
-                    twic.vcl.TweetEditor.prototype.currentURL_ = url;
-                    twic.vcl.TweetEditor.prototype.currentTitle_ = title;
+                    twic.vcl.TweetEditor.currentURL_ = url;
+                    twic.vcl.TweetEditor.currentTitle_ = title;
 
                     doAssignAttachEvent();
                 }
             }
         } );
     } else
-    if (twic.vcl.TweetEditor.prototype.currentURL_) {
+    if (twic.vcl.TweetEditor.currentURL_) {
         doAssignAttachEvent();
     }
 };
@@ -448,8 +448,8 @@ twic.vcl.TweetEditor.prototype.getBackupStoragePath_ = function() {
 twic.vcl.TweetEditor.prototype.onInsertCurrentLink_ = function(e) {
     var
         editor = this,
-        url = twic.vcl.TweetEditor.prototype.currentURL_,
-        title = twic.vcl.TweetEditor.prototype.currentTitle_,
+        url = twic.vcl.TweetEditor.currentURL_,
+        title = twic.vcl.TweetEditor.currentTitle_,
         selStart = editor.editorTextarea_.selectionStart,
         selEnd = editor.editorTextarea_.selectionEnd,
         newVal = editor.editorTextarea_.value.substr(0, selStart);

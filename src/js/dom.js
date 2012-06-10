@@ -159,7 +159,7 @@ twic.dom.removeClass = function(element, className) {
  * Is element has class?
  * @param {Element} element Element
  * @param {string} className Class name
- * @return {Boolean}
+ * @return {boolean}
  */
 twic.dom.hasClass = function(element, className) {
     return element.classList.contains(className);

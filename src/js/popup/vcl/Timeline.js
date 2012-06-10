@@ -60,7 +60,7 @@ twic.vcl.Timeline = function(parent) {
     this.list_ = twic.dom.expandElement('ul');
 
     /**
-     * @type {Timer}
+     * @type {?number}
      * @private
      */
     this.hoverTimer_ = null;
