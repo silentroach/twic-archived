@@ -628,23 +628,15 @@ twic.vcl.Tweet.prototype.reply = function(all) {
         }
     }
 
-    this.replier_ = new twic.vcl.TweetEditor(this.timelineId_, this.replyWrapper_, this.id_);
-    this.replier_.toggleGeo(this.timeline_.geoEnabled);
-    this.replier_.autoRemovable = true;
-    this.replier_.setConstTextIfEmpty(nickList.trim(), true);
-    this.replier_.setFocus();
+    tweet.replier_ = new twic.vcl.TweetEditor(this.timelineId_, this.replyWrapper_, this.id_);
+    tweet.replier_.toggleGeo(this.timeline_.geoEnabled);
+    tweet.replier_.autoRemovable = true;
+    tweet.replier_.setConstTextIfEmpty(nickList.trim(), true);
+    tweet.replier_.setFocus();
 
-    this.replier_.onTweetSend = function(editor, tweetObj, replyTo, callback) {
-        tweet.onReplySend.call(tweet, editor, tweetObj, replyTo, callback);
-    };
-
-    this.replier_.onClose = function() {
-        tweet.resetTweetEditor_.call(tweet);
-    };
-
-    this.replier_.onGetSuggestList = function(startPart, callback) {
-        tweet.timeline_.onReplierGetSuggestList.call(tweet.replier_, startPart, callback);
-    };
+    tweet.replier_.onTweetSend      = tweet.onReplySend.bind(tweet);
+    tweet.replier_.onClose          = tweet.resetTweetEditor_.bind(tweet);
+    tweet.replier_.onGetSuggestList = tweet.timeline_.onReplierGetSuggestList.bind(tweet.replier_);
 
     this.wrapper_.classList.add('replying');
 
