@@ -22,9 +22,20 @@ twic.platform = twic.platforms.WINDOWS;
 
 if (navigator.appVersion.indexOf('Mac') >= 0) {
     twic.platform = twic.platforms.OSX;
+
+    twic.dom.addClass(document.body, twic.platform);
+
+    var
+        version = navigator.appVersion.match(/Chrome\/(\d+)/);
+
+    if (2 === version.length &&
+        parseInt(version.pop(), 10) < 21
+    ) {
+        twic.dom.addClass(document.body, 'rounded');
+    }
 } else
 if (navigator.appVersion.indexOf('Windows') < 0) {
     twic.platform = twic.platforms.LINUX;
 }
 
-document.body.classList.add(twic.platform);
+twic.dom.addClass(document.body, twic.platform);

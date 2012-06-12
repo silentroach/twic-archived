@@ -11,7 +11,7 @@
     overflow-y: auto;
     background-color: #f7f7f7;
     }
-    body.osx .page {
+    body.osx.rounded .page {
         border-radius: 5px;
         }
 
