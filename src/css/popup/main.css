@@ -12,6 +12,7 @@
     background-color: #f7f7f7;
     }
     body.osx.rounded .page {
+        /* TODO drop this shit after stable Chrome 22 */
         border-radius: 5px;
         }
 

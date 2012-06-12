@@ -25,6 +25,7 @@ if (navigator.appVersion.indexOf('Mac') >= 0) {
 
     twic.dom.addClass(document.body, twic.platform);
 
+    // TODO drop this shit after stable Chrome 22
     var
         version = navigator.appVersion.match(/Chrome\/(\d+)/);
 
