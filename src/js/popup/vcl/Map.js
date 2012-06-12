@@ -7,30 +7,63 @@
  * Map element
  * @constructor
  * @param {Element} container Container element
+ * @param {number} lat Latitude
+ * @param {number} lng Longitude
  */
 twic.vcl.Map = function(container, lat, lng) {
-    var drawMap = function() {
-        container.style.display = 'block';
 
-        var
-            latLng = new google.maps.LatLng(lat, lng),
-            map = new google.maps.Map(container, {
-                'zoom': 13,
-                'center': latLng,
-                'mapTypeId': google.maps.MapTypeId.ROADMAP,
-                'streetViewControl': false
-            } ),
-            marker = new google.maps.Marker( {
-                'map': map,
-                'position': latLng,
-                // @resource img/marker_map.gif
-                'icon': '/img/marker_map.gif'
-            } );
-    };
+    var
+        map = this;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    map.container_ = container;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    map.lat_ = lat;
+
+    /**
+     * @type {number}
+     * @private
+     */
+    map.lng_ = lng;
 
     twic.inject.js(
         'https://maps.googleapis.com/maps/api/js?sensor=false&language='
         + chrome.app.getDetails().current_locale,
-        drawMap
+        map.drawMap_.bind(map)
     );
+};
+
+/**
+ * Draw the map
+ * @private
+ */
+twic.vcl.Map.prototype.drawMap_ = function() {
+    var
+        map = this,
+        coords = new google.maps.LatLng(map.lat_, map.lng_),
+        gmap, gmarker;
+
+    map.container_.style.display = 'block';
+
+    gmap = new google.maps.Map(map.container_, {
+        'zoom': 13,
+        'center': coords,
+        'mapTypeId': google.maps.MapTypeId.ROADMAP,
+        'streetViewControl': false
+    } ),
+
+    gmarker = new google.maps.Marker( {
+        'map': map,
+        'position': coords,
+        // @resource img/marker_map.gif
+        'icon': '/img/marker_map.gif'
+    } );
+
 };
