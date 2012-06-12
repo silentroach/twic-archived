@@ -40,7 +40,7 @@
         border-radius: 5px;
         cursor: pointer;
         border: 1px solid rgba(0, 0, 0, .1);
-        transition: background-color 0.3s ease-in-out;
+        -webkit-transition: background-color 0.2s ease-in-out;
         -webkit-user-select: none;
         }
         #profile #followings p:hover {
