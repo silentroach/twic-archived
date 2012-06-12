@@ -11,7 +11,7 @@ twic.inject = { };
  * @type {Element}
  * @private
  */
-twic.inject.headElement_;
+twic.inject.headElement_ = null;
 
 /**
  * @type {Object.<string,number>}
