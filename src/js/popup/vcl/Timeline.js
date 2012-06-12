@@ -693,10 +693,17 @@ twic.vcl.Timeline.prototype.addTweet = function(id, ts) {
 
     this.tweets_[id] = tweet;
 
-    tweet.onReplySend = timeline.onReplySend.bind(tweet);
+    tweet.onReplySend = function(editor, tweet, replyTo, callback) {
+        timeline.onReplySend.call(tweet, editor, tweet, replyTo, callback);
+    };
 
-    tweet.onMapShow = timeline.hideButtons_.bind(timeline);
-    tweet.onGalleryShow = timeline.hideButtons_.bind(timeline);
+    tweet.onMapShow = function() {
+        timeline.hideButtons_.call(timeline);
+    };
+
+    tweet.onGalleryShow = function() {
+        timeline.hideButtons_.call(timeline);
+    };
 
     if (this.isLoading_ &&
         this.tweetBuffer_
