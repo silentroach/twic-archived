@@ -112,10 +112,10 @@ twic.vcl.Suggest.prototype.onListClick_ = function(e) {
     if (selEl
         && selEl !== trgEl
     ) {
-        selEl.classList.remove('selected');
+        twic.dom.removeClass(selEl, 'selected');
     }
 
-    trgEl.classList.add('selected');
+    twic.dom.addClass(trgEl, 'selected');
 
     this.select_();
 };
@@ -202,11 +202,11 @@ twic.vcl.Suggest.prototype.move_ = function(onRight) {
     }
 
     if (selectedElement) {
-        selectedElement.classList.remove('selected');
+        twic.dom.removeClass(selectedElement, 'selected');
     }
 
     if (trg) {
-        trg.classList.add('selected');
+        twic.dom.addClass(trg, 'selected');
     }
 };
 

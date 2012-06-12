@@ -22,7 +22,7 @@ twic.pages.ProfilePage = function() {
      * @type {Element}
      * @private
      */
-    this.page_ = null;
+    this.container_ = null;
 
     /**
      * @type {Element}
@@ -142,32 +142,35 @@ goog.inherits(twic.pages.ProfilePage, twic.Page);
 twic.pages.ProfilePage.REGEXP_COORDS = /(-?\d+\.\d+),(-?\d+\.\d+)/;
 
 twic.pages.ProfilePage.prototype.initOnce = function() {
-    twic.Page.prototype.initOnce.call(this);
+    var
+        page = this;
 
-    this.page_ = twic.dom.findElement('#profile');
+    twic.Page.prototype.initOnce.call(page);
 
-    this.elementFollowings_   = twic.dom.findElement('#followings');
-    this.elementFollowed_     = twic.dom.findElement('p', this.elementFollowings_);
-    this.elementFollowedSpan_ = twic.dom.findElement('span', this.elementFollowings_);
+    page.container_ = twic.dom.findElement('#profile');
 
-    this.elementDirect_       = twic.dom.findElement('.toolbar p a', this.page_);
-    this.elementDirect_.title = twic.utils.lang.translate('title_directly');
-    this.directLinkBase_      = this.elementDirect_.href;
+    page.elementFollowings_   = twic.dom.findElement('#followings');
+    page.elementFollowed_     = twic.dom.findElement('p', page.elementFollowings_);
+    page.elementFollowedSpan_ = twic.dom.findElement('span', page.elementFollowings_);
 
-    this.elementLoader_   = twic.dom.findElement('.loader', this.page_);
-    this.elementAvatar_   = twic.dom.findElement('.avatar', this.page_);
-    this.elementName_     = twic.dom.findElement('.name', this.page_);
-    this.elementNick_     = twic.dom.findElement('.toolbar p span', this.page_);
-    this.elementUrl_      = twic.dom.findElement('.url', this.page_);
-    this.elementBio_      = twic.dom.findElement('.bio', this.page_);
-    this.elementLocation_ = twic.dom.findElement('.location', this.page_);
-    this.toolbarTimeline_ = twic.dom.findElement('.toolbar a', this.page_);
+    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.container_);
+    page.elementDirect_.title = twic.utils.lang.translate('title_directly');
+    page.directLinkBase_      = page.elementDirect_.href;
 
-    this.elementMap_      = twic.dom.findElement('.map', this.page_);
+    page.elementLoader_   = twic.dom.findElement('.loader', page.container_);
+    page.elementAvatar_   = twic.dom.findElement('.avatar', page.container_);
+    page.elementName_     = twic.dom.findElement('.name', page.container_);
+    page.elementNick_     = twic.dom.findElement('.toolbar p span', page.container_);
+    page.elementUrl_      = twic.dom.findElement('.url', page.container_);
+    page.elementBio_      = twic.dom.findElement('.bio', page.container_);
+    page.elementLocation_ = twic.dom.findElement('.location', page.container_);
+    page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.container_);
 
-    this.elementProps_    = twic.dom.findElement('.props', this.page_);
+    page.elementMap_      = twic.dom.findElement('.map', page.container_);
 
-    twic.dom.findElement('.protected', this.elementProps_).title = twic.utils.lang.translate('title_protected');
+    page.elementProps_    = twic.dom.findElement('.props', page.container_);
+
+    twic.dom.findElement('.protected', page.elementProps_).title = twic.utils.lang.translate('title_protected');
 };
 
 /**
@@ -311,7 +314,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 
     // user properties
     if (data['is_protected']) {
-        page.elementProps_.classList.add('protected');
+        twic.dom.addClass(page.elementProps_, 'protected');
     }
 
     page.elementName_.innerHTML = data['name'];
@@ -409,11 +412,11 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
     userName = data[0];
 
     // update info if it is not loaded yet
-    var pageUserName = page.page_.getAttribute('username');
+    var pageUserName = page.container_.getAttribute('username');
     if (pageUserName !== userName) {
         page.clearData_();
 
-        page.page_.setAttribute('username', userName);
+        page.container_.setAttribute('username', userName);
 
         twic.requests.makeRequest('getProfileInfo', {
             'name': userName

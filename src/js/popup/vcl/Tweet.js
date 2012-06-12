@@ -324,7 +324,7 @@ twic.vcl.Tweet.prototype.setText = function(text) {
 
         if (nick === tweet.timelineNick_) {
             // this tweet is with our mention
-            tweet.wrapper_.classList.add('mention');
+            twic.dom.addClass(tweet.wrapper_, 'mention');
         }
 
         tweet.mentioned_[nickLowered] = '@' + nick;
@@ -370,7 +370,7 @@ twic.vcl.Tweet.prototype.setProtected = function() {
  * Add the separator
  */
 twic.vcl.Tweet.prototype.setSeparator = function() {
-    this.wrapper_.classList.add('separator');
+    twic.dom.addClass(this.wrapper_, 'separator');
 };
 
 /**
@@ -388,20 +388,23 @@ twic.vcl.Tweet.prototype.setLinks = function(linksHash) {
  * @param {string} av User avatar src
  */
 twic.vcl.Tweet.prototype.setRetweeter = function(id, nick, av) {
-    this.retweetedById_ = id;
+    var
+        tweet = this;
 
-    if (this.retweetedById_ === this.timelineId_) {
-        this.wrapper_.classList.add('me');
+    tweet.retweetedById_ = id;
+
+    if (tweet.retweetedById_ === tweet.timelineId_) {
+        twic.dom.addClass(tweet.wrapper_, 'me');
     }
 
-    this.rtAvatarLink_.title = twic.utils.lang.translate('title_retweeted_by', '@' + nick);
-    this.rtAvatarLink_.href = '#profile#' + nick;
+    tweet.rtAvatarLink_.title = twic.utils.lang.translate('title_retweeted_by', '@' + nick);
+    tweet.rtAvatarLink_.href = '#profile#' + nick;
 
-    this.rtAvatar_.src = av;
+    tweet.rtAvatar_.src = av;
 
-    this.rtAvatarLink_.style.display = 'block';
+    tweet.rtAvatarLink_.style.display = 'block';
 
-    this.wrapper_.classList.add('retweet');
+    twic.dom.addClass(tweet.wrapper_, 'retweet');
 };
 
 /**
@@ -411,22 +414,25 @@ twic.vcl.Tweet.prototype.setRetweeter = function(id, nick, av) {
  * @param {string} av User avatar src
  */
 twic.vcl.Tweet.prototype.setAuthor = function(id, nick, av) {
-    this.authorId_ = id;
-    this.authorNick_ = nick;
+    var
+        tweet = this;
 
-    if (this.authorId_ === this.timelineId_) {
-        this.wrapper_.classList.add('me');
+    tweet.authorId_ = id;
+    tweet.authorNick_ = nick;
+
+    if (tweet.authorId_ === tweet.timelineId_) {
+        twic.dom.addClass(tweet.wrapper_, 'me');
     }
 
-    if (this.timeLink_) {
-        this.timeLink_.setAttribute('href', 'https://twitter.com/#!/' + nick + '/status/' + this.id_);
-        this.timeLink_.setAttribute('target', '_blank');
+    if (tweet.timeLink_) {
+        tweet.timeLink_.setAttribute('href', 'https://twitter.com/#!/' + nick + '/status/' + tweet.id_);
+        tweet.timeLink_.setAttribute('target', '_blank');
     }
 
-    this.avatarLink_.title = '@' + nick;
-    this.avatarLink_.href = '#profile#' + nick;
+    tweet.avatarLink_.title = '@' + nick;
+    tweet.avatarLink_.href = '#profile#' + nick;
 
-    this.avatar_.src = av;
+    tweet.avatar_.src = av;
 };
 
 twic.vcl.Tweet.prototype.getCanConversation = function() {
@@ -478,8 +484,11 @@ twic.vcl.Tweet.prototype.isReplying = function() {
  * @private
  */
 twic.vcl.Tweet.prototype.resetTweetEditor_ = function() {
-    this.wrapper_.classList.remove('replying');
-    this.replier_ = null;
+    var
+        tweet = this;
+
+    twic.dom.removeClass(tweet.wrapper_, 'replying');
+    tweet.replier_ = null;
 };
 
 /**

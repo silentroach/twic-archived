@@ -18,7 +18,7 @@
 
         for (n = 0; n < values.length; ++n) {
             if (val === values[n].getAttribute('data-value')) {
-                values[n].classList.add('selected');
+                twic.dom.addClass(values[n], 'selected');
                 break;
             }
         }
@@ -108,11 +108,11 @@
 
         for (n = 0; n < optValues.length; ++n) {
             if (optValues[n] !== optValue) {
-                optValues[n].classList.remove('selected');
+                twic.dom.removeClass(optValues[n], 'selected');
             }
         }
 
-        element.classList.add('selected');
+        twic.dom.addClass(element, 'selected');
     };
 
     /**

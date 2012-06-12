@@ -57,6 +57,34 @@ twic.dom.insertFirst = function(container, element) {
 };
 
 /**
+ * Add class to element
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.addClass = function(element, className) {
+    element.classList.add(className);
+};
+
+/**
+ * Remove class from element
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.removeClass = function(element, className) {
+    element.classList.remove(className);
+};
+
+/**
+ * Is element has class?
+ * @param {Element} element Element
+ * @param {string} className Class name
+ * @return {boolean}
+ */
+twic.dom.hasClass = function(element, className) {
+    return element.classList.contains(className);
+};
+
+/**
  * Expand the expression
  * @param {string} expr Expression
  * @return {Element}
@@ -79,7 +107,7 @@ twic.dom.expandElement = function(expr) {
             element = document.createElement(res[1]);
         } else
         if (part === '.') {
-            element.classList.add(res[1].substring(1));
+            twic.dom.addClass(element, res[1].substring(1));
         } else
         if (part === '#') {
             element.setAttribute('id', res[1].substring(1));
@@ -135,32 +163,4 @@ twic.dom.findClosestParentByAttr = function(element, attrName) {
 twic.dom.setVisibility = function(element, visible) {
     element.style.display = visible ? '' : 'none';
     return visible;
-};
-
-/**
- * Add class to element
- * @param {Element} element Element
- * @param {string} className Class name
- */
-twic.dom.addClass = function(element, className) {
-    element.classList.add(className);
-};
-
-/**
- * Remove class from element
- * @param {Element} element Element
- * @param {string} className Class name
- */
-twic.dom.removeClass = function(element, className) {
-    element.classList.remove(className);
-};
-
-/**
- * Is element has class?
- * @param {Element} element Element
- * @param {string} className Class name
- * @return {boolean}
- */
-twic.dom.hasClass = function(element, className) {
-    return element.classList.contains(className);
 };

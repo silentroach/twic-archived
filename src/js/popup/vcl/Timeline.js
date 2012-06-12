@@ -661,18 +661,21 @@ twic.vcl.Timeline.prototype.doConversation_ = function(e) {
  * @private
  */
 twic.vcl.Timeline.prototype.doConfirm_ = function(what) {
-    this.confirmerAction_ = what;
+    var
+        timeline = this;
 
-    this.tweetButtons_.classList.add('bconfirm');
+    timeline.confirmerAction_ = what;
+
+    twic.dom.addClass(timeline.tweetButtons_, 'bconfirm');
 
     if (twic.vcl.Timeline.confirmAction.ACTION_DELETE === what) {
-        this.tweetButtons_.classList.add('bdel');
+        twic.dom.addClass(timeline.tweetButtons_, 'bdel');
     } else
     if (twic.vcl.Timeline.confirmAction.ACTION_UNDO_RETWEET === what) {
-        this.tweetButtons_.classList.add('bunret');
+        twic.dom.addClass(timeline.tweetButtons_, 'bunret');
     } else
     if (twic.vcl.Timeline.confirmAction.ACTION_RETWEET === what) {
-        this.tweetButtons_.classList.add('bret');
+        twic.dom.addClass(timeline.tweetButtons_, 'bret');
     }
 };
 

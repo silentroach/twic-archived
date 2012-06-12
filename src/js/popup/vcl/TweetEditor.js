@@ -170,7 +170,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
         }
 
         // loading state
-        editorWrapper.classList.add(twic.vcl.TweetEditor.sendingClass);
+        twic.dom.addClass(editorWrapper, twic.vcl.TweetEditor.sendingClass);
         editorCounter.innerHTML = '&nbsp;';
         editorSend.disabled = true;
 
@@ -226,10 +226,10 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     }, false );
 
     var handleOutClick = function(e) {
-        if (editorWrapper.classList.contains(twic.vcl.TweetEditor.focusedClass) &&
+        if (twic.dom.hasClass(editorWrapper, twic.vcl.TweetEditor.focusedClass) &&
             !twic.dom.isChildOf(e.target, editorWrapper)
         ) {
-            editorWrapper.classList.remove(twic.vcl.TweetEditor.focusedClass);
+            twic.dom.removeClass(editorWrapper, twic.vcl.TweetEditor.focusedClass);
         }
     };
 
@@ -239,7 +239,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
             editor.checkLinkAttachAbility_();
         }
 
-        editorWrapper.classList.add(twic.vcl.TweetEditor.focusedClass);
+        twic.dom.addClass(editorWrapper, twic.vcl.TweetEditor.focusedClass);
         editor.checkTweetArea_();
 
         editor.onFocus();
@@ -256,8 +256,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
         editorCounter.innerHTML = twic.vcl.TweetEditor.MAXCOUNT.toString();
 
-        editorWrapper.classList.remove(twic.vcl.TweetEditor.focusedClass);
-        editorWrapper.classList.remove(twic.vcl.TweetEditor.sendingClass);
+        twic.dom.removeClass(editorWrapper, twic.vcl.TweetEditor.focusedClass);
+        twic.dom.removeClass(editorWrapper, twic.vcl.TweetEditor.sendingClass);
     };
 
     document.addEventListener('click', handleOutClick, false);
@@ -392,7 +392,7 @@ twic.vcl.TweetEditor.prototype.checkTweetArea_ = function() {
         editor = this,
         val = editor.editorTextarea_.value;
 
-    if (editor.editorWrapper_.classList.contains(twic.vcl.TweetEditor.sendingClass)) {
+    if (twic.dom.hasClass(editor.editorWrapper_, twic.vcl.TweetEditor.sendingClass)) {
         return;
     }
 
@@ -417,9 +417,9 @@ twic.vcl.TweetEditor.prototype.checkTweetArea_ = function() {
     editor.editorCounter_.innerHTML = (twic.vcl.TweetEditor.MAXCOUNT - editor.charCount_).toString();
 
     if (editor.charCount_ > twic.vcl.TweetEditor.MAXCOUNT) {
-        editor.editorWrapper_.classList.add(twic.vcl.TweetEditor.overloadClass);
+        twic.dom.addClass(editor.editorWrapper_, twic.vcl.TweetEditor.overloadClass);
     } else {
-        editor.editorWrapper_.classList.remove(twic.vcl.TweetEditor.overloadClass);
+        twic.dom.removeClass(editor.editorWrapper_, twic.vcl.TweetEditor.overloadClass);
     }
 
     editor.buttonSend_.disabled = (
@@ -528,9 +528,9 @@ twic.vcl.TweetEditor.prototype.setText = function(text) {
  */
 twic.vcl.TweetEditor.prototype.toggleGeo = function(show) {
     if (show) {
-        this.editorWrapper_.classList.add('geo');
+        twic.dom.addClass(this.editorWrapper_, 'geo');
     } else {
-        this.editorWrapper_.classList.remove('geo');
+        twic.dom.removeClass(this.editorWrapper_, 'geo');
     }
 };
 
@@ -539,22 +539,27 @@ twic.vcl.TweetEditor.prototype.toggleGeo = function(show) {
  * @private
  */
 twic.vcl.TweetEditor.prototype.onMapCoordsReply_ = function(reply) {
-    this.geoInfo_.src = this.geoInfo_.getAttribute('old-src');
+    var
+        editor = this;
+
+    editor.geoInfo_.src = editor.geoInfo_.getAttribute('old-src');
 
     if (!reply) {
-        this.geoCoords_.enabled = false;
+        editor.geoCoords_.enabled = false;
 
-        this.geoInfo_.title = twic.utils.lang.translate('title_button_geo_failed');
-        this.geoInfo_.classList.add('disabled');
+        editor.geoInfo_.title = twic.utils.lang.translate('title_button_geo_failed');
+        twic.dom.addClass(editor.geoInfo_, 'disabled');
     } else {
-        this.geoLoading_ = false;
+        editor.geoLoading_ = false;
 
-        this.geoCoords_.enabled = true;
-        this.geoCoords_.lat = reply[0];
-        this.geoCoords_.lng = reply[1];
+        editor.geoCoords_.enabled = true;
+        editor.geoCoords_.lat = reply[0];
+        editor.geoCoords_.lng = reply[1];
 
-        this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('enabled');
-        this.geoInfo_.classList.remove('disabled');
+        editor.geoInfo_.title = twic.utils.lang.translate('title_button_geo') +
+            ' - ' + twic.utils.lang.translate('enabled');
+
+        twic.dom.removeClass(editor.geoInfo_, 'disabled');
     }
 };
 
