@@ -158,7 +158,7 @@ twic.db.executeGroup_ = function(db, sqlObjArray, successCallback, failedCallbac
  */
 twic.db.migrations_ = {
     '0': {
-        ver: '0.6',
+        ver: '0.8',
         runme: function(tr, callback) {
             async.forEachSeries( [
                 // users info
@@ -176,7 +176,8 @@ twic.db.migrations_ = {
                     'description varchar(255) not null default \'\', ' +
                     'location varchar(255) not null default \'\', ' +
                     'screen_name_lower varchar(32) not null default \'\', ' +
-                    'dt int not null' +
+                    'dt int not null, ' +
+                    'is_protected int not null default 0' +
                 ')',
                 // twic accounts
                 'create table accounts (' +
@@ -197,7 +198,8 @@ twic.db.migrations_ = {
                     'reply_to varchar(32) null, ' +
                     'dt int not null, ' +
                     // can be entity encoded
-                    'msg text not null' +
+                    'msg text not null, ' +
+                    'source text not null default \'\'' +
                 ')',
                 // timeline table for each account
                 'create table timeline (' +
@@ -207,12 +209,10 @@ twic.db.migrations_ = {
                 ')',
                 // friends info cache
                 'create table friends (' +
-                    'source_user_id int not null, ' +
-                    'target_user_id int not null, ' +
-                    'following int not null, ' +
-                    'followed int not null, ' +
+                    'id text not null, ' +         // (str)minID_(str)maxID
+                    'following text not null, ' +  // 1_0
                     'dt int not null, ' +
-                    'primary key (source_user_id, target_user_id)' +
+                    'primary key (id)' +
                 ')',
                 // indexes
                 'create index idx_users_name on users (screen_name_lower)',
@@ -222,35 +222,6 @@ twic.db.migrations_ = {
                     'key varchar(32) not null, ' +
                     'val varchar(32) not null, ' +
                     'primary key (key)' +
-                ')'
-            ], function(sqlText, callback) {
-                twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-            }, callback);
-        }
-    },
-    '0.6': {
-        ver: '0.7',
-        runme: function(tr, callback) {
-            async.forEachSeries( [
-                'alter table tweets add source text not null default \'\'',
-                'alter table users add is_protected int not null default 0'
-            ], function(sqlText, callback) {
-                twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
-            }, callback);
-        }
-    },
-    '0.7': {
-        ver: '0.8',
-        runme: function(tr, callback) {
-            async.forEachSeries( [
-                // kill this shit
-                'drop table friends',
-                // friends info cache
-                'create table friends (' +
-                    'id text not null, ' +         // (str)minID_(str)maxID
-                    'following text not null, ' +  // 1_0
-                    'dt int not null, ' +
-                    'primary key (id)' +
                 ')'
             ], function(sqlText, callback) {
                 twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
