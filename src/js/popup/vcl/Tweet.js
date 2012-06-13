@@ -528,9 +528,10 @@ twic.vcl.Tweet.prototype.getCanDelete = function() {
 };
 
 twic.vcl.Tweet.prototype.resetExtraInfo_ = function() {
+    /*
     if (this.mapVisible_) {
         this.toggleMap_();
-    }
+    }*/
 
     if (this.galleryVisible_) {
         this.toggleGallery_();
