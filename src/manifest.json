@@ -2,7 +2,7 @@
     "name": "Twic",
     "description": "__MSG_about_what__",
     "default_locale": "en",
-    "version": "0.46",
+    "version": "0.47",
     "manifest_version": 2,
     "homepage_url": "http://twicext.com",
     "browser_action": {
