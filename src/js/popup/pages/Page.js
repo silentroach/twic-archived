@@ -11,15 +11,15 @@ twic.pages = { };
  * @constructor
  */
 twic.Page = function() {
-	/**
-	 * Remember this page as last?
-	 * @type {boolean}
-	 */
-	this.remember = false;
+    /**
+     * Remember this page as last?
+     * @type {boolean}
+     */
+    this.remember = false;
 };
 
 /**
- * Code to prepare page for the first time 
+ * Code to prepare page for the first time
  */
 twic.Page.prototype.initOnce = function() { };
 

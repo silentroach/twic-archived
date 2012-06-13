@@ -4,107 +4,117 @@
  */
 
 li.tweet.mention {
-	background-color: rgba(0, 100, 200, .07);
-	}
+    background-color: rgba(0, 100, 200, .07);
+    }
 
 li.tweet.me {
-	background-color: rgba(100, 200, 0, .07);
-	}
+    background-color: rgba(100, 200, 0, .07);
+    }
 
 li.tweet.separator {
-	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .8) !important;
-	}
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .8) !important;
+    }
 
 li.tweet.retweet {
-	/*background-color: rgba(255, 255, 0, .10);*/
-	}
-	li.tweet.retweet img.avatar {
-		max-width: 42px;
-		}
-		li.tweet.retweet a.avatar.retweeter {
-			margin-left: -24px;
-			margin-top: 24px;
-			}
-			li.tweet.retweet a.avatar.retweeter img.avatar {
-				max-width: 24px;
-				/* white background, specially for transparent png avatars */
-				background-color: white;
-				-webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .3);
-				}
+    /*background-color: rgba(255, 255, 0, .10);*/
+    }
+    li.tweet.retweet img.avatar {
+        max-width: 42px;
+        }
+        li.tweet.retweet a.avatar.retweeter {
+            margin-left: -24px;
+            margin-top: 24px;
+            }
+            li.tweet.retweet a.avatar.retweeter img.avatar {
+                max-width: 24px;
+                /* white background, specially for transparent png avatars */
+                background-color: white;
+                -webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .3);
+                }
 
 li.tweet p {
-	margin: 0;
-	/** split long words **/
-	word-wrap: break-word;
-	padding: .3em 0 .3em 55px;
-	}
-	li.tweet p.info {
-		font-size: 8pt;
-		color: #b3b2b2;
-		line-height: 15px;
-		-webkit-transition: color 0.2s ease-in-out;
-		}
-		li.tweet:hover p.info {
-			color: gray;
-			}
-			li.tweet:hover p.info a {
-				color: gray;
-				}
-		li.tweet p.info a {
-			color: #b3b2b2;
-			-webkit-transition: color 0.2s ease-in-out;
-			}
-		li.tweet p.info .button {
-				display: inline-block;
-				cursor: pointer;
-				opacity: .5;
-				-webkit-user-select: none;
-			}
-			li.tweet p.info .button.geo {
-				background: transparent url('/img/buttons/marker_map.png') no-repeat -4px 2px;
-				width: 14px;
-				}
-			li.tweet p.info .button.img {
-				background: transparent url('/img/buttons/img.png') no-repeat 0 2px;
-				width: 21px;
-				}
+    margin: 0;
+    /** split long words **/
+    word-wrap: break-word;
+    padding: .3em 0 .3em 55px;
+    }
+    li.tweet p.info {
+        font-size: 8pt;
+        color: #b3b2b2;
+        line-height: 15px;
+        -webkit-transition: color 0.2s ease-in-out;
+        -webkit-user-select: none;
+        }
+        li.tweet:hover p.info {
+            color: gray;
+            }
+            li.tweet:hover p.info a {
+                color: gray;
+                }
+        li.tweet p.info a {
+            color: #b3b2b2;
+            -webkit-transition: color 0.2s ease-in-out;
+            }
+        li.tweet p.info .button {
+                display: inline-block;
+                cursor: pointer;
+                opacity: .5;
+                -webkit-user-select: none;
+            }
+            li.tweet p.info .button.geo {
+                background: transparent url('/img/buttons/marker_map.png') no-repeat -4px 2px;
+                width: 14px;
+                }
+            li.tweet p.info .button.img {
+                background: transparent url('/img/buttons/img.png') no-repeat 0 2px;
+                width: 21px;
+                }
 
 li.tweet .infoWrapper {
-	display: none;
-	width: 100%;
-	margin-bottom: 3px;
-	text-align: center;
-	padding-top: .5em;
-	background: url('/img/loader.gif') no-repeat center center;
-	}
-	li.tweet .infoWrapper .map {
-		height: 200px;
-		border: 1px solid silver;
-		}
-	li.tweet .infoWrapper .gallery img {
-		max-width: 380px;
-		}
+    display: none;
+    width: 100%;
+    margin-bottom: 3px;
+    text-align: center;
+    padding-top: .5em;
+    background: url('/img/loader.gif') no-repeat center center;
+    }
+    li.tweet .infoWrapper .mapWrapper {
+        height: 200px;
+        border: 1px solid silver;
+        }
+    li.tweet .infoWrapper .gallery img {
+        max-width: 380px;
+        }
 
 li.tweet.map p.info .geo,
 li.tweet.gallery p.info .img {
-	opacity: 1;
-	}
+    opacity: 1;
+    }
+
+li.tweet .infoWrapper,
+li.tweet .infoWrapper .map,
+li.tweet .infoWrapper .gallery {
+    display: none;
+    }
+
 li.tweet.map .infoWrapper,
-li.tweet.gallery .infoWrapper {
-	display: block;
-	}
+li.tweet.map .infoWrapper .map,
+li.tweet.gallery .infoWrapper,
+li.tweet.gallery .infoWrapper .gallery {
+    display: block;
+    }
 
 li.tweet.replying p.info {
-	display: none;
-	}
+    display: none;
+    }
 
 li.tweet a.avatar {
- 	padding-top: .4em;
-	float: left;
-	margin-right: .5em;
-	}
+    padding-top: .4em;
+    float: left;
+    margin-right: .5em;
+    }
 
 li.tweet .tweetEditor {
-	padding-left: 49px;
-	margin-right: 8px;
-	}
+    padding-left: 49px;
+    margin-right: 8px;
+    }

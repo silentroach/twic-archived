@@ -4,66 +4,66 @@
  */
 
 .timeline ul {
-	border-top: 1px solid #d5d5d5;
-	font-size: 9pt;
-	margin-bottom: 1px;
-	}
-	.timeline ul li.tweet {
-		padding: 1px 4px;
-		-webkit-box-shadow: 0 1px 1px rgba(192, 192, 192, .4);
-		}
+    border-top: 1px solid #d5d5d5;
+    font-size: 9pt;
+    margin-bottom: 1px;
+    }
+    .timeline ul li.tweet {
+        padding: 1px 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(192, 192, 192, .4);
+        }
 
 .timeline .tweetButtons {
-	position: absolute;
-	display: none;
-	text-align: right;
-	background-color: white;
-	padding: 2px 5px 0px 2px;
-	border-top-left-radius: 5px;
-	-webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .3);
-	opacity: .5;
-	-webkit-transition: opacity 0.2s ease-in-out;
-	-webkit-transition: background-color 0.2s ease-in-out;
-	/* don't change cursor to text selector */
-	cursor: default;
-	}
-	.timeline .tweetButtons:hover {
-		opacity: .95;
-		}
-	.timeline .tweetButtons a.confirm {
-		float: right;
-		font-size: 8pt;
-		margin-left: 10px;
-		display: none;
-		}
-	.timeline .tweetButtons.bconfirm {
-		background-color: #fff0f4;
-		}
-		.timeline .tweetButtons.bconfirm .confirm {
-			display: inline;
-			}
-	.timeline .tweetButtons .holder {
-		float: left;
-		display: inline;
-		}
-		.timeline .tweetButtons .holder img {
-			cursor: pointer;
-			opacity: .5;
-			margin-left: 3px;
-			-webkit-transition: opacity 0.2s ease-in-out;
-			}
-			.timeline .tweetButtons.bconfirm img {
-				/* reset the cursor to default in confirmation dialog */
-				cursor: default;
-				}
-			.timeline .tweetButtons img:hover {
-				opacity: 1;
-				}
-	.timeline .tweetButtons.bconfirm .holder img {
-		opacity: .15;
-		}
-		.timeline .tweetButtons.bconfirm.bdel .holder img.tb_delete,
-		.timeline .tweetButtons.bconfirm.bret .holder img.tb_retweet,
-		.timeline .tweetButtons.bconfirm.bunret .holder img.tb_retweet_undo {
-			opacity: 1;
-			}
+    position: absolute;
+    display: none;
+    text-align: right;
+    background-color: white;
+    padding: 2px 5px 0px 2px;
+    border-top-left-radius: 5px;
+    -webkit-box-shadow: -1px -1px 1px rgba(0, 0, 0, .15);
+    opacity: .5;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -webkit-transition: background-color 0.2s ease-in-out;
+    /* don't change cursor to text selector */
+    cursor: default;
+    }
+    .timeline .tweetButtons:hover {
+        opacity: .95;
+        }
+    .timeline .tweetButtons a.confirm {
+        float: right;
+        font-size: 8pt;
+        margin-left: 10px;
+        display: none;
+        }
+    .timeline .tweetButtons.bconfirm {
+        background-color: #fff0f4;
+        }
+        .timeline .tweetButtons.bconfirm .confirm {
+            display: inline;
+            }
+    .timeline .tweetButtons .holder {
+        float: left;
+        display: inline;
+        }
+        .timeline .tweetButtons .holder img {
+            cursor: pointer;
+            opacity: .5;
+            margin-left: 3px;
+            -webkit-transition: opacity 0.2s ease-in-out;
+            }
+            .timeline .tweetButtons.bconfirm img {
+                /* reset the cursor to default in confirmation dialog */
+                cursor: default;
+                }
+            .timeline .tweetButtons img:hover {
+                opacity: 1;
+                }
+    .timeline .tweetButtons.bconfirm .holder img {
+        opacity: .15;
+        }
+        .timeline .tweetButtons.bconfirm.bdel .holder img.tb_delete,
+        .timeline .tweetButtons.bconfirm.bret .holder img.tb_retweet,
+        .timeline .tweetButtons.bconfirm.bunret .holder img.tb_retweet_undo {
+            opacity: 1;
+            }

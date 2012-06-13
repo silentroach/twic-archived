@@ -7,121 +7,164 @@
 
 ( function() {
 
-	var
-		i,
-		values = [],
-		keys = twic.dom.findElements('ul.options[data-key]');
+    var
+        i,
+        values = [],
+        keys = twic.dom.findElements('ul.options[data-key]'),
+        tabs = twic.dom.findElements('#tabs li');
 
-	var valVis = function(val) {
-		var n;
+    var valVis = function(val) {
+        var n;
 
-		for (n = 0; n < values.length; ++n) {
-			if (val === values[n].getAttribute('data-value')) {
-				values[n].classList.add('selected');
-				break;
-			}
-		}
-	};
+        for (n = 0; n < values.length; ++n) {
+            if (val === values[n].getAttribute('data-value')) {
+                twic.dom.addClass(values[n], 'selected');
+                break;
+            }
+        }
+    };
 
-	var onElementChange = function(element) {
-		if ('INPUT' === element.nodeName) {
-			twic.options.set(element.getAttribute('data-key'), element['checked']);
+    var checkInnerChecks = function(element) {
+        var
+            checked = element['checked'],
+            children = twic.dom.findElements('ul li', element.parentNode),
+            inputs = null,
+            i, n;
 
-			checkInnerChecks(element);
-		}
-	};
+        if (children.length > 0) {
+            for (n = 0; n < children.length; ++n) {
+                if (checked) {
+                    twic.dom.removeClass(children[n], 'disabled');
+                } else {
+                    twic.dom.addClass(children[n], 'disabled');
+                }
 
-	var checkInnerChecks = function(element) {
-		var
-			checked = element['checked'],
-			children = twic.dom.findElements('ul li', element.parentNode),
-			inputs = null,
-			i, n;
+                inputs = twic.dom.findElements('input', children[n]);
 
-		if (children.length > 0) {
-			for (n = 0; n < children.length; ++n) {
-				if (checked) {
-					twic.dom.removeClass(children[n], 'disabled');
-				} else {
-					twic.dom.addClass(children[n], 'disabled');
-				}
+                for (i = 0; i < inputs.length; ++i) {
+                    if (checked) {
+                        inputs[i].removeAttribute('disabled');
+                    } else {
+                        inputs[i].setAttribute('disabled', 'disabled');
+                        inputs[i]['checked'] = false;
 
-				inputs = twic.dom.findElements('input', children[n]);
+                        onElementChange(inputs[i]);
+                    }
+                }
+            }
+        }
+    };
 
-				for (i = 0; i < inputs.length; ++i) {
-					if (checked) {
-						inputs[i].removeAttribute('disabled');
-					} else {
-						inputs[i].setAttribute('disabled', 'disabled');
-						inputs[i]['checked'] = false;
+    var onElementChange = function(element) {
+        if ('INPUT' === element.nodeName) {
+            twic.options.set(element.getAttribute('data-key'), element['checked']);
 
-						onElementChange(inputs[i]);
-					}
-				}
-			}
-		}
-	};
+            checkInnerChecks(element);
+        }
+    };
 
-	for (i = 0; i < keys.length; ++i) {
-		var
-			optKey = keys[i];
+    for (i = 0; i < keys.length; ++i) {
+        var
+            optKey = keys[i];
 
-		values = twic.dom.findElements('li[data-value]', optKey);
+        values = twic.dom.findElements('li[data-value]', optKey);
 
-		twic.options.get(keys[i].getAttribute('data-key'), valVis);
-	}
+        twic.options.get(keys[i].getAttribute('data-key'), valVis);
+    }
 
-	keys = twic.dom.findElements('input[data-key]');
+    keys = twic.dom.findElements('input[data-key]');
 
-	async.forEach(keys, function(item, callback) {
-		twic.options.get(item.getAttribute('data-key'), function(val) {
-			if (val) {
-				item.setAttribute('checked', 'checked');
-			}
+    async.forEach(keys, function(item, callback) {
+        twic.options.get(item.getAttribute('data-key'), function(val) {
+            if (val) {
+                item.setAttribute('checked', 'checked');
+            }
 
-			checkInnerChecks(item);
-			callback();
-		} );
-	}, function() { } );
+            checkInnerChecks(item);
+            callback();
+        } );
+    }, function() { } );
 
-	var findParentOption = function(trgElement) {
-		if (trgElement.getAttribute('data-value')) {
-			return trgElement;
-		}
+    /**
+     * Handling option value change
+     */
+    document.addEventListener('change', function(e) {
+        onElementChange(e.target);
+    }, false );
 
-		if (trgElement.parentElement) {
-			return findParentOption(trgElement.parentElement);
-		}
-	};
+    /**
+     * Handling option value select click
+     * @param {Element} element Option element
+     */
+    var onOptionClick = function(element) {
+        var
+            optKeyElement = element.parentElement,
+            optValue = element.getAttribute('data-value'),
+            optValues = twic.dom.findElements('li[data-value]', optKeyElement),
+            optKey = optKeyElement.getAttribute('data-key'),
+            n;
 
-	document.addEventListener('change', function(e) {
-		onElementChange(e.target);
-	}, false );
+        twic.options.set(optKey, optValue);
 
-	document.addEventListener('click', function(e) {
-		var
-			optElement = findParentOption(e.target);
+        for (n = 0; n < optValues.length; ++n) {
+            if (optValues[n] !== optValue) {
+                twic.dom.removeClass(optValues[n], 'selected');
+            }
+        }
 
-		if (!optElement) {
-			return;
-		}
+        twic.dom.addClass(element, 'selected');
+    };
 
-		var
-			optKeyElement = optElement.parentElement,
-			optValue = optElement.getAttribute('data-value'),
-			optValues = twic.dom.findElements('li[data-value]', optKeyElement),
-			optKey = optKeyElement.getAttribute('data-key'),
-			n;
+    /**
+     * Handling tab click
+     * @param {Element} element Tab element
+     */
+    var onTabClick = function(element) {
+        var
+            /** @type {Element} **/ tab = null,
+            /** @type {Element} **/ content = null,
+            /** @type {string}  **/ targetTabName = element.getAttribute('data-content'),
+            /** @type {string}  **/ tabName = '',
+            /** @type {number}  **/ i = 0;
 
-		twic.options.set(optKey, optValue);
+        if (twic.dom.hasClass(element, 'active')) {
+            return;
+        }
 
-		for (n = 0; n < optValues.length; ++n) {
-			if (optValues[n] !== optValue) {
-				optValues[n].classList.remove('selected');
-			}
-		}
+        for (i = 0; i < tabs.length; ++i) {
+            tab = tabs[i];
+            tabName = tab.getAttribute('data-content');
+            content = twic.dom.findElement('#' + tabName);
 
-		optElement.classList.add('selected');
-	}, false);
+            if (!content) {
+                continue;
+            }
+
+            if (targetTabName == tabName) {
+                twic.dom.addClass(tab, 'active');
+                twic.dom.setVisibility(content, true);
+            } else
+            if (twic.dom.hasClass(tab, 'active')) {
+                twic.dom.removeClass(tab, 'active');
+                twic.dom.setVisibility(content, false);
+            }
+        }
+    };
+
+    document.addEventListener('click', function(e) {
+        var
+            optElement = twic.dom.findClosestParentByAttr(e.target, 'data-value');
+
+        if (optElement) {
+            onOptionClick(optElement);
+        } else {
+            var
+                tabElement = twic.dom.findClosestParentByAttr(e.target, 'data-content');
+
+            if (tabElement) {
+                onTabClick(tabElement);
+            }
+        }
+    }, false);
 
 }() );

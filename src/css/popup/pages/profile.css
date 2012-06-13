@@ -4,64 +4,64 @@
  */
 
 #profile .toolbar p span {
-	vertical-align: top;
-	}
+    vertical-align: top;
+    }
 #profile .info {
-	padding: .5em;
-	}
-	#profile .map {
-		display: none;
-		width: 100%;
-		height: 200px;
-		margin-top: 1em;
-		border: 1px solid silver;
-		}
-	#profile .info .avatar {
-		max-width: 96px;
-		}
-	#profile .info .avatar,
-	#profile .info .props {
-		float: right;
-		margin-left: .7em;
-		}
-		#profile .info .props img {
-			display: none;
-			}
-			#profile .info .props.protected img.protected {
-				display: block;
-				}
-	#profile .info .bio {
-		word-wrap: break-word;
-		}
-	#profile #followings p {
-		margin-top: 1em;
-		text-align: center;
-		padding: .3em 0 .4em 0;
-		border-radius: 5px;
-		cursor: pointer;
-		border: 1px solid rgba(0, 0, 0, .1);
-		-webkit-transition: background-color 0.3s ease-in-out;
-		-webkit-user-select: none;
-		}
-		#profile #followings p:hover {
-			/* simple hover on "follow" button */
-			background-color: #eaeaea;
-			}
-		#profile #followings p span {
-			background: url('/img/buttons/add.png') no-repeat left;
-			padding-left: 24px;
-			}
-		#profile #followings p.following {
-			/* following status background */
-			background-color: #e7f1dd;
-			}
-			#profile #followings p.following span {
-				background: url('/img/buttons/following.png') no-repeat left;
-				}
-		#profile #followings p.following:hover {
-			/* unfollow status background */
-			background-color: #f6dddd;
-			}
-			#profile #followings p.following:hover span {
-				background: url('/img/buttons/following_not.png') no-repeat left;
-				}
+    padding: .5em;
+    }
+    #profile .map {
+        display: none;
+        width: 100%;
+        height: 200px;
+        margin-top: 1em;
+        border: 1px solid silver;
+        }
+    #profile .info .avatar {
+        max-width: 96px;
+        }
+    #profile .info .avatar,
+    #profile .info .props {
+        float: right;
+        margin-left: .7em;
+        }
+        #profile .info .props img {
+            display: none;
+            }
+            #profile .info .props.protected img.protected {
+                display: block;
+                }
+    #profile .info .bio {
+        word-wrap: break-word;
+        }
+    #profile #followings p {
+        margin-top: 1em;
+        text-align: center;
+        padding: .3em 0 .4em 0;
+        border-radius: 5px;
+        cursor: pointer;
+        border: 1px solid rgba(0, 0, 0, .1);
+        -webkit-transition: background-color 0.2s ease-in-out;
+        -webkit-user-select: none;
+        }
+        #profile #followings p:hover {
+            /* simple hover on "follow" button */
+            background-color: #eaeaea;
+            }
+        #profile #followings p span {
+            background: url('/img/buttons/add.png') no-repeat left;
+            padding-left: 24px;
+            }
+        #profile #followings p.following {
+            /* following status background */
+            background-color: #e7f1dd;
+            }
+            #profile #followings p.following span {
+                background: url('/img/buttons/following.png') no-repeat left;
+                }
+        #profile #followings p.following:hover {
+            /* unfollow status background */
+            background-color: #f6dddd;
+            }
+            #profile #followings p.following:hover span {
+                background: url('/img/buttons/following_not.png') no-repeat left;
+                }

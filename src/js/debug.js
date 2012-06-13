@@ -17,74 +17,74 @@ twic.debug.ENABLED = true;
  * @param {...*} args
  */
 twic.debug.log = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.log.apply(console, arguments);
+    console.log.apply(console, arguments);
 };
 
 /**
  * @param {...*} args
  */
 twic.debug.info = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.info.apply(console, arguments);
+    console.info.apply(console, arguments);
 };
 
 /**
  * @param {...*} args
  */
 twic.debug.group = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.group.apply(console, arguments);
+    console.group.apply(console, arguments);
 };
 
 /**
  * @param {...*} args
  */
 twic.debug.groupCollapsed = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.groupCollapsed.apply(console, arguments);
+    console.groupCollapsed.apply(console, arguments);
 };
 
 /**
  * @param {...*} args
  */
 twic.debug.error = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	// don't know what have to be in parameters, so it is 0 ;)
-	console.trace(0);
-	console.error.apply(console, arguments);
+    // don't know what have to be in parameters, so it is 0 ;)
+    console.trace(0);
+    console.error.apply(console, arguments);
 };
 
 /**
  * @param {...*} args
  */
 twic.debug.dir = function(args) {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.dir.apply(console, arguments);
+    console.dir.apply(console, arguments);
 };
 
 twic.debug.groupEnd = function() {
-	if (!twic.debug.ENABLED) {
-		return;
-	}
+    if (!twic.debug.ENABLED) {
+        return;
+    }
 
-	console.groupEnd.apply(console);
+    console.groupEnd.apply(console);
 };

@@ -10,9 +10,9 @@
  * @enum {string}
  */
 twic.platforms = {
-	WINDOWS: 'windows',
-	OSX:     'osx',
-	LINUX:   'linux'
+    WINDOWS: 'windows',
+    OSX:     'osx',
+    LINUX:   'linux'
 };
 
 /**
@@ -21,10 +21,22 @@ twic.platforms = {
 twic.platform = twic.platforms.WINDOWS;
 
 if (navigator.appVersion.indexOf('Mac') >= 0) {
-	twic.platform = twic.platforms.OSX;
+    twic.platform = twic.platforms.OSX;
+
+    twic.dom.addClass(document.body, twic.platform);
+
+    // TODO drop this shit after stable Chrome 21
+    var
+        version = navigator.appVersion.match(/Chrome\/(\d+)/);
+
+    if (2 === version.length &&
+        parseInt(version.pop(), 10) < 20
+    ) {
+        twic.dom.addClass(document.body, 'rounded');
+    }
 } else
 if (navigator.appVersion.indexOf('Windows') < 0) {
-	twic.platform = twic.platforms.LINUX;
+    twic.platform = twic.platforms.LINUX;
 }
 
-document.body.classList.add(twic.platform);
+twic.dom.addClass(document.body, twic.platform);

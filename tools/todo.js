@@ -1,6 +1,6 @@
 var
 	fs  = require('fs'),
-	sys = require('sys'),
+	sys = require('util'),
 
 	commentPattern = /[//|*] ?(fixme|todo)(.*?)$/mig;
 

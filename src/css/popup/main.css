@@ -3,58 +3,55 @@
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
 
-div.page {
-	display: none;
-	width: 390px;
-	max-height: 600px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	}
+.page {
+    display: none;
+    width: 390px;
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f7f7f7;
+    }
+    body.osx.rounded .page {
+        /* TODO drop this shit after stable Chrome 21 */
+        border-radius: 5px;
+        }
 
 a.nick, a.hash {
-	text-shadow: rgba(255, 255, 255, 0.8) 0px 1px 0px;
-	}
+    text-shadow: rgba(255, 255, 255, 0.8) 0px 1px 0px;
+    }
 
 p.loader {
-	text-align: center;
-	height: 30px;
-	background: transparent url('/img/loader.gif') no-repeat center center;
-	}
+    text-align: center;
+    height: 30px;
+    background: transparent url('/img/loader.gif') no-repeat center center;
+    }
 
 .loading {
-	background: transparent url('/img/loader.gif') no-repeat left center !important;
-	}
+    background: transparent url('/img/loader.gif') no-repeat left center !important;
+    }
 
 a.direct {
-	opacity: .5;
-	-webkit-transition: opacity 0.2s ease-in-out;
-	-webkit-user-select: none;
-	vertical-align: middle;
-	margin-left: .3em;
-	}
-	a.direct:hover {
-		opacity: 1;
-		}
+    opacity: .6;
+    -webkit-transition: opacity 0.2s ease-in-out;
+    -webkit-user-select: none;
+    vertical-align: middle;
+    margin-left: .1em;
+    }
+    a.direct:hover {
+        opacity: 1;
+        }
 
 .aicon {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	margin-bottom: 3px;
-	vertical-align: middle;
-	}
-	.aicon:hover {
-		text-decoration: none;
-		}
-	.aicon.tumblr {
-		background: transparent url('/img/services/tumblr.png') no-repeat 50% 50%;
-		}
-	.aicon.instagram {
-		background: transparent url('/img/services/instagram.png') no-repeat 50% 50%;
-		}
-	.aicon.foursquare {
-		background: transparent url('/img/services/foursquare.png') no-repeat 50% 50%;
-		}
-	.aicon.flickr {
-		background: transparent url('/img/services/flickr.png') no-repeat 50% 50%;
-		}
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-bottom: 3px;
+    vertical-align: middle;
+    }
+    .aicon:hover {
+        text-decoration: none;
+        }
+    .aicon img {
+        width: 16px;
+        height: 16px;
+        }

@@ -8,12 +8,12 @@
 twic.options = { };
 
 twic.options.get = function(key, callback) {
-	twic.requests.makeRequest('getOpt', key, callback);
+    twic.requests.makeRequest('getOpt', key, callback);
 };
 
 twic.options.set = function(key, value) {
-	twic.requests.makeRequest('setOpt', {
-		'key': key,
-		'value': value
-	} );
+    twic.requests.makeRequest('setOpt', {
+        'key': key,
+        'value': value
+    } );
 };

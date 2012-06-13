@@ -1,49 +1,55 @@
 {
-	"name": "Twic",
-	"description": "__MSG_about_what__",
-	"default_locale": "en",
-	"version": "0.39",
-	"update_url": "http://clients2.google.com/service/update2/crx",
-	"browser_action": {
-		"popup": "popup.html#accounts",
-		"default_icon": "img/icons/toolbar.png"
-	},
-	"icons": {
-		"128": "img/icons/128.png",
-		 "64": "img/icons/64.png",
-		 "48": "img/icons/48.png",
-		 "32": "img/icons/32.png",
-		 "24": "img/icons/24.png",
-		 "16": "img/icons/16.png"
-	},
-	"options_page": "options.html",
-	"background_page": "background.html",
-	"content_scripts": [ {
-		"matches" : [
-			"https://api.twitter.com/oauth/authorize"
-		],
-		"css": [
-			"css/inline/inline.css"
-		],
-		"js" : [
-			"js/init.js",
-			"js/3rdparty/closure.base.js",
-			"js/3rdparty/twitter-text.js",
-			"js/utils.js",
-			"js/dom.js",
-			"js/global.js",
-			"js/debug.js",
-			"js/requests.js",
-			"js/inline/auth.js"
-		]
-	} ],
-	"permissions": [
-		"unlimitedStorage",
-		"notifications",
-		"tabs",
-		"geolocation",
+    "name": "Twic",
+    "description": "__MSG_about_what__",
+    "default_locale": "en",
+    "version": "0.47",
+    "manifest_version": 2,
+    "homepage_url": "http://twicext.com",
+    "browser_action": {
+        "default_popup": "popup.html#accounts",
+        "default_icon": "img/icons/toolbar.png",
+        "default_title": "Twic"
+    },
+    "icons": {
+        "128": "img/icons/128.png",
+        "64":  "img/icons/64.png",
+        "48":  "img/icons/48.png",
+        "32":  "img/icons/32.png",
+        "24":  "img/icons/24.png",
+        "16":  "img/icons/16.png"
+    },
+    "options_page": "options.html",
+    "background": {
+        "page": "background.html"
+    },
+    "content_scripts": [ {
+        "matches" : [
+            "https://api.twitter.com/oauth/authorize"
+        ],
+        "css": [
+            "css/inline/inline.css"
+        ],
+        "js" : [
+            "js/init.js",
+            "js/3rdparty/closure.base.js",
+            "js/3rdparty/twitter-text.js",
+            "js/services.js",
+            "js/utils.js",
+            "js/dom.js",
+            "js/global.js",
+            "js/debug.js",
+            "js/requests.js",
+            "js/inline/auth.js"
+        ]
+    } ],
+    "content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self' https://*.googleapis.com https://maps.gstatic.com; connect-src *; img-src *",
+    "permissions": [
+        "unlimitedStorage",
+        "notifications",
+        "tabs",
+        "geolocation",
 
-		"https://api.twitter.com/1/*",
-		"https://twitter.com/oauth/*"
-	]
+        "https://api.twitter.com/1/*",
+        "https://twitter.com/oauth/*"
+    ]
 }

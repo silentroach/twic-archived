@@ -12,7 +12,7 @@ twic.dom = { };
  * @param {Element} element Element ;)
  */
 twic.dom.removeElement = function(element) {
-	element.parentNode.removeChild(element);
+    element.parentNode.removeChild(element);
 };
 
 /**
@@ -22,12 +22,12 @@ twic.dom.removeElement = function(element) {
  * @return {?Element}
  */
 twic.dom.findElement = function(selector, context) {
-	var
-		/** @const **/ idExpr  = /^#([^ .>:]+)$/,
-		matches = idExpr.exec(selector),
-		doc     = (matches || !context) ? document : context;
+    var
+        /** @const **/ idExpr  = /^#([^ .>:]+)$/,
+        matches = idExpr.exec(selector),
+        doc     = (matches || !context) ? document : context;
 
-	return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
+    return matches ? doc.getElementById(matches[1]) : doc.querySelector(selector);
 };
 
 /**
@@ -37,10 +37,10 @@ twic.dom.findElement = function(selector, context) {
  * @return {?NodeList}
  */
 twic.dom.findElements = function(selector, context) {
-	var
-		doc = !context ? document : context;
+    var
+        doc = !context ? document : context;
 
-	return doc.querySelectorAll(selector);
+    return doc.querySelectorAll(selector);
 };
 
 /**
@@ -49,11 +49,39 @@ twic.dom.findElements = function(selector, context) {
  * @param {Element} element Element
  */
 twic.dom.insertFirst = function(container, element) {
-	if (container.firstChild) {
-		container.insertBefore(element, container.firstChild);
-	} else {
-		container.appendChild(element);
-	}
+    if (container.firstChild) {
+        container.insertBefore(element, container.firstChild);
+    } else {
+        container.appendChild(element);
+    }
+};
+
+/**
+ * Add class to element
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.addClass = function(element, className) {
+    element.classList.add(className);
+};
+
+/**
+ * Remove class from element
+ * @param {Element} element Element
+ * @param {string} className Class name
+ */
+twic.dom.removeClass = function(element, className) {
+    element.classList.remove(className);
+};
+
+/**
+ * Is element has class?
+ * @param {Element} element Element
+ * @param {string} className Class name
+ * @return {boolean}
+ */
+twic.dom.hasClass = function(element, className) {
+    return element.classList.contains(className);
 };
 
 /**
@@ -62,34 +90,33 @@ twic.dom.insertFirst = function(container, element) {
  * @return {Element}
  */
 twic.dom.expandElement = function(expr) {
-	var
-		/** @const **/ expExpr = /((^|#|\.)\w+)/g,
-		/** @type {string} **/ part,
-		element = null,
-		res;
+    var
+        /** @const **/ expExpr = /((^|#|\.)\w+)/g,
+        /** @type {string} **/ part,
+        element = null,
+        res;
 
-	res = expExpr.exec(expr);
+    res = expExpr.exec(expr);
 
-	while (
-		res
-		&& res.length > 2
-	) {
-		part = res[2];
+    while (res
+        && res.length > 2
+    ) {
+        part = res[2];
 
-		if (part === '') {
-			element = document.createElement(res[1]);
-		} else
-		if (part === '.') {
-			element.classList.add(res[1].substring(1));
-		} else
-		if (part === '#') {
-			element.setAttribute('id', res[1].substring(1));
-		}
+        if (part === '') {
+            element = document.createElement(res[1]);
+        } else
+        if (part === '.') {
+            twic.dom.addClass(element, res[1].substring(1));
+        } else
+        if (part === '#') {
+            element.setAttribute('id', res[1].substring(1));
+        }
 
-		res = expExpr.exec(expr);
-	}
+        res = expExpr.exec(expr);
+    }
 
-	return element;
+    return element;
 };
 
 /**
@@ -99,17 +126,32 @@ twic.dom.expandElement = function(expr) {
  * @return {boolean}
  */
 twic.dom.isChildOf = function(element, parent) {
-	if (element) {
-		while (element.parentElement) {
-			element = element.parentElement;
+    if (element) {
+        while (element.parentElement) {
+            element = element.parentElement;
 
-			if (element === parent) {
-				return true;
-			}
-		}
-	}
+            if (element === parent) {
+                return true;
+            }
+        }
+    }
 
-	return false;
+    return false;
+};
+
+/**
+ * Find closest parent by attribute
+ * @param {Element} element Element
+ * @param {string} attrName Attribute name
+ */
+twic.dom.findClosestParentByAttr = function(element, attrName) {
+    if (element.getAttribute(attrName)) {
+        return element;
+    }
+
+    if (element.parentElement) {
+        return twic.dom.findClosestParentByAttr(element.parentElement, attrName);
+    }
 };
 
 /**
@@ -119,34 +161,6 @@ twic.dom.isChildOf = function(element, parent) {
  * @return {boolean} Is it visible?
  */
 twic.dom.setVisibility = function(element, visible) {
-	element.style.display = visible ? '' : 'none';
-	return visible;
+    element.style.display = visible ? '' : 'none';
+    return visible;
 };
-
-/**
- * Add class to element
- * @param {Element} element Element
- * @param {string} className Class name
- */
-twic.dom.addClass = function(element, className) {
-	element.classList.add(className);
-};
-
-/**
- * Remove class from element
- * @param {Element} element Element
- * @param {string} className Class name
- */
-twic.dom.removeClass = function(element, className) {
-	element.classList.remove(className);
-};
-
-/**
- * Is element has class?
- * @param {Element} element Element
- * @param {string} className Class name
- * @return {Boolean}
- */
-twic.dom.hasClass = function(element, className) {
-	return element.classList.contains(className);
-}

@@ -1,186 +1,229 @@
-0.39 (in development):
-	* Fixed bug with back button on profile page after some action with confirmation (#78)
+0.47: (in development)
+
+0.46:
+    * Favicon size fixed
+
+0.45:
+    - Temporarily no google maps
+    * No more tweet buttons flicker
+    * New Twitter icon
+    * Tweet length calculator is fixed for text with https links
+    * Default Windows fonts is Segoe UI, Trebuchet MS, Tahoma, Verdana
+    + New icons for tweet editor
+    * Shortened images preview is now fixed
+
+0.44:
+    * Nothing changed, just for WebStore to pass
+
+0.43:
+    * Fixed switching between images and map tweet info
+    * Fixed bug when trying to reply with Meta+Enter on OS X
+    * Fixed bug with geoinfo in tweets
+    - No more donate button
+
+0.42:
+    + Showing inline preview for raw linked images
+    + Ability to insert the page title with url on attach button click with modifier key
+    + Using metaKey as a modifier in OS X
+    * Geolocation getter is now limited for 5 seconds
+
+0.41:
+    * Avoid flicker while using backspace in reply
+    + Ability to change the space after user nick in reply with some punctuation symbol
+    + Ability to view the home timeline directly on twitter.com
+
+0.40:
+    * Better links handling with middle mouse key or with Meta key pressed in OS X
+    + Support for image preview for services:
+        - imgur.com
+        - yfrog.com
+        - img.ly
+        - twitpic.com
+        - instagr.am
+
+0.39:
+    * Fixed bug with back button on profile page after some action with confirmation (#78)
 
 0.38:
-	* Fixed bug when links and media are not recognized in retweets
-	* Fixed bug with services icon strange border
-	* Even better links recognition
-	+ New option to create a link to the tweet on twitter.com from time mark
+    * Fixed bug when links and media are not recognized in retweets
+    * Fixed bug with services icon strange border
+    * Even better links recognition
+    + New option to create a link to the tweet on twitter.com from time mark
 
 0.36:
-	* Fixed bug with disappeared services icons
-	* Fixed bug with international hashtags
-	* Twitter Text upgrade
-	* Fixed bug with two or more maps opened in the same timeline
-	+ Automatic tweet editor width positioning (special for Chrome 14 with native scrollbars on OS X Lion)
-	+ Tweet pictures inline preview
+    * Fixed bug with disappeared services icons
+    * Fixed bug with international hashtags
+    * Twitter Text upgrade
+    * Fixed bug with two or more maps opened in the same timeline
+    + Automatic tweet editor width positioning (special for Chrome 14 with native scrollbars on OS X Lion)
+    + Tweet pictures inline preview
 
 0.35:
-	* Some style changes (thanks @GrawlCore)
-	+ We are using Twitter Text (https://github.com/twitter/twitter-text-js) to recognize url, mentions and hashes
-	* Bug with two or more shortened urls in tweet is fixed
+    * Some style changes (thanks @GrawlCore)
+    + We are using Twitter Text (https://github.com/twitter/twitter-text-js) to recognize url, mentions and hashes
+    * Bug with two or more shortened urls in tweet is fixed
 
 0.34:
-	+ Select/remove account for OS X with ⌘ key
-	* Showing geoinfo and tweet time options are now turned on by default (can be turned off in options)
-	* Suggest list font size in replies fixed
+    + Select/remove account for OS X with ⌘ key
+    * Showing geoinfo and tweet time options are now turned on by default (can be turned off in options)
+    * Suggest list font size in replies fixed
 
 0.33:
-	* Better service detector. Now flickr, instagram, foursquare and thumblr links are recognized and replaced with icons
-	* Bug with disabling tweet geolocation info is fixed
+    * Better service detector. Now flickr, instagram, foursquare and thumblr links are recognized and replaced with icons
+    * Bug with disabling tweet geolocation info is fixed
 
 0.32:
-	* Bug with status update with shortened link appears shortened at the timeline top is fixed (#81)
-	* Bug with tweet text backup on link attach is fixed (#80)
-	* Bug with wrong date on old tweets is fixed
-	+ Experimental support for the endless scrolling (BUT without autoload skipped tweets yet, #16)
-	+ Status update with geoinfo is now supported (#11)
-	+ Each platform now have separate font-family style, here are default fonts sorted by priority:
-		# Windows: Trebuchet MS, Tahoma
-		# OS X: Lucida Grande, Helvetica
-		# Linux: Ubuntu, Droid Sans
+    * Bug with status update with shortened link appears shortened at the timeline top is fixed (#81)
+    * Bug with tweet text backup on link attach is fixed (#80)
+    * Bug with wrong date on old tweets is fixed
+    + Experimental support for the endless scrolling (BUT without autoload skipped tweets yet, #16)
+    + Status update with geoinfo is now supported (#11)
+    + Each platform now have separate font-family style, here are default fonts sorted by priority:
+        # Windows: Trebuchet MS, Tahoma
+        # OS X: Lucida Grande, Helvetica
+        # Linux: Ubuntu, Droid Sans
 
 0.31:
-	+ Links shortening for long tweets (#14)
-	+ Geolocation support (only in tweets for now) (#11)
+    + Links shortening for long tweets (#14)
+    + Geolocation support (only in tweets for now) (#11)
 
 0.30:
-	* Bug with tweet time in timeline while the option is unchecked is fixed
+    * Bug with tweet time in timeline while the option is unchecked is fixed
 
 0.29:
-	* Bug with wrong tweets sorting after tweet posting fixed (#79)
-	* Mailto links fixed
-	* Bug with removing a user with tweets in other account's timeline
+    * Bug with wrong tweets sorting after tweet posting fixed (#79)
+    * Mailto links fixed
+    * Bug with removing a user with tweets in other account's timeline
 
 0.28:
-	+ Showing instagr.am links as an icons
-	* Big code refactoring
-	* Nicks suggest small bugfix with wrong nick cut
-	* Some style changes
+    + Showing instagr.am links as an icons
+    * Big code refactoring
+    * Nicks suggest small bugfix with wrong nick cut
+    * Some style changes
 
 0.27:
-	* Small fix
+    * Small fix
 
 0.26:
-	* No suggest for email addresses
-	+ t.co links expander
-	+ Showing tumblr.com links as an icons
-	* Bug with focused tweet editor after send is fixed (#74)
-	* Bug with nicks in quotes is fixed (#73)
+    * No suggest for email addresses
+    + t.co links expander
+    + Showing tumblr.com links as an icons
+    * Bug with focused tweet editor after send is fixed (#74)
+    * Bug with nicks in quotes is fixed (#73)
 
 0.25:
-	* Bug with suggest select with mouse is fixed
+    * Bug with suggest select with mouse is fixed
 
 0.24:
-	* Unhide the tweet client and time info after reply
-	+ Email addresses are now links
-	* Fixed email parsing as a screen_name
-	* Now Twic is even faster than before
-	* Reply to the retweet reverted to the original way
-	+ Suggest for nick
+    * Unhide the tweet client and time info after reply
+    + Email addresses are now links
+    * Fixed email parsing as a screen_name
+    * Now Twic is even faster than before
+    * Reply to the retweet reverted to the original way
+    + Suggest for nick
 
 0.23:
-	* Fix for unread tweets count marker
+    * Fix for unread tweets count marker
 
 0.22:
-	* Friends storage rewritten
-	* Resettings the last tweet id after account removement
+    * Friends storage rewritten
+    * Resettings the last tweet id after account removement
 
 0.21:
-	* Fixed the hash replace for urls like test.dom/#hash
-	* Pulsate the add account button when no account registered (waiting for CSSO to support webkit keyframes)
-	* Reply to the retweet is the reply to retweeter
+    * Fixed the hash replace for urls like test.dom/#hash
+    * Pulsate the add account button when no account registered (waiting for CSSO to support webkit keyframes)
+    * Reply to the retweet is the reply to retweeter
 
 0.20:
-	* Fixing a first extension initialization possible bug
+    * Fixing a first extension initialization possible bug
 
 0.19:
-	* Goog object is not available in developer version of Google Chrome
+    * Goog object is not available in developer version of Google Chrome
 
 0.18:
-	* User nick is moved to the right top on the profile page
-	* Bug with automatic Twic authorization on the pages for another applications is fixed
-	* Small things in interface
-	* Hope the bug with first authorization and OAuth timestamp is finally fixed
+    * User nick is moved to the right top on the profile page
+    * Bug with automatic Twic authorization on the pages for another applications is fixed
+    * Small things in interface
+    * Hope the bug with first authorization and OAuth timestamp is finally fixed
 
 0.17:
-	* New tweet editor is now smaller on blur
-	* "Insert link" button is now disabled if we can't do it
-	+ Displaying the tweet time (optional, disabled by default)
-	+ Displaying the user Twitter client in tweet (optional, disabled by default)
-	+ Settings button on the first page
-	- Donate button
-	+ Additional "locked" icon in protected user profiles
-	* Retweet button is disabled for the protected user tweets
-	* Additional tweet info is hidden while replying
+    * New tweet editor is now smaller on blur
+    * "Insert link" button is now disabled if we can't do it
+    + Displaying the tweet time (optional, disabled by default)
+    + Displaying the user Twitter client in tweet (optional, disabled by default)
+    + Settings button on the first page
+    - Donate button
+    + Additional "locked" icon in protected user profiles
+    * Retweet button is disabled for the protected user tweets
+    * Additional tweet info is hidden while replying
 
 0.16:
-	* Fix for the urls without protocol (thanks @Stammru)
-	+ Separator between unread and old tweets
+    * Fix for the urls without protocol (thanks @Stammru)
+    + Separator between unread and old tweets
 
 0.15:
-	* Fix for the error message is not showing
+    * Fix for the error message is not showing
 
 0.14:
-	+ Error message if extension can't add a new account
-	+ Open the new not focused tab with middle button mouse click (or with metaKey + click in MacOS)
-	* Popup resized from 350px to 400px in width
-	+ Foursquare links are looks like an icon now
-	* Hope bug with horizontal scroll on Windows with bigger fonts is fixed
-	+ Button to insert the current page link into the tweet
-	+ Options page
-	+ Ability to change the avatar size in the home timeline
+    + Error message if extension can't add a new account
+    + Open the new not focused tab with middle button mouse click (or with metaKey + click in MacOS)
+    * Popup resized from 350px to 400px in width
+    + Foursquare links are looks like an icon now
+    * Hope bug with horizontal scroll on Windows with bigger fonts is fixed
+    + Button to insert the current page link into the tweet
+    + Options page
+    + Ability to change the avatar size in the home timeline
 
 0.13:
-	+ Reply to all with ctrl+click on reply button
-	+ Old-style retweets with ctrl+click on retweet button
-	- Reverted the popup autoheight function, for now I can't find the solution for this problem
+    + Reply to all with ctrl+click on reply button
+    + Old-style retweets with ctrl+click on retweet button
+    - Reverted the popup autoheight function, for now I can't find the solution for this problem
 
 0.12
-	+ Link from static map image in profile to the google maps in new tab
-	* "About" page icon changed
-	* Bug with new Twitter authorization page is fixed
+    + Link from static map image in profile to the google maps in new tab
+    * "About" page icon changed
+    * Bug with new Twitter authorization page is fixed
 
 0.10 - 0.11
-	* Home timeline max height bug is fixed (thanks @chakrygin)
+    * Home timeline max height bug is fixed (thanks @chakrygin)
 
 0.9
-	* Fixing cursor for tweet buttons in Mac OS
-	* Extension popup now can't be larger than screen height
-	* No more lowercased usernames
-	* Fixing small authentication bug with retry
+    * Fixing cursor for tweet buttons in Mac OS
+    * Extension popup now can't be larger than screen height
+    * No more lowercased usernames
+    * Fixing small authentication bug with retry
 
 0.8
-	* Critical fix for reply button
+    * Critical fix for reply button
 
 0.7
-	+ Reply
-	* No full timeline repaint on new tweet post
-	+ Tweets delete and undo retweets
-	+ Retweet
-	* Fix for the tweet text selection from the end
+    + Reply
+    * No full timeline repaint on new tweet post
+    + Tweets delete and undo retweets
+    + Retweet
+    * Fix for the tweet text selection from the end
 
 0.6
-	* Links in profile bio are now clickable
-	+ Link to the twitter.com page on the profile page
-	* Larger avatars on the profile page allowed, up to 96px in width
-	* Small bug with friendship cache updater fixed
+    * Links in profile bio are now clickable
+    + Link to the twitter.com page on the profile page
+    * Larger avatars on the profile page allowed, up to 96px in width
+    * Small bug with friendship cache updater fixed
 
 0.5
-	* Fixed bug with paste into the tweet editor
+    * Fixed bug with paste into the tweet editor
 
 0.4
-	+ Bio and location information to the profile page
-	+ Retweets are now visible
+    + Bio and location information to the profile page
+    + Retweets are now visible
 
 0.3
-	+ Follow/unfollow users from the profile page
+    + Follow/unfollow users from the profile page
 
 0.0.3
-	* Don't load profile info when switching to the profile page if it is already loaded
-	+ OAuth timestamp autocorrection based on server reply
-	* Correct account list refresh after remove one
-	- Useless spellchecker is turned off in tweet editor
+    * Don't load profile info when switching to the profile page if it is already loaded
+    + OAuth timestamp autocorrection based on server reply
+    * Correct account list refresh after remove one
+    - Useless spellchecker is turned off in tweet editor
 
 0.0.2
-	* Initial production Alpha release
+    * Initial production Alpha release

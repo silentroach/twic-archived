@@ -9,38 +9,38 @@
  * @constructor
  */
 twic.DBObject = function() {
-	/**
-	 * Table
-	 * @protected
-	 * @type {string}
-	 */
-	this.table = '';
+    /**
+     * Table
+     * @protected
+     * @type {string}
+     */
+    this.table = '';
 
-	/**
-	 * Field list
-	 * @type {Object}
-	 */
-	this.fields = { };
+    /**
+     * Field list
+     * @type {Object}
+     */
+    this.fields = { };
 
-	/**
-	 * Json map to override field names
-	 * @protected
-	 * @type {Object}
-	 */
-	this.jsonMap = { };
+    /**
+     * Json map to override field names
+     * @protected
+     * @type {Object}
+     */
+    this.jsonMap = { };
 
-	/**
-	 * Record exists
-	 * @type {boolean}
-	 */
-	this.exists = false;
+    /**
+     * Record exists
+     * @type {boolean}
+     */
+    this.exists = false;
 
-	/**
-	 * Fields that was changed
-	 * @private
-	 * @type {Array}
-	 */
-	this.changed_ = [];
+    /**
+     * Fields that was changed
+     * @private
+     * @type {Array}
+     */
+    this.changed_ = [];
 };
 
 /**
@@ -56,33 +56,33 @@ twic.DBObject.prototype.onFieldChanged = function(fieldName, newValue) { };
  * @return {twic.DBObject}
  */
 twic.DBObject.prototype.loadFromJSON = function(obj) {
-	var
-		dbobject = this,
-		key = '';
+    var
+        dbobject = this,
+        key = '';
 
-	dbobject.jsonObj = obj;
+    dbobject.jsonObj = obj;
 
-	dbobject.changed_ = [];
+    dbobject.changed_ = [];
 
-	for (key in dbobject.fields) {
-		var
-			fld = key,
-			mapped = dbobject.jsonMap[key];
+    for (key in dbobject.fields) {
+        var
+            fld = key,
+            mapped = dbobject.jsonMap[key];
 
-		if (goog.isFunction(mapped)) {
-			dbobject.setValue(key, mapped(obj));
-		} else {
-			if (goog.isString(mapped)) {
-				fld = mapped;
-			}
+        if (goog.isFunction(mapped)) {
+            dbobject.setValue(key, mapped(obj));
+        } else {
+            if (goog.isString(mapped)) {
+                fld = mapped;
+            }
 
-			if (obj[fld]) {
-				dbobject.setValue(key, obj[fld]);
-			}
-		}
-	}
+            if (obj[fld]) {
+                dbobject.setValue(key, obj[fld]);
+            }
+        }
+    }
 
-	return dbobject;
+    return dbobject;
 };
 
 /**
@@ -92,14 +92,14 @@ twic.DBObject.prototype.loadFromJSON = function(obj) {
  * @param {function()=} callback Callback function
  */
 twic.DBObject.prototype.updateFromJSON = function(id, obj, callback) {
-	var dbobject = this;
+    var dbobject = this;
 
-	var updateMe = function() {
-		this.loadFromJSON(obj);
-		this.save(callback);
-	};
+    var updateMe = function() {
+        this.loadFromJSON(obj);
+        this.save(callback);
+    };
 
-	dbobject.loadById(id, updateMe, updateMe);
+    dbobject.loadById(id, updateMe, updateMe);
 };
 
 /**
@@ -110,77 +110,76 @@ twic.DBObject.prototype.updateFromJSON = function(id, obj, callback) {
  *   false - insert
  */
 twic.DBObject.prototype.save = function(callback) {
-	var
-		dbobject = this,
-		exists = dbobject.exists,
-		hasId = dbobject.fields['id'];
+    var
+        dbobject = this,
+        exists = dbobject.exists,
+        hasId = dbobject.fields['id'];
 
-	if (
-		exists
-		&& 0 === dbobject.changed_.length
-	) {
-		if (callback) {
-			callback(null);
-		}
+    if (exists
+        && 0 === dbobject.changed_.length
+    ) {
+        if (callback) {
+            callback(null);
+        }
 
-		// nothing was changed
-		return;
-	}
+        // nothing was changed
+        return;
+    }
 
-	var
-		fld = [],
-		params = [],
-		vals = [],
-		sql = '',
-		key = '';
+    var
+        fld = [],
+        params = [],
+        vals = [],
+        sql = '',
+        key = '';
 
-	for (key in dbobject.fields) {
-		if (
-			key !== 'id'
-			&& (
-				!exists
-				|| dbobject.changed_.indexOf(key) >= 0
-			)
-		) {
-			fld.push(key);
-			params.push('?');
-			vals.push(dbobject.fields[key]);
-		}
-	}
+    for (key in dbobject.fields) {
+        if (
+            key !== 'id'
+            && (
+                !exists
+                || dbobject.changed_.indexOf(key) >= 0
+            )
+        ) {
+            fld.push(key);
+            params.push('?');
+            vals.push(dbobject.fields[key]);
+        }
+    }
 
-	if (hasId) {
-		vals.push(dbobject.fields['id']);
-	}
+    if (hasId) {
+        vals.push(dbobject.fields['id']);
+    }
 
-	sql += exists ? 'update ' : 'insert into ';
-	sql += dbobject.table + ' ';
+    sql += exists ? 'update ' : 'insert into ';
+    sql += dbobject.table + ' ';
 
-	if (exists) {
-		var
-			setters = [],
-			i;
+    if (exists) {
+        var
+            setters = [],
+            i;
 
-		for (i = 0; i < fld.length; ++i) {
-			setters.push(fld[i] + ' = ?');
-		}
+        for (i = 0; i < fld.length; ++i) {
+            setters.push(fld[i] + ' = ?');
+        }
 
-		sql += 'set ' + setters.join(', ') + ' where id = ?';
-	} else {
-		sql += '(' + fld.join(', ') +
-			(hasId ? ', id' : '') + ') values (' +
-			params.join(', ') +
-			(hasId ? ', ?' : '') + ')';
-	}
+        sql += 'set ' + setters.join(', ') + ' where id = ?';
+    } else {
+        sql += '(' + fld.join(', ') +
+            (hasId ? ', id' : '') + ') values (' +
+            params.join(', ') +
+            (hasId ? ', ?' : '') + ')';
+    }
 
-	twic.db.execQuery(sql, vals, function() {
-		// reset flags
-		dbobject.exists = true;
-		dbobject.changed_ = [];
+    twic.db.execQuery(sql, vals, function() {
+        // reset flags
+        dbobject.exists = true;
+        dbobject.changed_ = [];
 
-		if (callback) {
-			callback(exists);
-		}
-	} );
+        if (callback) {
+            callback(exists);
+        }
+    } );
 };
 
 /**
@@ -189,24 +188,22 @@ twic.DBObject.prototype.save = function(callback) {
  * @param {number|string} value New value
  */
 twic.DBObject.prototype.setValue = function(fieldname, value) {
-	var dbobject = this;
+    var dbobject = this;
 
-	if (
-		dbobject.fields[fieldname] !== value
-	) {
-		// change the value
-		dbobject.fields[fieldname] = value;
+    if (dbobject.fields[fieldname] !== value) {
+        // change the value
+        dbobject.fields[fieldname] = value;
 
-		// change handler
-		if (dbobject.exists) {
-			// changed fields
-			if (dbobject.changed_.indexOf(fieldname) < 0) {
-				dbobject.changed_.push(fieldname);
-			}
+        // change handler
+        if (dbobject.exists) {
+            // changed fields
+            if (dbobject.changed_.indexOf(fieldname) < 0) {
+                dbobject.changed_.push(fieldname);
+            }
 
-			dbobject.onFieldChanged(fieldname, value);
-		}
-	}
+            dbobject.onFieldChanged(fieldname, value);
+        }
+    }
 };
 
 /**
@@ -215,17 +212,17 @@ twic.DBObject.prototype.setValue = function(fieldname, value) {
  * @param {string} alias Alias
  */
 twic.DBObject.prototype.loadFromRow = function(row, alias) {
-	var
-		obj = this,
-		al = (alias ? alias + '_' : ''),
-		fkey = '';
+    var
+        obj = this,
+        al = (alias ? alias + '_' : ''),
+        fkey = '';
 
-	for (fkey in obj.fields) {
-		obj.setValue(fkey, row[al + fkey]);
-	}
+    for (fkey in obj.fields) {
+        obj.setValue(fkey, row[al + fkey]);
+    }
 
-	obj.exists = true;
-	obj.changed_ = [];
+    obj.exists = true;
+    obj.changed_ = [];
 };
 
 /**
@@ -233,16 +230,16 @@ twic.DBObject.prototype.loadFromRow = function(row, alias) {
  * @param {string} alias Alias
  */
 twic.DBObject.prototype.getFieldString = function(alias) {
-	var
-		obj = this,
-		result = '',
-		key = '';
+    var
+        obj = this,
+        result = '',
+        key = '';
 
-	for(key in obj.fields) {
-		result += (alias ? alias + '.' : '') + key + (alias ? ' ' + alias + '_' + key : '') + ', ';
-	}
+    for(key in obj.fields) {
+        result += (alias ? alias + '.' : '') + key + (alias ? ' ' + alias + '_' + key : '') + ', ';
+    }
 
-	return result.slice(0, result.length - 2);
+    return result.slice(0, result.length - 2);
 };
 
 /**
@@ -251,15 +248,15 @@ twic.DBObject.prototype.getFieldString = function(alias) {
  * @return {Object} New object
  */
 twic.DBObject.prototype.getPart = function(fields) {
-	var
-		obj = this,
-		newObj = { };
+    var
+        obj = this,
+        newObj = { };
 
-	fields.forEach( function(key) {
-		newObj[key] = obj.fields[key];
-	} );
+    fields.forEach( function(key) {
+        newObj[key] = obj.fields[key];
+    } );
 
-	return newObj;
+    return newObj;
 };
 
 /**
@@ -267,12 +264,12 @@ twic.DBObject.prototype.getPart = function(fields) {
  * @param {function()} callback Callback function
  */
 twic.DBObject.prototype.remove = function(callback) {
-	var
-		self = this;
+    var
+        self = this;
 
-	twic.db.execQuery('delete from ' + self.table + ' where id = ?', [
-		self.fields['id']
-	], callback);
+    twic.db.execQuery('delete from ' + self.table + ' where id = ?', [
+        self.fields['id']
+    ], callback);
 };
 
 /**
@@ -283,41 +280,41 @@ twic.DBObject.prototype.remove = function(callback) {
  * @param {function()} nfcallback Object not found callback
  */
 twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, nfcallback) {
-	var
-		obj = this,
-		fld = [],
-		whereClause = [],
-		values = goog.isObject(value) ? value : [value],
-		/** @type {string} **/ sql,
-		/** @type {number} **/ i,
-		/** @type {string} **/ key = '';
+    var
+        obj = this,
+        fld = [],
+        whereClause = [],
+        values = goog.isObject(value) ? value : [value],
+        /** @type {string} **/ sql,
+        /** @type {number} **/ i,
+        /** @type {string} **/ key = '';
 
-	if (goog.isString(fieldname)) {
-		whereClause = [fieldname + ' = ?'];
-	} else {
-		for (i = 0; i < fieldname.length; ++i) {
-			whereClause.push(fieldname[i] + ' = ?');
-		}
-	}
+    if (goog.isString(fieldname)) {
+        whereClause = [fieldname + ' = ?'];
+    } else {
+        for (i = 0; i < fieldname.length; ++i) {
+            whereClause.push(fieldname[i] + ' = ?');
+        }
+    }
 
-	for (key in obj.fields) {
-		fld.push(key);
-	}
+    for (key in obj.fields) {
+        fld.push(key);
+    }
 
-	sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + whereClause.join(' and ') + ' limit 1';
+    sql = 'select ' + fld.join(',') + ' from ' + obj.table + ' where ' + whereClause.join(' and ') + ' limit 1';
 
-	twic.db.openQuery(sql, values, function(rows) {
-		if (rows.length === 1) {
-			obj.loadFromRow(rows.item(0));
+    twic.db.openQuery(sql, values, function(rows) {
+        if (rows.length === 1) {
+            obj.loadFromRow(rows.item(0));
 
-			callback.apply(obj);
-		} else {
-			obj.exists = false;
-			nfcallback.apply(obj);
-		}
-	}, function(error) {
-		nfcallback.apply(obj);
-	} );
+            callback.apply(obj);
+        } else {
+            obj.exists = false;
+            nfcallback.apply(obj);
+        }
+    }, function(error) {
+        nfcallback.apply(obj);
+    } );
 };
 
 /**
@@ -327,5 +324,5 @@ twic.DBObject.prototype.loadByFieldValue = function(fieldname, value, callback, 
  * @param {function()} nfcallback Object not found callback
  */
 twic.DBObject.prototype.loadById = function(id, callback, nfcallback) {
-	return this.loadByFieldValue('id', id, callback, nfcallback);
+    return this.loadByFieldValue('id', id, callback, nfcallback);
 };

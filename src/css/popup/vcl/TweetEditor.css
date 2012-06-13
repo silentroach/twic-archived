@@ -4,86 +4,86 @@
  */
 
 .tweetEditor {
-	margin-left: 4px;
-	margin-right: 12px;
-	}
-	.tweetEditor .rb {
-		float: right;
-		display: none;
-		margin-bottom: 4px;
-		margin-right: -10px;
-		}
-		.tweetEditor .rb > * {
-			vertical-align: middle;
-			margin-left: 10px;
-			}
-			.tweetEditor .rb input {
-				margin-left: 13px;
-				}
-			.tweetEditor .rb img {
-				cursor: pointer;
-				}
-				.tweetEditor .rb img.geo {
-					display: none;
-					}
-					.tweetEditor.geo .rb img.geo {
-						display: inline;
-						}
-				.tweetEditor .rb img.disabled {
-					opacity: .5;
-					}
-					.tweetEditor .rb img.attach.disabled {
-						cursor: default;
-						}
-	/** button to send tweet **/
-	.tweetEditor input {
-		font-size: 8pt;
-		}
-	.tweetEditor textarea {
-		width: 100%;
-		max-width: 100%;
-		font-size: 9pt;
-		padding: .3em;
-		margin-bottom: 2px;
-		background-color: rgba(255, 255, 255, .7);
-		/** do not allow textarea resize **/
-		resize: none;
-		}
-	/** char counter **/
-	.tweetEditor span {
-		float: left;
-		font-style: italic;
-		font-size: 12pt;
-		padding-top: 3px;
-		display: none;
-		min-width: 24px; /* for animation to exists when it is empty */
-		opacity: .3;
-		-webkit-transition: opacity 0.2s ease-in-out;
-		-webkit-transition: color 0.2s ease-in-out;
-		}
+    margin-left: 4px;
+    margin-right: 12px;
+    }
+    .tweetEditor .rb {
+        float: right;
+        display: none;
+        margin-bottom: 4px;
+        margin-right: -10px;
+        }
+        .tweetEditor .rb > * {
+            vertical-align: middle;
+            margin-left: 10px;
+            }
+            .tweetEditor .rb input {
+                margin-left: 13px;
+                }
+            .tweetEditor .rb img {
+                cursor: pointer;
+                }
+                .tweetEditor .rb img.geo {
+                    display: none;
+                    }
+                    .tweetEditor.geo .rb img.geo {
+                        display: inline;
+                        }
+                .tweetEditor .rb img.disabled {
+                    opacity: .5;
+                    }
+                    .tweetEditor .rb img.attach.disabled {
+                        cursor: default;
+                        }
+    /** button to send tweet **/
+    .tweetEditor input {
+        font-size: 8pt;
+        }
+    .tweetEditor textarea {
+        width: 100%;
+        max-width: 100%;
+        font-size: 9pt;
+        padding: .3em;
+        margin-bottom: 2px;
+        background-color: rgba(255, 255, 255, .7);
+        /** do not allow textarea resize **/
+        resize: none;
+        }
+    /** char counter **/
+    .tweetEditor span {
+        float: left;
+        font-style: italic;
+        font-size: 12pt;
+        padding-top: 3px;
+        display: none;
+        min-width: 24px; /* for animation to exists when it is empty */
+        opacity: .3;
+        -webkit-transition: opacity 0.2s ease-in-out;
+        -webkit-transition: color 0.2s ease-in-out;
+        }
 
 /** too much characters in the textarea **/
 .tweetEditor.overload span {
-	color: red;
-	font-weight: bold;
-	opacity: 1;
-	}
+    color: red;
+    font-weight: bold;
+    opacity: 1;
+    }
 .tweetEditor.overload textarea {
-	background-color: #f6dddd;
-	}
+    background-color: #f6dddd;
+    }
 
 /** sending state **/
 .tweetEditor.sending span {
-	background: url('/img/loader.gif') no-repeat 2px;
-	color: transparent;
-	}
+    background: url('/img/loader.gif') no-repeat 2px;
+    color: transparent;
+    }
 
 /** tweet editor is focused **/
 .tweetEditor.focused span,
 .tweetEditor.focused .rb {
-	display: block;
-	}
+    display: block;
+    }
 .tweetEditor.focused .suggest {
-	display: table;
-	}
+    display: table;
+    }
 

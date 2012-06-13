@@ -8,31 +8,31 @@
  * @extends twic.DBObject
  */
 twic.db.obj.Friend = function() {
-	twic.DBObject.call(this);
+    twic.DBObject.call(this);
 
-	this.table = 'friends';
-	this.fields = {
-		'id': '',
-		'following': '',
-		'dt': twic.utils.date.getCurrentTimestamp()
-	};
+    this.table = 'friends';
+    this.fields = {
+        'id': '',
+        'following': '',
+        'dt': twic.utils.date.getCurrentTimestamp()
+    };
 
-	var getIds = function(obj) {
-		return [obj['source']['id'], obj['target']['id']].sort();
-	};
+    var getIds = function(obj) {
+        return [obj['source']['id'], obj['target']['id']].sort();
+    };
 
-	this.jsonMap = {
-		'id': function(obj) {
-			return getIds(obj).join('_');
-		},
-		'following': function(obj) {
-			var
-				ids = getIds(obj),
-				f_nd = obj['source']['id'] === ids[0] ? obj['source'] : obj['target'];
+    this.jsonMap = {
+        'id': function(obj) {
+            return getIds(obj).join('_');
+        },
+        'following': function(obj) {
+            var
+                ids = getIds(obj),
+                f_nd = obj['source']['id'] === ids[0] ? obj['source'] : obj['target'];
 
-			return [f_nd['following'] ? '1' : '0', f_nd['followed_by'] ? '1' : '0'].join('_');
-		}
-	};
+            return [f_nd['following'] ? '1' : '0', f_nd['followed_by'] ? '1' : '0'].join('_');
+        }
+    };
 };
 
 goog.inherits(twic.db.obj.Friend, twic.DBObject);
@@ -43,9 +43,9 @@ goog.inherits(twic.db.obj.Friend, twic.DBObject);
  * @override
  */
 twic.db.obj.Friend.prototype.save = function(callback) {
-	this.fields['dt'] = twic.utils.date.getCurrentTimestamp();
+    this.fields['dt'] = twic.utils.date.getCurrentTimestamp();
 
-	twic.DBObject.prototype.save.call(this);
+    twic.DBObject.prototype.save.call(this);
 };
 
 /**
@@ -56,7 +56,12 @@ twic.db.obj.Friend.prototype.save = function(callback) {
  * @param {function()} nfcallback Object not found callback
  */
 twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, nfcallback) {
-	twic.DBObject.prototype.loadById.call(this, [sourceId, targetId].sort().join('_'), callback, nfcallback);
+    twic.DBObject.prototype.loadById.call(
+        this,
+        [sourceId, targetId].sort().join('_'),
+        callback,
+        nfcallback
+    );
 };
 
 /**
@@ -66,13 +71,13 @@ twic.db.obj.Friend.prototype.loadByIds = function(sourceId, targetId, callback, 
  * @return {Object}
  */
 twic.db.obj.Friend.prototype.getFollowing = function(sourceId, targetId) {
-	var
-		fid = parseInt(this.fields['id'].split('_').shift(), 10),
-		f = this.fields['following'].split('_'),
-		res = {
-			'following': (fid === sourceId ? f[0] : f[1]) === '1',
-			'followed':  (fid === sourceId ? f[1] : f[0]) === '1'
-		};
+    var
+        fid = parseInt(this.fields['id'].split('_').shift(), 10),
+        f = this.fields['following'].split('_'),
+        res = {
+            'following': (fid === sourceId ? f[0] : f[1]) === '1',
+            'followed':  (fid === sourceId ? f[1] : f[0]) === '1'
+        };
 
-	return res;
+    return res;
 };

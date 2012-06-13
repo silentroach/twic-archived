@@ -17,7 +17,7 @@ twic.utils.date = { };
  * @return {number} Timestamp
  */
 twic.utils.date.getTimestamp = function(dt) {
-	return Math.round(dt.getTime() / 1000);
+    return Math.round(dt.getTime() / 1000);
 };
 
 /**
@@ -25,7 +25,7 @@ twic.utils.date.getTimestamp = function(dt) {
  * @return {number} Timestamp
  */
 twic.utils.date.getCurrentTimestamp = function() {
-	return Math.round(goog.now() / 1000);
+    return Math.round(goog.now() / 1000);
 };
 
 // ------------------------------------------------------------
@@ -37,7 +37,7 @@ twic.utils.lang = { };
  * @param {...*} args
  */
 twic.utils.lang.translate = function(args) {
-	return chrome.i18n.getMessage.apply(chrome, arguments);
+    return chrome.i18n.getMessage.apply(chrome, arguments);
 };
 
 /**
@@ -47,31 +47,28 @@ twic.utils.lang.translate = function(args) {
  * @param {Array.<string>} endings Translate aliases to endings
  */
 twic.utils.lang.plural = function(number, endings) {
-	var
-		mod10  = number % 10,
-		mod100 = number % 100,
-		res = '';
+    var
+        mod10  = number % 10,
+        mod100 = number % 100,
+        res = '';
 
-	if (
-		mod10 === 1
-		&& mod100 !== 11
-	) {
-		res = twic.utils.lang.translate(endings[0]);
-	} else
-	if (
-		mod10 >= 2
-		&& mod10 <= 4
-		&& (
-			mod100 < 10
-			|| mod100 >= 20
-		)
-	) {
-		res = twic.utils.lang.translate(endings[1]);
-	} else {
-		res = twic.utils.lang.translate(endings[2]);
-	}
+    if (mod10 === 1
+        && mod100 !== 11
+    ) {
+        res = twic.utils.lang.translate(endings[0]);
+    } else
+    if (mod10 >= 2
+        && mod10 <= 4
+        && (mod100 < 10
+            || mod100 >= 20
+        )
+    ) {
+        res = twic.utils.lang.translate(endings[1]);
+    } else {
+        res = twic.utils.lang.translate(endings[2]);
+    }
 
-	return number + ' ' + res;
+    return number + ' ' + res;
 };
 
 // ------------------------------------------------------------
@@ -92,18 +89,10 @@ twic.utils.url.mailSearchPattern_ = /(([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+
  * @const
  * @private
  */
-twic.utils.url.domainExtractPattern_ = /:\/\/(.[^/]+)/;
+twic.utils.url.domainExtractPattern_ = /:\/\/(.[^\/]+)/;
 
-/**
- * Links -> icons services hash
- * @const
- * @private
- */
-twic.utils.url.services_ = {
-	'tumblr.com': 'tumblr',
-	'instagr.am': 'instagram',
-	'4sq.com':    'foursquare',
-	'flic.kr':    'flickr'
+twic.utils.url.extractDomain = function(url) {
+    return twic.utils.url.domainExtractPattern_.exec(url);
 };
 
 /**
@@ -113,52 +102,41 @@ twic.utils.url.services_ = {
  * @return {string}
  */
 twic.utils.url.humanize = function(url, lnks) {
-	var
-		links = lnks || { },
-		expanded = url in links ? links[url] : url;
+    var
+        links = lnks || { },
+        expanded = url in links && links[url] ? links[url] : url,
+        domain = twic.utils.url.extractDomain(expanded),
+        domainName = domain && domain.length > 1 ? domain[1] : '',
+        cutted = expanded
+            .replace(/^(.*?)\/\//, '')         // cutting the protocol
+            .replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
+        clen = cutted.length,
+        title = cutted,
+        faviconUrl = twic.services.getUrlByDomain(domainName),
+        classes = '';
 
-	if (!expanded) {
-		return '';
-	}
+    if (faviconUrl) {
+        classes = ' class="aicon"';
+        //cutted = '<img src="chrome://favicon/' + faviconUrl + '" />';
+        cutted = '<img src="' + faviconUrl + '/favicon.ico" />';
+    } else
+    if (clen > 30) {
+        cutted = cutted.substring(0, 30) + '&hellip;';
+    } else
+    if (['/', '\\'].indexOf(cutted.substring(clen - 1)) >= 0) {
+        cutted = cutted.substring(0, clen - 1);
+    }
 
-	var
-		domain = twic.utils.url.domainExtractPattern_.exec(expanded),
-		domainName = domain && domain.length > 1 ? domain[1] : '',
-		cutted = expanded
-			.replace(/^(.*?)\/\//, '')         // cutting the protocol
-			.replace(/^(www\.|mailto:)/, ''),  // cutting 'www.' and 'mailto:'
-		clen = cutted.length,
-		title = cutted,
-		classes = '';
+    // simple links for mailto
+    //if (-1 !== url.indexOf('mailto:')) {
+    //  return '<a target="_blank" href="' + url + '">' + cutted + '</a>';
+    //} else
+    // fix url without schema
+    if (-1 === url.indexOf('://')) {
+        url = 'http://' + url;
+    }
 
-	if (
-		'' !== domainName
-		&& domainName in twic.utils.url.services_
-	) {
-		var
-			iconClass = twic.utils.url.services_[domainName];
-
-		title = iconClass + ' - ' + expanded;
-		classes = ' class="aicon ' + iconClass + '"';
-		cutted = '&nbsp;';
-	} else
-	if (clen > 30) {
-		cutted = cutted.substring(0, 30) + '&hellip;';
-	} else
-	if (['/', '\\'].indexOf(cutted.substring(clen - 1)) >= 0) {
-		cutted = cutted.substring(0, clen - 1);
-	}
-
-	// simple links for mailto
-	if (-1 !== url.indexOf('mailto:')) {
-		return '<a target="_blank" href="' + url + '">' + cutted + '</a>';
-	} else
-	// fix url without schema
-	if (-1 === url.indexOf('://')) {
-		url = 'http://' + url;
-	}
-
-	return '<a target="_blank"' + classes + ' href="javascript:" data-url="' + url + '" title="' + title + '">' + cutted + '</a>';
+    return '<a target="_blank"' + classes + ' href="' + url + '" title="' + title + '">' + cutted + '</a>';
 };
 
 /**
@@ -168,10 +146,10 @@ twic.utils.url.humanize = function(url, lnks) {
  * @return {string}
  */
 twic.utils.url.processText = function(text, links) {
-	var
-		result = text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1');
+    //var
+    //  result = text.replace(twic.utils.url.mailSearchPattern_, 'mailto:$1');
 
-	return twic.text.processUrls(result, function(url) {
-		return twic.utils.url.humanize(url, links ? links : { });
-	} );
+    return twic.text.processUrls(text, function(url) {
+        return twic.utils.url.humanize(url, links ? links : { });
+    } );
 };

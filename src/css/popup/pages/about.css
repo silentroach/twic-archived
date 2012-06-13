@@ -4,24 +4,21 @@
  */
 
 #about .info {
-	text-align: center;
-	padding: 1em;
-	}
-	#about .info p:last-of-type {
-		margin-bottom: 1em;
-		}
+    text-align: center;
+    padding: 1em;
+    }
 
 #about hr {
-	margin-top: 1em;
-	margin-bottom: 1em;
-	}
+    margin-top: 1em;
+    margin-bottom: 1em;
+    }
 
 #athanks, #aname, #acontributors, #aauthor {
-	font-weight: bold;
-	}
+    font-weight: bold;
+    }
 
 #aname {
-	font-size: 14pt;
-	margin-bottom: .5em;
-	text-shadow: white 1px 1px 0;
-	}
+    font-size: 14pt;
+    margin-bottom: .5em;
+    text-shadow: white 1px 1px 0;
+    }

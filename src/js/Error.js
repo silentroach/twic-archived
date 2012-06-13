@@ -11,8 +11,8 @@
  * @param {string=} message Message
  */
 twic.Error = function(code, message) {
-	this.code = code;
-	this.message = message ? message : '';
+    this.code = code;
+    this.message = message ? message : '';
 };
 
 /**
@@ -22,9 +22,9 @@ twic.Error = function(code, message) {
  * @param {XMLHttpRequest} req Request
  */
 twic.ResponseError = function(code, req) {
-	this.request = req;
+    this.request = req;
 
-	twic.Error.call(this, code);
+    twic.Error.call(this, code);
 };
 
 goog.inherits(twic.ResponseError, twic.Error);

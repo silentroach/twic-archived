@@ -4,26 +4,26 @@
  */
 
 .timeline32 .avatar {
-	max-width: 32px;
-	}
+    max-width: 32px;
+    }
 
 .timeline32 li.tweet p {
-	padding-left: 39px;
-	}
+    padding-left: 39px;
+    }
 
 .timeline32 li.tweet.retweet a.avatar img.avatar {
-	max-width: 26px;
-	}
+    max-width: 26px;
+    }
 
 .timeline32 li.tweet.retweet a.avatar.retweeter img.avatar {
-	max-width: 16px;
-	}
+    max-width: 16px;
+    }
 
 .timeline32 li.tweet.retweet a.avatar.retweeter {
-	margin-left: -16px;
-	margin-top: 16px;
-	}
+    margin-left: -16px;
+    margin-top: 16px;
+    }
 
 .timeline32 li.tweet .tweetEditor {
-	padding-left: 33px;
-	}
+    padding-left: 33px;
+    }
