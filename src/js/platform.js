@@ -25,12 +25,12 @@ if (navigator.appVersion.indexOf('Mac') >= 0) {
 
     twic.dom.addClass(document.body, twic.platform);
 
-    // TODO drop this shit after stable Chrome 22
+    // TODO drop this shit after stable Chrome 21
     var
         version = navigator.appVersion.match(/Chrome\/(\d+)/);
 
     if (2 === version.length &&
-        parseInt(version.pop(), 10) < 21
+        parseInt(version.pop(), 10) < 20
     ) {
         twic.dom.addClass(document.body, 'rounded');
     }
