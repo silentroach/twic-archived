@@ -326,6 +326,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
         page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
     }
 
+/*
     if (loc.trim() !== '') {
         page.elementLocation_.style.display = 'block';
         marginElement = page.elementLocation_;
@@ -344,6 +345,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 
         page.elementLocation_.innerHTML = loc;
     }
+*/
 
     if (description.trim() !== '') {
         page.elementBio_.innerHTML = twic.utils.url.processText(description);

@@ -1,4 +1,5 @@
 0.45: (in development)
+    - Temporarily no google maps
     * No more tweet buttons flicker
     * New Twitter icon
     * Tweet length calculator is fixed for text with https links
