@@ -117,7 +117,8 @@ twic.utils.url.humanize = function(url, lnks) {
 
     if (faviconUrl) {
         classes = ' class="aicon"';
-        cutted = '<img src="chrome://favicon/' + faviconUrl + '" />';
+        //cutted = '<img src="chrome://favicon/' + faviconUrl + '" />';
+        cutted = '<img src="' + faviconUrl + '/favicon.ico" />';
     } else
     if (clen > 30) {
         cutted = cutted.substring(0, 30) + '&hellip;';
