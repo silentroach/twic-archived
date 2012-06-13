@@ -10,6 +10,7 @@
  * @extends twic.Page
  */
 twic.pages.TimelinePage = function() {
+
     twic.Page.call(this);
 
     /**
@@ -59,6 +60,7 @@ twic.pages.TimelinePage = function() {
      * @protected
      */
     this.userId_ = 0;
+
 };
 
 goog.inherits(twic.pages.TimelinePage, twic.Page);
@@ -283,13 +285,15 @@ twic.pages.TimelinePage.prototype.timelineResetEditor_ = function() {
 
 /**
  * Suggest list builder
+ * @param {number} userId User id
  * @param {string} startPart Nick start part
  * @param {function(Array.<string>)} callback Callback function
  */
-twic.pages.TimelinePage.prototype.getSuggestList_ = function(startPart, callback) {
-    twic.requests.makeRequest( 'getNickSuggest', {
+twic.pages.TimelinePage.prototype.getSuggestList_ = function(userId, startPart, callback) {
+    twic.requests.makeRequest('getNickSuggest', {
+        'userId':   userId,
         'nickPart': startPart
-    }, callback );
+    }, callback);
 };
 
 /**
@@ -325,7 +329,7 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
         page.doDelete_.call(page, userId, tweetId, callback);
     };
     page.timeline_.onReplierGetSuggestList = function(startPart, callback) {
-        page.getSuggestList_.call(page, startPart, callback);
+        page.getSuggestList_.call(page, page.userId_, startPart, callback);
     };
 };
 

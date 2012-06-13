@@ -104,8 +104,8 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
         var
             unreadCount = account.fields['unread_tweets_count'];
 
-        // we need to get the homeTimeline if user is in out accounts
-        twic.twitter.getHomeTimeline(id, function(tweets, users) {
+        // we need to get the homeTimeline if user is in our accounts
+        twic.twitter.getHomeTimeline(id, options, function(tweets, users) {
             // prepare tweets data and send the response
             var
                 reply = { },
@@ -131,7 +131,7 @@ twic.requests.subscribe('getTimeline', function(data, sendResponse) {
                     'data': reply
                 } );
             } );
-        }, options);
+        } );
 
         account.setValue('unread_tweets_count', 0);
         account.save();

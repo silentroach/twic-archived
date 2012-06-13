@@ -90,7 +90,7 @@ twic.pages.HomeTimelinePage.prototype.handle = function(data) {
         page.tweetHandler_.call(page, editor, tweet, replyId, callback);
     };
     page.tweetEditor_.onGetSuggestList = function(startPart, callback) {
-        page.getSuggestList_.call(page, startPart, callback);
+        page.getSuggestList_.call(page, userId, startPart, callback);
     };
 
     page.update_();
