@@ -40,8 +40,8 @@ twic.twitter.checkConfig = function() {
             i = '';
 
         for (i in obj) {
-            if ('short_url_length' == i ||
-                'short_url_length_https' == i
+            if ('short_url_length' === i
+                || 'short_url_length_https' === i
             ) {
                 twic.options.setValue(i, obj[i]);
             }

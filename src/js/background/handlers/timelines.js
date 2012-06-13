@@ -27,7 +27,7 @@ var prepareTweetInfo = function(tweet, user, users, isSeparator) {
     }
 
     if (tweet.fields['geo']
-        && 1 == user.fields['geo_enabled']
+        && 1 === user.fields['geo_enabled']
         && twic.options.getValue('tweet_show_geo')
     ) {
         tweetInfo['geo'] = tweet.fields['geo'].split(',');
