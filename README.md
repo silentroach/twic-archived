@@ -31,7 +31,7 @@ To build the extension you need to run
 
 ## Copyright
 
-[Kalashnikov Igor](mailto:igor.kalashnikov@gmail.com)
+[Kalashnikov Igor](mailto:igor.kalashnikov@me.com)
 
 Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
 
