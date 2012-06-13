@@ -31,7 +31,7 @@ body {
                 background-color: initial;
                 }
             #tabs li.active span {
-                border-bottom: 3px solid #f7f7f7;
+                border-bottom: 5px solid #fff;
                 padding-bottom: 2px;
                 color: black;
                 cursor: default;
