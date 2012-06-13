@@ -326,12 +326,11 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
         page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
     }
 
-/*
     if (loc.trim() !== '') {
         page.elementLocation_.style.display = 'block';
         marginElement = page.elementLocation_;
 
-        // trying to find the coordinates
+        /* trying to find the coordinates
         var coords = twic.pages.ProfilePage.REGEXP_COORDS.exec(loc);
 
         if (coords
@@ -341,11 +340,10 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
                 coordsData = coords.shift().split(',');
 
             page.map_ = new twic.vcl.Map(page.elementMap_, coordsData.shift(), coordsData.shift());
-        }
+        }*/
 
         page.elementLocation_.innerHTML = loc;
     }
-*/
 
     if (description.trim() !== '') {
         page.elementBio_.innerHTML = twic.utils.url.processText(description);
