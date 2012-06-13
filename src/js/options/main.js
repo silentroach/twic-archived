@@ -118,8 +118,9 @@
     /**
      * Handling tab click
      * @param {Element} element Tab element
+     * @param {boolean=} firstRun Is it for first run?
      */
-    var onTabClick = function(element) {
+    var onTabClick = function(element, firstRun) {
         var
             /** @type {Element} **/ tab = null,
             /** @type {Element} **/ content = null,
@@ -127,7 +128,9 @@
             /** @type {string}  **/ tabName = '',
             /** @type {number}  **/ i = 0;
 
-        if (twic.dom.hasClass(element, 'active')) {
+        if (twic.dom.hasClass(element, 'active')
+            && !firstRun
+        ) {
             return;
         }
 
@@ -144,7 +147,9 @@
                 twic.dom.addClass(tab, 'active');
                 twic.dom.setVisibility(content, true);
             } else
-            if (twic.dom.hasClass(tab, 'active')) {
+            if (twic.dom.hasClass(tab, 'active')
+                || firstRun
+            ) {
                 twic.dom.removeClass(tab, 'active');
                 twic.dom.setVisibility(content, false);
             }
@@ -166,5 +171,11 @@
             }
         }
     }, false);
+
+    // click on the first tab
+    onTabClick(
+        twic.dom.findElement('#tabs li'),
+        true
+    );
 
 }() );
