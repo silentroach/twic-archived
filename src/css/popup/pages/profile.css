@@ -65,3 +65,9 @@
             #profile #followings p.following:hover span {
                 background: url('/img/buttons/following_not.png') no-repeat left;
                 }
+
+#profile .error {
+    padding: 2em 0;
+    text-align: center;
+    color: gray;
+    }

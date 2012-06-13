@@ -52,9 +52,10 @@ twic.twitter.checkConfig = function() {
 /**
  * Get the user info
  * @param {string} nick Nickname
- * @param {function(Object)} callback Callback function
+ * @param {function(Object=)} callback Callback function
+ * @param {function()=} notFoundCallback Not found callback
  */
-twic.twitter.getUserInfo = function(nick, callback) {
+twic.twitter.getUserInfo = function(nick, callback, notFoundCallback) {
     var
         tmpUser  = new twic.db.obj.User(),
         tmpTweet = new twic.db.obj.Tweet();
@@ -90,6 +91,12 @@ twic.twitter.getUserInfo = function(nick, callback) {
                 }
 
                 callback(tmpUser);
+            }, function(error) {
+                if (notFoundCallback
+                    && twic.ResponseError.NOT_FOUND === error.code
+                ) {
+                    notFoundCallback();
+                }
             } );
         }
     );

@@ -10,7 +10,10 @@
  * @extends twic.Page
  */
 twic.pages.ProfilePage = function() {
-    twic.Page.call(this);
+    var
+        page = this;
+
+    twic.Page.call(page);
 
     /**
      * @type {boolean}
@@ -23,6 +26,18 @@ twic.pages.ProfilePage = function() {
      * @private
      */
     this.container_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.containerInfo_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.containerError_ = null;
 
     /**
      * @type {Element}
@@ -149,8 +164,14 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
 
     page.container_ = twic.dom.findElement('#profile');
 
+    page.containerInfo_  = twic.dom.findElement('.info',  page.container_);
+    page.containerError_ = twic.dom.findElement('.error', page.container_);
+
+    page.containerError_.innerHTML = twic.utils.lang.translate('error_user_not_found');
+    twic.dom.setVisibility(page.containerError_, false);
+
     page.elementFollowings_   = twic.dom.findElement('#followings');
-    page.elementFollowed_     = twic.dom.findElement('p', page.elementFollowings_);
+    page.elementFollowed_     = twic.dom.findElement('p',    page.elementFollowings_);
     page.elementFollowedSpan_ = twic.dom.findElement('span', page.elementFollowings_);
 
     page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.container_);
@@ -159,11 +180,11 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
 
     page.elementLoader_   = twic.dom.findElement('.loader', page.container_);
     page.elementAvatar_   = twic.dom.findElement('.avatar', page.container_);
-    page.elementName_     = twic.dom.findElement('.name', page.container_);
+    page.elementName_     = twic.dom.findElement('.name',   page.container_);
     page.elementNick_     = twic.dom.findElement('.toolbar p span', page.container_);
     page.elementUrl_      = twic.dom.findElement('.url', page.container_);
     page.elementBio_      = twic.dom.findElement('.bio', page.container_);
-    page.elementLocation_ = twic.dom.findElement('.location', page.container_);
+    page.elementLocation_ = twic.dom.findElement('.location',  page.container_);
     page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.container_);
 
     page.elementMap_      = twic.dom.findElement('.map', page.container_);
@@ -296,79 +317,86 @@ twic.pages.ProfilePage.prototype.onFollowedMouseOut_ = function() {
 
 /**
  * @private
- * @param {Object} data
+ * @param {Object=} data
  */
 twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
     var
-        page = this,
-        /** @type {Element} **/ marginElement = null,
-        /** @type {string} **/  description = data['description'],
-        /** @type {string} **/  loc = data['location'];
+        page = this;
 
-    page.profileUserId_ = data['id'];
+    twic.dom.setVisibility(page.containerInfo_, !!data);
+    twic.dom.setVisibility(page.containerError_, !data);
 
-    // fixme shitcode
-    page.elementAvatar_.src = data['avatar'].replace('_normal.', '_bigger.');
-    page.elementAvatar_.title = '@' + data['screen_name'];
-    page.elementAvatar_.style.display = '';
+    if (data) {
+        var
+            /** @type {Element} **/ marginElement = null,
+            /** @type {string} **/  description = data['description'],
+            /** @type {string} **/  loc = data['location'];
 
-    // user properties
-    if (data['is_protected']) {
-        twic.dom.addClass(page.elementProps_, 'protected');
-    }
+        page.profileUserId_ = data['id'];
 
-    page.elementName_.innerHTML = data['name'];
-    page.elementNick_.innerHTML = '@' + data['screen_name'];
+        // fixme shitcode
+        page.elementAvatar_.src = data['avatar'].replace('_normal.', '_bigger.');
+        page.elementAvatar_.title = '@' + data['screen_name'];
+        page.elementAvatar_.style.display = '';
 
-    page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
+        // user properties
+        if (data['is_protected']) {
+            twic.dom.addClass(page.elementProps_, 'protected');
+        }
 
-    if (data['url'] !== '') {
-        page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
-    }
+        page.elementName_.innerHTML = data['name'];
+        page.elementNick_.innerHTML = '@' + data['screen_name'];
 
-    if (loc.trim() !== '') {
-        page.elementLocation_.style.display = 'block';
-        marginElement = page.elementLocation_;
+        page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
 
-        /* trying to find the coordinates
-        var coords = twic.pages.ProfilePage.REGEXP_COORDS.exec(loc);
+        if (data['url'] !== '') {
+            page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
+        }
 
-        if (coords
-            && 3 === coords.length
+        if (loc.trim() !== '') {
+            page.elementLocation_.style.display = 'block';
+            marginElement = page.elementLocation_;
+
+            /* trying to find the coordinates
+            var coords = twic.pages.ProfilePage.REGEXP_COORDS.exec(loc);
+
+            if (coords
+                && 3 === coords.length
+            ) {
+                var
+                    coordsData = coords.shift().split(',');
+
+                page.map_ = new twic.vcl.Map(page.elementMap_, coordsData.shift(), coordsData.shift());
+            }*/
+
+            page.elementLocation_.innerHTML = loc;
+        }
+
+        if (description.trim() !== '') {
+            page.elementBio_.innerHTML = twic.utils.url.processText(description);
+            page.elementBio_.style.display = 'block';
+            marginElement = page.elementBio_;
+        }
+
+        if (marginElement) {
+            marginElement.style.marginTop = '1em';
+        }
+
+        if (
+            !page.timelineUserId_
+            || page.timelineUserId_ === data['id']
         ) {
-            var
-                coordsData = coords.shift().split(',');
-
-            page.map_ = new twic.vcl.Map(page.elementMap_, coordsData.shift(), coordsData.shift());
-        }*/
-
-        page.elementLocation_.innerHTML = loc;
-    }
-
-    if (description.trim() !== '') {
-        page.elementBio_.innerHTML = twic.utils.url.processText(description);
-        page.elementBio_.style.display = 'block';
-        marginElement = page.elementBio_;
-    }
-
-    if (marginElement) {
-        marginElement.style.marginTop = '1em';
-    }
-
-    if (
-        !page.timelineUserId_
-        || page.timelineUserId_ === data['id']
-    ) {
-        twic.dom.setVisibility(page.elementLoader_, false);
-    } else {
-        twic.requests.makeRequest('getProfileFriendshipInfo', {
-            'source_id': page.timelineUserId_,
-            'target_id': data['id']
-        }, function(data) {
             twic.dom.setVisibility(page.elementLoader_, false);
-            page.showProfileFriendship_(data['following']);
-            page.elementFollowings_.style.display = 'block';
-        } );
+        } else {
+            twic.requests.makeRequest('getProfileFriendshipInfo', {
+                'source_id': page.timelineUserId_,
+                'target_id': data['id']
+            }, function(data) {
+                twic.dom.setVisibility(page.elementLoader_, false);
+                page.showProfileFriendship_(data['following']);
+                page.elementFollowings_.style.display = 'block';
+            } );
+        }
     }
 };
 

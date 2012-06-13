@@ -24,6 +24,8 @@ twic.requests.subscribe('getUserInfo', function(data, sendResponse) {
 twic.requests.subscribe('getProfileInfo', function(data, sendResponse) {
     twic.twitter.getUserInfo( data['name'], function(user) {
         sendResponse( user.fields );
+    }, function() {
+        sendResponse();
     } );
 } );
 
