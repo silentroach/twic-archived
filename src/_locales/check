@@ -1,0 +1,60 @@
+#!/usr/bin/env php
+<?php
+
+$locale = 'en';
+
+if ($argc === 2) {
+	$locale = $argv[1];
+}
+
+if (!file_exists($locale)) {
+	die('Can\'t find locale [' . $locale . "].\n");
+}
+
+echo 'Base locale is [' . $locale . "].\n";
+
+$locales = array();
+
+foreach(explode("\n", trim(`find */messages.json`)) as $filename) {
+	$dir = explode(DIRECTORY_SEPARATOR, pathinfo($filename, PATHINFO_DIRNAME));
+
+	$locales[$dir[0]] = realpath($filename);
+}
+
+if (!isset($locales[$locale])) {
+	die('Can\'t find locale [' . $locale . "].\n");
+}
+
+$base = json_decode(file_get_contents($locales[$locale]), true);
+
+unset($locales[$locale]);
+
+foreach($locales as $trgLocale => $filename) {
+	echo $trgLocale;
+
+	$content = json_decode(file_get_contents($filename), true);
+
+	$error = false;
+
+	foreach($base as $key => $void) {
+		if (!isset($content[$key])) {
+			echo "\n  " . str_pad($key, 25) . ' -> ' . str_pad($trgLocale, 25);
+
+			$error = true;
+		}
+	}
+
+	foreach($content as $key => $void) {
+		if (!isset($base[$key])) {
+			echo "\n  " . str_pad($locale, 25) . ' <- ' . str_pad($key, 25);
+
+			$error = true;
+		}
+	}
+
+	if (!$error) {
+		echo " - ok\n";
+	} else {
+		echo "\n";
+	}
+}
