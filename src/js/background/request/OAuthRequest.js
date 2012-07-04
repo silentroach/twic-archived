@@ -88,7 +88,7 @@ twic.OAuthRequest.prototype.getNonce_ = function() {
         result = '',
         i;
 
-    for (i = 0; i < 6; ++i) {
+    for (i = 0; i < 32; ++i) {
         result += nonce_chars[Math.floor(Math.random() * nonce_chars.length)];
     }
 
