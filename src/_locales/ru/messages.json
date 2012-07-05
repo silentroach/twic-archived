@@ -327,5 +327,16 @@
 	},
 	"time_ago": {
 		"message": "назад"
-	}
+	},
+
+    "omnibox_find_user": {
+        "message": "Открыть страницу пользователя $user$ на twitter.com",
+        "placeholders": {
+            "user": {
+                "content": "$1",
+                "example": "@silentroach"
+            }
+        },
+        "description": "Показывается в Omnibox при поиске"
+    }
 }

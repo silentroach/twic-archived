@@ -42,6 +42,9 @@
             "js/inline/auth.js"
         ]
     } ],
+    "omnibox": {
+        "keyword": "@"
+    },
     "content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self' https://*.googleapis.com https://maps.gstatic.com; connect-src *; img-src *",
     "permissions": [
         "unlimitedStorage",

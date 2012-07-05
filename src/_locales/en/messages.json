@@ -326,5 +326,16 @@
 	},
 	"time_ago": {
 		"message": "ago"
-	}
+	},
+
+    "omnibox_find_user": {
+        "message": "Open user $user$ page on twitter.com",
+        "placeholders": {
+            "user": {
+                "content": "$1",
+                "example": "@silentroach"
+            }
+        },
+        "description": "Omnibox default suggestion"
+    }
 }
