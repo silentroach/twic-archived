@@ -32,7 +32,7 @@ twic.EventSupported.prototype.addEventListener = function(eventName, callback) {
  * Trigger some event
  * @protected
  */
-twic.EventSupported.prototype.triggerEvent_ = function(eventName, scope) {
+twic.EventSupported.prototype.triggerEvent_ = function(eventName, eventObj, scope) {
     var
         self = this,
         i;
@@ -42,6 +42,6 @@ twic.EventSupported.prototype.triggerEvent_ = function(eventName, scope) {
     }
 
     for (i = 0; i < self.listeners_[eventName].length; ++i) {
-        self.listeners_[eventName][i].call(scope || self);
+        self.listeners_[eventName][i].call(scope || self, eventObj);
     }
 };

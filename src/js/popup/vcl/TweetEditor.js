@@ -292,7 +292,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
         twic.dom.removeElement(editorWrapper);
 
-        editor.triggerEvent_('close', editor);
+        editor.triggerEvent_('close');
     };
 
     var suggest = new twic.vcl.Suggest(this);
