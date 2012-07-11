@@ -1,5 +1,6 @@
 0.48: (in development)
     + Omnibox user search
+    - No more rounded corners support for OS X
 
 0.47:
     + User not found message in profile
