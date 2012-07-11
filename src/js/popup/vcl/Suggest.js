@@ -6,6 +6,7 @@
 /**
  * Suggest element
  * @constructor
+ * @extends twic.EventSupported
  * @param {!twic.vcl.TweetEditor} editor
  */
 twic.vcl.Suggest = function(editor) {

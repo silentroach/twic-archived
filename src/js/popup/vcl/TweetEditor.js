@@ -9,6 +9,7 @@
 
 /**
  * @constructor
+ * @extends twic.EventSupported
  * @param {number} userId User identifier (used to store backup textarea value)
  * @param {Element} parent Parent element
  * @param {string=} replyTo Identifier of reply to tweet
