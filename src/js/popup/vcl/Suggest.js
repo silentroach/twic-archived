@@ -13,6 +13,8 @@ twic.vcl.Suggest = function(editor) {
     var
         suggest = this;
 
+    twic.EventSupported.call(this);
+
     /**
      * @type {Element}
      * @private
@@ -67,6 +69,8 @@ twic.vcl.Suggest = function(editor) {
         suggest.check_.call(suggest, e);
     }, false);
 };
+
+goog.inherits(twic.vcl.Suggest, twic.EventSupported);
 
 /**
  * Get the selected suggest item
@@ -233,24 +237,25 @@ twic.vcl.Suggest.prototype.remove_ = function() {
 
 twic.vcl.Suggest.prototype.select_ = function() {
     var
-        selectedElement = this.getSelectedElement_(),
-        nickPart = this.extractNickPart_(),
-        val = this.textarea_.value;
+        suggest = this,
+        selectedElement = suggest.getSelectedElement_(),
+        nickPart = suggest.extractNickPart_(),
+        val = suggest.textarea_.value;
 
     if (!nickPart.success) {
-        this.remove_();
+        suggest.remove_();
         return false;
     }
 
     var
         selectedNick = selectedElement.innerText;
 
-    this.textarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
-    this.textarea_.selectionEnd = this.textarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
+    suggest.textarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
+    suggest.textarea_.selectionEnd = suggest.textarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
 
-    this.onSelect();
+    suggest.triggerEvent('select');
 
-    this.remove_();
+    suggest.remove_();
 };
 
 twic.vcl.Suggest.prototype.buildList_ = function(data, len) {
@@ -372,5 +377,3 @@ twic.vcl.Suggest.prototype.check_ = function() {
         } );
     }
 };
-
-twic.vcl.Suggest.prototype.onSelect = function() { };

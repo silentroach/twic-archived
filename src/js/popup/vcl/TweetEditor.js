@@ -25,6 +25,8 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
         /** @type {Element} **/ editorCounter   = twic.dom.expandElement('span'),
         /** @type {Element} **/ clearer         = twic.dom.expandElement('div.clearer');
 
+    twic.EventSupported.call(this);
+
     /** @type {boolean} **/ editor.autoRemovable = false;
 
     /**
@@ -242,7 +244,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
         twic.dom.addClass(editorWrapper, twic.vcl.TweetEditor.focusedClass);
         editor.checkTweetArea_();
 
-        editor.onFocus();
+        editor.triggerEvent_('focus');
     }, false );
 
     editorSend.addEventListener('click', function() {
@@ -289,14 +291,16 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
 
         twic.dom.removeElement(editorWrapper);
 
-        editor.onClose();
+        editor.triggerEvent_('close', editor);
     };
 
     var suggest = new twic.vcl.Suggest(this);
-    suggest.onSelect = function() {
-        editor.checkTweetArea_();
-    };
+    suggest.addEventListener('select', function() {
+        editor.checkTweetArea_.call(editor);
+    } );
 };
+
+goog.inherits(twic.vcl.TweetEditor, twic.EventSupported);
 
 twic.vcl.TweetEditor.options = {
     short_url_length: 20,
@@ -667,16 +671,6 @@ twic.vcl.TweetEditor.prototype.getTextarea = function() {
 twic.vcl.TweetEditor.prototype.onTweetSend = function(editor, tweet, replyTo, callback) {
     callback();
 };
-
-/**
- * Handler for the focus event
- */
-twic.vcl.TweetEditor.prototype.onFocus = function() { };
-
-/**
- * Close handler for tweet editor
- */
-twic.vcl.TweetEditor.prototype.onClose = function() { };
 
 /**
  * Get the suggest list

@@ -648,9 +648,9 @@ twic.vcl.Tweet.prototype.reply = function(all) {
         tweet.onReplySend.call(tweet, editor, tweetObj, replyTo, callback);
     };
 
-    this.replier_.onClose = function() {
+    this.replier_.addEventListener('close', function() {
         tweet.resetTweetEditor_.call(tweet);
-    };
+    } );
 
     this.replier_.onGetSuggestList = function(startPart, callback) {
         tweet.timeline_.onReplierGetSuggestList.call(tweet.replier_, startPart, callback);

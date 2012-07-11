@@ -83,9 +83,10 @@ twic.pages.HomeTimelinePage.prototype.handle = function(data) {
         page.tweetEditor_.toggleGeo(geoEnabled);
     } );
 
-    page.tweetEditor_.onFocus = function() {
+    page.tweetEditor_.addEventListener('focus', function() {
         page.timelineResetEditor_.call(page);
-    };
+    } );
+
     page.tweetEditor_.onTweetSend = function(editor, tweet, replyId, callback) {
         page.tweetHandler_.call(page, editor, tweet, replyId, callback);
     };
