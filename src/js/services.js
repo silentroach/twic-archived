@@ -15,7 +15,8 @@ twic.services.alternativeDomains_ = {
     'www.yfrog.com': 'yfrog.com',
     'imgur.com': 'i.imgur.com',
     'flic.kr': 'flickr.com',
-    'www.flickr.com': 'flickr.com'
+    'www.flickr.com': 'flickr.com',
+    'instagr.am': 'instagram.com'
 };
 
 /**
@@ -23,10 +24,12 @@ twic.services.alternativeDomains_ = {
  */
 twic.services.list_ = {
     'tumblr.com': {
-        url: 'https://www.tumblr.com/'
+        url: 'https://www.tumblr.com/',
+        favicon: 'https://secure.assets.tumblr.com/images/favicon.gif'
     },
-    'instagr.am': {
-        url: 'http://instagr.am/',
+    'instagram.com': {
+        url: 'http://instagram.com/',
+        favicon: 'http://instagram.com/favicon.ico',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -34,20 +37,23 @@ twic.services.list_ = {
             if (2 === parts.length
                 && 'p' === parts[0]
             ) {
-                return 'http://instagr.am/' + query + '/media?size=l';
+                return 'http://instagram.com/' + query + '/media?size=l';
             }
 
             return false;
         }
     },
     '4sq.com': {
-        url: 'https://foursquare.com/'
+        url: 'https://foursquare.com/',
+        favicon: 'https://foursquare.com/favicon.ico'
     },
     'flickr.com': {
-        url: 'http://www.flickr.com/'
+        url: 'http://www.flickr.com/',
+        favicon: 'https://www.flickr.com/favicon.ico'
     },
     'i.imgur.com': {
         url: 'http://imgur.com/',
+        favicon: 'http://imgur.com/include/favicon.ico',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -75,6 +81,7 @@ twic.services.list_ = {
     },
     'twitpic.com': {
         url: 'http://twitpic.com/',
+        favicon: 'http://twitpic.com/images/favicon.ico',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -88,6 +95,7 @@ twic.services.list_ = {
     },
     'yfrog.com': {
         url: 'http://yfrog.com/',
+        favicon: 'http://yfrog.com/favicon.ico',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -113,6 +121,7 @@ twic.services.list_ = {
     },
     'img.ly': {
         url: 'http://img.ly/',
+        favicon: 'http://img.ly/assets/favicon-a1b5a899dcd5f68a9feb9e80b4b63935.ico',
         thumbnail: function(query) {
             var
                 parts = query.split('/');
@@ -154,6 +163,23 @@ twic.services.getThumbnail = function(domain, query) {
                 query.replace(/^\/|\/$/g, '')
             );
         }
+    }
+
+    return null;
+};
+
+/**
+ * Get service favicon
+ * @param {string} domain Domain
+ * @return {string|null}
+ */
+twic.services.getFaviconByDomain = function(domain) {
+    if (domain in twic.services.alternativeDomains_) {
+        domain = twic.services.alternativeDomains_[domain];
+    }
+
+    if (domain in twic.services.list_) {
+        return twic.services.list_[domain].favicon;
     }
 
     return null;
