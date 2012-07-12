@@ -91,7 +91,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     this.editorTextarea_ = twic.dom.expandElement('textarea');
 
     this.editorTextarea_['spellcheck'] = false;
-    this.editorTextarea_.placeholder = twic.utils.lang.translate(
+    this.editorTextarea_.placeholder = twic.i18n.translate(
         replyTo ? 'placeholder_tweet_reply' : 'placeholder_tweet_new'
     );
 
@@ -118,16 +118,16 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     this.geoInfo_ = twic.dom.expandElement('img.geo.disabled');
     // @resource img/buttons/map.png
     this.geoInfo_.src = 'img/buttons/map.png';
-    this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') +
-        ' - ' + twic.utils.lang.translate('disabled');
+    this.geoInfo_.title = twic.i18n.translate('title_button_geo') +
+        ' - ' + twic.i18n.translate('disabled');
 
     // @resource img/buttons/link.png
     editorAttach.src = 'img/buttons/link.png';
-    editorAttach.title = twic.utils.lang.translate('title_attach_link_disabled');
+    editorAttach.title = twic.i18n.translate('title_attach_link_disabled');
 
     editorSend.type  = 'button';
-    editorSend.value = twic.utils.lang.translate(replyTo ? 'button_reply' : 'button_send');
-    editorSend.title = twic.utils.lang.translate(
+    editorSend.value = twic.i18n.translate(replyTo ? 'button_reply' : 'button_send');
+    editorSend.title = twic.i18n.translate(
         'title_button_send' +
         (twic.platforms.OSX === twic.platform ? '_osx' : '')
     );
@@ -345,7 +345,7 @@ twic.vcl.TweetEditor.prototype.checkLinkAttachAbility_ = function() {
         editor = this;
 
     var doAssignAttachEvent = function() {
-        editor.buttonAttach_.title = twic.utils.lang.translate(
+        editor.buttonAttach_.title = twic.i18n.translate(
             'title_attach_link' +
             (twic.platforms.OSX === twic.platform ? '_osx' : '')
         );
@@ -552,7 +552,7 @@ twic.vcl.TweetEditor.prototype.onMapCoordsReply_ = function(reply) {
     if (!reply) {
         editor.geoCoords_.enabled = false;
 
-        editor.geoInfo_.title = twic.utils.lang.translate('title_button_geo_failed');
+        editor.geoInfo_.title = twic.i18n.translate('title_button_geo_failed');
         twic.dom.addClass(editor.geoInfo_, 'disabled');
     } else {
         editor.geoLoading_ = false;
@@ -561,8 +561,8 @@ twic.vcl.TweetEditor.prototype.onMapCoordsReply_ = function(reply) {
         editor.geoCoords_.lat = reply[0];
         editor.geoCoords_.lng = reply[1];
 
-        editor.geoInfo_.title = twic.utils.lang.translate('title_button_geo') +
-            ' - ' + twic.utils.lang.translate('enabled');
+        editor.geoInfo_.title = twic.i18n.translate('title_button_geo') +
+            ' - ' + twic.i18n.translate('enabled');
 
         twic.dom.removeClass(editor.geoInfo_, 'disabled');
     }
@@ -593,7 +593,7 @@ twic.vcl.TweetEditor.prototype.toggleMap_ = function() {
     } else {
         this.geoCoords_.enabled = false;
 
-        this.geoInfo_.title = twic.utils.lang.translate('title_button_geo') + ' - ' + twic.utils.lang.translate('disabled');
+        this.geoInfo_.title = twic.i18n.translate('title_button_geo') + ' - ' + twic.i18n.translate('disabled');
         this.geoInfo_.classList.add('disabled');
     }
 };

@@ -35,7 +35,7 @@
      * @param {string} i18nKey Key for localization
      */
     var changePinText = function(i18nKey) {
-        pinElement.innerText = twic.utils.lang.translate(i18nKey);
+        pinElement.innerText = twic.i18n.translate(i18nKey);
     };
 
     twic.debug.info('Pin code: ' + pin);

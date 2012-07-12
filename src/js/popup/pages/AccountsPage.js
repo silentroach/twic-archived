@@ -51,7 +51,7 @@ goog.inherits(twic.pages.AccountsPage, twic.Page);
  * @private
  */
 twic.pages.AccountsPage.prototype.resetToolbar_ = function() {
-    this.bottomStatus_.innerHTML = twic.utils.lang.translate('title_select_or_remove' + (twic.platform === twic.platforms.OSX ? '_osx' : ''));
+    this.bottomStatus_.innerHTML = twic.i18n.translate('title_select_or_remove' + (twic.platform === twic.platforms.OSX ? '_osx' : ''));
     twic.dom.removeClass(this.bottomStatus_, 'alert');
 };
 
@@ -98,7 +98,7 @@ twic.pages.AccountsPage.prototype.clearList_ = function() {
 twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
     if (elements.length === 0) {
         if (this.firstAccountElement_) {
-            this.firstAccountElement_.innerText = twic.utils.lang.translate('add_first_account');
+            this.firstAccountElement_.innerText = twic.i18n.translate('add_first_account');
             this.firstAccountElement_.style.display = 'block';
 
             twic.dom.addClass(this.elementAccountAdd_, 'pulsate');
@@ -164,9 +164,9 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
         twic.dom.removeClass(page.elementAccountAdd_, 'pulsate');
         page.removingAccountId_ = link.id;
 
-        page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_remove_account', link.title);
+        page.bottomStatus_.innerHTML = twic.i18n.translate('alert_remove_account', link.title);
 
-        bYes.innerHTML = twic.utils.lang.translate('button_yes');
+        bYes.innerHTML = twic.i18n.translate('button_yes');
         bYes.href      = '#';
 
         bYes.addEventListener('click', function(e) {
@@ -174,7 +174,7 @@ twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
             page.removeAccount_.call(page);
         }, false);
 
-        bNo.innerHTML  = twic.utils.lang.translate('button_no');
+        bNo.innerHTML  = twic.i18n.translate('button_no');
         bNo.href       = '#';
 
         bNo.addEventListener('click', function(e) {
@@ -214,9 +214,9 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 
     page.firstAccountElement_ = twic.dom.findElement('#accounts p');
 
-    page.elementAccountAdd_.title                   = twic.utils.lang.translate('title_add_account');
-    twic.dom.findElement('#button_settings').title  = twic.utils.lang.translate('title_settings');
-    twic.dom.findElement('#button_about').title     = twic.utils.lang.translate('title_about');
+    page.elementAccountAdd_.title                   = twic.i18n.translate('title_add_account');
+    twic.dom.findElement('#button_settings').title  = twic.i18n.translate('title_settings');
+    twic.dom.findElement('#button_about').title     = twic.i18n.translate('title_about');
 
     /**
      * @this {Element}
@@ -243,7 +243,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
             } else {
                 buttonElement.src = oldSource;
 
-                page.bottomStatus_.innerHTML = twic.utils.lang.translate('alert_account_add_failed');
+                page.bottomStatus_.innerHTML = twic.i18n.translate('alert_account_add_failed');
                 twic.dom.addClass(page.bottomStatus_, 'alert');
                 page.bottomStatus_.style.display = 'block';
             }

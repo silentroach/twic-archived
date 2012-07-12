@@ -43,13 +43,13 @@ twic.pages.HomeTimelinePage.prototype.initOnce = function() {
     };
 
     page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.page_);
-    page.elementDirect_.title = twic.utils.lang.translate('title_directly');
+    page.elementDirect_.title = twic.i18n.translate('title_directly');
     page.directLinkBase_      = page.elementDirect_.href;
     page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.page_);
 
     page.newTweet_ = twic.dom.findElement('.newtweet', page.page_);
 
-    twic.dom.findElement('.toolbar a', page.page_).innerHTML = twic.utils.lang.translate('toolbar_accounts');
+    twic.dom.findElement('.toolbar a', page.page_).innerHTML = twic.i18n.translate('toolbar_accounts');
 };
 
 twic.pages.HomeTimelinePage.prototype.handle = function(data) {

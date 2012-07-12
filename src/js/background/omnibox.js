@@ -6,7 +6,7 @@
  */
 
 chrome.omnibox.setDefaultSuggestion( {
-    'description': twic.utils.lang.translate('omnibox_find_user', '@%s')
+    'description': twic.i18n.translate('omnibox_find_user', '@%s')
 } );
 
 chrome.omnibox.onInputEntered.addListener( function(text) {

@@ -16,7 +16,7 @@ twic.vcl.Timeline = function(parent) {
         /** @type {Element} **/ buttonHolder = twic.dom.expandElement('div.holder'),
         /** @type {Element} **/ confirmer    = twic.dom.expandElement('a.confirm');
 
-    confirmer.innerHTML = twic.utils.lang.translate('confirm_question');
+    confirmer.innerHTML = twic.i18n.translate('confirm_question');
     confirmer.href = '#';
 
     /**
@@ -147,33 +147,33 @@ twic.vcl.Timeline = function(parent) {
      * @private
      */
     this.tbReply_ = twic.dom.expandElement('img.tb_reply');
-    this.tbReply_.title = twic.utils.lang.translate('title_reply' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
+    this.tbReply_.title = twic.i18n.translate('title_reply' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
     /**
      * @type {Element}
      * @private
      */
     this.tbRetweet_ = twic.dom.expandElement('img.tb_retweet');
-    this.tbRetweet_.title = twic.utils.lang.translate('title_retweet' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
+    this.tbRetweet_.title = twic.i18n.translate('title_retweet' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
     /**
      * @type {Element}
      * @private
      */
     this.tbUnRetweet_ = twic.dom.expandElement('img.tb_retweet_undo');
-    this.tbUnRetweet_.title = twic.utils.lang.translate('title_retweet_undo');
+    this.tbUnRetweet_.title = twic.i18n.translate('title_retweet_undo');
 
     /**
      * @type {Element}
      * @private
      */
     this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
-    this.tbDelete_.title = twic.utils.lang.translate('title_delete');
+    this.tbDelete_.title = twic.i18n.translate('title_delete');
 
     // @type {Element}
     // @private
     // this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
-    // this.tbConversation_.title = twic.utils.lang.translate('title_conversation');
+    // this.tbConversation_.title = twic.i18n.translate('title_conversation');
 
     // init
 

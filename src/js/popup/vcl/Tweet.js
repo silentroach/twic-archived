@@ -228,7 +228,7 @@ twic.vcl.Tweet.REGEXP_BREAK = /\r?\n/;
  * @type {string}
  * @private
  */
-twic.vcl.Tweet.prototype.trAgo_ = twic.utils.lang.translate('time_ago');
+twic.vcl.Tweet.prototype.trAgo_ = twic.i18n.translate('time_ago');
 
 /**
  * Get the tweet author id
@@ -269,11 +269,11 @@ twic.vcl.Tweet.prototype.updateTime = function() {
 
     // less than minute ago
     if (df < 60) {
-        desc = twic.utils.lang.translate('time_less_minute') + ' ' + this.trAgo_;
+        desc = twic.i18n.translate('time_less_minute') + ' ' + this.trAgo_;
     } else
     // less than hour ago
     if (df < 60 * 60) {
-        desc = twic.utils.lang.plural( Math.floor(df / 60), [
+        desc = twic.i18n.plural( Math.floor(df / 60), [
             'time_minute_one',
             'time_minute_much',
             'time_minute_many'
@@ -281,7 +281,7 @@ twic.vcl.Tweet.prototype.updateTime = function() {
     } else
     // less than day ago
     if (df < 60 * 60 * 24) {
-        desc = twic.utils.lang.plural( Math.floor(df / 60 / 60), [
+        desc = twic.i18n.plural( Math.floor(df / 60 / 60), [
             'time_hour_one',
             'time_hour_much',
             'time_hour_many'
@@ -291,7 +291,7 @@ twic.vcl.Tweet.prototype.updateTime = function() {
             dt = new Date(this.unixtime_ * 1000);
 
         desc = dt.getDate() + ' ' +
-            twic.utils.lang.translate('time_month_' + (dt.getMonth() + 1));
+            twic.i18n.translate('time_month_' + (dt.getMonth() + 1));
     }
 
     if (this.timeLink_) {
@@ -397,7 +397,7 @@ twic.vcl.Tweet.prototype.setRetweeter = function(id, nick, av) {
         twic.dom.addClass(tweet.wrapper_, 'me');
     }
 
-    tweet.rtAvatarLink_.title = twic.utils.lang.translate('title_retweeted_by', '@' + nick);
+    tweet.rtAvatarLink_.title = twic.i18n.translate('title_retweeted_by', '@' + nick);
     tweet.rtAvatarLink_.href = '#profile#' + nick;
 
     tweet.rtAvatar_.src = av;
@@ -669,7 +669,7 @@ twic.vcl.Tweet.prototype.setSource = function(newSource) {
     var
         clientSpan = twic.dom.expandElement('span.client');
 
-    clientSpan.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.utils.lang.translate('via') + ' ' : '') +
+    clientSpan.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.i18n.translate('via') + ' ' : '') +
         newSource.replace('<a ', '<a target="_blank" ') + '<br />';
     this.otherInfo_.appendChild(clientSpan);
 };

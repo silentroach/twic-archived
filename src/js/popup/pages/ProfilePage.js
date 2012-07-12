@@ -167,7 +167,7 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.containerInfo_  = twic.dom.findElement('.info',  page.container_);
     page.containerError_ = twic.dom.findElement('.error', page.container_);
 
-    page.containerError_.innerHTML = twic.utils.lang.translate('error_user_not_found');
+    page.containerError_.innerHTML = twic.i18n.translate('error_user_not_found');
     twic.dom.setVisibility(page.containerError_, false);
 
     page.elementFollowings_   = twic.dom.findElement('#followings');
@@ -175,7 +175,7 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.elementFollowedSpan_ = twic.dom.findElement('span', page.elementFollowings_);
 
     page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.container_);
-    page.elementDirect_.title = twic.utils.lang.translate('title_directly');
+    page.elementDirect_.title = twic.i18n.translate('title_directly');
     page.directLinkBase_      = page.elementDirect_.href;
 
     page.elementLoader_   = twic.dom.findElement('.loader', page.container_);
@@ -191,7 +191,7 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
 
     page.elementProps_    = twic.dom.findElement('.props', page.container_);
 
-    twic.dom.findElement('.protected', page.elementProps_).title = twic.utils.lang.translate('title_protected');
+    twic.dom.findElement('.protected', page.elementProps_).title = twic.i18n.translate('title_protected');
 };
 
 /**
@@ -268,7 +268,7 @@ twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
 
     if (following) {
         page.elementFollowed_.className = 'following';
-        page.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_following');
+        page.elementFollowedSpan_.innerHTML = twic.i18n.translate('button_following');
 
         page.elementFollowed_.onclick = function() {
             page.unfollow_.call(page);
@@ -283,7 +283,7 @@ twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
         };
     } else {
         page.elementFollowed_.className = '';
-        page.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_follow');
+        page.elementFollowedSpan_.innerHTML = twic.i18n.translate('button_follow');
 
         page.elementFollowed_.onmouseover = null;
         page.elementFollowed_.onmouseout = null;
@@ -301,7 +301,7 @@ twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
 twic.pages.ProfilePage.prototype.onFollowedMouseOver_ = function() {
     if (!this.unfollowOver_) {
         this.unfollowOver_ = true;
-        this.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_unfollow');
+        this.elementFollowedSpan_.innerHTML = twic.i18n.translate('button_unfollow');
     }
 };
 
@@ -311,7 +311,7 @@ twic.pages.ProfilePage.prototype.onFollowedMouseOver_ = function() {
 twic.pages.ProfilePage.prototype.onFollowedMouseOut_ = function() {
     if (this.unfollowOver_) {
         this.unfollowOver_ = false;
-        this.elementFollowedSpan_.innerHTML = twic.utils.lang.translate('button_following');
+        this.elementFollowedSpan_.innerHTML = twic.i18n.translate('button_following');
     }
 };
 
@@ -412,7 +412,7 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
     page.toolbarTimeline_.href = '#' + prevPage;
 
     if (prevPage === 'about') {
-        page.toolbarTimeline_.innerHTML = twic.utils.lang.translate('title_about');
+        page.toolbarTimeline_.innerHTML = twic.i18n.translate('title_about');
 
         // trying to find if we are using just one account
         var

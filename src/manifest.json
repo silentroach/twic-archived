@@ -31,10 +31,7 @@
         ],
         "js" : [
             "js/init.js",
-            "js/3rdparty/closure.base.js",
-            "js/3rdparty/twitter-text.js",
-            "js/services.js",
-            "js/utils.js",
+            "js/i18n.js",
             "js/dom.js",
             "js/global.js",
             "js/debug.js",

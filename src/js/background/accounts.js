@@ -53,7 +53,7 @@ twic.accounts.updateCounter_ = function() {
 
     if (unreadTweetsCount > 0) {
         badgeHint.push(
-            twic.utils.lang.translate('badge_unread_tweets_count', [unreadTweetsCount])
+            twic.i18n.translate('badge_unread_tweets_count', [unreadTweetsCount])
         );
     }
 
