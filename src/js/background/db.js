@@ -297,6 +297,16 @@ twic.db.migrations_ = {
                 twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
             }, callback);
         }
+    },
+    '0.13': {
+        ver: '0.14',
+        runme: function(tr, callback) {
+            async.forEachSeries( [
+                'alter table accounts add unread_mentions_count int not null default 0'
+            ], function(sqlText, callback) {
+                twic.db.executeTransaction_(tr, sqlText, [], callback, callback);
+            }, callback);
+        }
     }
 };
 

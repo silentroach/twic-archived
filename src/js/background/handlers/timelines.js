@@ -86,7 +86,57 @@ var fetchData = function(ids, reply, callback) {
     }, callback );
 };
 
-// listen for the "getTimeline" request
+twic.requests.subscribe('getMentions', function(data, sendResponse) {
+    var
+        id = data['id'],
+        options = { },
+        account = twic.accounts.getInfo(id);
+
+    if ('after' in data) {
+        options['afterId'] = data['after'];
+    } else
+    if ('before' in data) {
+        options['beforeId'] = data['before'];
+    }
+
+    if (account) {
+        var
+            unreadCount = account.fields['unread_mentions_count'];
+
+        // we need to get the homeTimeline if user is in our accounts
+        twic.twitter.getMentions(id, options, function(tweets, users) {
+            // prepare tweets data and send the response
+            var
+                reply = { },
+                ids = [],
+                tweetId = '';
+
+            for (tweetId in tweets.items) {
+                var
+                    tweet     = tweets.items[tweetId],
+                    user      = users.items[tweet.fields['user_id']],
+                    tweetInfo = prepareTweetInfo(tweet, user, users, 0 === --unreadCount);
+
+                ids.push('"' + tweetId + '"');
+                reply[tweet.fields['id']] = tweetInfo;
+            }
+
+            fetchData(ids, reply, function() {
+                sendResponse( {
+                    'account': {
+                        'id': account.fields['id'],
+                        'name': account.user.fields['screen_name']
+                    },
+                    'data': reply
+                } );
+            } );
+        } );
+
+        account.setValue('unread_mentions_count', 0);
+        account.save();
+    }
+} );
+
 twic.requests.subscribe('getTimeline', function(data, sendResponse) {
     var
         id = data['id'],

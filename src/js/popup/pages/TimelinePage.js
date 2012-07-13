@@ -50,6 +50,12 @@ twic.pages.TimelinePage = function() {
     this.tweetEditor_ = null;
 
     /**
+     * @type {string}
+     * @protected
+     */
+    this.getMethod_ = null;
+
+    /**
      * @type {number}
      * @protected
      */
@@ -142,7 +148,7 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
         page = this;
 
     if (page.timeline_.beginUpdate(false, true)) {
-        twic.requests.makeRequest('getTimeline', {
+        twic.requests.makeRequest(page.getMethod_, {
             'id': page.userId_,
             'after': page.timeline_.getLastTweetId()
         }, function(data) {
@@ -165,7 +171,7 @@ twic.pages.TimelinePage.prototype.updateBottom_ = function() {
     }
 
     if (page.timeline_.beginUpdate(true, true)) {
-        twic.requests.makeRequest('getTimeline', {
+        twic.requests.makeRequest(page.getMethod_, {
             'id': page.userId_,
             'before': firstId
         }, function(data) {
@@ -230,7 +236,7 @@ twic.pages.TimelinePage.prototype.update_ = function() {
     page.timeline_.beginUpdate();
 
     // todo thank about smarter way to refresh the timeline
-    twic.requests.makeRequest('getTimeline', {
+    twic.requests.makeRequest(page.getMethod_, {
         'id': page.userId_
     }, function(data) {
         page.buildList_.call(page, data);

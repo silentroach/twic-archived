@@ -147,6 +147,65 @@ twic.twitter.getFriendshipInfo = function(source_id, target_id, callback) {
  * @param {Object} options Options
  * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
  */
+twic.twitter.getMentions = function(id, options, callback) {
+    var
+        tmpTweet = new twic.db.obj.Tweet(),
+        tmpUser  = new twic.db.obj.User(),
+        tmpLimit = 20,
+        tmpWhere  = '',
+        tmpParams = [id];
+
+    if ('afterId' in options) {
+        tmpWhere = ' and t.id > ? and t.dt > ? ';
+        tmpParams = [id, options['afterId']['id'], options['afterId']['ts']];
+        tmpLimit = 5;
+    } else
+    if ('beforeId' in options) {
+        tmpWhere = ' and t.id < ? and t.dt < ? ';
+        tmpParams = [id, options['beforeId']['id'], options['beforeId']['ts']];
+        tmpLimit = 5;
+    }
+
+    // fixme holy shit
+    twic.db.openQuery(
+        'select ' + [
+            tmpTweet.getFieldString('t'),
+            tmpUser.getFieldString('u'),
+            tmpUser.getFieldString('r')
+        ].join(', ') + ' ' +
+        'from tweets t ' +
+            'inner join mentions m on (t.id = m.tweet_id) ' +
+            'inner join users u on (t.user_id = u.id) ' +
+            'left join users r on (t.retweeted_user_id = r.id) ' +
+        'where m.user_id = ? ' + tmpWhere +
+        'order by t.dt desc, t.id desc limit ' + tmpLimit,
+        tmpParams,
+        function(rows) {
+            var
+                tweetList = new twic.DBObjectList(twic.db.obj.Tweet),
+                userList  = new twic.DBObjectList(twic.db.obj.User),
+                i;
+
+            for (i = 0; i < rows.length; ++i) {
+                var row = rows.item(i);
+
+                tweetList.pushUnique(row, 't');
+                userList.pushUnique(row, 'u');
+                userList.pushUnique(row, 'r');
+            }
+
+            callback(tweetList, userList);
+        }
+    );
+};
+
+/**
+ * TODO think about refactoring
+ * Get user timeline
+ * @param {number} id User identifier
+ * @param {Object} options Options
+ * @param {function(twic.DBObjectList,twic.DBObjectList)} callback Callback function
+ */
 twic.twitter.getHomeTimeline = function(id, options, callback) {
     var
         tmpTweet = new twic.db.obj.Tweet(),
@@ -419,14 +478,12 @@ twic.twitter.updateMentions = function(userId) {
                     return;
                 }
 
-/*
                 var incrementUnreadTweets = function() {
                     // increment the unread tweets count if it is new
                     // todo think about doing it only once per timeline update
-                    account.setValue('unread_tweets_count', account.fields['unread_tweets_count'] + 1);
+                    account.setValue('unread_mentions_count', account.fields['unread_mentions_count'] + 1);
                     account.save();
                 };
-*/
 
                 if (data.length > 0) {
                     // updating the last tweet cache

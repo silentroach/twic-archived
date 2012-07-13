@@ -10,8 +10,12 @@
  * @extends twic.pages.TimelinePage
  */
 twic.pages.MentionsPage = function() {
-    twic.pages.TimelinePage.call(this);
+    var
+        page = this;
 
+    twic.pages.TimelinePage.call(page);
+
+    page.getMethod_ = 'getMentions';
 };
 
 goog.inherits(twic.pages.MentionsPage, twic.pages.TimelinePage);

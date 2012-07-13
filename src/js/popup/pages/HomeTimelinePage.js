@@ -10,15 +10,20 @@
  * @extends twic.pages.TimelinePage
  */
 twic.pages.HomeTimelinePage = function() {
-    twic.pages.TimelinePage.call(this);
+    var
+        page = this;
 
-    this.remember = true;
+    twic.pages.TimelinePage.call(page);
+
+    page.remember = true;
+
+    page.getMethod_ = 'getTimeline';
 
     /**
      * @type {Element}
      * @private
      */
-    this.newTweet_ = null;
+    page.newTweet_ = null;
 };
 
 goog.inherits(twic.pages.HomeTimelinePage, twic.pages.TimelinePage);
