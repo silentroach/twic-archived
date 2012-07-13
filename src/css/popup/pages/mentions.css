@@ -6,3 +6,6 @@
 #mentions {
 
     }
+    #mentions li.tweet.mention {
+        background-color: initial;
+        }
