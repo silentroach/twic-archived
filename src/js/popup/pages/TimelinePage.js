@@ -29,12 +29,6 @@ twic.pages.TimelinePage = function() {
      * @type {Element}
      * @protected
      */
-    this.page_ = null;
-
-    /**
-     * @type {Element}
-     * @protected
-     */
     this.accountNameElement_ = null;
 
     /**
@@ -313,7 +307,6 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 
     twic.Page.prototype.initOnce.call(page);
 
-    page.page_ = twic.dom.findElement('#timeline');
     page.page_.addEventListener('scroll', function(e) {
         page.scrollHandler_.call(page, e);
     }, false);

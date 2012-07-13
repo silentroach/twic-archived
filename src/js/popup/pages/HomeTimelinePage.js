@@ -36,6 +36,8 @@ twic.pages.HomeTimelinePage.prototype.initOnce = function() {
     var
         page = this;
 
+    page.page_ = twic.dom.findElement('#timeline');
+
     twic.pages.TimelinePage.prototype.initOnce.call(page);
 
     page.timeline_.onOldRetweet = function(text) {

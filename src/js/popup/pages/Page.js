@@ -16,6 +16,13 @@ twic.Page = function() {
      * @type {boolean}
      */
     this.remember = false;
+
+    /**
+     * Page html element
+     * @type {Element}
+     * @protected
+     */
+    this.page_ = null;
 };
 
 /**

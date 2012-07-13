@@ -25,12 +25,6 @@ twic.pages.ProfilePage = function() {
      * @type {Element}
      * @private
      */
-    this.container_ = null;
-
-    /**
-     * @type {Element}
-     * @private
-     */
     page.containerInfo_ = null;
 
     /**
@@ -160,12 +154,12 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     var
         page = this;
 
+    page.page_ = twic.dom.findElement('#profile');
+
     twic.Page.prototype.initOnce.call(page);
 
-    page.container_ = twic.dom.findElement('#profile');
-
-    page.containerInfo_  = twic.dom.findElement('.info',  page.container_);
-    page.containerError_ = twic.dom.findElement('.error', page.container_);
+    page.containerInfo_  = twic.dom.findElement('.info',  page.page_);
+    page.containerError_ = twic.dom.findElement('.error', page.page_);
 
     page.containerError_.innerHTML = twic.i18n.translate('error_user_not_found');
     twic.dom.setVisibility(page.containerError_, false);
@@ -174,22 +168,22 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.elementFollowed_     = twic.dom.findElement('p',    page.elementFollowings_);
     page.elementFollowedSpan_ = twic.dom.findElement('span', page.elementFollowings_);
 
-    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.container_);
+    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.page_);
     page.elementDirect_.title = twic.i18n.translate('title_directly');
     page.directLinkBase_      = page.elementDirect_.href;
 
-    page.elementLoader_   = twic.dom.findElement('.loader', page.container_);
-    page.elementAvatar_   = twic.dom.findElement('.avatar', page.container_);
-    page.elementName_     = twic.dom.findElement('.name',   page.container_);
-    page.elementNick_     = twic.dom.findElement('.toolbar p span', page.container_);
-    page.elementUrl_      = twic.dom.findElement('.url', page.container_);
-    page.elementBio_      = twic.dom.findElement('.bio', page.container_);
-    page.elementLocation_ = twic.dom.findElement('.location',  page.container_);
-    page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.container_);
+    page.elementLoader_   = twic.dom.findElement('.loader', page.page_);
+    page.elementAvatar_   = twic.dom.findElement('.avatar', page.page_);
+    page.elementName_     = twic.dom.findElement('.name',   page.page_);
+    page.elementNick_     = twic.dom.findElement('.toolbar p span', page.page_);
+    page.elementUrl_      = twic.dom.findElement('.url', page.page_);
+    page.elementBio_      = twic.dom.findElement('.bio', page.page_);
+    page.elementLocation_ = twic.dom.findElement('.location',  page.page_);
+    page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.page_);
 
-    page.elementMap_      = twic.dom.findElement('.map', page.container_);
+    page.elementMap_      = twic.dom.findElement('.map', page.page_);
 
-    page.elementProps_    = twic.dom.findElement('.props', page.container_);
+    page.elementProps_    = twic.dom.findElement('.props', page.page_);
 
     twic.dom.findElement('.protected', page.elementProps_).title = twic.i18n.translate('title_protected');
 };
@@ -440,11 +434,11 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
     userName = data[0];
 
     // update info if it is not loaded yet
-    var pageUserName = page.container_.getAttribute('username');
+    var pageUserName = page.page_.getAttribute('username');
     if (pageUserName !== userName) {
         page.clearData_();
 
-        page.container_.setAttribute('username', userName);
+        page.page_.setAttribute('username', userName);
 
         twic.requests.makeRequest('getProfileInfo', {
             'name': userName
