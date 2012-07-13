@@ -311,18 +311,18 @@ twic.vcl.Timeline.prototype.hoverTweet_ = function(element, tweet) {
     timeline.hoveredTweet_ = element;
 
     timeline.resetButtons_();
-    twic.dom.setVisibility(timeline.tweetButtons_, false);
+    twic.dom.hide(timeline.tweetButtons_);
 
     if (hackTop > timeline.container_.clientHeight) {
         return;
     }
 
     var
-        vReply        = twic.dom.setVisibility(timeline.tbReply_, tweet.getCanReply()),
-        vRetweet      = twic.dom.setVisibility(timeline.tbRetweet_, tweet.getCanRetweet()),
-        vUnRetweet    = twic.dom.setVisibility(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
-        vDelete       = twic.dom.setVisibility(timeline.tbDelete_, tweet.getCanDelete());
-        //vConversation = twic.dom.setVisibility(timeline.tbConversation_, tweet.getCanConversation());
+        vReply        = twic.dom.toggle(timeline.tbReply_, tweet.getCanReply()),
+        vRetweet      = twic.dom.toggle(timeline.tbRetweet_, tweet.getCanRetweet()),
+        vUnRetweet    = twic.dom.toggle(timeline.tbUnRetweet_, tweet.getCanUnRetweet()),
+        vDelete       = twic.dom.toggle(timeline.tbDelete_, tweet.getCanDelete());
+        //vConversation = twic.dom.toggle(timeline.tbConversation_, tweet.getCanConversation());
 
     if (vReply || vRetweet || vUnRetweet || vDelete) {// || vConversation) {
         timeline.tweetButtons_.style.display = 'block';
@@ -574,7 +574,7 @@ twic.vcl.Timeline.prototype.hideButtons_ = function() {
         timeline.hoverTimer_ = null;
     }
 
-    twic.dom.setVisibility(timeline.tweetButtons_, false);
+    twic.dom.hide(timeline.tweetButtons_);
 };
 
 /**

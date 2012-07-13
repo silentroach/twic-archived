@@ -204,7 +204,7 @@ twic.vcl.Tweet = function(id, timeline) {
      */
     this.infoGallery_ = null;
 
-    twic.dom.setVisibility(this.rtAvatarLink_, false);
+    twic.dom.hide(this.rtAvatarLink_);
 
     this.avatarLink_.appendChild(this.avatar_);
     this.rtAvatarLink_.appendChild(this.rtAvatar_);

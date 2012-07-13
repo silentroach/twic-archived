@@ -39,29 +39,6 @@
     display: none;
     }
 
-#accounts .toolbar:first-child {
-    padding-bottom: .4em;
-    }
-
 #accounts .toolbar.bottom .container {
     padding: .5em 0;
     }
-
-/* pulsate the icon when no acount registered */
-#button_account_add.pulsate img {
-    -webkit-animation-name: pulsate;
-    -webkit-animation-duration: 1s;
-    -webkit-animation-timing-function: ease-in-out;
-    -webkit-animation-iteration-count: infinite;
-    }
-    @-webkit-keyframes pulsate {
-        0% {
-            opacity: .5;
-            }
-        50% {
-            opacity: 1;
-            }
-        100% {
-            opacity: .5;
-            }
-        }

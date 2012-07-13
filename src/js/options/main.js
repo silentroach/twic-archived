@@ -145,13 +145,13 @@
 
             if (targetTabName == tabName) {
                 twic.dom.addClass(tab, 'active');
-                twic.dom.setVisibility(content, true);
+                twic.dom.show(content);
             } else
             if (twic.dom.hasClass(tab, 'active')
                 || firstRun
             ) {
                 twic.dom.removeClass(tab, 'active');
-                twic.dom.setVisibility(content, false);
+                twic.dom.hide(content);
             }
         }
     };

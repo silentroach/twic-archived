@@ -162,7 +162,7 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.containerError_ = twic.dom.findElement('.error', page.page_);
 
     page.containerError_.innerHTML = twic.i18n.translate('error_user_not_found');
-    twic.dom.setVisibility(page.containerError_, false);
+    twic.dom.hide(page.containerError_);
 
     page.elementFollowings_   = twic.dom.findElement('#followings');
     page.elementFollowed_     = twic.dom.findElement('p',    page.elementFollowings_);
@@ -206,11 +206,11 @@ twic.pages.ProfilePage.prototype.clearData_ = function() {
     this.elementFollowedSpan_.innerHTML = '';
     delete this.map_;
 
-    twic.dom.setVisibility(this.elementAvatar_, false);
-    twic.dom.setVisibility(this.elementFollowings_, false);
-    twic.dom.setVisibility(this.elementBio_, false);
-    twic.dom.setVisibility(this.elementLocation_, false);
-    twic.dom.setVisibility(this.elementMap_, false);
+    twic.dom.hide(this.elementAvatar_);
+    twic.dom.hide(this.elementFollowings_);
+    twic.dom.hide(this.elementBio_);
+    twic.dom.hide(this.elementLocation_);
+    twic.dom.hide(this.elementMap_);
 };
 
 /**
@@ -317,8 +317,8 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
     var
         page = this;
 
-    twic.dom.setVisibility(page.containerInfo_, !!data);
-    twic.dom.setVisibility(page.containerError_, !data);
+    twic.dom.toggle(page.containerInfo_, !!data);
+    twic.dom.toggle(page.containerError_, !data);
 
     if (data) {
         var
@@ -380,13 +380,13 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
             !page.timelineUserId_
             || page.timelineUserId_ === data['id']
         ) {
-            twic.dom.setVisibility(page.elementLoader_, false);
+            twic.dom.hide(page.elementLoader_);
         } else {
             twic.requests.makeRequest('getProfileFriendshipInfo', {
                 'source_id': page.timelineUserId_,
                 'target_id': data['id']
             }, function(data) {
-                twic.dom.setVisibility(page.elementLoader_, false);
+                twic.dom.hide(page.elementLoader_);
                 page.showProfileFriendship_(data['following']);
                 page.elementFollowings_.style.display = 'block';
             } );

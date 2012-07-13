@@ -87,7 +87,7 @@ twic.router.changeFrame_ = function(targetFrameName, data) {
         page = null;
 
     if (twic.router.currentFrame_) {
-        twic.dom.setVisibility(twic.router.frames_[twic.router.currentFrame_], false);
+        twic.dom.hide(twic.router.frames_[twic.router.currentFrame_]);
     }
 
     twic.router.currentFrame_ = targetFrameName;

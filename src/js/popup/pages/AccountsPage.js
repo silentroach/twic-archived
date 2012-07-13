@@ -10,39 +10,48 @@
  * @extends twic.Page
  */
 twic.pages.AccountsPage = function() {
-    twic.Page.call(this);
+    var
+        page = this;
 
-    this.remember = true;
+    twic.Page.call(page);
 
-    /**
-     * @type {Element}
-     * @private
-     */
-    this.list_ = null;
+    page.remember = true;
 
     /**
      * @type {Element}
      * @private
      */
-    this.bottomStatus_ = null;
+    page.toolbar_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementAccountAdd_ = null;
+    page.list_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.bottomStatus_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.elementAccountAdd_ = null;
 
     /**
      * @type {number}
      * @private
      */
-    this.removingAccountId_ = 0;
+    page.removingAccountId_ = 0;
 
     /**
      * @type {Element}
      * @private
      */
-    this.firstAccountElement_ = null;
+    page.firstAccountElement_ = null;
 };
 
 goog.inherits(twic.pages.AccountsPage, twic.Page);
@@ -103,7 +112,7 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
 
             twic.dom.addClass(this.elementAccountAdd_, 'pulsate');
 
-            twic.dom.setVisibility(this.bottomStatus_, false);
+            twic.dom.hide(this.bottomStatus_);
         }
 
         return;
@@ -197,6 +206,8 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
         page = this,
         loading = false;
 
+    page.toolbar_ = twic.dom.findElement('#toolbar_accounts');
+
     page.list_ = twic.dom.findElement('#accounts ul');
     page.bottomStatus_ = twic.dom.findElement('#accounts_status');
     page.elementAccountAdd_ = twic.dom.findElement('#button_account_add');
@@ -255,7 +266,11 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
  * @override
  */
 twic.pages.AccountsPage.prototype.handle = function(data) {
-    twic.Page.prototype.handle.call(this, data);
+    var
+        page = this;
 
-    this.refresh_();
+    twic.Page.prototype.handle.call(page, data);
+
+    twic.dom.show(page.toolbar_);
+    page.refresh_();
 };

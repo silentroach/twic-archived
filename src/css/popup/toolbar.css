@@ -7,7 +7,6 @@
     border-bottom: 1px solid #d5d5d5;
     background-color: #eaeaea;
     padding: .5em 4px .3em 4px;
-    margin-bottom: 3px;
     color: black;
     font-size: 9pt;
     -webkit-transition: background-color 0.2s ease-in-out;
@@ -49,3 +48,31 @@
 .toolbar.alert {
     background-color: #f6dddd;
     }
+
+#toolbar_accounts,
+#toolbar_default {
+    display: none;
+    }
+
+#toolbar_accounts {
+    text-align: center;
+    }
+
+/* pulsate the icon when no acount registered */
+#button_account_add.pulsate img {
+    -webkit-animation-name: pulsate;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+    }
+    @-webkit-keyframes pulsate {
+        0% {
+            opacity: .5;
+            }
+        50% {
+            opacity: 1;
+            }
+        100% {
+            opacity: .5;
+            }
+        }

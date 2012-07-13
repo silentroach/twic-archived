@@ -16,24 +16,13 @@
         <link rel="stylesheet" type="text/css" href="css/popup/pages/about.css" />
     </head>
     <body>
-
-        <!-- accounts page !-->
-        <div id="accounts" class="page">
-            <div class="toolbar">
+        <div class="toolbar">
+            <div id="toolbar_accounts">
                 <a href="#" id="button_account_add" class="icon"><img src="img/buttons/add.png" /></a>
                 <a href="/options.html" id="button_settings" class="icon" target="_blank"><img src="img/buttons/settings.png" /></a>
                 <a href="#about" id="button_about" class="icon"><img src="img/buttons/about.png" /></a>
             </div>
-
-            <p></p>
-            <ul></ul>
-
-            <div class="toolbar bottom" id="accounts_status"></div>
-        </div>
-
-        <!-- timeline page !-->
-        <div id="timeline" class="page">
-            <div class="toolbar">
+            <div id="toolbar_default">
                 <a href="#accounts" class="button"></a>
                 <a href="#mentions#8736072" class="button">mentions</a>
                 <p>
@@ -43,38 +32,33 @@
 
                 <div class="clearer"></div>
             </div>
+
+            <div class="clearer"></div>
+        </div>
+
+        <!-- accounts page !-->
+        <div id="accounts" class="page">
+            <p></p>
+            <ul></ul>
+
+            <div class="toolbar bottom" id="accounts_status"></div>
+        </div>
+
+        <!-- timeline page !-->
+        <div id="timeline" class="page">
             <div class="newtweet"></div>
         </div>
 
         <!-- mentions page !-->
         <div id="mentions" class="page">
-            <div class="toolbar">
-                <a href="#timeline" class="button"></a>
-                <p>
-                    <span></span>
-                    <a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
-                </p>
-
-                <div class="clearer"></div>
-            </div>
         </div>
 
         <!-- conversation page !-->
         <div id="conversation" class="page">
-            <div class="toolbar">
-
-            </div>
         </div>
 
         <!-- about page !-->
         <div id="about" class="page">
-            <div class="toolbar">
-                <a href="#accounts" class="button"></a>
-                <p></p>
-
-                <div class="clearer"></div>
-            </div>
-
             <div class="info">
                 <p id="aname"></p>
                 <p id="awhat"></p>
@@ -111,16 +95,6 @@
 
         <!-- profile page !-->
         <div id="profile" class="page">
-            <div class="toolbar">
-                <a href="" class="button"></a>
-                <p>
-                    <span></span>
-                    <a href="http://twitter.com/" class="direct" target="_blank"><img src="img/buttons/twitter.png" /></a>
-                </p>
-
-                <div class="clearer"></div>
-            </div>
-
             <div class="error"></div>
 
             <div class="info">

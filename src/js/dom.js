@@ -160,7 +160,50 @@ twic.dom.findClosestParentByAttr = function(element, attrName) {
  * @param {boolean} visible Is it visible?
  * @return {boolean} Is it visible?
  */
-twic.dom.setVisibility = function(element, visible) {
-    element.style.display = visible ? '' : 'none';
+twic.dom.toggle = function(element, visible) {
+    var
+        current = getComputedStyle(element).getPropertyValue('display');
+
+    if (visible
+        && 'none' === current
+    ) {
+        element.style.display = element.dataset['display'] || '';
+
+        current = getComputedStyle(element).getPropertyValue('display');
+
+        if ('none' === current) {
+            current = 'A' === element.nodeName ? 'inline' : 'block';
+
+            element.style.display = current;
+            element.dataset['display'] = current;
+        }
+    } else
+    if (!visible) {
+        if ('undefined' === typeof element.dataset['display']) {
+            element.dataset['display'] = element.style.display;
+        }
+
+        element.style.display = 'none';
+    }
+
     return visible;
+};
+
+/**
+ * Show the element
+ * @param {Element} element Element
+ * @param {boolean=} toggle Really?
+ * @return {boolean} Is it visible?
+ */
+twic.dom.show = function(element) {
+    return twic.dom.toggle(element, true);
+};
+
+/**
+ * Hide the element
+ * @param {Element} element Element
+ * @return {boolean} Is it visible?
+ */
+twic.dom.hide = function(element) {
+    return twic.dom.toggle(element, false);
 };

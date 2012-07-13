@@ -229,7 +229,7 @@ twic.vcl.Suggest.prototype.focus_ = function() {
  * @private
  */
 twic.vcl.Suggest.prototype.remove_ = function() {
-    twic.dom.setVisibility(this.nickList_, false);
+    twic.dom.hide(this.nickList_);
     this.nickList_.innerHTML = '';
     this.visible_ = false;
     this.focused_ = false;
@@ -276,7 +276,7 @@ twic.vcl.Suggest.prototype.buildList_ = function(data, len) {
     this.nickList_.innerHTML = '';
     this.nickList_.appendChild(nickBuffer);
 
-    twic.dom.setVisibility(this.nickList_, true);
+    twic.dom.show(this.nickList_);
     this.visible_ = true;
     this.focused_ = false;
 };
