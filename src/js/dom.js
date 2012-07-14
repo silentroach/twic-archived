@@ -162,7 +162,8 @@ twic.dom.findClosestParentByAttr = function(element, attrName) {
  */
 twic.dom.toggle = function(element, visible) {
     var
-        current = getComputedStyle(element).getPropertyValue('display');
+        // google closure compiler don't know about getComputedStyle :[
+        current = window['getComputedStyle'](element).getPropertyValue('display');
 
     if (visible
         && 'none' === current
