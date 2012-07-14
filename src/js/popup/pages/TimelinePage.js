@@ -74,8 +74,8 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
         userName = info['account']['name'],
         data     = info['data'];
 
-    this.accountNameElement_.innerHTML = '@' + userName;
-    this.elementDirect_.href = this.directLinkBase_ + userName;
+    // this.accountNameElement_.innerHTML = '@' + userName;
+    // this.elementDirect_.href = this.directLinkBase_ + userName;
 
     this.timeline_.setUserId(info['account']['id']);
     this.timeline_.setUserNick(userName);

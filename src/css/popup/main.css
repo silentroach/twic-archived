@@ -6,9 +6,6 @@
 .page {
     display: none;
     width: 390px;
-    max-height: 600px;
-    overflow-x: hidden;
-    overflow-y: auto;
     background-color: #f7f7f7;
     }
 

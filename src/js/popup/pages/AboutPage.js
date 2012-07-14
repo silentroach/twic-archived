@@ -22,8 +22,8 @@ twic.pages.AboutPage.prototype.initOnce = function() {
     twic.dom.findElement('#aname').innerHTML = twic.name + ' ' + appDetails['version'];
 
     twic.dom.findElement('#awhat').innerHTML = twic.i18n.translate('about_what');
-    twic.dom.findElement('#about .toolbar p').innerHTML = twic.i18n.translate('toolbar_about');
-    twic.dom.findElement('#about .toolbar a').innerHTML = twic.i18n.translate('toolbar_accounts');
+    // twic.dom.findElement('#about .toolbar p').innerHTML = twic.i18n.translate('toolbar_about');
+    // twic.dom.findElement('#about .toolbar a').innerHTML = twic.i18n.translate('toolbar_accounts');
     twic.dom.findElement('#aauthor').innerHTML = twic.i18n.translate('about_author');
     twic.dom.findElement('#acontributors').innerHTML = twic.i18n.translate('about_contributors');
     twic.dom.findElement('#athanks').innerHTML = twic.i18n.translate('about_thanks');

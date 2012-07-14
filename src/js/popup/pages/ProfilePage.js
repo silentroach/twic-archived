@@ -55,7 +55,7 @@ twic.pages.ProfilePage = function() {
      * @type {Element}
      * @private
      */
-    this.elementNick_ = null;
+    // this.elementNick_ = null;
 
     /**
      * @type {Element}
@@ -97,7 +97,7 @@ twic.pages.ProfilePage = function() {
      * @type {Element}
      * @private
      */
-    this.elementDirect_ = null;
+    // this.elementDirect_ = null;
 
     /**
      * @type {Element}
@@ -168,18 +168,18 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.elementFollowed_     = twic.dom.findElement('p',    page.elementFollowings_);
     page.elementFollowedSpan_ = twic.dom.findElement('span', page.elementFollowings_);
 
-    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
-    page.elementDirect_.title = twic.i18n.translate('title_directly');
-    page.directLinkBase_      = page.elementDirect_.href;
+    // page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
+    // page.elementDirect_.title = twic.i18n.translate('title_directly');
+    // page.directLinkBase_      = page.elementDirect_.href;
 
     page.elementLoader_   = twic.dom.findElement('.loader', page.pageElement_);
     page.elementAvatar_   = twic.dom.findElement('.avatar', page.pageElement_);
     page.elementName_     = twic.dom.findElement('.name',   page.pageElement_);
-    page.elementNick_     = twic.dom.findElement('.toolbar p span', page.pageElement_);
+    // page.elementNick_     = twic.dom.findElement('.toolbar p span', page.pageElement_);
     page.elementUrl_      = twic.dom.findElement('.url', page.pageElement_);
     page.elementBio_      = twic.dom.findElement('.bio', page.pageElement_);
     page.elementLocation_ = twic.dom.findElement('.location',  page.pageElement_);
-    page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.pageElement_);
+    // page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.pageElement_);
 
     page.elementMap_      = twic.dom.findElement('.map', page.pageElement_);
 
@@ -199,7 +199,7 @@ twic.pages.ProfilePage.prototype.clearData_ = function() {
     this.elementAvatar_.src = '';
     this.elementProps_.className = 'props';
     this.elementName_.innerHTML = '';
-    this.elementNick_.innerHTML = '';
+    // this.elementNick_.innerHTML = '';
     this.elementUrl_.innerHTML = '';
     this.elementBio_.innerHTML = '';
     this.elementLocation_.innerHTML = '';
@@ -339,9 +339,9 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
         }
 
         page.elementName_.innerHTML = data['name'];
-        page.elementNick_.innerHTML = '@' + data['screen_name'];
+        // page.elementNick_.innerHTML = '@' + data['screen_name'];
 
-        page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
+        // page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
 
         if (data['url'] !== '') {
             page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
@@ -403,10 +403,10 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
         /** @type {string} **/ prevPage = prev.shift(),
         /** @type {string} **/ userName;
 
-    page.toolbarTimeline_.href = '#' + prevPage;
+    // page.toolbarTimeline_.href = '#' + prevPage;
 
     if (prevPage === 'about') {
-        page.toolbarTimeline_.innerHTML = twic.i18n.translate('title_about');
+        // page.toolbarTimeline_.innerHTML = twic.i18n.translate('title_about');
 
         // trying to find if we are using just one account
         var
@@ -418,8 +418,8 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
             page.timelineUserId_ = null;
         }
     } else {
-        page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p span').innerHTML;
-        page.toolbarTimeline_.href += '#' + prev.join('#');
+        // page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p span').innerHTML;
+        // page.toolbarTimeline_.href += '#' + prev.join('#');
         // fixme shitcode
         page.timelineUserId_ = parseInt(prev[0], 10);
     }
