@@ -170,7 +170,7 @@ twic.dom.toggle = function(element, visible) {
     ) {
         element.style.display = element.dataset['display'] || '';
 
-        current = getComputedStyle(element).getPropertyValue('display');
+        current = window['getComputedStyle'](element).getPropertyValue('display');
 
         if ('none' === current) {
             current = 'A' === element.nodeName ? 'inline' : 'block';
@@ -193,7 +193,6 @@ twic.dom.toggle = function(element, visible) {
 /**
  * Show the element
  * @param {Element} element Element
- * @param {boolean=} toggle Really?
  * @return {boolean} Is it visible?
  */
 twic.dom.show = function(element) {
