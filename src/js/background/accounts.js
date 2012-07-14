@@ -44,16 +44,35 @@ twic.accounts.clear_ = function() {
 twic.accounts.updateCounter_ = function() {
     var
         unreadTweetsCount = 0,
+        unreadMentionsCount = 0,
+        unreadCount = 0,
         badgeHint = [],
+        badgeColor = '#4e5764',
         id = 0;
 
     for (id in twic.accounts.items_) {
         unreadTweetsCount += twic.accounts.items_[id].fields['unread_tweets_count'];
+        unreadMentionsCount += twic.accounts.items_[id].fields['unread_mentions_count'];
     }
 
-    if (unreadTweetsCount > 0) {
+    if (unreadMentionsCount > 0) {
+        badgeColor = '#1155cc';
+    }
+
+/*
+    if (unreadDMCount > 0) {
+        badgeColor = '#dd2228';
+    }
+*/
+
+    unreadCount = unreadTweetsCount + unreadMentionsCount;
+
+    if (unreadCount > 0) {
         badgeHint.push(
-            twic.i18n.translate('badge_unread_tweets_count', [unreadTweetsCount])
+            twic.i18n.translate(
+                'badge_unread_tweets_count',
+                [unreadCount]
+            )
         );
     }
 
@@ -62,7 +81,16 @@ twic.accounts.updateCounter_ = function() {
     } );
 
     chrome.browserAction.setBadgeText( {
-        'text': unreadTweetsCount === 0 ? '' : (unreadTweetsCount < 10 ? unreadTweetsCount.toString() : '...')
+        'text': unreadCount === 0
+            ? ''
+            : (unreadCount < 100
+                ? unreadCount.toString()
+                : '...'
+            )
+    } );
+
+    chrome.browserAction.setBadgeBackgroundColor( {
+        'color': badgeColor
     } );
 };
 
@@ -276,8 +304,9 @@ twic.requests.subscribe('accountAuth', function(data, sendResponse) {
         };
 
         var updateAccount = function(account) {
-            account.setValue('oauth_token', data['oauth_token']);
-            account.setValue('oauth_token_secret', data['oauth_token_secret']);
+            ['oauth_token', 'oauth_token_secret'].forEach( function(fieldName) {
+                account.setValue(fieldName, data[fieldName]);
+            } );
             account.save();
 
             sendResponse( {
