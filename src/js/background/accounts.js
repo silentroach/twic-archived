@@ -248,6 +248,7 @@ twic.requests.subscribe('accountList', function(data, sendResponse) {
             'avatar': item.user.fields['avatar'],
             'screen_name': item.user.fields['screen_name'],
             'unread_tweets': item.fields['unread_tweets_count']
+            'unread_mentions': item.fields['unread_mentions_count']
         } );
     }
 
