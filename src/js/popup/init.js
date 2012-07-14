@@ -48,6 +48,10 @@ document.addEventListener('click', function(e) {
     }
 }, false);
 
+// translate toolbars
+
+twic.dom.findElement('#toolbar_default .direct').title = twic.i18n.translate('title_directly');
+
 // register pages
 
 twic.router.register('profile', twic.pages.ProfilePage);
@@ -68,4 +72,50 @@ if (lastLocation) {
     window.location = window.location.pathname + '#' + lastLocation;
 }
 
-window.onhashchange();
+// init all the options and only then trigger window.onchange
+async.forEach( [
+    function(callback) {
+        twic.options.get('avatar_size', function(tmpVal) {
+            var
+                avSize = parseInt(tmpVal, 10);
+
+            if (32 === avSize) {
+                twic.vcl.Timeline.options.avatarSizeDefault = false;
+            }
+
+            callback();
+        } );
+    },
+    function(callback) {
+        twic.options.get('tweet_show_time', function(value) {
+            twic.vcl.Timeline.options.showTime = value;
+
+            callback();
+        } );
+    },
+    function(callback) {
+        twic.options.get('tweet_show_time_link', function(value) {
+            twic.vcl.Timeline.options.showTimeAsLink = value;
+
+            callback();
+        } );
+    },
+    function(callback) {
+        twic.options.get('short_url_length', function(value) {
+            twic.vcl.TweetEditor.options.short_url_length = parseInt(value, 10);
+
+            callback();
+        } );
+    },
+    function(callback) {
+        twic.options.get('short_url_length_https', function(value) {
+            twic.vcl.TweetEditor.options.short_url_length_https = parseInt(value, 10);
+
+            callback();
+        } );
+    }
+], function(func, callback) {
+    func(callback);
+}, function() {
+    window.onhashchange();
+} );
