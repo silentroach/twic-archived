@@ -24,16 +24,16 @@ twic.pages.MentionsPage.prototype.initOnce = function() {
     var
         page = this;
 
-    page.page_ = twic.dom.findElement('#mentions');
+    page.pageElement_ = twic.dom.findElement('#mentions');
 
     twic.pages.TimelinePage.prototype.initOnce.call(page);
 
-    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.page_);
+    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
     page.elementDirect_.title = twic.i18n.translate('title_directly');
     page.directLinkBase_      = page.elementDirect_.href;
-    page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.page_);
+    page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.pageElement_);
 
-    twic.dom.findElement('.toolbar a', page.page_).innerHTML = twic.i18n.translate('toolbar_accounts');
+    twic.dom.findElement('.toolbar a', page.pageElement_).innerHTML = twic.i18n.translate('toolbar_accounts');
 };
 
 twic.pages.MentionsPage.prototype.handle = function(data) {

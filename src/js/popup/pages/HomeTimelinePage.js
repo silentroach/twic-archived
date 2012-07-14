@@ -41,7 +41,7 @@ twic.pages.HomeTimelinePage.prototype.initOnce = function() {
     var
         page = this;
 
-    page.page_ = twic.dom.findElement('#timeline');
+    page.pageElement_ = twic.dom.findElement('#timeline');
 
     twic.pages.TimelinePage.prototype.initOnce.call(page);
 
@@ -49,14 +49,14 @@ twic.pages.HomeTimelinePage.prototype.initOnce = function() {
         page.doOldRetweet_.call(page, text);
     };
 
-    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.page_);
+    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
     page.elementDirect_.title = twic.i18n.translate('title_directly');
     page.directLinkBase_      = page.elementDirect_.href;
-    page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.page_);
+    page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.pageElement_);
 
-    page.newTweet_ = twic.dom.findElement('.newtweet', page.page_);
+    page.newTweet_ = twic.dom.findElement('.newtweet', page.pageElement_);
 
-    twic.dom.findElement('.toolbar a', page.page_).innerHTML = twic.i18n.translate('toolbar_accounts');
+    twic.dom.findElement('.toolbar a', page.pageElement_).innerHTML = twic.i18n.translate('toolbar_accounts');
 };
 
 twic.pages.HomeTimelinePage.prototype.handle = function(data) {

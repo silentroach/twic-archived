@@ -22,11 +22,12 @@ twic.Page = function() {
      * @type {Element}
      * @protected
      */
-    this.page_ = null;
+    this.pageElement_ = null;
 };
 
 /**
  * Code to prepare page for the first time
+ * @protected
  */
 twic.Page.prototype.initOnce = function() { };
 

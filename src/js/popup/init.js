@@ -61,17 +61,6 @@ twic.router.register('mentions', twic.pages.MentionsPage);
 //twic.router.register('conversation', twic.pages.ConversationPage);
 twic.router.register('about', twic.pages.AboutPage);
 
-// try to switch to the page we remember before popup was closed
-
-var lastLocation = window.localStorage.getItem('location');
-
-if (lastLocation) {
-    twic.debug.info('Last stored location:', lastLocation);
-
-    // go to the previous remembered location
-    window.location = window.location.pathname + '#' + lastLocation;
-}
-
 // init all the options and only then trigger window.onchange
 async.forEach( [
     function(callback) {
@@ -117,5 +106,16 @@ async.forEach( [
 ], function(func, callback) {
     func(callback);
 }, function() {
+    // try to switch to the page we remember before popup was closed
+
+    var lastLocation = window.localStorage.getItem('location');
+
+    if (lastLocation) {
+        twic.debug.info('Last stored location:', lastLocation);
+
+        // go to the previous remembered location
+        window.location = window.location.pathname + '#' + lastLocation;
+    }
+
     window.onhashchange();
 } );

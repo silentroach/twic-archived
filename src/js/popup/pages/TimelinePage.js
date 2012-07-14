@@ -300,8 +300,8 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(userId, startPart, 
  * Handler for the scroll event
  */
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
-    if (this.page_.scrollHeight > this.page_.offsetHeight
-        && this.page_.scrollHeight - this.page_.offsetHeight - this.page_.scrollTop < 100
+    if (this.pageElement_.scrollHeight > this.pageElement_.offsetHeight
+        && this.pageElement_.scrollHeight - this.pageElement_.offsetHeight - this.pageElement_.scrollTop < 100
     ) {
         this.updateBottom_();
     }
@@ -313,11 +313,11 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 
     twic.Page.prototype.initOnce.call(page);
 
-    page.page_.addEventListener('scroll', function(e) {
+    page.pageElement_.addEventListener('scroll', function(e) {
         page.scrollHandler_.call(page, e);
     }, false);
 
-    page.timeline_ = new twic.vcl.Timeline(page.page_);
+    page.timeline_ = new twic.vcl.Timeline(page.pageElement_);
     page.timeline_.onReplySend = function(editor, tweet, replyId, callback) {
         page.tweetHandler_.call(page, editor, tweet, replyId, callback);
     };
