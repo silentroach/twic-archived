@@ -1,332 +1,344 @@
 {
-	"confirm_question": {
-		"message": "confirm",
-		"description": "Are you sure? Must be short when translated"
-	},
+    "confirm_question": {
+        "message": "confirm",
+        "description": "Are you sure? Must be short when translated"
+    },
 
-	"auth_in_progress": {
-	  "message": "authenticating...",
-	  "description": "Message on authorisation page, indicates that twic is getting access_token"
-	},
-	"auth_already": {
-		"message": "already authenticated",
-		"description": "Message indicates that user is already authenticated"
-	},
-	"auth_success": {
-		"message": "thank you",
-		"description": "Message indicates thanks to user"
-	},
-	"auth_failed": {
-		"message": "something is wrong, try again later",
-		"description": "Message indicates authentication error"
-	},
+    "auth_in_progress": {
+      "message": "authenticating...",
+      "description": "Message on authorisation page, indicates that twic is getting access_token"
+    },
+    "auth_already": {
+        "message": "already authenticated",
+        "description": "Message indicates that user is already authenticated"
+    },
+    "auth_success": {
+        "message": "thank you",
+        "description": "Message indicates thanks to user"
+    },
+    "auth_failed": {
+        "message": "something is wrong, try again later",
+        "description": "Message indicates authentication error"
+    },
 
-	"add_first_account": {
-		"message": "add your first account",
-		"description": "Message for the first screen when no accounts specified yet"
-	},
+    "add_first_account": {
+        "message": "add your first account",
+        "description": "Message for the first screen when no accounts specified yet"
+    },
 
-	"alert_account_add_failed": {
-		"message": "for some reason the extension can't add the account now, try to restart the browser",
-		"description": "Error message when extension can't authorize itself with Twitter OAuth"
-	},
-	"alert_remove_account": {
-		"message": "do you really want to remove $nick$ ?",
-		"description": "Does user really want to remove account?",
-		"placeholders": {
-			"nick": {
-				"content": "$1",
-				"example": "@silentroach"
-			}
-		}
-	},
+    "alert_account_add_failed": {
+        "message": "for some reason the extension can't add the account now, try to restart the browser",
+        "description": "Error message when extension can't authorize itself with Twitter OAuth"
+    },
+    "alert_remove_account": {
+        "message": "do you really want to remove $nick$ ?",
+        "description": "Does user really want to remove account?",
+        "placeholders": {
+            "nick": {
+                "content": "$1",
+                "example": "@silentroach"
+            }
+        }
+    },
 
-	"error_user_not_found": {
+    "error_user_not_found": {
             "message": "user not found",
             "description": "Error message on unexistant user profile"
-	},
+    },
 
-	"title_protected": {
-		"message": "protected",
-		"description": "Hint to the protected property user icon"
-	},
-	"title_settings": {
-		"message": "settings",
-		"description": "Hint to the settings button"
-	},
+    "title_protected": {
+        "message": "protected",
+        "description": "Hint to the protected property user icon"
+    },
+    "title_settings": {
+        "message": "settings",
+        "description": "Hint to the settings button"
+    },
 
-	"title_attach_link": {
-		"message": "insert link\n+ ctrl with title",
-		"description": "Hint to the current link insert button"
-	},
-	"title_attach_link_osx": {
-		"message": "insert link\n+ ⌘ with title",
-		"description": "Hint to the current link insert button"
-	},
+    "title_attach_link": {
+        "message": "insert link\n+ ctrl with title",
+        "description": "Hint to the current link insert button"
+    },
+    "title_attach_link_osx": {
+        "message": "insert link\n+ ⌘ with title",
+        "description": "Hint to the current link insert button"
+    },
 
-	"title_attach_link_disabled": {
-		"message": "can't insert link",
-		"description": "Hint to the current link insert disabled button"
-	},
-	"title_directly": {
-		"message": "view directly on twitter.com",
-		"description": "Link to the same content on twitter.com hint"
-	},
-	"title_add_account": {
-		"message": "add account",
-		"description": "Hint to the add button"
-	},
-	"title_about": {
-		"message": "about",
-		"description": "Hint to the button to about page"
-	},
+    "title_attach_link_disabled": {
+        "message": "can't insert link",
+        "description": "Hint to the current link insert disabled button"
+    },
+    "title_directly": {
+        "message": "view directly on twitter.com",
+        "description": "Link to the same content on twitter.com hint"
+    },
+    "title_add_account": {
+        "message": "add account",
+        "description": "Hint to the add button"
+    },
+    "title_about": {
+        "message": "about",
+        "description": "Hint to the button to about page"
+    },
 
-	"title_button_send": {
-		"message": "ctrl + enter",
-		"description": "Hint to the send button"
-	},
-	"title_button_send_osx": {
-		"message": "⌘⏎",
-		"description": "Hint to the send button"
-	},
+    "title_button_send": {
+        "message": "ctrl + enter",
+        "description": "Hint to the send button"
+    },
+    "title_button_send_osx": {
+        "message": "⌘⏎",
+        "description": "Hint to the send button"
+    },
 
-	"title_button_geo": {
-		"message": "geoinfo",
-		"description": "Hint to the geoinfo button"
-	},
-	"title_button_geo_failed": {
-		"message": "can't get your geolocation",
-		"description": "Hint to the geoinfo button if it is failed to get the geolocation info"
-	},
-	"title_conversation": {
-		"message": "conversation",
-		"description": "View the conversation button hint"
-	},
+    "title_button_geo": {
+        "message": "geoinfo",
+        "description": "Hint to the geoinfo button"
+    },
+    "title_button_geo_failed": {
+        "message": "can't get your geolocation",
+        "description": "Hint to the geoinfo button if it is failed to get the geolocation info"
+    },
+    "title_conversation": {
+        "message": "conversation",
+        "description": "View the conversation button hint"
+    },
 
-	"title_reply": {
-		"message": "reply\n+ ctrl to reply all",
-		"description": "Reply tweet button hint"
-	},
-	"title_reply_osx": {
-		"message": "reply\n+ ⌘ to reply all",
-		"description": "Reply tweet button hint"
-	},
+    "title_reply": {
+        "message": "reply\n+ ctrl to reply all",
+        "description": "Reply tweet button hint"
+    },
+    "title_reply_osx": {
+        "message": "reply\n+ ⌘ to reply all",
+        "description": "Reply tweet button hint"
+    },
 
-	"title_retweet": {
-		"message": "retweet\n+ ctrl for oldstyle",
-		"description": "Retweet this button hint"
-	},
-	"title_retweet_osx": {
-		"message": "retweet\n+ ⌘ for oldstyle",
-		"description": "Retweet this button hint"
-	},
+    "title_retweet": {
+        "message": "retweet\n+ ctrl for oldstyle",
+        "description": "Retweet this button hint"
+    },
+    "title_retweet_osx": {
+        "message": "retweet\n+ ⌘ for oldstyle",
+        "description": "Retweet this button hint"
+    },
 
-	"title_retweet_undo": {
-		"message": "undo retweet",
-		"description": "Undo the retweet button hint"
-	},
-	"title_delete": {
-		"message": "delete",
-		"description": "Delete button hint"
-	},
-	"title_select_or_remove": {
-		"message": "select with left click, remove with right",
-		"description": "Message helps with selecting or removing accounts"
-	},
-	"title_select_or_remove_osx": {
-		"message": "select with click, remove with ⌘ + click",
-		"description": "Message helps with selecting or removing accounts in OS X"
-	},
-	"title_retweeted_by": {
-		"message": "retweeted by $nick$",
-		"description": "Hint to the retweeter avatar",
-		"placeholders": {
-			"nick": {
-				"content": "$1",
-				"example": "@silentroach"
-			}
-		}
-	},
-	"title_open_map": {
-		"message": "show on google maps",
-		"description": "Hint to the static map link"
-	},
+    "title_retweet_undo": {
+        "message": "undo retweet",
+        "description": "Undo the retweet button hint"
+    },
+    "title_delete": {
+        "message": "delete",
+        "description": "Delete button hint"
+    },
+    "title_select_or_remove": {
+        "message": "select with left click, remove with right",
+        "description": "Message helps with selecting or removing accounts"
+    },
+    "title_select_or_remove_osx": {
+        "message": "select with click, remove with ⌘ + click",
+        "description": "Message helps with selecting or removing accounts in OS X"
+    },
+    "title_retweeted_by": {
+        "message": "retweeted by $nick$",
+        "description": "Hint to the retweeter avatar",
+        "placeholders": {
+            "nick": {
+                "content": "$1",
+                "example": "@silentroach"
+            }
+        }
+    },
+    "title_open_map": {
+        "message": "show on google maps",
+        "description": "Hint to the static map link"
+    },
+    "title_tweets": {
+        "message": "tweets",
+        "description": "Title for the tweets count"
+    },
+    "title_following": {
+        "message": "following",
+        "description": "Title for the following count"
+    },
+    "title_followers": {
+        "message": "followers",
+        "description": "Title for the followers count"
+    },
 
-	"badge_unread_tweets_count": {
-		"message": "Unread tweets count: $count$",
-		"description": "Unread tweets count hint on the badge",
-		"placeholders": {
-			"count": {
-				"content": "$1",
-				"example": "10"
-			}
-		}
-	},
+    "badge_unread_tweets_count": {
+        "message": "Unread tweets count: $count$",
+        "description": "Unread tweets count hint on the badge",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
 
-	"about_what": {
-		"message": "Twic is a minimalist Twitter extension that allows you to interact with your Twitter accounts."
-	},
-	"about_thanks": {
-		"message": "thanks"
-	},
-	"about_contributors": {
-		"message": "contributors"
-	},
-	"about_author": {
-		"message": "author"
-	},
-	"about_collaborate": {
-		"message": "feel free to request any feature and discuss something on the $link_start$official site$link_end$",
-		"placeholders": {
-			"link_start": {
-				"content": "$1",
-				"example": "<a href='link_to_the_site'>"
-			},
-			"link_end": {
-				"content": "$2",
-				"example": "</a>"
-			}
-		}
-	},
-	"about_translate": {
-		"message": "please help me $translate_link_beg$translate$translate_link_end$ the extension to your language",
-		"placeholders": {
-			"translate_link_beg": {
-				"content": "$1",
-				"example": "<a href='link_to_github_project'>"
-			},
-			"translate_link_end": {
-				"content": "$2",
-				"example": "</a>"
-			}
-		}
-	},
+    "about_what": {
+        "message": "Twic is a minimalist Twitter extension that allows you to interact with your Twitter accounts."
+    },
+    "about_thanks": {
+        "message": "thanks"
+    },
+    "about_contributors": {
+        "message": "contributors"
+    },
+    "about_author": {
+        "message": "author"
+    },
+    "about_collaborate": {
+        "message": "feel free to request any feature and discuss something on the $link_start$official site$link_end$",
+        "placeholders": {
+            "link_start": {
+                "content": "$1",
+                "example": "<a href='link_to_the_site'>"
+            },
+            "link_end": {
+                "content": "$2",
+                "example": "</a>"
+            }
+        }
+    },
+    "about_translate": {
+        "message": "please help me $translate_link_beg$translate$translate_link_end$ the extension to your language",
+        "placeholders": {
+            "translate_link_beg": {
+                "content": "$1",
+                "example": "<a href='link_to_github_project'>"
+            },
+            "translate_link_end": {
+                "content": "$2",
+                "example": "</a>"
+            }
+        }
+    },
 
-	"placeholder_tweet_new": {
-		"message": "Enter the new tweet text",
-		"description": "Placeholder for the textarea in new tweet element"
-	},
-	"placeholder_tweet_reply": {
-		"message": "Enter the reply tweet text",
-		"description": "Placeholder for the textarea in reply tweet element"
-	},
+    "placeholder_tweet_new": {
+        "message": "Enter the new tweet text",
+        "description": "Placeholder for the textarea in new tweet element"
+    },
+    "placeholder_tweet_reply": {
+        "message": "Enter the reply tweet text",
+        "description": "Placeholder for the textarea in reply tweet element"
+    },
 
-	"toolbar_accounts": {
-		"message": "accounts",
-		"description": "Button to return to the accounts page from timeline"
-	},
-	"toolbar_about": {
-		"message": "about",
-		"description": "Text to the right in the top of about page"
-	},
+    "toolbar_accounts": {
+        "message": "accounts",
+        "description": "Button to return to the accounts page from timeline"
+    },
+    "toolbar_about": {
+        "message": "about",
+        "description": "Text to the right in the top of about page"
+    },
 
-	"button_follow": {
-		"message": "follow",
-		"description": "Button to follow user"
-	},
-	"button_unfollow": {
-		"message": "unfollow",
-		"description": "Button to unfollow user"
-	},
-	"button_following": {
-		"message": "following",
-		"description": "Button with status - following"
-	},
-	"button_send": {
-		"message": "send",
-		"description": "Button to send the tweet"
-	},
-	"button_reply": {
-		"message": "reply",
-		"description": "Button to reply the tweet"
-	},
-	"button_yes": {
-		"message": "yes"
-	},
-	"button_no": {
-		"message": "no"
-	},
+    "button_follow": {
+        "message": "follow",
+        "description": "Button to follow user"
+    },
+    "button_unfollow": {
+        "message": "unfollow",
+        "description": "Button to unfollow user"
+    },
+    "button_following": {
+        "message": "following",
+        "description": "Button with status - following"
+    },
+    "button_send": {
+        "message": "send",
+        "description": "Button to send the tweet"
+    },
+    "button_reply": {
+        "message": "reply",
+        "description": "Button to reply the tweet"
+    },
+    "button_yes": {
+        "message": "yes"
+    },
+    "button_no": {
+        "message": "no"
+    },
 
-	"options_title": {
-		"message": "Options"
-	},
-	"options_ui_title": {
-		"message": "Appearance"
-	},
-	"options_ui_avsize_title": {
-		"message": "Timeline avatar size"
-	},
-	"options_tweet_info": {
-		"message": "Additional tweet info"
-	},
-	"options_tweet_show_geo": {
-		"message": "Geo info"
-	},
-	"options_tweet_show_images": {
-		"message": "Images"
-	},
-	"options_tweet_show_time": {
-		"message": "Tweet time"
-	},
-	"options_tweet_show_time_link": {
-		"message": "Make a link to the tweet"
-	},
-	"options_tweet_show_client": {
-		"message": "Twitter client"
-	},
+    "options_title": {
+        "message": "Options"
+    },
+    "options_ui_title": {
+        "message": "Appearance"
+    },
+    "options_ui_avsize_title": {
+        "message": "Timeline avatar size"
+    },
+    "options_tweet_info": {
+        "message": "Additional tweet info"
+    },
+    "options_tweet_show_geo": {
+        "message": "Geo info"
+    },
+    "options_tweet_show_images": {
+        "message": "Images"
+    },
+    "options_tweet_show_time": {
+        "message": "Tweet time"
+    },
+    "options_tweet_show_time_link": {
+        "message": "Make a link to the tweet"
+    },
+    "options_tweet_show_client": {
+        "message": "Twitter client"
+    },
 
-	"enabled": {
-		"message": "enabled"
-	},
-	"disabled": {
-		"message": "disabled"
-	},
+    "enabled": {
+        "message": "enabled"
+    },
+    "disabled": {
+        "message": "disabled"
+    },
 
-	"via": {
-		"message": "via",
-		"description": "1 minute ago via Twic Extension"
-	},
+    "via": {
+        "message": "via",
+        "description": "1 minute ago via Twic Extension"
+    },
 
-	"time_month_1":  { "message": "Jan" },
-	"time_month_2":  { "message": "Feb" },
-	"time_month_3":  { "message": "Mar" },
-	"time_month_4":  { "message": "Apr" },
-	"time_month_5":  { "message": "May" },
-	"time_month_6":  { "message": "Jun" },
-	"time_month_7":  { "message": "Jul" },
-	"time_month_8":  { "message": "Aug" },
-	"time_month_9":  { "message": "Sep" },
-	"time_month_10": { "message": "Oct" },
-	"time_month_11": { "message": "Nov" },
-	"time_month_12": { "message": "Dec" },
+    "time_month_1":  { "message": "Jan" },
+    "time_month_2":  { "message": "Feb" },
+    "time_month_3":  { "message": "Mar" },
+    "time_month_4":  { "message": "Apr" },
+    "time_month_5":  { "message": "May" },
+    "time_month_6":  { "message": "Jun" },
+    "time_month_7":  { "message": "Jul" },
+    "time_month_8":  { "message": "Aug" },
+    "time_month_9":  { "message": "Sep" },
+    "time_month_10": { "message": "Oct" },
+    "time_month_11": { "message": "Nov" },
+    "time_month_12": { "message": "Dec" },
 
-	"time_hour_one": {
-		"message": "hour"
-	},
-	"time_hour_much": {
-		"message": "hours"
-	},
-	"time_hour_many": {
-		"message": "hours"
-	},
-	"time_minute_one": {
-		"message": "minute"
-	},
-	"time_minute_much": {
-		"message": "minutes"
-	},
-	"time_minute_many": {
-		"message": "minutes"
-	},
-	"time_less": {
-		"message": "less than"
-	},
-	"time_less_minute": {
-		"message": "less than a minute"
-	},
-	"time_ago": {
-		"message": "ago"
-	},
+    "time_hour_one": {
+        "message": "hour"
+    },
+    "time_hour_much": {
+        "message": "hours"
+    },
+    "time_hour_many": {
+        "message": "hours"
+    },
+    "time_minute_one": {
+        "message": "minute"
+    },
+    "time_minute_much": {
+        "message": "minutes"
+    },
+    "time_minute_many": {
+        "message": "minutes"
+    },
+    "time_less": {
+        "message": "less than"
+    },
+    "time_less_minute": {
+        "message": "less than a minute"
+    },
+    "time_ago": {
+        "message": "ago"
+    },
 
     "omnibox_find_user": {
         "message": "Open user $user$ page on twitter.com",

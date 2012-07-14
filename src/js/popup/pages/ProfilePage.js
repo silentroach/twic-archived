@@ -19,7 +19,7 @@ twic.pages.ProfilePage = function() {
      * @type {boolean}
      * @private
      */
-    this.unfollowOver_ = false;
+    page.isOverUnfollow_ = false;
 
     /**
      * @type {Element}
@@ -37,109 +37,121 @@ twic.pages.ProfilePage = function() {
      * @type {Element}
      * @private
      */
-    this.elementLoader_ = null;
+    page.elementLoader_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementAvatar_ = null;
+    page.elementAvatar_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementName_ = null;
+    page.elementName_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    // this.elementNick_ = null;
+    page.elementNick_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementUrl_ = null;
+    page.elementUrl_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementBio_ = null;
+    page.elementBio_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementLocation_ = null;
+    page.elementLocation_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementFollowings_ = null;
+    page.elementFollowings_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementFollowed_ = null;
+    page.elementFollowed_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementFollowedSpan_ = null;
+    page.elementFollowedSpan_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    // this.elementDirect_ = null;
+    // page.elementDirect_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementProps_ = null;
+    page.elementProps_ = null;
 
     /**
      * @type {Element}
      * @private
      */
-    this.elementMap_ = null;
+    page.elementStats_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.elementStatsTweets_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.elementStatsFollowers_ = null;
+
+    /**
+     * @type {Element}
+     * @private
+     */
+    page.elementStatsFollowings_ = null;
 
     /**
      * @type {number}
      * @private
      */
-    this.timelineUserId = 0;
+    page.timelineUserId = 0;
 
     /**
      * @type {number}
      * @private
      */
-    this.profileUserId = 0;
+    page.profileUserId = 0;
 
     /**
      * @type {Element}
      * @private
      */
-    this.toolbarTimeline_ = null;
+    page.toolbarTimeline_ = null;
 
     /**
      * @type {string}
      * @private
      */
-    this.directLinkBase_ = '';
-
-    /**
-     * @type {twic.vcl.Map}
-     * @private
-     */
-    this.map_ = null;
+    page.directLinkBase_ = '';
 };
 
 goog.inherits(twic.pages.ProfilePage, twic.Page);
@@ -175,15 +187,24 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.elementLoader_   = twic.dom.findElement('.loader', page.pageElement_);
     page.elementAvatar_   = twic.dom.findElement('.avatar', page.pageElement_);
     page.elementName_     = twic.dom.findElement('.name',   page.pageElement_);
-    // page.elementNick_     = twic.dom.findElement('.toolbar p span', page.pageElement_);
+    page.elementNick_     = twic.dom.findElement('.nick', page.pageElement_);
     page.elementUrl_      = twic.dom.findElement('.url', page.pageElement_);
     page.elementBio_      = twic.dom.findElement('.bio', page.pageElement_);
     page.elementLocation_ = twic.dom.findElement('.location',  page.pageElement_);
+
+    page.elementStats_    = twic.dom.findElement('.stats', page.pageElement_);
+
+    page.elementStatsTweets_     = twic.dom.findElement('.stats-tweets', page.elementStats_);
+    page.elementStatsFollowers_  = twic.dom.findElement('.stats-followers', page.elementStats_);
+    page.elementStatsFollowings_ = twic.dom.findElement('.stats-following', page.elementStats_);
+
+    twic.dom.findElement('.stats-tweets-i18n').innerHTML    = twic.i18n.translate('title_tweets');
+    twic.dom.findElement('.stats-following-i18n').innerHTML = twic.i18n.translate('title_following');
+    twic.dom.findElement('.stats-followers-i18n').innerHTML = twic.i18n.translate('title_followers');
+
     // page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.pageElement_);
 
-    page.elementMap_      = twic.dom.findElement('.map', page.pageElement_);
-
-    page.elementProps_    = twic.dom.findElement('.props', page.pageElement_);
+    page.elementProps_ = twic.dom.findElement('.props', page.pageElement_);
 
     twic.dom.findElement('.protected', page.elementProps_).title = twic.i18n.translate('title_protected');
 };
@@ -193,24 +214,24 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
  * @private
  */
 twic.pages.ProfilePage.prototype.clearData_ = function() {
-    this.elementFollowedSpan_.className = '';
-    this.elementFollowed_.className = '';
-    this.elementLoader_.style.display = 'block';
-    this.elementAvatar_.src = '';
-    this.elementProps_.className = 'props';
-    this.elementName_.innerHTML = '';
-    // this.elementNick_.innerHTML = '';
-    this.elementUrl_.innerHTML = '';
-    this.elementBio_.innerHTML = '';
-    this.elementLocation_.innerHTML = '';
-    this.elementFollowedSpan_.innerHTML = '';
-    delete this.map_;
+    var
+        page = this;
 
-    twic.dom.hide(this.elementAvatar_);
-    twic.dom.hide(this.elementFollowings_);
-    twic.dom.hide(this.elementBio_);
-    twic.dom.hide(this.elementLocation_);
-    twic.dom.hide(this.elementMap_);
+    twic.dom.show(page.elementLoader_);
+
+    twic.dom.hide(page.elementAvatar_);
+    twic.dom.hide(page.elementFollowings_);
+    twic.dom.hide(page.elementBio_);
+    twic.dom.hide(page.elementLocation_);
+    twic.dom.hide(page.elementStats_);
+
+    page.elementFollowedSpan_.className = '';
+    page.elementFollowed_.className = '';
+    page.elementAvatar_.src = '';
+    twic.dom.addClass(page.elementProps_, 'props');
+    page.elementName_.innerHTML = '';
+    page.elementNick_.innerHTML = '';
+    page.elementFollowedSpan_.innerHTML = '';
 };
 
 /**
@@ -293,8 +314,8 @@ twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
  * @private
  */
 twic.pages.ProfilePage.prototype.onFollowedMouseOver_ = function() {
-    if (!this.unfollowOver_) {
-        this.unfollowOver_ = true;
+    if (!this.isOverUnfollow_) {
+        this.isOverUnfollow_ = true;
         this.elementFollowedSpan_.innerHTML = twic.i18n.translate('button_unfollow');
     }
 };
@@ -303,8 +324,8 @@ twic.pages.ProfilePage.prototype.onFollowedMouseOver_ = function() {
  * @private
  */
 twic.pages.ProfilePage.prototype.onFollowedMouseOut_ = function() {
-    if (this.unfollowOver_) {
-        this.unfollowOver_ = false;
+    if (this.isOverUnfollow_) {
+        this.isOverUnfollow_ = false;
         this.elementFollowedSpan_.innerHTML = twic.i18n.translate('button_following');
     }
 };
@@ -339,45 +360,42 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
         }
 
         page.elementName_.innerHTML = data['name'];
-        // page.elementNick_.innerHTML = '@' + data['screen_name'];
+        page.elementNick_.innerHTML = '@' + data['screen_name'];
 
         // page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
 
-        if (data['url'] !== '') {
-            page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
-        }
-
         if (loc.trim() !== '') {
-            page.elementLocation_.style.display = 'block';
+            page.elementLocation_.innerHTML = loc;
             marginElement = page.elementLocation_;
 
-            /* trying to find the coordinates
-            var coords = twic.pages.ProfilePage.REGEXP_COORDS.exec(loc);
+            twic.dom.show(page.elementLocation_);
+        }
 
-            if (coords
-                && 3 === coords.length
-            ) {
-                var
-                    coordsData = coords.shift().split(',');
+        if (data['url'] !== '') {
+            page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
+            marginElement = page.elementUrl_;
 
-                page.map_ = new twic.vcl.Map(page.elementMap_, coordsData.shift(), coordsData.shift());
-            }*/
-
-            page.elementLocation_.innerHTML = loc;
+            twic.dom.show(page.elementUrl_);
         }
 
         if (description.trim() !== '') {
             page.elementBio_.innerHTML = twic.utils.url.processText(description);
-            page.elementBio_.style.display = 'block';
             marginElement = page.elementBio_;
+
+            twic.dom.show(page.elementBio_);
         }
 
         if (marginElement) {
             marginElement.style.marginTop = '1em';
         }
 
-        if (
-            !page.timelineUserId_
+        page.elementStatsTweets_.innerHTML     = data['statuses_count'];
+        page.elementStatsFollowers_.innerHTML  = data['followers_count'];
+        page.elementStatsFollowings_.innerHTML = data['friends_count'];
+
+        twic.dom.show(page.elementStats_);
+
+        if (!page.timelineUserId_
             || page.timelineUserId_ === data['id']
         ) {
             twic.dom.hide(page.elementLoader_);

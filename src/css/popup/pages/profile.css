@@ -33,13 +33,30 @@
     #profile .info .bio {
         word-wrap: break-word;
         }
+    #profile .info .stats {
+        margin-top: 1em;
+        border-top: 1px solid #dedede;
+        border-bottom: 1px solid #dedede;
+        }
+        #profile .info .stats li {
+            display: inline-block;
+            padding: 5px 10px;
+            border-left: 1px solid #dedede;
+            }
+            #profile .info .stats li:first-child {
+                border-left: 0;
+                padding-left: 0;
+                }
+            #profile .info .stats li p {
+                color: #999;
+                }
     #profile #followings p {
         margin-top: 1em;
         text-align: center;
         padding: .3em 0 .4em 0;
         border-radius: 5px;
         cursor: pointer;
-        border: 1px solid rgba(0, 0, 0, .1);
+        border: 1px solid #dedede;
         -webkit-transition: background-color 0.2s ease-in-out;
         -webkit-user-select: none;
         }

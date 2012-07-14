@@ -1,333 +1,345 @@
 {
-	"confirm_question": {
-		"message": "подтверждаю",
-		"description": "А вы уверены? Нужно оставлять коротким"
-	},
+    "confirm_question": {
+        "message": "подтверждаю",
+        "description": "А вы уверены? Нужно оставлять коротким"
+    },
 
-	"auth_in_progress": {
-	  "message": "авторизация...",
-	  "description": "Возникает в процессе авторизации"
-	},
-	"auth_already": {
-		"message": "уже авторизован",
-		"description": "Сообщение о том, что мы пытаемся авторизоваться уже авторизованным аккаунтом"
-	},
-	"auth_success": {
-		"message": "спасибо",
-		"description": "Говорим пользователю спасибо"
-	},
-	"auth_failed": {
-		"message": "что-то пошло не так, попробуйте еще раз чуть позже",
-		"description": "Сообщение при ошибке авторизации"
-	},
+    "auth_in_progress": {
+      "message": "авторизация...",
+      "description": "Возникает в процессе авторизации"
+    },
+    "auth_already": {
+        "message": "уже авторизован",
+        "description": "Сообщение о том, что мы пытаемся авторизоваться уже авторизованным аккаунтом"
+    },
+    "auth_success": {
+        "message": "спасибо",
+        "description": "Говорим пользователю спасибо"
+    },
+    "auth_failed": {
+        "message": "что-то пошло не так, попробуйте еще раз чуть позже",
+        "description": "Сообщение при ошибке авторизации"
+    },
 
-	"add_first_account": {
-		"message": "добавьте аккаунт",
-		"description": "Сообщение отображается на первом экране пока не заведен ни один аккаунт"
-	},
+    "add_first_account": {
+        "message": "добавьте аккаунт",
+        "description": "Сообщение отображается на первом экране пока не заведен ни один аккаунт"
+    },
 
-	"alert_account_add_failed": {
-		"message": "по какой-то причине расширение не может добавить аккаунт сейчас, попробуйте перезапустить браузер",
-		"description": "Ошибка выводится в случае невозможности расширением авторизовать себя в Twitter OAuth"
-	},
-	"alert_remove_account": {
-		"message": "действительно удалить $nick$ ?",
-		"description": "Действительно ли пользователь хочет удалить аккаунт?",
-		"placeholders": {
-			"nick": {
-				"content": "$1",
-				"example": "@silentroach"
-			}
-		}
-	},
+    "alert_account_add_failed": {
+        "message": "по какой-то причине расширение не может добавить аккаунт сейчас, попробуйте перезапустить браузер",
+        "description": "Ошибка выводится в случае невозможности расширением авторизовать себя в Twitter OAuth"
+    },
+    "alert_remove_account": {
+        "message": "действительно удалить $nick$ ?",
+        "description": "Действительно ли пользователь хочет удалить аккаунт?",
+        "placeholders": {
+            "nick": {
+                "content": "$1",
+                "example": "@silentroach"
+            }
+        }
+    },
 
-	"error_user_not_found": {
-	    "message": "пользователь не найден",
-	    "description": "Надпись о том, что пользователь не существует, в профиле"
-	},
+    "error_user_not_found": {
+        "message": "пользователь не найден",
+        "description": "Надпись о том, что пользователь не существует, в профиле"
+    },
 
-	"title_protected": {
-		"message": "защищенный",
-		"description": "Подсказка на иконке с признаком того, что пользователь защищен"
-	},
-	"title_settings": {
-		"message": "настройки",
-		"description": "Подсказка на кнопке для вызова настроек"
-	},
+    "title_protected": {
+        "message": "защищенный",
+        "description": "Подсказка на иконке с признаком того, что пользователь защищен"
+    },
+    "title_settings": {
+        "message": "настройки",
+        "description": "Подсказка на кнопке для вызова настроек"
+    },
 
-	"title_attach_link": {
-		"message": "вставить ссылку\n+ ctrl с заголовком",
-		"description": "Подсказка на кнопке для вставления текущей ссылки из браузера"
-	},
-	"title_attach_link_osx": {
-		"message": "вставить ссылку\n+ ⌘ с заголовком",
-		"description": "Подсказка на кнопке для вставления текущей ссылки из браузера"
-	},
+    "title_attach_link": {
+        "message": "вставить ссылку\n+ ctrl с заголовком",
+        "description": "Подсказка на кнопке для вставления текущей ссылки из браузера"
+    },
+    "title_attach_link_osx": {
+        "message": "вставить ссылку\n+ ⌘ с заголовком",
+        "description": "Подсказка на кнопке для вставления текущей ссылки из браузера"
+    },
 
-	"title_attach_link_disabled": {
-		"message": "не могу вставить ссылку",
-		"description": "Подсказка к недоступной кнопке вставления текущей ссылки из браузера"
-	},
-	"title_directly": {
-		"message": "смотреть на twitter.com",
-		"description": "Подсказка на ссылке для просмотра того же контента напрямую на twitter.com"
-	},
-	"title_add_account": {
-		"message": "добавить учетную запись",
-		"description": "Подсказка на кнопке добавления учетной записи"
-	},
-	"title_about": {
-		"message": "о расширении",
-		"description": "Подсказка на кнопке перехода на страницу о расширении"
-	},
+    "title_attach_link_disabled": {
+        "message": "не могу вставить ссылку",
+        "description": "Подсказка к недоступной кнопке вставления текущей ссылки из браузера"
+    },
+    "title_directly": {
+        "message": "смотреть на twitter.com",
+        "description": "Подсказка на ссылке для просмотра того же контента напрямую на twitter.com"
+    },
+    "title_add_account": {
+        "message": "добавить учетную запись",
+        "description": "Подсказка на кнопке добавления учетной записи"
+    },
+    "title_about": {
+        "message": "о расширении",
+        "description": "Подсказка на кнопке перехода на страницу о расширении"
+    },
 
-	"title_button_send": {
-		"message": "ctrl + enter",
-		"description": "Подсказка на кнопку отправки твита"
-	},
-	"title_button_send_osx": {
-		"message": "⌘⏎",
-		"description": "Подсказка на кнопку отправки твита"
-	},
+    "title_button_send": {
+        "message": "ctrl + enter",
+        "description": "Подсказка на кнопку отправки твита"
+    },
+    "title_button_send_osx": {
+        "message": "⌘⏎",
+        "description": "Подсказка на кнопку отправки твита"
+    },
 
-	"title_button_geo": {
-		"message": "гео-инфо",
-		"description": "Подсказка на кнопку включения показа местоположения"
-	},
-	"title_button_geo_failed": {
-		"message": "невозможно получить местоположение",
-		"description": "Подсказка на кнопку включения показа местоположения о том, что получить его не удалось"
-	},
-	"title_conversation": {
-		"message": "разговор",
-		"description": "Подсказка на кнопку просмотра всего разговора"
-	},
+    "title_button_geo": {
+        "message": "гео-инфо",
+        "description": "Подсказка на кнопку включения показа местоположения"
+    },
+    "title_button_geo_failed": {
+        "message": "невозможно получить местоположение",
+        "description": "Подсказка на кнопку включения показа местоположения о том, что получить его не удалось"
+    },
+    "title_conversation": {
+        "message": "разговор",
+        "description": "Подсказка на кнопку просмотра всего разговора"
+    },
 
-	"title_reply": {
-		"message": "ответить\n+ ctrl чтобы ответить всем",
-		"description": "Подсказка на кнопку написания ответа"
-	},
-	"title_reply_osx": {
-		"message": "ответить\n+ ⌘ чтобы ответить всем",
-		"description": "Подсказка на кнопку написания ответа"
-	},
+    "title_reply": {
+        "message": "ответить\n+ ctrl чтобы ответить всем",
+        "description": "Подсказка на кнопку написания ответа"
+    },
+    "title_reply_osx": {
+        "message": "ответить\n+ ⌘ чтобы ответить всем",
+        "description": "Подсказка на кнопку написания ответа"
+    },
 
-	"title_retweet": {
-		"message": "ретвит\n+ ctrl для RT",
-		"description": "Подсказка на кнопку ретвита"
-	},
-	"title_retweet_osx": {
-		"message": "ретвит\n+ ⌘ для RT",
-		"description": "Подсказка на кнопку ретвита"
-	},
+    "title_retweet": {
+        "message": "ретвит\n+ ctrl для RT",
+        "description": "Подсказка на кнопку ретвита"
+    },
+    "title_retweet_osx": {
+        "message": "ретвит\n+ ⌘ для RT",
+        "description": "Подсказка на кнопку ретвита"
+    },
 
-	"title_retweet_undo": {
-		"message": "отменить ретвит",
-		"description": "Подсказка на кнопку отмены ретвита"
-	},
-	"title_delete": {
-		"message": "удалить",
-		"description": "Подсказка на кнопку удаления"
-	},
-	"title_select_or_remove": {
-		"message": "выберите левой кнопкой мыши или удалите правой",
-		"description": "Подсказка на тему как выбрать или удалить аккаунт"
-	},
-	"title_select_or_remove_osx": {
-		"message": "выберите щелчком мыши или удалите с зажатой ⌘",
-		"description": "Подсказка на тему как выбрать или удалить аккаунт под OS X"
-	},
-	"title_retweeted_by": {
-		"message": "ретвит от $nick$",
-		"description": "Подсказка на аватаре ретвитера",
-		"placeholders": {
-			"nick": {
-				"content": "$1",
-				"example": "@silentroach"
-			}
-		}
-	},
-	"title_open_map": {
-		"message": "показать на google maps",
-		"description": "Подсказка на ссылке со статической картой"
-	},
+    "title_retweet_undo": {
+        "message": "отменить ретвит",
+        "description": "Подсказка на кнопку отмены ретвита"
+    },
+    "title_delete": {
+        "message": "удалить",
+        "description": "Подсказка на кнопку удаления"
+    },
+    "title_select_or_remove": {
+        "message": "выберите левой кнопкой мыши или удалите правой",
+        "description": "Подсказка на тему как выбрать или удалить аккаунт"
+    },
+    "title_select_or_remove_osx": {
+        "message": "выберите щелчком мыши или удалите с зажатой ⌘",
+        "description": "Подсказка на тему как выбрать или удалить аккаунт под OS X"
+    },
+    "title_retweeted_by": {
+        "message": "ретвит от $nick$",
+        "description": "Подсказка на аватаре ретвитера",
+        "placeholders": {
+            "nick": {
+                "content": "$1",
+                "example": "@silentroach"
+            }
+        }
+    },
+    "title_open_map": {
+        "message": "показать на google maps",
+        "description": "Подсказка на ссылке со статической картой"
+    },
+    "title_tweets": {
+        "message": "твитов",
+        "description": "Title for the tweets count"
+    },
+    "title_following": {
+        "message": "читает",
+        "description": "Title for the following count"
+    },
+    "title_followers": {
+        "message": "подписчиков",
+        "description": "Title for the followers count"
+    },
 
-	"badge_unread_tweets_count": {
-		"message": "Всего непрочитанных твитов: $count$",
-		"description": "Количество непрочитанных твитов, подсказка на иконке в тулбаре",
-		"placeholders": {
-			"count": {
-				"content": "$1",
-				"example": "10"
-			}
-		}
-	},
+    "badge_unread_tweets_count": {
+        "message": "Всего непрочитанных твитов: $count$",
+        "description": "Количество непрочитанных твитов, подсказка на иконке в тулбаре",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "10"
+            }
+        }
+    },
 
-	"about_what": {
-		"message": "Минималистичный Twitter клиент для работы с вашими учетными записями в Twitter."
-	},
-	"about_thanks": {
-		"message": "спасибо"
-	},
-	"about_contributors": {
-		"message": "внесли свой вклад"
-	},
-	"about_author": {
-		"message": "автор"
-	},
-	"about_collaborate": {
-		"message": "есть комментарии или пожелания? милости просим на $link_start$официальный сайт$link_end$",
-		"placeholders": {
-			"link_start": {
-				"content": "$1",
-				"example": "<a href='link_to_the_site'>"
-			},
-			"link_end": {
-				"content": "$2",
-				"example": "</a>"
-			}
-		}
-	},
+    "about_what": {
+        "message": "Минималистичный Twitter клиент для работы с вашими учетными записями в Twitter."
+    },
+    "about_thanks": {
+        "message": "спасибо"
+    },
+    "about_contributors": {
+        "message": "внесли свой вклад"
+    },
+    "about_author": {
+        "message": "автор"
+    },
+    "about_collaborate": {
+        "message": "есть комментарии или пожелания? милости просим на $link_start$официальный сайт$link_end$",
+        "placeholders": {
+            "link_start": {
+                "content": "$1",
+                "example": "<a href='link_to_the_site'>"
+            },
+            "link_end": {
+                "content": "$2",
+                "example": "</a>"
+            }
+        }
+    },
 
-	"about_translate": {
-		"message": "пожалуйста, помогите мне с $translate_link_beg$переводом$translate_link_end$ расширения",
-		"placeholders": {
-			"translate_link_beg": {
-				"content": "$1",
-				"example": "<a href='ссылка'>"
-			},
-			"translate_link_end": {
-				"content": "$2",
-				"example": "</a>"
-			}
-		}
-	},
+    "about_translate": {
+        "message": "пожалуйста, помогите мне с $translate_link_beg$переводом$translate_link_end$ расширения",
+        "placeholders": {
+            "translate_link_beg": {
+                "content": "$1",
+                "example": "<a href='ссылка'>"
+            },
+            "translate_link_end": {
+                "content": "$2",
+                "example": "</a>"
+            }
+        }
+    },
 
-	"placeholder_tweet_new": {
-		"message": "Введите текст нового твита",
-		"description": "Подсказка в поле для ввода нового твита"
-	},
-	"placeholder_tweet_reply": {
-		"message": "Введите текст ответа",
-		"description": "Подсказка в поле для ввода ответного твита"
-	},
+    "placeholder_tweet_new": {
+        "message": "Введите текст нового твита",
+        "description": "Подсказка в поле для ввода нового твита"
+    },
+    "placeholder_tweet_reply": {
+        "message": "Введите текст ответа",
+        "description": "Подсказка в поле для ввода ответного твита"
+    },
 
-	"toolbar_accounts": {
-		"message": "аккаунты",
-		"description": "Кнопка для возврата на список учетных записей из списка твитов"
-	},
-	"toolbar_about": {
-		"message": "о расширении",
-		"description": "Текст пишется в тулбаре справа на странице о расширении"
-	},
+    "toolbar_accounts": {
+        "message": "аккаунты",
+        "description": "Кнопка для возврата на список учетных записей из списка твитов"
+    },
+    "toolbar_about": {
+        "message": "о расширении",
+        "description": "Текст пишется в тулбаре справа на странице о расширении"
+    },
 
-	"button_follow": {
-		"message": "подписаться",
-		"description": "Кнопка для подписки на пользователя"
-	},
-	"button_unfollow": {
-		"message": "отписаться",
-		"description": "Кнопка для отписки от пользователя"
-	},
-	"button_following": {
-		"message": "подписан",
-		"description": "Кнопка со статусом подписки на пользователя - подписан"
-	},
-	"button_send": {
-		"message": "отправить",
-		"description": "Кнопка для отправки твита"
-	},
-	"button_reply": {
-		"message": "ответить",
-		"description": "Кнопка для ответа на твит"
-	},
-	"button_yes": {
-		"message": "да"
-	},
-	"button_no": {
-		"message": "нет"
-	},
+    "button_follow": {
+        "message": "подписаться",
+        "description": "Кнопка для подписки на пользователя"
+    },
+    "button_unfollow": {
+        "message": "отписаться",
+        "description": "Кнопка для отписки от пользователя"
+    },
+    "button_following": {
+        "message": "подписан",
+        "description": "Кнопка со статусом подписки на пользователя - подписан"
+    },
+    "button_send": {
+        "message": "отправить",
+        "description": "Кнопка для отправки твита"
+    },
+    "button_reply": {
+        "message": "ответить",
+        "description": "Кнопка для ответа на твит"
+    },
+    "button_yes": {
+        "message": "да"
+    },
+    "button_no": {
+        "message": "нет"
+    },
 
-	"options_title": {
-		"message": "Настройки"
-	},
-	"options_ui_title": {
-		"message": "Внешний вид"
-	},
-	"options_ui_avsize_title": {
-		"message": "Размер аватара в ленте"
-	},
-	"options_tweet_info": {
-		"message": "Дополнительная информация о твите"
-	},
-	"options_tweet_show_geo": {
-		"message": "Гео-инфо"
-	},
-	"options_tweet_show_images": {
-		"message": "Изображения"
-	},
-	"options_tweet_show_time": {
-		"message": "Время твита"
-	},
-	"options_tweet_show_time_link": {
-		"message": "Сделать ссылкой на твит"
-	},
-	"options_tweet_show_client": {
-		"message": "Клиент Twitter'а"
-	},
+    "options_title": {
+        "message": "Настройки"
+    },
+    "options_ui_title": {
+        "message": "Внешний вид"
+    },
+    "options_ui_avsize_title": {
+        "message": "Размер аватара в ленте"
+    },
+    "options_tweet_info": {
+        "message": "Дополнительная информация о твите"
+    },
+    "options_tweet_show_geo": {
+        "message": "Гео-инфо"
+    },
+    "options_tweet_show_images": {
+        "message": "Изображения"
+    },
+    "options_tweet_show_time": {
+        "message": "Время твита"
+    },
+    "options_tweet_show_time_link": {
+        "message": "Сделать ссылкой на твит"
+    },
+    "options_tweet_show_client": {
+        "message": "Клиент Twitter'а"
+    },
 
-	"enabled": {
-		"message": "включено"
-	},
-	"disabled": {
-		"message": "выключено"
-	},
+    "enabled": {
+        "message": "включено"
+    },
+    "disabled": {
+        "message": "выключено"
+    },
 
-	"via": {
-		"message": "из",
-		"description": "минуту назад из Twic Extension"
-	},
+    "via": {
+        "message": "из",
+        "description": "минуту назад из Twic Extension"
+    },
 
-	"time_month_1":  { "message": "Янв" },
-	"time_month_2":  { "message": "Фев" },
-	"time_month_3":  { "message": "Мар" },
-	"time_month_4":  { "message": "Апр" },
-	"time_month_5":  { "message": "Май" },
-	"time_month_6":  { "message": "Июн" },
-	"time_month_7":  { "message": "Июл" },
-	"time_month_8":  { "message": "Авг" },
-	"time_month_9":  { "message": "Сен" },
-	"time_month_10": { "message": "Окт" },
-	"time_month_11": { "message": "Ноя" },
-	"time_month_12": { "message": "Дек" },
+    "time_month_1":  { "message": "Янв" },
+    "time_month_2":  { "message": "Фев" },
+    "time_month_3":  { "message": "Мар" },
+    "time_month_4":  { "message": "Апр" },
+    "time_month_5":  { "message": "Май" },
+    "time_month_6":  { "message": "Июн" },
+    "time_month_7":  { "message": "Июл" },
+    "time_month_8":  { "message": "Авг" },
+    "time_month_9":  { "message": "Сен" },
+    "time_month_10": { "message": "Окт" },
+    "time_month_11": { "message": "Ноя" },
+    "time_month_12": { "message": "Дек" },
 
-	"time_hour_one": {
-		"message": "час"
-	},
-	"time_hour_much": {
-		"message": "часа"
-	},
-	"time_hour_many": {
-		"message": "часов"
-	},
-	"time_minute_one": {
-		"message": "минута"
-	},
-	"time_minute_much": {
-		"message": "минуты"
-	},
-	"time_minute_many": {
-		"message": "минут"
-	},
-	"time_less": {
-		"message": "меньше"
-	},
-	"time_less_minute": {
-		"message": "меньше минуты"
-	},
-	"time_ago": {
-		"message": "назад"
-	},
+    "time_hour_one": {
+        "message": "час"
+    },
+    "time_hour_much": {
+        "message": "часа"
+    },
+    "time_hour_many": {
+        "message": "часов"
+    },
+    "time_minute_one": {
+        "message": "минута"
+    },
+    "time_minute_much": {
+        "message": "минуты"
+    },
+    "time_minute_many": {
+        "message": "минут"
+    },
+    "time_less": {
+        "message": "меньше"
+    },
+    "time_less_minute": {
+        "message": "меньше минуты"
+    },
+    "time_ago": {
+        "message": "назад"
+    },
 
     "omnibox_find_user": {
         "message": "Открыть страницу пользователя $user$ на twitter.com",
