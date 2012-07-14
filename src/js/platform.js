@@ -22,8 +22,6 @@ twic.platform = twic.platforms.WINDOWS;
 
 if (navigator.appVersion.indexOf('Mac') >= 0) {
     twic.platform = twic.platforms.OSX;
-
-    twic.dom.addClass(document.body, twic.platform);
 } else
 if (navigator.appVersion.indexOf('Windows') < 0) {
     twic.platform = twic.platforms.LINUX;
