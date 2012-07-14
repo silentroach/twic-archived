@@ -6,7 +6,7 @@
 .toolbar {
     border-bottom: 1px solid #d5d5d5;
     background-color: #eaeaea;
-    padding: .5em 4px .3em 4px;
+    padding: 4px 0 0 0;
     color: black;
     font-size: 9pt;
     -webkit-transition: background-color 0.2s ease-in-out;
@@ -42,7 +42,7 @@
     border-top: 1px solid #d5d5d5;
     border-bottom: 0px;
     margin-bottom: 0px;
-    padding-bottom: .5em;
+    padding: 5px 0 6px 0;
     }
 
 .toolbar.alert {
