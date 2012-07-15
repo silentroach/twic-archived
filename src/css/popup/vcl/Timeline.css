@@ -13,8 +13,8 @@
         -webkit-box-shadow: 0 1px 1px rgba(192, 192, 192, .4);
         }
 
-.timeline .tweetButtons {
-    position: absolute;
+.timeline .tweet-buttons {
+    position: fixed;
     display: none;
     text-align: right;
     background-color: white;
@@ -27,43 +27,43 @@
     /* don't change cursor to text selector */
     cursor: default;
     }
-    .timeline .tweetButtons:hover {
+    .timeline .tweet-buttons:hover {
         opacity: .95;
         }
-    .timeline .tweetButtons a.confirm {
+    .timeline .tweet-buttons a.confirm {
         float: right;
         font-size: 8pt;
         margin-left: 10px;
         display: none;
         }
-    .timeline .tweetButtons.bconfirm {
+    .timeline .tweet-buttons.bconfirm {
         background-color: #fff0f4;
         }
-        .timeline .tweetButtons.bconfirm .confirm {
+        .timeline .tweet-buttons.bconfirm .confirm {
             display: inline;
             }
-    .timeline .tweetButtons .holder {
+    .timeline .tweet-buttons .holder {
         float: left;
         display: inline;
         }
-        .timeline .tweetButtons .holder img {
+        .timeline .tweet-buttons .holder img {
             cursor: pointer;
             opacity: .5;
             margin-left: 3px;
             -webkit-transition: opacity 0.2s ease-in-out;
             }
-            .timeline .tweetButtons.bconfirm img {
+            .timeline .tweet-buttons.bconfirm img {
                 /* reset the cursor to default in confirmation dialog */
                 cursor: default;
                 }
-            .timeline .tweetButtons img:hover {
+            .timeline .tweet-buttons img:hover {
                 opacity: 1;
                 }
-    .timeline .tweetButtons.bconfirm .holder img {
+    .timeline .tweet-buttons.bconfirm .holder img {
         opacity: .15;
         }
-        .timeline .tweetButtons.bconfirm.bdel .holder img.tb_delete,
-        .timeline .tweetButtons.bconfirm.bret .holder img.tb_retweet,
-        .timeline .tweetButtons.bconfirm.bunret .holder img.tb_retweet_undo {
+        .timeline .tweet-buttons.bconfirm.bdel .holder img.tb_delete,
+        .timeline .tweet-buttons.bconfirm.bret .holder img.tb_retweet,
+        .timeline .tweet-buttons.bconfirm.bunret .holder img.tb_retweet_undo {
             opacity: 1;
             }

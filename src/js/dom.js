@@ -91,7 +91,7 @@ twic.dom.hasClass = function(element, className) {
  */
 twic.dom.expandElement = function(expr) {
     var
-        /** @const **/ expExpr = /((^|#|\.)\w+)/g,
+        /** @const **/ expExpr = /((^|#|\.)[a-zA-Z0-9_-]+)/g,
         /** @type {string} **/ part,
         element = null,
         res;

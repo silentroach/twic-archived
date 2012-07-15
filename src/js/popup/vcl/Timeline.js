@@ -30,12 +30,6 @@ twic.vcl.Timeline = function(parent) {
     }
 
     /**
-     * @type {Element}
-     * @private
-     */
-    this.container_ = parent;
-
-    /**
      * @type {boolean}
      * @private
      */
@@ -75,7 +69,7 @@ twic.vcl.Timeline = function(parent) {
      * @type {Element}
      * @private
      */
-    this.tweetButtons_ = twic.dom.expandElement('div.tweetButtons');
+    this.tweetButtons_ = twic.dom.expandElement('div.tweet-buttons');
 
     /**
      * @type {Element}
@@ -231,7 +225,7 @@ twic.vcl.Timeline = function(parent) {
         timeline.mouseOut_.call(timeline, e);
     }, false);
 
-    parent.addEventListener('scroll', function(e) {
+    window.addEventListener('scroll', function(e) {
         if (timeline.hoveredTweet_) {
             timeline.hideButtons_.call(timeline, e);
         }
@@ -306,14 +300,14 @@ twic.vcl.Timeline.prototype.beginUpdate = function(isBottom, noBuffer) {
 twic.vcl.Timeline.prototype.hoverTweet_ = function(element, tweet) {
     var
         timeline = this,
-        hackTop = element.offsetTop - timeline.container_.scrollTop + element.clientHeight + 1;
+        hackTop = element.offsetTop - document.body.scrollTop + element.clientHeight + 1;
 
     timeline.hoveredTweet_ = element;
 
     timeline.resetButtons_();
     twic.dom.hide(timeline.tweetButtons_);
 
-    if (hackTop > timeline.container_.clientHeight) {
+    if (hackTop > window.innerHeight) {
         return;
     }
 

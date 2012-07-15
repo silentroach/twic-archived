@@ -6,3 +6,7 @@
 #timeline .toolbar p span {
     vertical-align: top;
     }
+
+#timeline .newtweet {
+    padding-top: 3px;
+    }

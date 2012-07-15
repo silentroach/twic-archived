@@ -61,6 +61,12 @@ twic.pages.TimelinePage = function() {
      */
     this.userId_ = 0;
 
+    /**
+     * @type {number}
+     * @private
+     */
+    this.updating_ = false;
+
 };
 
 goog.inherits(twic.pages.TimelinePage, twic.Page);
@@ -147,12 +153,20 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
     var
         page = this;
 
+    if (page.updating_) {
+        return false;
+    }
+
     if (page.timeline_.beginUpdate(false, true)) {
+        page.updating_ = true;
+
         twic.requests.makeRequest(page.getMethod_, {
             'id': page.userId_,
             'after': page.timeline_.getLastTweetId()
         }, function(data) {
             page.buildList_.call(page, data);
+
+            page.updating_ = false;
         } );
     }
 };
@@ -166,11 +180,15 @@ twic.pages.TimelinePage.prototype.updateBottom_ = function() {
         page = this,
         firstId = page.timeline_.getFirstTweetId();
 
-    if (firstId.id === page.cachedFirstId_) {
+    if (page.updating_
+        || firstId.id === page.cachedFirstId_
+    ) {
         return false;
     }
 
     if (page.timeline_.beginUpdate(true, true)) {
+        page.updating_ = true;
+
         twic.requests.makeRequest(page.getMethod_, {
             'id': page.userId_,
             'before': firstId
@@ -178,6 +196,8 @@ twic.pages.TimelinePage.prototype.updateBottom_ = function() {
             page.cachedFirstId_ = firstId.id;
 
             page.buildList_.call(page, data);
+
+            page.updating_ = false;
         } );
     }
 };
@@ -300,9 +320,7 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(userId, startPart, 
  * Handler for the scroll event
  */
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
-    if (this.pageElement_.scrollHeight > this.pageElement_.offsetHeight
-        && this.pageElement_.scrollHeight - this.pageElement_.offsetHeight - this.pageElement_.scrollTop < 100
-    ) {
+    if (document.body.scrollHeight - window.innerHeight - document.body.scrollTop < 100) {
         this.updateBottom_();
     }
 };
@@ -313,7 +331,7 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
 
     twic.Page.prototype.initOnce.call(page);
 
-    page.pageElement_.addEventListener('scroll', function(e) {
+    window.addEventListener('scroll', function(e) {
         page.scrollHandler_.call(page, e);
     }, false);
 
