@@ -8,17 +8,18 @@
 ( function() {
     var
         nowDate = (new Date()).toDateString(),
+        storage = window.localStorage,
         cleanupMarkItem = 'lastCleanup',
         configCheckItem = 'lastConfigCheck';
 
-    if (nowDate !== window.localStorage.getItem(cleanupMarkItem)) {
-        window.localStorage.setItem(cleanupMarkItem, nowDate);
+    if (nowDate !== storage.getItem(cleanupMarkItem)) {
+        storage.setItem(cleanupMarkItem, nowDate);
 
         twic.db.cleanup();
     }
 
-    if (nowDate !== window.localStorage.getItem(configCheckItem)) {
-        window.localStorage.setItem(configCheckItem, nowDate);
+    if (nowDate !== storage.getItem(configCheckItem)) {
+        storage.setItem(configCheckItem, nowDate);
 
         twic.twitter.checkConfig();
     }
