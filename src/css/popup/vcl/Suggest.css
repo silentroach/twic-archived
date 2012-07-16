@@ -2,7 +2,7 @@
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
- 
+
 .suggest {
     padding: 1px;
     font-size: 8pt !important;
@@ -22,7 +22,7 @@
         .suggest li.selected {
             background-color: silver;
             cursor: pointer;
-            background-color: rgba(0, 0, 0, .1);
+            background-color: #e6e6e6;
             }
         .suggest li:last-child {
             border-right: 0px;
