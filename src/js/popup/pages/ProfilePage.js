@@ -344,6 +344,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
     if (data) {
         var
             /** @type {Element} **/ marginElement = null,
+            /** @type {boolean} **/ marginUnderBio = false,
             /** @type {string} **/  description = data['description'],
             /** @type {string} **/  loc = data['location'];
 
@@ -364,23 +365,34 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 
         // page.elementDirect_.href = page.directLinkBase_ + data['screen_name'];
 
-        if (loc.trim() !== '') {
-            page.elementLocation_.innerHTML = loc;
-            marginElement = page.elementLocation_;
-
-            twic.dom.show(page.elementLocation_);
-        }
-
+        // site
         if (data['url'] !== '') {
+            marginUnderBio = true;
+
             page.elementUrl_.innerHTML = twic.utils.url.humanize(data['url']);
             marginElement = page.elementUrl_;
 
             twic.dom.show(page.elementUrl_);
         }
 
+        // location
+        if (loc.trim() !== '') {
+            marginUnderBio = true;
+
+            page.elementLocation_.innerHTML = loc;
+            marginElement = page.elementLocation_;
+
+            twic.dom.show(page.elementLocation_);
+        }
+
+        // bio
         if (description.trim() !== '') {
             page.elementBio_.innerHTML = twic.utils.url.processText(description);
             marginElement = page.elementBio_;
+
+            if (marginUnderBio) {
+                page.elementBio_.style.marginBottom = '1em';
+            }
 
             twic.dom.show(page.elementBio_);
         }
