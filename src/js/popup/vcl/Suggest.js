@@ -254,7 +254,7 @@ twic.vcl.Suggest.prototype.select_ = function() {
     suggest.textarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
     suggest.textarea_.selectionEnd = suggest.textarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
 
-    suggest.triggerEvent('select');
+    suggest.triggerEvent_('select');
 
     suggest.remove_();
 };

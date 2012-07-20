@@ -53,7 +53,7 @@ twic.pages.TimelinePage = function() {
      * @type {string}
      * @protected
      */
-    this.getMethod_ = null;
+    this.getMethod_ = '';
 
     /**
      * @type {number}
@@ -62,7 +62,7 @@ twic.pages.TimelinePage = function() {
     this.userId_ = 0;
 
     /**
-     * @type {number}
+     * @type {boolean}
      * @private
      */
     this.updating_ = false;
