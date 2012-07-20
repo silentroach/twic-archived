@@ -31,11 +31,11 @@
         ],
         "js" : [
             "js/init.js",
-            "js/i18n.js",
-            "js/dom.js",
-            "js/global.js",
-            "js/debug.js",
-            "js/requests.js",
+            "js/common/i18n.js",
+            "js/common/dom.js",
+            "js/common/global.js",
+            "js/common/debug.js",
+            "js/common/requests.js",
             "js/inline/auth.js"
         ]
     } ],

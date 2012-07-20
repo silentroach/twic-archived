@@ -1,5 +1,5 @@
 /**
- * @preserve Kalashnikov Igor <igor.kalashnikov@gmail.com>
+ * @preserve Kalashnikov Igor <igor.kalashnikov@me.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  *
  * Feel free to help me

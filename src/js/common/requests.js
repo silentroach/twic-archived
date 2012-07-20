@@ -49,14 +49,16 @@ twic.requests.handle = function(request, sender, sendResponse) {
     var
         method = request['method'],
         subscription = twic.requests.subscriptions_[method],
-        data = request['data'] || {},
         i;
 
     if (method
         && subscription
     ) {
         for (i = 0; i < subscription.length; ++i) {
-            subscription[i](data, sendResponse);
+            subscription[i](
+                request['data'] || {},
+                sendResponse
+            );
         }
     } else {
         sendResponse({});
