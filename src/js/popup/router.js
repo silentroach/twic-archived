@@ -101,7 +101,7 @@ twic.router.changeFrame_ = function(targetFrameName, data) {
         page = twic.router.pages_[targetFrameName];
     }
 
-    twic.router.frames_[targetFrameName].style.display = 'block';
+    twic.dom.show(twic.router.frames_[targetFrameName]);
     page.handle.call(page, data);
 
     if (page.remember) {

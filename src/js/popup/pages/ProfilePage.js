@@ -307,7 +307,7 @@ twic.pages.ProfilePage.prototype.showProfileFriendship_ = function(following) {
         };
     }
 
-    page.elementFollowings_.style.display = 'block';
+    twic.dom.show(page.elementFollowings_);
 };
 
 /**
@@ -352,7 +352,7 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
         // fixme shitcode
         page.elementAvatar_.src = data['avatar'].replace('_normal.', '_bigger.');
         page.elementAvatar_.title = '@' + data['screen_name'];
-        page.elementAvatar_.style.display = '';
+        twic.dom.show(page.elementAvatar_);
 
         // user properties
         if (data['is_protected']) {
@@ -405,8 +405,9 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
                 'target_id': data['id']
             }, function(data) {
                 twic.dom.hide(page.elementLoader_);
+                twic.dom.show(page.elementFollowings_);
+
                 page.showProfileFriendship_(data['following']);
-                page.elementFollowings_.style.display = 'block';
             } );
         }
     }

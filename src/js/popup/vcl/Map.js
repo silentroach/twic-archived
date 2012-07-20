@@ -50,7 +50,7 @@ twic.vcl.Map.prototype.drawMap_ = function() {
         coords = new google.maps.LatLng(map.lat_, map.lng_),
         gmap, gmarker;
 
-    map.container_.style.display = 'block';
+    twic.dom.show(map.container_);
 
     gmap = new google.maps.Map(map.container_, {
         'zoom': 13,

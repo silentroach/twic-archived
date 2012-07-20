@@ -402,7 +402,7 @@ twic.vcl.Tweet.prototype.setRetweeter = function(id, nick, av) {
 
     tweet.rtAvatar_.src = av;
 
-    tweet.rtAvatarLink_.style.display = 'block';
+    twic.dom.show(tweet.rtAvatarLink_);
 
     twic.dom.addClass(tweet.wrapper_, 'retweet');
 };

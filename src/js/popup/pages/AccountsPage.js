@@ -108,7 +108,7 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
     if (elements.length === 0) {
         if (this.firstAccountElement_) {
             this.firstAccountElement_.innerText = twic.i18n.translate('add_first_account');
-            this.firstAccountElement_.style.display = 'block';
+            twic.dom.show(this.firstAccountElement_);
 
             twic.dom.addClass(this.elementAccountAdd_, 'pulsate');
 
@@ -118,7 +118,7 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
         return;
     } else {
         if (this.firstAccountElement_) {
-            this.firstAccountElement_.style.display = '';
+            twic.dom.hide(this.firstAccountElement_);
         }
     }
 
@@ -256,7 +256,7 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
 
                 page.bottomStatus_.innerHTML = twic.i18n.translate('alert_account_add_failed');
                 twic.dom.addClass(page.bottomStatus_, 'alert');
-                page.bottomStatus_.style.display = 'block';
+                twic.dom.show(page.bottomStatus_);
             }
         } );
     }, false);

@@ -319,7 +319,7 @@ twic.vcl.Timeline.prototype.hoverTweet_ = function(element, tweet) {
         //vConversation = twic.dom.toggle(timeline.tbConversation_, tweet.getCanConversation());
 
     if (vReply || vRetweet || vUnRetweet || vDelete) {// || vConversation) {
-        timeline.tweetButtons_.style.display = 'block';
+        twic.dom.show(timeline.tweetButtons_);
         timeline.tweetButtons_.style.top = (hackTop - timeline.tweetButtons_.clientHeight - 1) + 'px';
         timeline.tweetButtons_.style.right = (document.body.clientWidth - element.clientWidth) + 'px';
     }
