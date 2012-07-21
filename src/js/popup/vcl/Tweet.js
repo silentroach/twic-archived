@@ -528,10 +528,9 @@ twic.vcl.Tweet.prototype.getCanDelete = function() {
 };
 
 twic.vcl.Tweet.prototype.resetExtraInfo_ = function() {
-    /*
     if (this.mapVisible_) {
         this.toggleMap_();
-    }*/
+    }
 
     if (this.galleryVisible_) {
         this.toggleGallery_();
@@ -540,6 +539,7 @@ twic.vcl.Tweet.prototype.resetExtraInfo_ = function() {
 
 /**
  * Toggle the map
+ */
 twic.vcl.Tweet.prototype.toggleMap_ = function() {
     var
         tweet = this,
@@ -568,7 +568,6 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
 
     this.mapVisible_ = !this.mapVisible_;
 };
-*/
 
 /**
  * Toggle the preview image
@@ -679,7 +678,6 @@ twic.vcl.Tweet.prototype.setSource = function(newSource) {
  * @param {Array} info Geo info
  */
 twic.vcl.Tweet.prototype.setGeo = function(info) {
-    /*
     var
         tweet = this,
         markerSpan = twic.dom.expandElement('span.button.geo');
@@ -693,7 +691,6 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
     this.geo_ = info;
 
     twic.dom.insertFirst(this.otherInfo_, markerSpan);
-    */
 };
 
 /**

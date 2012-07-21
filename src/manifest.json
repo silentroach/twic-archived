@@ -42,7 +42,7 @@
     "omnibox": {
         "keyword": "@"
     },
-    "content_security_policy": "default-src 'none'; style-src 'self'; script-src 'self' https://*.googleapis.com https://maps.gstatic.com; connect-src *; img-src *",
+    "content_security_policy": "default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self' https://api-maps.yandex.ru; connect-src *; img-src *",
     "permissions": [
         "unlimitedStorage",
         "notifications",

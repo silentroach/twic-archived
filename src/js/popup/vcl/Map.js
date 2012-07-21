@@ -34,9 +34,13 @@ twic.vcl.Map = function(container, lat, lng) {
     map.lng_ = lng;
 
     twic.inject.js(
-        'https://maps.googleapis.com/maps/api/js?sensor=false&language='
+        'https://api-maps.yandex.ru/2.0/?load=package.full&lang='
         + chrome.app.getDetails().current_locale,
-        map.drawMap_.bind(map)
+        function() {
+            ymaps.ready( function() {
+                map.drawMap_.call(map);
+            } );
+        }
     );
 };
 
@@ -45,6 +49,20 @@ twic.vcl.Map = function(container, lat, lng) {
  * @private
  */
 twic.vcl.Map.prototype.drawMap_ = function() {
+    var
+        map = this,
+        ymap;
+
+    ymap = new ymaps.Map(
+        map.container_, {
+            center: [map.lat_, map.lng_],
+            zoom: 4
+        }
+    );
+
+    twic.dom.show(map.container_);
+
+    /*
     var
         map = this,
         coords = new google.maps.LatLng(map.lat_, map.lng_),
@@ -65,5 +83,5 @@ twic.vcl.Map.prototype.drawMap_ = function() {
         // @resource img/marker_map.gif
         'icon': '/img/marker_map.gif'
     } );
-
+    */
 };
