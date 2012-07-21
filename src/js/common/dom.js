@@ -157,37 +157,38 @@ twic.dom.findClosestParentByAttr = function(element, attrName) {
 /**
  * Change visibility for the element
  * @param {Element} element Element
- * @param {boolean} visible Is it visible?
+ * @param {boolean} visible Make it visible?
  * @return {boolean} Is it visible?
  */
-twic.dom.toggle = function(element, visible) {
+twic.dom.toggle = function(element, makeVisible) {
     var
-        // google closure compiler don't know about getComputedStyle :[
-        current = window['getComputedStyle'](element).getPropertyValue('display');
+        current;
 
-    if (visible
-        && 'none' === current
-    ) {
+    if (makeVisible) {
         element.style.display = element.dataset['display'] || '';
 
+        // google closure compiler don't know about getComputedStyle :[
         current = window['getComputedStyle'](element).getPropertyValue('display');
 
         if ('none' === current) {
             current = 'A' === element.nodeName ? 'inline' : 'block';
 
-            element.style.display = current;
             element.dataset['display'] = current;
+            element.style.display = current;
         }
-    } else
-    if (!visible) {
-        if ('undefined' === typeof element.dataset['display']) {
-            element.dataset['display'] = element.style.display;
-        }
+    } else {
+        current = window['getComputedStyle'](element).getPropertyValue('display');
 
-        element.style.display = 'none';
+        if ('none' !== current) {
+            if ('undefined' === typeof element.dataset['display']) {
+                element.dataset['display'] = element.style.display;
+            }
+
+            element.style.display = 'none';
+        }
     }
 
-    return visible;
+    return makeVisible;
 };
 
 /**
