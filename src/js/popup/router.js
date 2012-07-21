@@ -15,6 +15,11 @@ twic.router = { };
 twic.router.location_ = [];
 
 /**
+ * @type {number}
+ */
+twic.router.userId = 0;
+
+/**
  * @type {Object.<string, Element>}
  * @private
  */
@@ -25,9 +30,7 @@ twic.router.frames_ = ( function() {
         i;
 
     for (i = 0; i < tmp.length; ++i) {
-        var frame = tmp[i];
-
-        res[frame.id] = frame;
+        res[tmp[i].id] = tmp[i];
     }
 
     return res;
@@ -60,6 +63,18 @@ twic.router.pages_ = { };
 twic.router.handlers_ = { };
 
 /**
+ * Key used to store last popup location
+ * @const
+ */
+twic.router.STORAGE_LOCATION = 'router_location';
+
+/**
+ * Key used to store last user id
+ * @const
+ */
+twic.router.STORAGE_USER_ID  = 'router_user_id';
+
+/**
  * Get the previous frame names
  * @return {Array.<string>}
  */
@@ -84,7 +99,8 @@ twic.router.register = function(urlPart, pageCtor) {
  */
 twic.router.changeFrame_ = function(targetFrameName, data) {
     var
-        page = null;
+        page = null,
+        ls;
 
     if (twic.router.currentFrame_) {
         twic.dom.hide(twic.router.frames_[twic.router.currentFrame_]);
@@ -105,13 +121,14 @@ twic.router.changeFrame_ = function(targetFrameName, data) {
     page.handle.call(page, data);
 
     if (page.remember) {
-        window.localStorage.setItem('location', twic.router.location_.join('#'));
+        ls = window.localStorage;
+
+        ls.setItem(twic.router.STORAGE_USER_ID,  twic.router.userId);
+        ls.setItem(twic.router.STORAGE_LOCATION, twic.router.location_.join('#'));
     }
 };
 
-// -------------------------------------------------------------------
-
-window.onhashchange = function() {
+twic.router.handleHashChange = function() {
     // store the previous location
     twic.router.previousLocation_ = twic.router.location_;
 
@@ -127,3 +144,34 @@ window.onhashchange = function() {
         twic.router.changeFrame_(trg, twic.router.location_.slice(1));
     }
 };
+
+twic.router.init = function() {
+    var
+        ls = window.localStorage,
+        lastUser = ls.getItem(twic.router.STORAGE_USER_ID),
+        lastLocation = ls.getItem(twic.router.STORAGE_LOCATION);
+
+    // @todo remove in vertion 0.51
+    ls.removeItem('location');
+
+    // some user remembered?
+    if (lastUser) {
+        twic.debug.info('Last remembered user:', lastUser);
+
+        twic.router.userId = parseInt(lastUser, 10);
+    }
+
+    // try to switch to the page we remember before popup was closed
+    if (lastLocation) {
+        twic.debug.info('Last stored location:', lastLocation);
+
+        // go to the previous remembered location
+        window.location = window.location.pathname + '#' + lastLocation;
+    }
+
+    twic.router.handleHashChange();
+};
+
+// -------------------------------------------------------------------
+
+window.addEventListener('hashchange', twic.router.handleHashChange, false);

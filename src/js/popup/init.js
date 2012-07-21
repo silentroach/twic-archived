@@ -106,16 +106,5 @@ async.forEach( [
 ], function(func, callback) {
     func(callback);
 }, function() {
-    // try to switch to the page we remember before popup was closed
-
-    var lastLocation = window.localStorage.getItem('location');
-
-    if (lastLocation) {
-        twic.debug.info('Last stored location:', lastLocation);
-
-        // go to the previous remembered location
-        window.location = window.location.pathname + '#' + lastLocation;
-    }
-
-    window.onhashchange();
+    twic.router.init();
 } );
