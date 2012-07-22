@@ -1,4 +1,6 @@
 /**
+ * Some time ago there was dynamic gmaps, but with CSP for now (jule 2012) it is impossible
+ *
  * Kalashnikov Igor <igor.kalashnikov@gmail.com>
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported
  */
@@ -13,75 +15,22 @@
 twic.vcl.Map = function(container, lat, lng) {
 
     var
-        map = this;
+        mapImage = twic.dom.expandElement('img'),
+        srcArr = ['https://maps.google.com/maps/api/staticmap?'],
+        data = {
+            'sensor': 'false',
+            'zoom': 13,
+            'size': '380x200',
+            'maptype': 'roadmap',
+            'center': [lat,lng].join(',')
+        }, i;
 
-    /**
-     * @type {Element}
-     * @private
-     */
-    map.container_ = container;
+    for (i in data) {
+        srcArr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
+    }
 
-    /**
-     * @type {number}
-     * @private
-     */
-    map.lat_ = lat;
+    mapImage.src = srcArr.join('&');
 
-    /**
-     * @type {number}
-     * @private
-     */
-    map.lng_ = lng;
+    container.appendChild(mapImage);
 
-    twic.inject.js(
-        'https://api-maps.yandex.ru/2.0/?load=package.full&lang='
-        + chrome.app.getDetails().current_locale,
-        function() {
-            ymaps.ready( function() {
-                map.drawMap_.call(map);
-            } );
-        }
-    );
-};
-
-/**
- * Draw the map
- * @private
- */
-twic.vcl.Map.prototype.drawMap_ = function() {
-    var
-        map = this,
-        ymap;
-
-    ymap = new ymaps.Map(
-        map.container_, {
-            center: [map.lat_, map.lng_],
-            zoom: 4
-        }
-    );
-
-    twic.dom.show(map.container_);
-
-    /*
-    var
-        map = this,
-        coords = new google.maps.LatLng(map.lat_, map.lng_),
-        gmap, gmarker;
-
-    twic.dom.show(map.container_);
-
-    gmap = new google.maps.Map(map.container_, {
-        'zoom': 13,
-        'center': coords,
-        'mapTypeId': google.maps.MapTypeId.ROADMAP,
-        'streetViewControl': false
-    } ),
-
-    gmarker = new google.maps.Marker( {
-        'map': map,
-        'position': coords,
-        // @resource img/marker_map.gif
-        'icon': '/img/marker_map.gif'
-    } );
-    */
 };
