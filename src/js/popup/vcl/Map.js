@@ -22,7 +22,8 @@ twic.vcl.Map = function(container, lat, lng) {
             'zoom': 13,
             'size': '380x200',
             'maptype': 'roadmap',
-            'center': [lat,lng].join(',')
+            'center': [lat,lng].join(','),
+            'language': chrome.app.getDetails().current_locale
         }, i;
 
     for (i in data) {
