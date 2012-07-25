@@ -125,15 +125,13 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
             tweet.setSource(item['source']);
         }
 
-        if (
-            'links' in item
+        if ('links' in item
             && item['links'].length > 0
         ) {
             tweet.setLinks(item['links']);
         }
 
-        if (
-            'media' in item
+        if ('media' in item
             && item['media'].length > 0
         ) {
             tweet.setImages(item['media']);
@@ -320,7 +318,7 @@ twic.pages.TimelinePage.prototype.getSuggestList_ = function(userId, startPart, 
  * Handler for the scroll event
  */
 twic.pages.TimelinePage.prototype.scrollHandler_ = function(e) {
-    if (document.body.scrollHeight - window.innerHeight - document.body.scrollTop < 100) {
+    if (document.body.scrollHeight - window.innerHeight - document.body.scrollTop < 150) {
         this.updateBottom_();
     }
 };
