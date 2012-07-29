@@ -28,12 +28,12 @@ twic.pages.MentionsPage.prototype.initOnce = function() {
 
     twic.pages.TimelinePage.prototype.initOnce.call(page);
 
-    page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
-    page.elementDirect_.title = twic.i18n.translate('title_directly');
-    page.directLinkBase_      = page.elementDirect_.href;
-    page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.pageElement_);
+    // page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
+    // page.elementDirect_.title = twic.i18n.translate('title_directly');
+    // page.directLinkBase_      = page.elementDirect_.href;
+    // page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.pageElement_);
 
-    twic.dom.findElement('.toolbar a', page.pageElement_).innerHTML = twic.i18n.translate('toolbar_accounts');
+    // twic.dom.findElement('.toolbar a', page.pageElement_).innerHTML = twic.i18n.translate('toolbar_accounts');
 };
 
 twic.pages.MentionsPage.prototype.handle = function(data) {
@@ -50,7 +50,7 @@ twic.pages.MentionsPage.prototype.handle = function(data) {
         return;
     }
 
-    page.accountNameElement_.innerHTML = '';
+    // page.accountNameElement_.innerHTML = '';
 
     page.userId_ = userId;
 
