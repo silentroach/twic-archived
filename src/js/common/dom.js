@@ -93,6 +93,7 @@ twic.dom.expandElement = function(expr) {
     var
         /** @const **/ expExpr = /((^|#|\.)[a-zA-Z0-9_-]+)/g,
         /** @type {string} **/ part,
+        /** @type {string} **/ name,
         element = null,
         res;
 
@@ -105,12 +106,15 @@ twic.dom.expandElement = function(expr) {
 
         if (part === '') {
             element = document.createElement(res[1]);
-        } else
-        if (part === '.') {
-            twic.dom.addClass(element, res[1].substring(1));
-        } else
-        if (part === '#') {
-            element.setAttribute('id', res[1].substring(1));
+        } else {
+            name = res[1].substring(1);
+
+            if (part === '.') {
+                twic.dom.addClass(element, name);
+            } else
+            if (part === '#') {
+                element.setAttribute('id', name);
+            }
         }
 
         res = expExpr.exec(expr);
@@ -157,7 +161,7 @@ twic.dom.findClosestParentByAttr = function(element, attrName) {
 /**
  * Change visibility for the element
  * @param {Element} element Element
- * @param {boolean} visible Make it visible?
+ * @param {boolean} makeVisible Make it visible?
  * @return {boolean} Is it visible?
  */
 twic.dom.toggle = function(element, makeVisible) {
