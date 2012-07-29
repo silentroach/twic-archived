@@ -3,6 +3,7 @@
     + Different badge colors for unread tweets/mentions
     + Some stats about user in profile page
     * Using static google maps for location based tweets
+    * Overall stability issues fixes
 
 0.49: #ba29a57dcc
     * Again, fixing favicons
