@@ -61,27 +61,26 @@ twic.pages.HomeTimelinePage.prototype.initOnce = function() {
 
 twic.pages.HomeTimelinePage.prototype.handle = function(data) {
     var
-        page = this,
-        userId = parseInt(data[0], 10);
+        page = this;
 
     twic.Page.prototype.handle.call(page, data);
 
-    if (!data.length
-        || 1 !== data.length
-    ) {
+    if (!twic.router.userId) {
         window.location.hash = '#accounts';
         return;
     }
 
     // page.accountNameElement_.innerHTML = '';
 
-    page.userId_ = userId;
-
     page.newTweet_.innerHTML = '';
 
-    page.tweetEditor_ = new twic.vcl.TweetEditor(this.userId_, this.newTweet_);
+    page.tweetEditor_ = new twic.vcl.TweetEditor(
+        twic.router.userId,
+        this.newTweet_
+    );
+
     twic.requests.makeRequest('getUserInfo', {
-        'id': userId
+        'id': twic.router.userId
     }, function(info) {
         var
             geoEnabled = 1 == info['geo_enabled'];
@@ -98,7 +97,7 @@ twic.pages.HomeTimelinePage.prototype.handle = function(data) {
         page.tweetHandler_.call(page, editor, tweet, replyId, callback);
     };
     page.tweetEditor_.onGetSuggestList = function(startPart, callback) {
-        page.getSuggestList_.call(page, userId, startPart, callback);
+        page.getSuggestList_.call(page, twic.router.userId, startPart, callback);
     };
 
     page.update_();

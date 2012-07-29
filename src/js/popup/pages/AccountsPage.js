@@ -158,44 +158,92 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
     this.list_.appendChild(frag);
 };
 
-twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
+/**
+ * Get the account link on click
+ * @private
+ * @return {Element}
+ */
+twic.pages.AccountsPage.prototype.getAccountLink_ = function(e) {
     if (e.srcElement
         && e.srcElement.tagName === 'IMG'
         && e.srcElement.className === 'avatar'
     ) {
-        var
-            page      = this,
-            link      = e.srcElement.parentNode,
-            container = twic.dom.expandElement('div.container'),
-            bYes      = twic.dom.expandElement('a.button'),
-            bNo       = twic.dom.expandElement('a.button');
+        return e.srcElement.parentNode;
+    }
 
-        twic.dom.removeClass(page.elementAccountAdd_, 'pulsate');
-        page.removingAccountId_ = link.id;
+    return false;
+};
 
-        page.bottomStatus_.innerHTML = twic.i18n.translate('alert_remove_account', link.title);
+/**
+ * @private
+ */
+twic.pages.AccountsPage.prototype.accountClick_ = function(e) {
+    var
+        page = this,
+        accountElement = page.getAccountLink_(e);
 
-        bYes.innerHTML = twic.i18n.translate('button_yes');
-        bYes.href      = '#';
+    if (accountElement) {
+        twic.router.userId = accountElement.id;
 
-        bYes.addEventListener('click', function(e) {
-            e.preventDefault();
-            page.removeAccount_.call(page);
-        }, false);
+        window.location.hash = '#timeline';
+    }
+};
 
-        bNo.innerHTML  = twic.i18n.translate('button_no');
-        bNo.href       = '#';
+/**
+ * Changes for page to ask user to confirm account remove
+ * @private
+ * @param {number} userId
+ * @param {string} userName
+ */
+twic.pages.AccountsPage.prototype.prepareRemoveAction_ = function(userId, userName) {
+    var
+        page      = this,
+        container = twic.dom.expandElement('div.container'),
+        bYes      = twic.dom.expandElement('a.button'),
+        bNo       = twic.dom.expandElement('a.button');
 
-        bNo.addEventListener('click', function(e) {
-            e.preventDefault();
-            page.resetToolbar_.call(page, e);
-        }, false);
+    twic.dom.removeClass(page.elementAccountAdd_, 'pulsate');
+    page.removingAccountId_ = userId;
 
-        container.appendChild(bYes);
-        container.appendChild(bNo);
+    page.bottomStatus_.innerHTML = twic.i18n.translate('alert_remove_account', userName);
 
-        page.bottomStatus_.appendChild(container);
-        twic.dom.addClass(page.bottomStatus_, 'alert');
+    bYes.innerHTML = twic.i18n.translate('button_yes');
+    bYes.href      = '#';
+
+    bYes.addEventListener('click', function(e) {
+        e.preventDefault();
+        page.removeAccount_.call(page);
+    }, false);
+
+    bNo.innerHTML  = twic.i18n.translate('button_no');
+    bNo.href       = '#';
+
+    bNo.addEventListener('click', function(e) {
+        e.preventDefault();
+        page.resetToolbar_.call(page, e);
+    }, false);
+
+    container.appendChild(bYes);
+    container.appendChild(bNo);
+
+    page.bottomStatus_.appendChild(container);
+    twic.dom.addClass(page.bottomStatus_, 'alert');
+};
+
+/**
+ * @private
+ * @param {Event} e
+ */
+twic.pages.AccountsPage.prototype.accountContextClick_ = function(e) {
+    var
+        page = this,
+        accountElement = page.getAccountLink_(e);
+
+    if (accountElement) {
+        page.prepareRemoveAction_(
+            accountElement.id,
+            accountElement.title
+        );
     }
 };
 
@@ -212,14 +260,18 @@ twic.pages.AccountsPage.prototype.initOnce = function() {
     page.bottomStatus_ = twic.dom.findElement('#accounts_status');
     page.elementAccountAdd_ = twic.dom.findElement('#button_account_add');
 
-    if (twic.platforms.OSX === twic.platform) {
-        page.list_.addEventListener('click', function(e) {
-            if (e.metaKey) {
-                e.preventDefault();
-                page.accountContextClick_.call(page, e);
-            }
-        }, false );
-    } else {
+    page.list_.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        if (twic.events.isEventWithModifier(e)) {
+            page.accountContextClick_.call(page, e);
+        } else {
+            page.accountClick_.call(page, e);
+        }
+    }, false );
+
+    if (twic.platforms.OSX !== twic.platform) {
+        // for OS X it is checked on click with metaKey pressed (upper event listener)
         page.list_.addEventListener('contextmenu', page.accountContextClick_.bind(page), false);
     }
 

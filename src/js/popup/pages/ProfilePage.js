@@ -133,12 +133,6 @@ twic.pages.ProfilePage = function() {
      * @type {number}
      * @private
      */
-    page.timelineUserId = 0;
-
-    /**
-     * @type {number}
-     * @private
-     */
     page.profileUserId = 0;
 
     /**
@@ -245,7 +239,7 @@ twic.pages.ProfilePage.prototype.follow_ = function() {
     page.elementFollowedSpan_.className = 'loading';
 
     twic.requests.makeRequest('follow', {
-        'id': page.timelineUserId_,
+        'id': twic.router.userId,
         'whom_id': page.profileUserId_
     }, function() {
         page.showProfileFriendship_(true);
@@ -263,7 +257,7 @@ twic.pages.ProfilePage.prototype.unfollow_ = function() {
     page.elementFollowedSpan_.className = 'loading';
 
     twic.requests.makeRequest('unfollow', {
-        'id': page.timelineUserId_,
+        'id': twic.router.userId,
         'whom_id': page.profileUserId_
     }, function() {
         page.showProfileFriendship_(false);
@@ -407,13 +401,13 @@ twic.pages.ProfilePage.prototype.showProfile_ = function(data) {
 
         twic.dom.show(page.elementStats_);
 
-        if (!page.timelineUserId_
-            || page.timelineUserId_ === data['id']
+        if (!twic.router.userId
+            || twic.router.userId === data['id']
         ) {
             twic.dom.hide(page.elementLoader_);
         } else {
             twic.requests.makeRequest('getProfileFriendshipInfo', {
-                'source_id': page.timelineUserId_,
+                'source_id': twic.router.userId,
                 'target_id': data['id']
             }, function(data) {
                 twic.dom.hide(page.elementLoader_);
@@ -435,25 +429,6 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
         /** @type {string} **/ userName;
 
     // page.toolbarTimeline_.href = '#' + prevPage;
-
-    if (prevPage === 'about') {
-        // page.toolbarTimeline_.innerHTML = twic.i18n.translate('title_about');
-
-        // trying to find if we are using just one account
-        var
-            tmpList = document.querySelectorAll('#accounts ul li a');
-
-        if (tmpList.length === 1) {
-            page.timelineUserId_ = parseInt(tmpList[0].id, 10);
-        } else {
-            page.timelineUserId_ = null;
-        }
-    } else {
-        // page.toolbarTimeline_.innerHTML = twic.dom.findElement('#timeline .toolbar p span').innerHTML;
-        // page.toolbarTimeline_.href += '#' + prev.join('#');
-        // fixme shitcode
-        page.timelineUserId_ = parseInt(prev[0], 10);
-    }
 
     if (!data.length
         || 1 !== data.length

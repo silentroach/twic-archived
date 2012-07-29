@@ -56,12 +56,6 @@ twic.pages.TimelinePage = function() {
     this.getMethod_ = '';
 
     /**
-     * @type {number}
-     * @protected
-     */
-    this.userId_ = 0;
-
-    /**
      * @type {boolean}
      * @private
      */
@@ -83,7 +77,7 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
     // this.accountNameElement_.innerHTML = '@' + userName;
     // this.elementDirect_.href = this.directLinkBase_ + userName;
 
-    this.timeline_.setUserId(info['account']['id']);
+    this.timeline_.setUserId(twic.router.userId);
     this.timeline_.setUserNick(userName);
 
     for (id in data) {
@@ -159,7 +153,7 @@ twic.pages.TimelinePage.prototype.updateTop_ = function() {
         page.updating_ = true;
 
         twic.requests.makeRequest(page.getMethod_, {
-            'id': page.userId_,
+            'id': twic.router.userId,
             'after': page.timeline_.getLastTweetId()
         }, function(data) {
             page.buildList_.call(page, data);
@@ -188,7 +182,7 @@ twic.pages.TimelinePage.prototype.updateBottom_ = function() {
         page.updating_ = true;
 
         twic.requests.makeRequest(page.getMethod_, {
-            'id': page.userId_,
+            'id': twic.router.userId,
             'before': firstId
         }, function(data) {
             page.cachedFirstId_ = firstId.id;
@@ -255,7 +249,7 @@ twic.pages.TimelinePage.prototype.update_ = function() {
 
     // todo thank about smarter way to refresh the timeline
     twic.requests.makeRequest(page.getMethod_, {
-        'id': page.userId_
+        'id': twic.router.userId
     }, function(data) {
         page.buildList_.call(page, data);
     } );
@@ -280,14 +274,14 @@ twic.pages.TimelinePage.prototype.tweetHandler_ = function(editor, tweet, replyI
 
     if (replyId) {
         twic.requests.makeRequest('replyTweet', {
-            'id': page.userId_,
+            'id': twic.router.userId,
             'tweet': tweet.text,
             'coords': coords,
             'replyTo': replyId
         }, finish);
     } else {
         twic.requests.makeRequest('sendTweet', {
-            'id': page.userId_,
+            'id': twic.router.userId,
             'tweet': tweet.text,
             'coords': coords
         }, finish);
@@ -344,7 +338,7 @@ twic.pages.TimelinePage.prototype.initOnce = function() {
         page.doDelete_.call(page, userId, tweetId, callback);
     };
     page.timeline_.onReplierGetSuggestList = function(startPart, callback) {
-        page.getSuggestList_.call(page, page.userId_, startPart, callback);
+        page.getSuggestList_.call(page, twic.router.userId, startPart, callback);
     };
 };
 
