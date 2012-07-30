@@ -56,8 +56,8 @@ twic.dom.findElement('#toolbar_default .direct').title = twic.i18n.translate('ti
 
 twic.router.register('profile', twic.pages.ProfilePage);
 twic.router.register('accounts', twic.pages.AccountsPage);
-twic.router.register('timeline', twic.pages.HomeTimelinePage);
-twic.router.register('mentions', twic.pages.MentionsPage);
+twic.router.register('timeline', twic.pages.HomeTimelinePage, 'icon');
+twic.router.register('mentions', twic.pages.MentionsPage, 'icon');
 //twic.router.register('conversation', twic.pages.ConversationPage);
 twic.router.register('about', twic.pages.AboutPage);
 

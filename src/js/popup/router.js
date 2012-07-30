@@ -56,6 +56,13 @@ twic.router.previousLocation_ = [];
 twic.router.pages_ = { };
 
 /**
+ * Toolbar buttons
+ * @private
+ * @type {Object.<string, number>}
+ */
+twic.router.toolbarButtons_ = { };
+
+/**
  * Router handlers
  * @private
  * @type {Object.<string, !function(new:twic.Page)>}
@@ -84,11 +91,16 @@ twic.router.previous = function() {
 
 /**
  * Register the page with url part
- * @param {string} urlPart Url part
+ * @param {string} hash Hash
  * @param {function()} pageCtor Page constructor
+ * @param {?string} icon Icon path
  */
-twic.router.register = function(urlPart, pageCtor) {
-    twic.router.handlers_[urlPart] = pageCtor;
+twic.router.register = function(hash, pageCtor, icon) {
+    twic.router.handlers_[hash] = pageCtor;
+
+    if (icon) {
+        twic.router.toolbarButtons_[hash] = icon;
+    }
 };
 
 /**
