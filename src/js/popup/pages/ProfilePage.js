@@ -97,12 +97,6 @@ twic.pages.ProfilePage = function() {
      * @type {Element}
      * @private
      */
-    // page.elementDirect_ = null;
-
-    /**
-     * @type {Element}
-     * @private
-     */
     page.elementProps_ = null;
 
     /**
@@ -134,18 +128,6 @@ twic.pages.ProfilePage = function() {
      * @private
      */
     page.profileUserId = 0;
-
-    /**
-     * @type {Element}
-     * @private
-     */
-    page.toolbarTimeline_ = null;
-
-    /**
-     * @type {string}
-     * @private
-     */
-    page.directLinkBase_ = '';
 };
 
 goog.inherits(twic.pages.ProfilePage, twic.Page);
@@ -174,10 +156,6 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     page.elementFollowed_     = twic.dom.findElement('p',    page.elementFollowings_);
     page.elementFollowedSpan_ = twic.dom.findElement('span', page.elementFollowings_);
 
-    // page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
-    // page.elementDirect_.title = twic.i18n.translate('title_directly');
-    // page.directLinkBase_      = page.elementDirect_.href;
-
     page.elementLoader_   = twic.dom.findElement('.loader', page.pageElement_);
     page.elementAvatar_   = twic.dom.findElement('.avatar', page.pageElement_);
     page.elementName_     = twic.dom.findElement('.name',   page.pageElement_);
@@ -195,8 +173,6 @@ twic.pages.ProfilePage.prototype.initOnce = function() {
     twic.dom.findElement('.stats-tweets-i18n').innerHTML    = twic.i18n.translate('title_tweets');
     twic.dom.findElement('.stats-following-i18n').innerHTML = twic.i18n.translate('title_following');
     twic.dom.findElement('.stats-followers-i18n').innerHTML = twic.i18n.translate('title_followers');
-
-    // page.toolbarTimeline_ = twic.dom.findElement('.toolbar a', page.pageElement_);
 
     page.elementProps_ = twic.dom.findElement('.props', page.pageElement_);
 
@@ -427,8 +403,6 @@ twic.pages.ProfilePage.prototype.handle = function(data) {
         prev = twic.router.previous(),
         /** @type {string} **/ prevPage = prev.shift(),
         /** @type {string} **/ userName;
-
-    // page.toolbarTimeline_.href = '#' + prevPage;
 
     if (!data.length
         || 1 !== data.length

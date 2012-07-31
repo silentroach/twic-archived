@@ -26,24 +26,6 @@ twic.pages.TimelinePage = function() {
     this.cachedFirstId_ = '';
 
     /**
-     * @type {Element}
-     * @protected
-     */
-    this.accountNameElement_ = null;
-
-    /**
-     * @type {Element}
-     * @protected
-     */
-    this.elementDirect_ = null;
-
-    /**
-     * @type {string}
-     * @protected
-     */
-    this.directLinkBase_ = '';
-
-    /**
      * @type {twic.vcl.TweetEditor}
      * @protected
      */
@@ -73,9 +55,6 @@ twic.pages.TimelinePage.prototype.buildList_ = function(info) {
         id       = null,
         userName = info['account']['name'],
         data     = info['data'];
-
-    // this.accountNameElement_.innerHTML = '@' + userName;
-    // this.elementDirect_.href = this.directLinkBase_ + userName;
 
     this.timeline_.setUserId(twic.router.userId);
     this.timeline_.setUserNick(userName);

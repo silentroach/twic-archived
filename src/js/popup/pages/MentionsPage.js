@@ -27,13 +27,6 @@ twic.pages.MentionsPage.prototype.initOnce = function() {
     page.pageElement_ = twic.dom.findElement('#mentions');
 
     twic.pages.TimelinePage.prototype.initOnce.call(page);
-
-    // page.elementDirect_       = twic.dom.findElement('.toolbar p a', page.pageElement_);
-    // page.elementDirect_.title = twic.i18n.translate('title_directly');
-    // page.directLinkBase_      = page.elementDirect_.href;
-    // page.accountNameElement_  = twic.dom.findElement('.toolbar p span', page.pageElement_);
-
-    // twic.dom.findElement('.toolbar a', page.pageElement_).innerHTML = twic.i18n.translate('toolbar_accounts');
 };
 
 twic.pages.MentionsPage.prototype.handle = function(data) {
@@ -42,14 +35,10 @@ twic.pages.MentionsPage.prototype.handle = function(data) {
 
     twic.Page.prototype.handle.call(page, data);
 
-    if (!data.length
-        || 1 !== data.length
-    ) {
+    if (!twic.router.userId) {
         window.location.hash = '#accounts';
         return;
     }
-
-    // page.accountNameElement_.innerHTML = '';
 
     page.userId_ = twic.router.userId;
 
