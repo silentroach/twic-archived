@@ -239,17 +239,19 @@ twic.vcl.Suggest.prototype.remove_ = function() {
 twic.vcl.Suggest.prototype.select_ = function() {
     var
         suggest = this,
-        selectedElement = suggest.getSelectedElement_(),
         nickPart = suggest.extractNickPart_(),
-        val = suggest.textarea_.value;
+        val = suggest.textarea_.value,
+        selectedElement,
+        selectedNick;
 
     if (!nickPart.success) {
         suggest.remove_();
         return false;
     }
 
-    var
-        selectedNick = selectedElement.innerText;
+    selectedElement = suggest.getSelectedElement_();
+
+    selectedNick = selectedElement.innerText;
 
     suggest.textarea_.value = val.substring(0, nickPart.beg) + '@' + selectedNick + val.substring(nickPart.end);
     suggest.textarea_.selectionEnd = suggest.textarea_.selectionStart = nickPart.beg + selectedNick.length + 1;
@@ -262,11 +264,10 @@ twic.vcl.Suggest.prototype.select_ = function() {
 twic.vcl.Suggest.prototype.buildList_ = function(data, len) {
     var
         nickBuffer = document.createDocumentFragment(),
-        el, i;
+        el, i, nick;
 
     for (i = 0; i < data.length; ++i) {
-        var
-            nick = data[i];
+        nick = data[i];
 
         el = twic.dom.create('li');
         el.innerHTML = '<u>' + nick.substr(0, len) + '</u>' + nick.substr(len);
