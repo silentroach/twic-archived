@@ -67,7 +67,7 @@ twic.inject.js = function(file, callback) {
     scriptElement = twic.dom.create('script');
 
     if (callback) {
-        scriptElement.onload = callback;
+        scriptElement.addEventListener('load', callback, false);
     }
 
     twic.dom.attr(scriptElement, 'src', file);
