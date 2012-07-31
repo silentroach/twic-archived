@@ -129,10 +129,10 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
     for (i = 0; i < elements.length; ++i) {
         var
             element = elements[i],
-            avatar = twic.dom.expandElement('img.avatar'),
-            a = twic.dom.expandElement('a#' + element['id']),
+            avatar = twic.dom.expand('img.avatar'),
+            a = twic.dom.expand('a#' + element['id']),
             utweets = element['unread_tweets'],
-            li = twic.dom.expandElement('li');
+            li = twic.dom.create('li');
 
         avatar.src = element['avatar'];
 
@@ -143,7 +143,7 @@ twic.pages.AccountsPage.prototype.buildList_ = function(elements) {
 
         if (utweets > 0) {
             var
-                utspan = twic.dom.expandElement('span.utweets');
+                utspan = twic.dom.expand('span.utweets');
 
             utspan.innerHTML = utweets;
 
@@ -198,9 +198,9 @@ twic.pages.AccountsPage.prototype.accountClick_ = function(e) {
 twic.pages.AccountsPage.prototype.prepareRemoveAction_ = function(userId, userName) {
     var
         page      = this,
-        container = twic.dom.expandElement('div.container'),
-        bYes      = twic.dom.expandElement('a.button'),
-        bNo       = twic.dom.expandElement('a.button');
+        container = twic.dom.expand('div.container'),
+        bYes      = twic.dom.expand('a.button'),
+        bNo       = twic.dom.expand('a.button');
 
     twic.dom.removeClass(page.elementAccountAdd_, 'pulsate');
     page.removingAccountId_ = userId;

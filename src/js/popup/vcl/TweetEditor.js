@@ -19,12 +19,12 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     var
         editor = this,
         /** @type {Storage} **/ storage         = window.localStorage,
-        /** @type {Element} **/ editorWrapper   = twic.dom.expandElement('div.tweetEditor'),
-        /** @type {Element} **/ editorSend      = twic.dom.expandElement('input'),
-        /** @type {Element} **/ editorAttach    = twic.dom.expandElement('img.attach.disabled'),
-        /** @type {Element} **/ rightButtons    = twic.dom.expandElement('div.rb'),
-        /** @type {Element} **/ editorCounter   = twic.dom.expandElement('span'),
-        /** @type {Element} **/ clearer         = twic.dom.expandElement('div.clearer');
+        /** @type {Element} **/ editorWrapper   = twic.dom.expand('div.tweetEditor'),
+        /** @type {Element} **/ editorSend      = twic.dom.create('input'),
+        /** @type {Element} **/ editorAttach    = twic.dom.expand('img.attach.disabled'),
+        /** @type {Element} **/ rightButtons    = twic.dom.expand('div.rb'),
+        /** @type {Element} **/ editorCounter   = twic.dom.create('span'),
+        /** @type {Element} **/ clearer         = twic.dom.expand('div.clearer');
 
     twic.EventSupported.call(this);
 
@@ -46,7 +46,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
      * @type {Element}
      * @private
      */
-    this.suggestBlock_ = twic.dom.expandElement('div');
+    this.suggestBlock_ = twic.dom.create('div');
 
     /**
      * @type {Element}
@@ -88,7 +88,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
      * @type {Element}
      * @private
      */
-    this.editorTextarea_ = twic.dom.expandElement('textarea');
+    this.editorTextarea_ = twic.dom.create('textarea');
 
     this.editorTextarea_['spellcheck'] = false;
     this.editorTextarea_.placeholder = twic.i18n.translate(
@@ -115,7 +115,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
         lng: 0
     };
 
-    this.geoInfo_ = twic.dom.expandElement('img.geo.disabled');
+    this.geoInfo_ = twic.dom.expand('img.geo.disabled');
     // @resource img/buttons/map.png
     this.geoInfo_.src = 'img/buttons/map.png';
     this.geoInfo_.title = twic.i18n.translate('title_button_geo') +
@@ -290,7 +290,7 @@ twic.vcl.TweetEditor = function(userId, parent, replyTo) {
     editor.close = function() {
         document.removeEventListener('click', handleOutClick, false);
 
-        twic.dom.removeElement(editorWrapper);
+        twic.dom.remove(editorWrapper);
 
         editor.triggerEvent_('close');
     };

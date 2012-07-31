@@ -11,7 +11,7 @@ twic.dom = { };
  * Remove the item from dom
  * @param {Element} element Element ;)
  */
-twic.dom.removeElement = function(element) {
+twic.dom.remove = function(element) {
     element.parentNode.removeChild(element);
 };
 
@@ -85,11 +85,44 @@ twic.dom.hasClass = function(element, className) {
 };
 
 /**
+ * Creates tag with tagName
+ * @param {string} tagName Tag name
+ * @return {Element}
+ */
+twic.dom.create = function(tagName) {
+    return document.createElement(tagName);
+};
+
+/**
+ * Set attribute
+ * @param {Element} element Element
+ * @param {string} name Attribute name
+ * @param {string} value Attribute value
+ */
+twic.dom.attr = function(element, name, value) {
+    element.setAttribute(name, value);
+};
+
+/**
+ * Set attributes
+ * @param {Element} element Element
+ * @param {Object.<string, string>} attributes
+ */
+twic.dom.attrs = function(element, attributes) {
+    var
+        i;
+
+    for (i in attributes) {
+        twic.dom.attr(element, i, attributes[i]);
+    }
+};
+
+/**
  * Expand the expression
  * @param {string} expr Expression
  * @return {Element}
  */
-twic.dom.expandElement = function(expr) {
+twic.dom.expand = function(expr) {
     var
         /** @const **/ expExpr = /((^|#|\.)[a-zA-Z0-9_-]+)/g,
         /** @type {string} **/ part,
@@ -105,7 +138,7 @@ twic.dom.expandElement = function(expr) {
         part = res[2];
 
         if (part === '') {
-            element = document.createElement(res[1]);
+            element = twic.dom.create(res[1]);
         } else {
             name = res[1].substring(1);
 
@@ -113,7 +146,7 @@ twic.dom.expandElement = function(expr) {
                 twic.dom.addClass(element, name);
             } else
             if (part === '#') {
-                element.setAttribute('id', name);
+                twic.dom.attr(element, 'id', name);
             }
         }
 

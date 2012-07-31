@@ -82,6 +82,9 @@ li.tweet .infoWrapper {
         height: 200px;
         border: 1px solid silver;
         }
+        li.tweet .infoWrapper .mapWrapper a {
+            display: block;
+            }
     li.tweet .infoWrapper .gallery img {
         max-width: 380px;
         }

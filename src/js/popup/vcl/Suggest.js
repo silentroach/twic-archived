@@ -20,7 +20,7 @@ twic.vcl.Suggest = function(editor) {
      * @type {Element}
      * @private
      */
-    suggest.nickList_ = twic.dom.expandElement('ul.suggest');
+    suggest.nickList_ = twic.dom.expand('ul.suggest');
 
     /**
      * @type {twic.vcl.TweetEditor}
@@ -268,7 +268,7 @@ twic.vcl.Suggest.prototype.buildList_ = function(data, len) {
         var
             nick = data[i];
 
-        el = twic.dom.expandElement('li');
+        el = twic.dom.create('li');
         el.innerHTML = '<u>' + nick.substr(0, len) + '</u>' + nick.substr(len);
         nickBuffer.appendChild(el);
     }

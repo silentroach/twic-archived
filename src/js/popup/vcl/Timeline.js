@@ -13,8 +13,8 @@ twic.vcl.Timeline = function(parent) {
     var
         timeline = this,
 
-        /** @type {Element} **/ buttonHolder = twic.dom.expandElement('div.holder'),
-        /** @type {Element} **/ confirmer    = twic.dom.expandElement('a.confirm');
+        /** @type {Element} **/ buttonHolder = twic.dom.expand('div.holder'),
+        /** @type {Element} **/ confirmer    = twic.dom.expand('a.confirm');
 
     confirmer.innerHTML = twic.i18n.translate('confirm_question');
     confirmer.href = '#';
@@ -23,7 +23,7 @@ twic.vcl.Timeline = function(parent) {
      * @type {Element}
      * @private
      */
-    this.wrapper_ = twic.dom.expandElement('div.timeline');
+    this.wrapper_ = twic.dom.expand('div.timeline');
 
     if (!twic.vcl.Timeline.options.avatarSizeDefault) {
         twic.dom.addClass(this.wrapper_, 'timeline32');
@@ -51,7 +51,7 @@ twic.vcl.Timeline = function(parent) {
      * @type {Element}
      * @private
      */
-    this.list_ = twic.dom.expandElement('ul');
+    this.list_ = twic.dom.create('ul');
 
     /**
      * @type {?number}
@@ -69,13 +69,13 @@ twic.vcl.Timeline = function(parent) {
      * @type {Element}
      * @private
      */
-    this.tweetButtons_ = twic.dom.expandElement('div.tweet-buttons');
+    this.tweetButtons_ = twic.dom.expand('div.tweet-buttons');
 
     /**
      * @type {Element}
      * @private
      */
-    this.loader_ = twic.dom.expandElement('p.loader');
+    this.loader_ = twic.dom.expand('p.loader');
 
     /**
      * @type {boolean}
@@ -140,33 +140,33 @@ twic.vcl.Timeline = function(parent) {
      * @type {Element}
      * @private
      */
-    this.tbReply_ = twic.dom.expandElement('img.tb_reply');
+    this.tbReply_ = twic.dom.expand('img.tb_reply');
     this.tbReply_.title = twic.i18n.translate('title_reply' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
     /**
      * @type {Element}
      * @private
      */
-    this.tbRetweet_ = twic.dom.expandElement('img.tb_retweet');
+    this.tbRetweet_ = twic.dom.expand('img.tb_retweet');
     this.tbRetweet_.title = twic.i18n.translate('title_retweet' + (twic.platforms.OSX === twic.platform ? '_osx' : ''));
 
     /**
      * @type {Element}
      * @private
      */
-    this.tbUnRetweet_ = twic.dom.expandElement('img.tb_retweet_undo');
+    this.tbUnRetweet_ = twic.dom.expand('img.tb_retweet_undo');
     this.tbUnRetweet_.title = twic.i18n.translate('title_retweet_undo');
 
     /**
      * @type {Element}
      * @private
      */
-    this.tbDelete_ = twic.dom.expandElement('img.tb_delete');
+    this.tbDelete_ = twic.dom.expand('img.tb_delete');
     this.tbDelete_.title = twic.i18n.translate('title_delete');
 
     // @type {Element}
     // @private
-    // this.tbConversation_ = twic.dom.expandElement('img.tb_conversation');
+    // this.tbConversation_ = twic.dom.expand('img.tb_conversation');
     // this.tbConversation_.title = twic.i18n.translate('title_conversation');
 
     // init
@@ -545,7 +545,7 @@ twic.vcl.Timeline.prototype.endUpdate = function() {
             this.tweetBuffer_ = null;
         }
 
-        twic.dom.removeElement(this.loader_);
+        twic.dom.remove(this.loader_);
 
         this.isLoading_ = false;
     }

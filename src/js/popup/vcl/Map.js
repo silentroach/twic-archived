@@ -15,23 +15,41 @@
 twic.vcl.Map = function(container, lat, lng) {
 
     var
-        mapImage = twic.dom.expandElement('img'),
-        srcArr = ['https://maps.google.com/maps/api/staticmap?'],
-        data = {
+        i,
+        coords = [lat,lng].join(','),
+        mapLink = twic.dom.create('a'),
+        mapLinkSrc = ['https://maps.google.com/maps?'],
+        mapLinkSrcData = {
+            'll': coords,
+            'z': 13
+        },
+
+        mapImage = twic.dom.create('img'),
+        mapImageSrc = ['https://maps.google.com/maps/api/staticmap?'],
+        mapImageSrcData = {
             'sensor': 'false',
             'zoom': 13,
             'size': '380x200',
             'maptype': 'roadmap',
-            'center': [lat,lng].join(','),
+            'center': coords,
             'language': chrome.app.getDetails().current_locale
-        }, i;
+        };
 
-    for (i in data) {
-        srcArr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
+    for (i in mapLinkSrcData) {
+        mapLinkSrc.push(encodeURIComponent(i) + '=' + encodeURIComponent(mapLinkSrcData[i]));
     }
 
-    mapImage.src = srcArr.join('&');
+    for (i in mapImageSrcData) {
+        mapImageSrc.push(encodeURIComponent(i) + '=' + encodeURIComponent(mapImageSrcData[i]));
+    }
 
-    container.appendChild(mapImage);
+    twic.dom.attrs(mapLink, {
+        'href': mapLinkSrc.join('&'),
+        'target': '_blank'
+    } );
+    twic.dom.attr(mapImage, 'src', mapImageSrc.join('&'));
+
+    mapLink.appendChild(mapImage);
+    container.appendChild(mapLink);
 
 };

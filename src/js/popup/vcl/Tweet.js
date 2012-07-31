@@ -39,37 +39,37 @@ twic.vcl.Tweet = function(id, timeline) {
      * @type {Element}
      * @private
      */
-    this.avatar_ = twic.dom.expandElement('img.avatar');
+    this.avatar_ = twic.dom.expand('img.avatar');
 
     /**
      * @type {Element}
      * @private
      */
-    this.avatarLink_ = twic.dom.expandElement('a.avatar');
+    this.avatarLink_ = twic.dom.expand('a.avatar');
 
     /**
      * @type {Element}
      * @private
      */
-    this.rtAvatarLink_ = twic.dom.expandElement('a.avatar.retweeter');
+    this.rtAvatarLink_ = twic.dom.expand('a.avatar.retweeter');
 
     /**
      * @type {Element}
      * @private
      */
-    this.rtAvatar_ = twic.dom.expandElement('img.avatar');
+    this.rtAvatar_ = twic.dom.expand('img.avatar');
 
     /**
      * @type {Element}
      * @private
      */
-    this.wrapper_ = twic.dom.expandElement('li#' + this.id_ + '.tweet');
+    this.wrapper_ = twic.dom.expand('li#' + this.id_ + '.tweet');
 
     /**
      * @type {Element}
      * @private
      */
-    this.tweetContent_ = twic.dom.expandElement('p');
+    this.tweetContent_ = twic.dom.create('p');
 
     /**
      * @type {string}
@@ -166,7 +166,7 @@ twic.vcl.Tweet = function(id, timeline) {
      * @type {Element}
      * @private
      */
-    this.timeSpan_ = twic.dom.expandElement('span.time');
+    this.timeSpan_ = twic.dom.expand('span.time');
 
     /**
      * @type {Element}
@@ -178,19 +178,19 @@ twic.vcl.Tweet = function(id, timeline) {
      * @type {Element}
      * @private
      */
-    this.otherInfo_ = twic.dom.expandElement('p.info');
+    this.otherInfo_ = twic.dom.expand('p.info');
 
     /**
      * @type {Element}
      * @private
      */
-    this.replyWrapper_ = twic.dom.expandElement('div');
+    this.replyWrapper_ = twic.dom.create('div');
 
     /**
      * @type {Element}
      * @private
      */
-    this.infoWrapper_ = twic.dom.expandElement('div.infoWrapper');
+    this.infoWrapper_ = twic.dom.expand('div.infoWrapper');
 
     /**
      * @type {Element}
@@ -213,7 +213,7 @@ twic.vcl.Tweet = function(id, timeline) {
     this.wrapper_.appendChild(this.rtAvatarLink_);
     this.wrapper_.appendChild(this.tweetContent_);
     this.wrapper_.appendChild(this.otherInfo_);
-    this.wrapper_.appendChild(twic.dom.expandElement('div.clearer'));
+    this.wrapper_.appendChild(twic.dom.expand('div.clearer'));
     this.wrapper_.appendChild(this.infoWrapper_);
     this.wrapper_.appendChild(this.replyWrapper_);
 };
@@ -350,7 +350,7 @@ twic.vcl.Tweet.prototype.setUnixTime = function(newUnixTime, asLink) {
     this.unixtime_ = newUnixTime;
 
     if (asLink) {
-        this.timeLink_ = twic.dom.expandElement('a');
+        this.timeLink_ = twic.dom.create('a');
 
         this.timeSpan_.appendChild(this.timeLink_);
     }
@@ -425,14 +425,18 @@ twic.vcl.Tweet.prototype.setAuthor = function(id, nick, av) {
     }
 
     if (tweet.timeLink_) {
-        tweet.timeLink_.setAttribute('href', 'https://twitter.com/#!/' + nick + '/status/' + tweet.id_);
-        tweet.timeLink_.setAttribute('target', '_blank');
+        twic.dom.attrs(tweet.timeLink_, {
+            'href': 'https://twitter.com/#!/' + nick + '/status/' + tweet.id_,
+            'target': '_blank'
+        } );
     }
 
-    tweet.avatarLink_.title = '@' + nick;
-    tweet.avatarLink_.href = '#profile#' + nick;
+    twic.dom.attrs(tweet.avatarLink_, {
+        'title': '@' + nick,
+        'href': '#profile#' + nick
+    } );
 
-    tweet.avatar_.src = av;
+    twic.dom.attr(tweet.avatar_, 'src', av);
 };
 
 twic.vcl.Tweet.prototype.getCanConversation = function() {
@@ -556,9 +560,9 @@ twic.vcl.Tweet.prototype.toggleMap_ = function() {
     }
 
     if (!this.infoMap_) {
-        this.infoMap_ = twic.dom.expandElement('div.map');
+        this.infoMap_ = twic.dom.expand('div.map');
 
-        mapContainer = twic.dom.expandElement('div.mapWrapper');
+        mapContainer = twic.dom.expand('div.mapWrapper');
         this.infoMap_.appendChild(mapContainer);
 
         this.infoWrapper_.appendChild(this.infoMap_);
@@ -590,18 +594,21 @@ twic.vcl.Tweet.prototype.toggleGallery_ = function() {
         var
             i;
 
-        this.infoGallery_ = twic.dom.expandElement('div.gallery');
+        this.infoGallery_ = twic.dom.expand('div.gallery');
 
         for (i = 0; i < this.images_.length; ++i) {
             var
-                img = twic.dom.expandElement('img'),
-                imgLink = twic.dom.expandElement('a'),
+                img = twic.dom.create('img'),
+                imgLink = twic.dom.create('a'),
                 imageInfo = this.images_[i];
 
-            img.setAttribute('src', imageInfo[0]);
+            twic.dom.attr(img, 'src', imageInfo[0]);
 
-            imgLink.setAttribute('href', imageInfo[1]);
-            imgLink.setAttribute('target', '_blank');
+            twic.dom.attrs(imgLink, {
+                'href': imageInfo[1],
+                'target': '_blank'
+            } );
+
             imgLink.appendChild(img);
 
             this.infoGallery_.appendChild(imgLink);
@@ -666,7 +673,7 @@ twic.vcl.Tweet.prototype.reply = function(all) {
  */
 twic.vcl.Tweet.prototype.setSource = function(newSource) {
     var
-        clientSpan = twic.dom.expandElement('span.client');
+        clientSpan = twic.dom.expand('span.client');
 
     clientSpan.innerHTML = (0 !== this.unixtime_ ? ' ' + twic.i18n.translate('via') + ' ' : '') +
         newSource.replace('<a ', '<a target="_blank" ') + '<br />';
@@ -680,7 +687,7 @@ twic.vcl.Tweet.prototype.setSource = function(newSource) {
 twic.vcl.Tweet.prototype.setGeo = function(info) {
     var
         tweet = this,
-        markerSpan = twic.dom.expandElement('span.button.geo');
+        markerSpan = twic.dom.expand('span.button.geo');
 
     markerSpan.innerHTML = '&nbsp;&nbsp;';
 
@@ -700,7 +707,7 @@ twic.vcl.Tweet.prototype.setGeo = function(info) {
 twic.vcl.Tweet.prototype.setImages = function(previews) {
     var
         tweet = this,
-        previewSpan = twic.dom.expandElement('span.button.img');
+        previewSpan = twic.dom.expand('span.button.img');
 
     this.images_ = previews;
 

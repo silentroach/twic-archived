@@ -23,6 +23,9 @@ twic.inject.injected_ = { };
  * @param {string} file Filename
  */
 twic.inject.css = function(file) {
+    var
+        styleElement;
+
     if (file in twic.inject.injected_) {
         return false;
     } else {
@@ -33,10 +36,12 @@ twic.inject.css = function(file) {
         twic.inject.headElement_ = twic.dom.findElement('head');
     }
 
-    var styleElement = twic.dom.expandElement('link');
-    styleElement.setAttribute('rel', 'stylesheet');
-    styleElement.setAttribute('type', 'text/css');
-    styleElement.setAttribute('href', file);
+    styleElement = twic.dom.create('link');
+    twic.dom.attrs(styleElement, {
+        'rel': 'stylesheet',
+        'type': 'text/css',
+        'href': file
+    } );
 
     twic.inject.headElement_.appendChild(styleElement);
 };
@@ -46,6 +51,9 @@ twic.inject.css = function(file) {
  * @param {function()=} callback Callback
  */
 twic.inject.js = function(file, callback) {
+    var
+        scriptElement;
+
     if (file in twic.inject.injected_) {
         if (callback) {
             callback();
@@ -56,12 +64,13 @@ twic.inject.js = function(file, callback) {
         twic.inject.injected_[file] = 1;
     }
 
-    var scriptElement = twic.dom.expandElement('script');
+    scriptElement = twic.dom.create('script');
 
     if (callback) {
         scriptElement.onload = callback;
     }
 
-    scriptElement.src = file;
+    twic.dom.attr(scriptElement, 'src', file);
+
     document.body.appendChild(scriptElement);
 };
