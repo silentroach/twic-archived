@@ -10,6 +10,7 @@
     }
     .timeline ul li.tweet {
         padding: 1px 4px;
+        margin-bottom: 1px;
         -webkit-box-shadow: 0 1px 1px rgba(192, 192, 192, .4);
         }
 
