@@ -1,14 +1,14 @@
-The opensource minimalist multi account twitter client for Chrome.
+An opensource minimalistic multi account twitter client for Chrome.
 
-Just an alpha version, please don't expect more than it has.
+Just an alpha version, please don't expect too much.
 
 With Twic now you can:
 * Add as much accounts as you want
 * Read the home timeline
 * Write your tweets
-* Reply (+ to all), retweet (+ oldscool), undo the retweet
+* Reply (+ to all), retweet (+ oldschool), undo retweet
 * Delete your own tweets
-* Get some info about user profile
+* Get some info about user profiles
 * Follow/unfollow users
 
 Changelog:
