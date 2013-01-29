@@ -1,6 +1,10 @@
 # Twic Extension
 
-The [opensource twitter client](http://twicext.com) for Chromium based browsers.
+The opensource twitter client for Chromium based browsers.
+
+## Twitter API v.2
+
+Project is closed cause of Twitter API v.2 rules and restrictions. It breaks Twic look and feel.
 
 ## How to prepare your developer version
 
