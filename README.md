@@ -2,7 +2,7 @@
 
 The opensource twitter client for Chromium based browsers.
 
-## Twitter API v.2
+## Discontinued
 
 Project is closed cause of Twitter API v.2 rules and restrictions. It breaks Twic look and feel.
 
